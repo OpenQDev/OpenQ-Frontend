@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,7 +11,7 @@ import { getBountyTypeName, rounder } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
-  const [fundsNeeded, setFundsNeeded] = useState();
+  const [fundsNeeded] = useState();
   const getPayoutScheduleBalance = (bounty) => {
     const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
       return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
@@ -28,7 +28,8 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
   );
   const [fundingGoalValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const budgetValues = bounty.bountyType === '0' ? fundingGoalValue : payoutScheduledValue;
-  const getFundsNeeded = (bounty) => {
+  // TODO refine fuzzy solvency
+  /*const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
     if (bounty.fundingGoalVolume) {
       const { fundingGoalTokenAddress, fundingGoalVolume } = bounty;
@@ -67,14 +68,13 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
       return { volume: formattedVolume, symbol: tokenMetadata.symbol };
     }
   };
-
   useEffect(() => {
     const fundsNeeded = getFundsNeeded(bounty);
     if (!bounty.claims?.length) {
       setFundsNeeded(fundsNeeded);
     }
   }, [bounty]);
-
+*/
   const typeName = getBountyTypeName(bounty.bountyType);
 
   function formatVolume(tierVolume) {

@@ -13,7 +13,14 @@ import Github from '../../svg/github';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) => {
+const GithubConnection = ({
+  user,
+  claimPage,
+  setVerified,
+  setClaimPageError,
+  associatedAddress,
+  setAssociatedAddress,
+}) => {
   const [appState] = useContext(StoreContext);
   const { account } = useWeb3();
   const { accountData } = appState;
@@ -22,7 +29,6 @@ const GithubConnection = ({ user, claimPage, setVerified, setClaimPageError }) =
   const [authState] = useContext(AuthContext);
   const { githubId } = authState;
   const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const [associatedAddress, setAssociatedAddress] = useState(null);
   const [associatedAddressLoading, setAssociatedAddressLoading] = useState(false);
   let hasAssociatedAddress = associatedAddress && associatedAddress !== zeroAddress;
   // State

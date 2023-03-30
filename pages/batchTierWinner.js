@@ -1,19 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ethers } from 'ethers';
 import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
 import tierWinnerTemplate from '../constants/tierWinnerTemplate.json';
-import tierWinnerTransactionTemplate from '../constants/tierWinnerTransactionTemplate.json';
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
-import BountyCardLean from '../components/BountyCard/BountyCardLean';
-import { convertCsvToJson, getUnclaimedTierWithVolume } from '../lib/batchUtils';
+import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
+import { convertCsvToJson, getTierWinnerTransactions } from '../lib/batchUtils';
 
 function BatchTierWinner() {
   const [tierWinnerBatchData, setTierWinnerBatchData] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [tierWinnerPreviewData, setTierWinnerPreviewData] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
 
@@ -47,6 +45,11 @@ function BatchTierWinner() {
     return id;
   };
 
+  const loadGithubDataUserById = async (githubUserId) => {
+    const user = await appState.githubRepository.fetchUserById(githubUserId);
+    return user;
+  };
+
   const loadOnChainBounty = async (bountyId) => {
     const bounty = await appState.openQSubgraphClient.getBountyByGithubId(bountyId);
     return bounty;
@@ -64,54 +67,18 @@ function BatchTierWinner() {
       const jsonData = convertCsvToJson(csvData);
 
       // Populate the transaction template
-      const transactions = [];
-      const tiersClaimedPreviouslyInBatch = [];
-
-      for (const transactionData of jsonData) {
-        const { githubIssueUrl, tierAmount, winnerGithubProfileUrl } = transactionData;
-
-        try {
-          const { bountyId } = await loadGithubData(githubIssueUrl);
-          const userId = await loadGithubDataUser(winnerGithubProfileUrl);
-          const bounty = await loadOnChainBounty(bountyId);
-
-          const { payoutSchedule, payoutTokenAddress, tierWinners } = bounty;
-
-          const { decimals } = await appState.tokenClient.getToken(ethers.utils.getAddress(payoutTokenAddress));
-
-          let formattedVolume = tierAmount * 10 ** decimals;
-
-          const bigNumberTierVolume = ethers.BigNumber.from(
-            formattedVolume.toLocaleString('fullwide', { useGrouping: false })
-          );
-
-          const tier = getUnclaimedTierWithVolume(
-            payoutSchedule,
-            tierWinners,
-            tiersClaimedPreviouslyInBatch,
-            bigNumberTierVolume
-          );
-
-          if (tier == null) {
-            throw new Error(
-              `User ${winnerGithubProfileUrl} for bounty ${githubIssueUrl} has no available tiers for ${tierAmount}.\ Tier winners are ${tierWinners}}. Payout schedule is ${payoutSchedule}`
-            );
-          }
-
-          tiersClaimedPreviouslyInBatch.push(tier);
-
-          const tierWinnerTransactionTemplateCopy = _.cloneDeep(tierWinnerTransactionTemplate);
-
-          tierWinnerTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
-
-          tierWinnerTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          tierWinnerTransactionTemplateCopy.contractInputsValues._tier = tier.toString();
-          tierWinnerTransactionTemplateCopy.contractInputsValues._winner = userId;
-
-          transactions.push(tierWinnerTransactionTemplateCopy);
-        } catch (err) {
-          appState.logger.error(err, 'batchTierWinner.js1');
-        }
+      let transactions = [];
+      try {
+        transactions = await getTierWinnerTransactions(
+          jsonData,
+          process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
+          loadGithubData,
+          loadGithubDataUser,
+          loadOnChainBounty,
+          appState.tokenClient
+        );
+      } catch (error) {
+        appState.logger.error(error, 'batchTierWinner.js1');
       }
 
       const tierWinnerTemplateCopy = _.cloneDeep(tierWinnerTemplate);
@@ -128,19 +95,22 @@ function BatchTierWinner() {
     const { _bountyId, _tier, _winner } = contractInputsValues;
 
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
+    const onChainBountyData = await loadOnChainBounty(_bountyId);
+    const userData = await loadGithubDataUserById(_winner);
 
     return {
-      ...githubData,
-      _bountyId,
-      _tier,
-      _winner,
+      payoutTokenAddress: onChainBountyData.payoutTokenAddress,
+      volumeWon: onChainBountyData.payoutSchedule[_tier].toString(),
+      login: userData.login,
+      title: githubData.title,
+      tierWon: _tier,
     };
   };
 
   useEffect(() => {
     const getBountyData = async () => {
       if (tierWinnerBatchData) {
-        const bounties = tierWinnerBatchData.transactions.map(async (transaction) => {
+        const tierWinnerPreviewData = tierWinnerBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
           const currentTimestamp = Date.now();
 
@@ -151,9 +121,9 @@ function BatchTierWinner() {
             bountyType: '3',
             bountyMintTime: currentTimestamp / 1000,
             status: '0',
-          }; //<BountyCardLean key={index} item={bountyData} />;
+          };
         });
-        setUsers(await Promise.all(bounties));
+        setTierWinnerPreviewData(await Promise.all(tierWinnerPreviewData));
       }
     };
     getBountyData();
@@ -162,7 +132,7 @@ function BatchTierWinner() {
   return (
     <div className='flex flex-col items-center py-14'>
       <div className='w-full text-center bg-[#161B22] py-14 border-t border-web-gray'>
-        <h1 className='text-2xl font-bold'>OpenQ Mint Bounty Batcher</h1>
+        <h1 className='text-2xl font-bold'>OpenQ Tier Winner Selection Batcher</h1>
         <div className='text-gray-500 text-md'>
           This is a utility to input a CSV of your bounty information and convert it to a format for upload to{' '}
           <Link
@@ -222,29 +192,28 @@ function BatchTierWinner() {
             ) : (
               <div className='flex flex-col space-y-2'>
                 <div>✅ Success!</div>
-                <div>Now go on to the next step and download your JSON file below:</div>
+                <div>{`Now go on to the next step and download your JSON file below for these ${tierWinnerPreviewData.length} winners:`}</div>
               </div>
             )}
           </div>
         )}
+        <div>
+          {tierWinnerPreviewData.map((tierWinnerData, index) => {
+            return (
+              <RequestIndividualCardLean
+                length={tierWinnerData.length}
+                index={index}
+                key={index}
+                item={tierWinnerData}
+              />
+            );
+          })}
+        </div>
 
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
         {tierWinnerBatchData && (
           <div className='flex flex-col'>
-            <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to mint the{' '}
-              {tierWinnerBatchData.transactions.length} bounties show below.
-              <br />
-              <div className='my-4'>
-                {users.map((bounty, index) => {
-                  return (
-                    <BountyCardLean noModal={true} length={users.length} index={index} key={index} item={bounty} />
-                  );
-                })}
-              </div>
-              <br />
-              If this is correct, then download the JSON file and follow the next steps.
-            </h2>
+            <h2>If this is correct, then download the JSON file and follow the next steps.</h2>
             <div className='pt-4 flex items-center space-x-4'>
               <button className='btn-primary' onClick={handleDownload}>
                 Download JSON
@@ -256,7 +225,7 @@ function BatchTierWinner() {
             </div>
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 6: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -281,7 +250,7 @@ function BatchTierWinner() {
           </Link>
         </div>
         <h2 className='text-xl pt-8 font-bold'>
-          Step 7: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
+          Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
       </div>
     </div>

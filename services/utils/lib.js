@@ -249,22 +249,30 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
-  const requests = createdBounties
-    .map((bounty) => {
-      const requests = bounty.requests.nodes.reduce((accum, request) => {
-        const user = accum.find(
-          (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-        );
+  const processedRequests = [];
+  for (let bounty of createdBounties) {
+    for (let request of bounty.requests.nodes) {
+      const user = processedRequests.find(
+        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
+      );
+      if (!user) {
+        const requestGithubId = request.requestingUser.github;
+        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+        const requestWithGithubUser = {
+          ...request,
+          requestingUser: {
+            ...request.requestingUser,
+            githubUser,
+          },
+        };
+        processedRequests.push({ request: requestWithGithubUser, bounty });
+      }
+    }
+  }
 
-        if (!user) {
-          return accum.concat({ request, bounty });
-        } else return accum;
-      }, []);
-      return requests;
-    })
-    .flat();
+  // re write using for loop
   return {
-    nodes: requests,
+    nodes: processedRequests,
     cursor: userOffChainData.createdBounties.bountyConnection.cursor,
     complete: createdBounties.length !== batch,
   };

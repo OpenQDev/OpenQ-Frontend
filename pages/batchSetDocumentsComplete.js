@@ -154,7 +154,7 @@ function BatchSetDocumentsComplete() {
   return (
     <div className='flex flex-col items-center py-14'>
       <div className='w-full text-center bg-[#161B22] py-14 border-t border-web-gray'>
-        <h1 className='text-2xl font-bold'>OpenQ Mint Bounty Batcher</h1>
+        <h1 className='text-2xl font-bold'>OpenQ Tax Form Acceptance Batcher</h1>
         <div className='text-gray-500 text-md'>
           This is a utility to input a CSV of your bounty information and convert it to a format for upload to{' '}
           <Link
@@ -220,22 +220,27 @@ function BatchSetDocumentsComplete() {
           </div>
         )}
 
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Preview the winners who you are releasing funds to</h2>
-
-        <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 4: Download the generated JSON file</h2>
         {supportingDocsCompleteBatchData && (
           <div className='flex flex-col'>
             <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to mint the{' '}
-              {supportingDocsCompleteBatchData.transactions.length} bounties show below.
+              You will use the Gnosis Safe Transaction Builder JSON to accept the{' '}
+              {supportingDocsCompleteBatchData.transactions.length} tax documents below.
               <br />
               <div className='my-4'>
                 {
-                  <>
+                  <div>
                     {mockData.map((mockDataum, index) => {
-                      return <RequestIndividualCardLean key={index} item={mockDataum} />;
+                      return (
+                        <RequestIndividualCardLean
+                          length={mockData.length}
+                          index={index}
+                          key={index}
+                          item={mockDataum}
+                        />
+                      );
                     })}
-                  </>
+                  </div>
                 }
               </div>
               <br />
@@ -252,7 +257,7 @@ function BatchSetDocumentsComplete() {
             </div>
           </div>
         )}
-        <h2 className='text-xl pt-8 font-bold'>Step 6: Navigate to the Transaction Builder Safe App</h2>
+        <h2 className='text-xl pt-8 font-bold'>Step 5: Navigate to the Transaction Builder Safe App</h2>
         <div>
           Go to{' '}
           <Link
@@ -277,7 +282,7 @@ function BatchSetDocumentsComplete() {
           </Link>
         </div>
         <h2 className='text-xl pt-8 font-bold'>
-          Step 7: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
+          Step 6: Drag and drop the downloaded file to the Gnosis Safe App Transaction Builder
         </h2>
       </div>
     </div>

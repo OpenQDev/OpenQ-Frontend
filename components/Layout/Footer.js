@@ -158,9 +158,6 @@ const Footer = () => {
         </div>
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>COMPANY</h1>
-          <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
-            <span>About</span>
-          </Link>
           <Link
             href={'https://github.com/OpenQDev/OpenQ-Careers'}
             className=' lg:justify-self-center'
@@ -197,17 +194,17 @@ const Footer = () => {
           <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Mint</span>
           </Link>
-          {/* <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+          <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Winner Selection</span>
           </Link>
-          <Link
+          {/* <Link
             href={'/batchSetDocumentsComplete'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
             <span>Batch Tax Form Approval</span>
-              </Link>*/}
+					</Link> */}
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image

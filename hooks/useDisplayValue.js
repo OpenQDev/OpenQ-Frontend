@@ -25,7 +25,9 @@ const useDisplayValue = (bounty, formatter, type) => {
   );
   const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const setDisplayValues = (budget = 0, tvc, tvl) => {
-    const hasTvl = (tvl >= budget && type !== 'budget') || type === 'actual';
+    // TODO ensure fuzzy solvency is correct
+    const smallerBudget = budget - 1;
+    const hasTvl = (tvl >= smallerBudget && type !== 'budget') || type === 'actual';
     if (bounty.status !== '0') {
       if (tvl - tvc > tvc / 50) {
         setValueObj({
