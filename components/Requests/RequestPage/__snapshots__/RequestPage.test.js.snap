@@ -29,6 +29,12 @@ exports[`RequestPage should match initial DOM Snapshot 1`] = `
     >
       If the submission requires changes, please "Decline" the form submission and write a message to the builder in the popup. Once the submission is completed correctly, please click "Accept". If you accept the request, the amount deposited in the contract will be unlocked for the builder.
     </div>
+    <input
+      class="flex-1 lg:col-span-3 col-span-4 input-field-big w-full"
+      placeholder="github-user"
+      type="text"
+      value=""
+    />
     <ul
       class="flex flex-col gap-4"
     >
