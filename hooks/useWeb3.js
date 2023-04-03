@@ -23,7 +23,7 @@ const useWeb3 = (kyc) => {
       if (effectRan.current === false) {
         wcProvider = new WalletConnectProvider({
           rpc: {
-            137: 'https://rpc-mainnet.maticvigil.com/',
+            137: 'https://polygon-rpc.com',
           },
           chainId: 137,
         });
