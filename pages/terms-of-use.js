@@ -168,24 +168,25 @@ const TermsOfUse = () => {
           losses, arising from your use of our Products.
         </p>
         <p className='pb-4'>
-          The <bold>Interface</bold> to our Products is provided without any guarantees or warranties, whether express
-          or implied, and is subject to availability. We do not make any representations or warranties regarding the
-          accuracy, completeness, reliability, or security of the Interface. Your use of the Interface is entirely at
-          your own risk. We do not guarantee that your access to the Interface will be uninterrupted, timely, or
-          error-free, nor do we assume any responsibility for any harmful elements or viruses that may affect your use
-          of the Interface. Any advice or information provided by us does not create any warranty concerning the
-          Interface. We do not endorse or guarantee any statements, advertisements, or offers made by third parties
-          regarding the Interface. To the fullest extent possible our liability is limited to the minimum extent
-          permitted by any applicable law.
+          The <span className='font-bold'>Interface</span> to our Products is provided without any guarantees or
+          warranties, whether express or implied, and is subject to availability. We do not make any representations or
+          warranties regarding the accuracy, completeness, reliability, or security of the Interface. Your use of the
+          Interface is entirely at your own risk. We do not guarantee that your access to the Interface will be
+          uninterrupted, timely, or error-free, nor do we assume any responsibility for any harmful elements or viruses
+          that may affect your use of the Interface. Any advice or information provided by us does not create any
+          warranty concerning the Interface. We do not endorse or guarantee any statements, advertisements, or offers
+          made by third parties regarding the Interface. To the fullest extent possible our liability is limited to the
+          minimum extent permitted by any applicable law.
         </p>
         <p className='pb-4'>
-          The <bold>Protocol</bold> is provided without any warranties and is used at your own risk. We and other
-          developers involved in creating the Protocol will not be held liable for any damages, claims, or losses
-          arising from your use, inability to use, or interactions with other users of the Protocol, including but not
-          limited to direct, indirect, incidental, special, exemplary, punitive, or consequential damages, or loss of
-          cryptocurrencies, tokens, profits, or other valuable items. We do not endorse, guarantee, or take
-          responsibility for any statements, advertisements, or offers made by third parties regarding the Protocol. To
-          the fullest extent possible our liability is limited to the minimum extent permitted by any applicable law.
+          The <span className='font-bold'>Protocol</span> is provided without any warranties and is used at your own
+          risk. We and other developers involved in creating the Protocol will not be held liable for any damages,
+          claims, or losses arising from your use, inability to use, or interactions with other users of the Protocol,
+          including but not limited to direct, indirect, incidental, special, exemplary, punitive, or consequential
+          damages, or loss of cryptocurrencies, tokens, profits, or other valuable items. We do not endorse, guarantee,
+          or take responsibility for any statements, advertisements, or offers made by third parties regarding the
+          Protocol. To the fullest extent possible our liability is limited to the minimum extent permitted by any
+          applicable law.
         </p>
         <p className='pb-4'>
           Furthermore all materials, documentation, additional information provided on our website/platform are also
