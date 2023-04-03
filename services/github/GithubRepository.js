@@ -24,6 +24,7 @@ import {
   GET_REPOS_BY_IDS,
 } from './graphql/query';
 import fetch from 'cross-fetch';
+import { setContext } from '@apollo/client/link/context';
 
 class GithubRepository {
   constructor() {}
@@ -35,9 +36,18 @@ class GithubRepository {
     fetch,
   });
 
+	authLink = setContext((_, { headers }) => {
+		return {
+			headers: {
+				...headers,
+				authorization: `Bearer ${process.env.NEXT_PUBLIC_PAT}`,
+			}
+		}
+	});
+
   client = new ApolloClient({
     uri: this.uri,
-    link: this.httpLink,
+    link: this.authLink.concat(this.httpLink),
     cache: new InMemoryCache(),
     errorPolicy: 'all',
   });

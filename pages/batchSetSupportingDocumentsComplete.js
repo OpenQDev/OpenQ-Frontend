@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { ethers } from 'ethers';
 import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
@@ -88,12 +89,25 @@ function BatchSetSupportingDocumentsComplete() {
     const { contractInputsValues } = transaction;
     const { _bountyId, _data } = contractInputsValues;
 
+		const abiCoder = new ethers.utils.AbiCoder();
+		const decodedData = abiCoder.decode(['uint256', 'bool'], _data);
+		const tier = decodedData[0];
+
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
+		const { tierWinners, payoutTokenAddress, payoutSchedule } = await loadOnChainBounty(_bountyId);
+		
+		const userId = tierWinners[tier]
+		const user = await appState.githubRepository.fetchUserById(userId);
+
+		const volumeWon = payoutSchedule[tier].toString()
+		console.log('volumeWon', volumeWon)
 
     return {
       ...githubData,
-      _bountyId,
-      _data,
+      tierWon: tier.toString(),
+			volumeWon,
+			payoutTokenAddress,
+      ...user,
     };
   };
 
@@ -102,16 +116,8 @@ function BatchSetSupportingDocumentsComplete() {
       if (supportingDocsCompleteBatchData) {
         const bounties = supportingDocsCompleteBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
-          const currentTimestamp = Date.now();
-
-          return {
-            ...bountyData,
-            deposits: [],
-            payouts: [],
-            bountyType: '3',
-            bountyMintTime: currentTimestamp / 1000,
-            status: '0',
-          }; //<BountyCardLean key={index} item={bountyData} />;
+					console.log('bountyData', bountyData)
+          return bountyData;
         });
         setSupportingDocsCompletePreviewData(await Promise.all(bounties));
       }
