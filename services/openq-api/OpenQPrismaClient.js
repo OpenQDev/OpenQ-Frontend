@@ -26,6 +26,9 @@ import {
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   GET_REQUESTS,
+  GET_PRIVATE_REQUEST,
+  UPDATE_REQUEST,
+  GET_REQUEST,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
@@ -379,6 +382,7 @@ class OpenQPrismaClient {
           variables,
 
           fetchPolicy: 'no-cache',
+          errorPolicy: 'ignore',
         });
         resolve(result.data.user);
       } catch (e) {
@@ -387,6 +391,41 @@ class OpenQPrismaClient {
     });
     return promise;
   }
+
+  getPrivateRequest(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_PRIVATE_REQUEST,
+          variables,
+        });
+        resolve(result.data.request);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  updateRequest(variables) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_REQUEST,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getLocalUser() {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -534,6 +573,24 @@ class OpenQPrismaClient {
           fetchPolicy: 'no-cache',
         });
         resolve(result.data.bounties.bountyConnection);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  async getRequest(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_REQUEST,
+          variables,
+        });
+        resolve(result.data.request);
       } catch (e) {
         reject(e);
       }

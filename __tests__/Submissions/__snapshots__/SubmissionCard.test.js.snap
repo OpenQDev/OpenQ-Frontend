@@ -1,289 +1,136 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SubmissionCard should match DOM Snapshot 1`] = `
-<div
-  className="min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg "
->
+<DocumentFragment>
   <div
-    className="flex flex-col p-6 items-center text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm w-full h-80 mb-1"
-    rel="noopener norefferer"
-    target="_blank"
+    class="min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg"
   >
     <div
-      className="flex justify-end w-full items-center -mt-2 relative pt-2"
-    />
-    <div
-      className="pt-2"
-    >
-      <div
-        className="w-16 h-16 relative"
-      >
-        <ForwardRef
-          alt="n/a"
-          blurDataURL="/diverse/placeholder-px.png"
-          className="rounded-full"
-          height={64}
-          placeholder="blur"
-          priority={true}
-          src="https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4"
-          width={64}
-        />
-      </div>
-    </div>
-    <ForwardRef(LinkComponent)
-      className="w-full"
-      href="/showcase/pr/PR_kwDOGWnnz841LGsK"
-    >
-      <div
-        className="pt-5 text-center cursor-pointer underline w-full font-medium text-xl truncate"
-      >
-        Update README.md
-      </div>
-    </ForwardRef(LinkComponent)>
-    <div
-      className="text-center pt-2 text-gray-400 w-full"
-    >
-      By
-       
-      <ForwardRef(LinkComponent)
-        className="underline cursor-pointer"
-        href="https://github.com/FlacoJones"
-      >
-        FlacoJones
-      </ForwardRef(LinkComponent)>
-    </div>
-    <div
-      className=" pt-2 text-gray-400 h-20 w-full break-word"
-    >
-      This Closes #136 and also unrelated thing of Fixes #137
-      ...
-    </div>
-    <ForwardRef(LinkComponent)
-      href="https://github.com/OpenQDev/OpenQ-TestRepo/pull/138"
-      rel="noreferrer"
+      class="flex flex-col p-6 items-center text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm w-full h-120 mb-1"
+      rel="noopener norefferer"
       target="_blank"
     >
       <div
-        className="pt-4 cursor-pointer"
-        id="github-link"
+        class="flex justify-end w-full items-center -mt-2 relative pt-2"
+      />
+      <div
+        class="pt-2"
       >
-        <svg
-          fill="white"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="w-16 h-16 relative"
         >
-          <path
-            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+          <img
+            alt="n/a"
+            class="rounded-full"
+            data-nimg="1"
+            decoding="async"
+            height="64"
+            src="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=128&q=75"
+            srcset="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=64&q=75 1x, /_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=128&q=75 2x"
+            style="color: transparent; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;"
+            width="64"
           />
-        </svg>
+        </div>
       </div>
-    </ForwardRef(LinkComponent)>
+      <a
+        class="w-full"
+        href="/showcase/pr/PR_kwDOGWnnz841LGsK"
+      >
+        <div
+          class="pt-5 text-center cursor-pointer underline w-full font-medium text-xl truncate"
+        >
+          Update README.md
+        </div>
+      </a>
+      <div
+        class="text-center pt-2 text-gray-400 w-full"
+      >
+        By 
+        <a
+          class="underline cursor-pointer"
+          href="https://github.com/FlacoJones"
+        >
+          FlacoJones
+        </a>
+      </div>
+      <div
+        class="text-center btn-default my-2"
+      >
+        More than a week ago
+      </div>
+      <div
+        class="text-center pt-2 text-gray-400 w-full"
+      >
+        On undefined NaN, NaN at NaN:NaN
+      </div>
+      <div
+        class=" pt-2 text-gray-400 h-20 w-full break-word"
+      >
+        This Closes #136 and also unrelated thing of Fixes #137...
+      </div>
+      <a
+        href="https://github.com/OpenQDev/OpenQ-TestRepo/pull/138"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <div
+          class="pt-4 cursor-pointer"
+          id="github-link"
+        >
+          <svg
+            fill="white"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+        </div>
+      </a>
+    </div>
+    <div
+      class="border-web-gray border-t px-2"
+    >
+      <h4
+        class="py-4 text-center w-full font-medium text-xl"
+      >
+        Select Winner
+      </h4>
+      <div
+        class="flex flex-col w-full relative h-48 overflow-y-auto"
+      >
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(18, 18, 18);"
+        >
+          <div>
+            30.0 Chainlink Token 
+          </div>
+        </button>
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(21, 21, 21);"
+        >
+          <div>
+            60.0 Chainlink Token 
+          </div>
+        </button>
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(22, 22, 22);"
+        >
+          <div>
+            10.0 Chainlink Token 
+          </div>
+        </button>
+      </div>
+    </div>
   </div>
-  <SubmissionCardAdmin
-    bounty={
-      {
-        "assignees": [],
-        "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
-        "body": "body of test2",
-        "bodyHTML": "<p dir="auto">body of test2</p>",
-        "bountyAddress": "0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f",
-        "bountyId": "I_kwDOGAqhQc48U5_r",
-        "bountyMintTime": "1662545344",
-        "bountyTokenBalances": [
-          {
-            "__typename": "BountyFundedTokenBalance",
-            "tokenAddress": "0x0000000000000000000000000000000000000000",
-            "volume": "2000000000000000000",
-          },
-          undefined,
-          undefined,
-        ],
-        "bountyType": "0",
-        "claims": [],
-        "closed": true,
-        "closedAt": "2022-03-28T17:57:44Z",
-        "closedEvents": [
-          {
-            "__typename": "ClosedEvent",
-            "actor": {
-              "__typename": "User",
-              "avatarUrl": "https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4",
-              "login": "FlacoJones",
-              "name": null,
-              "url": "https://github.com/FlacoJones",
-            },
-            "id": "CE_lADOGWnnz85GjwA1zwAAAAF4vHFc",
-          },
-        ],
-        "closerData": null,
-        "createdAt": "1661767948472",
-        "deposits": [
-          {
-            "__typename": "Deposit",
-            "expiration": "1296000",
-            "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-            "receiveTime": "1662545374",
-            "refundTime": null,
-            "refunded": false,
-            "sender": {
-              "__typename": "User",
-              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-            },
-            "tokenAddress": "0x0000000000000000000000000000000000000000",
-            "volume": "1000000000000000000",
-          },
-          {
-            "__typename": "Deposit",
-            "expiration": "30",
-            "id": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-            "receiveTime": "1662545373",
-            "refundTime": "1662559726",
-            "refunded": true,
-            "sender": {
-              "__typename": "User",
-              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-            },
-            "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-            "volume": "2000000000000000000",
-          },
-          {
-            "__typename": "Deposit",
-            "expiration": "1296000",
-            "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-            "receiveTime": "1662545372",
-            "refundTime": null,
-            "refunded": false,
-            "sender": {
-              "__typename": "User",
-              "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-            },
-            "tokenAddress": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-            "volume": "1000000000000000000",
-          },
-        ],
-        "fundingGoalTokenAddress": "0x0000000000000000000000000000000000000000",
-        "id": undefined,
-        "issuer": {
-          "__typename": "User",
-          "id": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-        },
-        "labels": [
-          {
-            "__typename": "Label",
-            "color": "0075ca",
-            "name": "documentation",
-          },
-          {
-            "__typename": "Label",
-            "color": "cfd3d7",
-            "name": "duplicate",
-          },
-        ],
-        "number": 8,
-        "owner": "OpenQDev",
-        "prs": [
-          {
-            "__typename": "CrossReferencedEvent",
-            "assignees": [],
-            "id": "CRE_kwDOGWnnz85GHUw1",
-            "referencedAt": "2022-03-28T17:47:26Z",
-            "source": {
-              "__typename": "PullRequest",
-              "author": {
-                "__typename": "User",
-                "avatarUrl": "https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4",
-                "email": "",
-                "id": "U_kgDOBZIDuA",
-                "login": "FlacoJones",
-                "url": "https://github.com/FlacoJones",
-                "user": {
-                  "__typename": "User",
-                  "login": "FlacoJones",
-                  "url": "https://github.com/FlacoJones",
-                },
-              },
-              "body": "This Closes #136 and also unrelated thing of Fixes #137",
-              "bodyHTML": "<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>",
-              "bodyText": "This Closes #136 and also unrelated thing of Fixes #137",
-              "id": "PR_kwDOGWnnz841LGsK",
-              "mergeCommit": {
-                "__typename": "Commit",
-                "author": {
-                  "__typename": "GitActor",
-                  "avatarUrl": "https://avatars.githubusercontent.com/u/93455288?v=4",
-                  "name": "FlacoJones",
-                  "user": {
-                    "__typename": "User",
-                    "login": "FlacoJones",
-                    "url": "https://github.com/FlacoJones",
-                  },
-                },
-              },
-              "merged": true,
-              "mergedAt": "2022-03-28T17:57:44Z",
-              "title": "Update README.md",
-              "url": "https://github.com/OpenQDev/OpenQ-TestRepo/pull/138",
-            },
-          },
-        ],
-        "refunds": [
-          {
-            "__typename": "Refund",
-            "depositId": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-            "refundTime": "1662559726",
-            "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-            "volume": "2000000000000000000",
-          },
-        ],
-        "repoName": "OpenQ-Frontend",
-        "title": "Properly Referenced and Merged by FlacoJones",
-        "titleHTML": "Properly Referenced and Merged by FlacoJones",
-        "tvl": "9.51848",
-        "twitterUsername": "openqlabs",
-        "url": "https://github.com/OpenQDev/OpenQ-TestRepo/issues/8",
-      }
-    }
-    pr={
-      {
-        "__typename": "PullRequest",
-        "author": {
-          "__typename": "User",
-          "avatarUrl": "https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4",
-          "email": "",
-          "id": "U_kgDOBZIDuA",
-          "login": "FlacoJones",
-          "url": "https://github.com/FlacoJones",
-          "user": {
-            "__typename": "User",
-            "login": "FlacoJones",
-            "url": "https://github.com/FlacoJones",
-          },
-        },
-        "body": "This Closes #136 and also unrelated thing of Fixes #137",
-        "bodyHTML": "<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>",
-        "bodyText": "This Closes #136 and also unrelated thing of Fixes #137",
-        "id": "PR_kwDOGWnnz841LGsK",
-        "mergeCommit": {
-          "__typename": "Commit",
-          "author": {
-            "__typename": "GitActor",
-            "avatarUrl": "https://avatars.githubusercontent.com/u/93455288?v=4",
-            "name": "FlacoJones",
-            "user": {
-              "__typename": "User",
-              "login": "FlacoJones",
-              "url": "https://github.com/FlacoJones",
-            },
-          },
-        },
-        "merged": true,
-        "mergedAt": "2022-03-28T17:57:44Z",
-        "title": "Update README.md",
-        "url": "https://github.com/OpenQDev/OpenQ-TestRepo/pull/138",
-      }
-    }
-  />
-</div>
+</DocumentFragment>
 `;

@@ -66,7 +66,7 @@ const WatchButton = ({ setStatefulWatched, unWatchable, watchingState, bounty })
           disabled={watchDisabled}
           className={`flex group ${
             watchingDisplay && 'hover:btn-danger'
-          } w-28 items-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray`}
+          } w-28 items-center justify-center text-xs bg-inactive-gray leading-5 h-7 px-3 py-[3px] hover:bg-active-gray rounded-sm border hover:border-border-active border-border-gray`}
         >
           {watchingDisplay ? (
             <>

@@ -60,10 +60,10 @@ class OpenQClient {
     return contract;
   };
 
-  signMessage = async (account) => {
+  signMessage = async (library, account) => {
     const date = new Date().toISOString().slice(0, 10);
     const message = 'OpenQ ' + date;
-    const signature = await window.ethereum.request({
+    const signature = await library.provider.request({
       method: 'personal_sign',
       params: [message, account],
     });

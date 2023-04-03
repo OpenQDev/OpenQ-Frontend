@@ -35,9 +35,9 @@ exports[`CopyBountyAddress should render CopyBountyAddress and match DOM Snapsho
         <div
           className="px-1"
         >
-          0x3c57cd5933
+          0x066efd8702
 						...
-						095e7e8e9f
+						f98241d774
         </div>
       </div>
     </div>

@@ -10,8 +10,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import BountyCardDetails from '../../../components/Bounty/BountyCardDetails';
 import FundPage from '../../../components/FundBounty/FundPage';
-import dynamic from 'next/dynamic';
-const RefundPage = dynamic(() => import('../../../components/RefundBounty/RefundPage'), { ssr: false });
+import RefundPage from '../../../components/RefundBounty/RefundPage';
 import ClaimPage from '../../../components/Claim/ClaimPage';
 import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
@@ -36,12 +35,15 @@ import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
+import { useRouter } from 'next/router';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
+  const router = useRouter();
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable' || status === 'Claimed';
@@ -121,16 +123,18 @@ const address = ({ address, mergedBounty, renderError }) => {
   };
 
   useEffect(() => {
+    let cancel;
     if (internalMenu) {
-      sessionStorage.setItem(address, internalMenu);
+      setTimeout(() => {
+        if (!cancel) {
+          sessionStorage.setItem(address, internalMenu);
+        }
+      }, 1000);
     }
+    return () => {
+      cancel = true;
+    };
   }, [internalMenu]);
-
-  useEffect(() => {
-    if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
-      setInternalMenu('View');
-    }
-  }, [account]);
 
   // Hooks
   useEffect(() => {
@@ -182,18 +186,20 @@ const address = ({ address, mergedBounty, renderError }) => {
       sessionStorage.setItem('justMinted', false);
     }
     // set route and populate
-    if (address) {
-      const route = sessionStorage.getItem(address);
-
-      if (route !== internalMenu) {
-        setInternalMenu(route || 'View');
-      }
-    }
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  useEffect(() => {
+    const route = sessionStorage.getItem(address);
+    const tab = router?.query?.tab;
+    const newTab = tab || route || 'View';
+    if (newTab !== internalMenu) {
+      if (Object.keys(accountData).length === 0 || (newTab === 'Claim' && !claimable)) {
+        setInternalMenu('View');
+      }
+    }
+  }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
-  const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
   const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
@@ -231,7 +237,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   ...fund,
                   { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
-                  ...claim,
+                  { name: 'Claim', Svg: Fire },
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -272,6 +278,12 @@ const address = ({ address, mergedBounty, renderError }) => {
                     claimState={claimState}
                   />
                 ) : null}
+                {!claimable && internalMenu == 'Claim' && (
+                  <div className='w-full h-min bg-info border-info-strong border rounded-sm p-3  w-full  lg:max-w-[800px]'>
+                    Looking to claim your prize? The bounty administrator has not selected your PR yet. Please wait
+                    until they have awarded your prize in order to continue.
+                  </div>
+                )}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}
@@ -285,7 +297,6 @@ const address = ({ address, mergedBounty, renderError }) => {
                   <Submissions refreshBounty={refreshBounty} bounty={bounty} />
                 ) : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-
                 {internalMenu && internalMenu !== 'Submissions' && (
                   <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
                 )}
@@ -331,7 +342,7 @@ export const getServerSideProps = async (context) => {
       logger.error({ message: `OpenQ could not find a contract with address: ${address}.` }, null, '[address.js]6');
     }
   } catch (err) {
-    logger.error(err, null, '[address.js]6');
+    logger.error(err, null, '[address.js]7');
     renderError = ``;
   }
 

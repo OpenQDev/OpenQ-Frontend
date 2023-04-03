@@ -165,7 +165,7 @@ const KycRequirement = ({ setKycVerified }) => {
       {isOnCorrectNetwork && account && (
         <button
           disabled={disabled}
-          className={`flex items-center gap-2 ${
+          className={`flex items-center gap-2 h-8 ${
             stage == 'start'
               ? 'btn-requirements'
               : stage == 'processing'

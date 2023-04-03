@@ -23,11 +23,26 @@ const W8Requirement = ({ bounty }) => {
   const [sent, setSent] = useState(pending);
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
   const [w8Approved, setW8Approved] = useState(false);
+  const [currentRequest, setCurrentRequest] = useState(null);
 
   const noEmail = !accountData?.invoicingEmail;
   useEffect(() => {
     const W8Approved = getW8Approved(bounty, accountData);
     setW8Approved(W8Approved);
+
+    const getPrivateRequest = async () => {
+      const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === accountData.id);
+
+      if (request) {
+        try {
+          const privateRequest = await appState.openQPrismaClient.getPrivateRequest(request.id);
+          setCurrentRequest(privateRequest?.message);
+        } catch (e) {
+          appState.logger.error(e);
+        }
+      }
+    };
+    getPrivateRequest();
   }, [bounty, accountData]);
 
   const handleFileChange = (e) => {
@@ -68,6 +83,7 @@ const W8Requirement = ({ bounty }) => {
       setW8FormResponse(EMAIL_NOT_SENT);
       appState.logger.error('w8form.js1', e);
     }
+    e.target.reset();
   };
 
   const w8formResponseOptions = {
@@ -110,7 +126,7 @@ const W8Requirement = ({ bounty }) => {
           they request changes, you will be notified via your contact email. If you have any questions, feel free to
           reach out in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
-            discord
+            Discord
           </a>
           .
         </>
@@ -206,10 +222,22 @@ const W8Requirement = ({ bounty }) => {
         </div>
       </h4>
       {w8Approved ? (
-        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your w8 was accepted</div>
+        <div className='border-green bg-green-inside border p-4 rounded-sm'> Your tax form was accepted</div>
       ) : (
         <>
           <div>
+            {!w8Approved && currentRequest && (
+              <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
+                The organization has requested changes on the tax form you submitted. Please review the requested change
+                below, update your tax forms, and re-upload them here.
+                <br />
+                <br />
+                <br />
+                <div className='flex gap-2 font-bold'>
+                  Requested change: <div className='text-gray-400 font-normal'>{currentRequest}</div>
+                </div>
+              </div>
+            )}
             <div>
               Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
               encourage you to consult with you own tax or financial adviser to determine which form is appropriate for
@@ -235,29 +263,36 @@ const W8Requirement = ({ bounty }) => {
           </div>
           <div>
             Explore our W8/W9 templates{' '}
-            <button className='text-blue-500 hover:underlin' onClick={() => setShowModal(true)}>
+            <button className='text-blue-500 hover:underline' onClick={() => setShowModal(true)}>
               here
             </button>
             .
           </div>
           <div className='font-semibold flex gap-2 group w-fit'>Upload</div>
-          <form onSubmit={handleSend} className='flex gap-2  flex-wrap md:flex-nowrap'>
-            <label
-              htmlFor='file input'
-              className={`relative ${sent || noEmail ? 'cursor-not-allowed' : 'cursor-pointer'} ${
-                file || sent || noEmail ? 'btn-primary hover:none' : 'btn-requirements'
-              }`}
-            >
-              <div className='flex w-56  lg:w-28 gap-2 z-20 py-0.5 items-center justify-center text-center'>
-                {file || sent ? (
-                  sent ? (
-                    'Pending'
-                  ) : (
-                    <>
-                      <CheckIcon size={16} />
-                      Change File
-                    </>
-                  )
+          <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
+            {sent && (
+              <div
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
+              >
+                Pending
+              </div>
+            )}
+            <label htmlFor='file input' className={`relative flex items-center`}>
+              <div
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center ${
+                  noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
+                } ${file || noEmail ? 'btn-primary' : 'btn-requirements'}`}
+              >
+                {file ? (
+                  <>
+                    <CheckIcon size={16} />
+                    Change File
+                  </>
+                ) : sent ? (
+                  <>
+                    <UploadIcon size={16} />
+                    Upload Updated W8/W9
+                  </>
                 ) : (
                   <>
                     <UploadIcon size={16} />
@@ -273,40 +308,14 @@ const W8Requirement = ({ bounty }) => {
                 id='file input'
               />
             </label>
-            {sent && (
-              <label
-                htmlFor='file input'
-                className={`relative cursor-pointer ${file ? 'btn-primary hover:none' : 'btn-requirements'}`}
-              >
-                <div className='flex w-56 gap-2 z-20 py-0.5 items-center'>
-                  {file ? (
-                    <>
-                      <CheckIcon size={16} /> Change File
-                    </>
-                  ) : (
-                    <>
-                      <UploadIcon size={16} />
-                      Upload Updated W8/W9
-                    </>
-                  )}
-                </div>
-                <input
-                  onChange={handleFileChange}
-                  disabled={loading}
-                  type='file'
-                  className='absolute invisible w-full top-0 bottom-0 z-10'
-                  id='file input'
-                />
-              </label>
-            )}
             <div className='border border-web-gray w-full flex items-center font-semibold h-8 px-2 rounded-sm'>
               {file?.name}
             </div>
             <button
               disabled={!file}
-              className={
-                file ? 'btn-requirements cursor-pointer flex gap-2' : 'btn-default cursor-not-allowed flex gap-2'
-              }
+              className={`flex gap-2 h-8 items-center justify-center text-center
+                ${file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
+              `}
             >
               {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
               {loading && <LoadingIcon />}

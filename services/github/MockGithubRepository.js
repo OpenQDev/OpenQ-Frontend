@@ -58,6 +58,20 @@ class MockGithubRepository {
 
 		return promise;
   }	
+  fetchUserById(id) {
+	const promise = new Promise((resolve, reject) => {
+		axios.get(`http://localhost:3030/githubOrganizations/${id}`)
+			.then(result => {
+				resolve(result.data[0]);
+			})
+			.catch(error => {
+				reject(error);
+			});
+	});
+
+	return promise;
+}	
+
 
  async getPrs() {
  const promise = new Promise((resolve, reject) => {

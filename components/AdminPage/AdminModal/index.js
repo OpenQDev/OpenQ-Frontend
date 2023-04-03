@@ -191,6 +191,9 @@ const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
 
             {modal.type === 'Loading' && (
               <>
+                <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                  Please confirm this transaction via your wallet!
+                </div>
                 <div className='flex items-center gap-2'>
                   Your request is being processed... <LoadingIcon />
                 </div>

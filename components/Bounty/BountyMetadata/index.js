@@ -1,30 +1,17 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
 import LabelsList from '../LabelsList';
 import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
-import TokenBalances from '../../TokenBalances/TokenBalances';
-import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
 import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
-import { getBountyTypeName } from '../../../services/utils/lib';
+import { getBountyTypeName, rounder } from '../../../services/utils/lib';
 
-const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
+const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
-  const [fundsNeeded, setFundsNeeded] = useState();
-  const createPayout = (bounty) => {
-    return bounty.payoutTokenVolume
-      ? {
-          tokenAddress: bounty.payoutTokenAddress,
-          volume: bounty.payoutTokenVolume,
-        }
-      : null;
-  };
-  const payoutBalances = useMemo(() => createPayout(bounty), [bounty]);
-  const [payoutValues] = useGetTokenValues(payoutBalances);
-
+  const [fundsNeeded] = useState();
   const getPayoutScheduleBalance = (bounty) => {
     const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
       return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
@@ -41,7 +28,8 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
   );
   const [fundingGoalValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const budgetValues = bounty.bountyType === '0' ? fundingGoalValue : payoutScheduledValue;
-  const getFundsNeeded = (bounty) => {
+  // TODO refine fuzzy solvency
+  /*const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
     if (bounty.fundingGoalVolume) {
       const { fundingGoalTokenAddress, fundingGoalVolume } = bounty;
@@ -80,14 +68,13 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
       return { volume: formattedVolume, symbol: tokenMetadata.symbol };
     }
   };
-
   useEffect(() => {
     const fundsNeeded = getFundsNeeded(bounty);
     if (!bounty.claims?.length) {
       setFundsNeeded(fundsNeeded);
     }
   }, [bounty]);
-
+*/
   const typeName = getBountyTypeName(bounty.bountyType);
 
   function formatVolume(tierVolume) {
@@ -144,7 +131,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            {appState.utils.formatter.format(budgetValues?.total) || '$0.00'}
+            {appState.utils.formatter.format(rounder(budgetValues?.total)) || '$0.00'}
           </div>
         </li>
       ) : null}
@@ -158,24 +145,7 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
         </li>
       )}
 
-      {bounty.bountyType == 1 ? (
-        <li className='border-b border-web-gray py-3'>
-          {(split || split === 0) && (
-            <>
-              <div className='text-xs font-semibold text-muted'>Current Reward Split</div>
-              <button className='text-xs font-semibold text-primary' onClick={() => setInternalMenu('Claim')}>
-                <TokenBalances
-                  lean={true}
-                  tokenBalances={payoutBalances}
-                  tokenValues={payoutValues}
-                  singleCurrency={true}
-                  small={true}
-                />
-              </button>
-            </>
-          )}
-        </li>
-      ) : bounty.bountyType == 3 ? (
+      {bounty.bountyType == 3 ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Current Payout Schedule</div>
           <div className='flex items-center gap-4 pt-2 text-primary'>
@@ -192,7 +162,6 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
                   )} Place:`}</div>
                   <div className='text-xs font-semibold'>
                     {formatVolume(t)} {token.symbol}
-                    {bounty.tierWinners?.[index] ? ' ( winner already chosen )' : null}
                   </div>
                 </div>
               );
@@ -221,7 +190,6 @@ const BountyMetadata = ({ bounty, setInternalMenu, split }) => {
             })}
           </li>
         )}
-
         {bounty.labels && (
           <li className='border-b border-web-gray py-3'>
             <div className='text-xs font-semibold text-muted pb-2'>GitHub Labels</div>

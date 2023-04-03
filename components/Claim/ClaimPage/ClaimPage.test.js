@@ -90,6 +90,7 @@ describe('ClaimPage', () => {
     const bounty = {
       ...Constants.bounty3,
       tierWinners: [currentUser],
+      bountyTokenBalances: Constants.bountyTokenBalances,
       claims: [{ tier: '0', claimantAsset: 'claimantAsset' }],
     };
     render(

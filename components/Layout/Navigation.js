@@ -9,6 +9,7 @@ import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../Utils/LinkDropdown';
 import NavLinks from './NavLinks';
 import LoadingThread from '../Loading/LoadingThread.js';
+import NotificationBell from '../Notifications/NotificationBell.js';
 import ContractWizard from '../ContractWizard';
 
 const Navigation = () => {
@@ -19,8 +20,34 @@ const Navigation = () => {
   const [items, setItems] = useState([]);
   const [searchable, setSearchable] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [notificationToken, setNotificationToken] = useState(null);
   const { openQSubgraphClient, openQPrismaClient, utils, githubRepository, tokenClient } = appState;
   const { accountData } = appState;
+
+  useEffect(() => {
+    // https://stackoverflow.com/questions/4003823/javascript-getcookie-functions/4004010#4004010
+    const getCookie = (c_name) => {
+      var c_value = ' ' + document.cookie;
+      var c_start = c_value.indexOf(' ' + c_name + '=');
+      if (c_start == -1) {
+        c_value = null;
+      } else {
+        c_start = c_value.indexOf('=', c_start) + 1;
+        var c_end = c_value.indexOf(';', c_start);
+        if (c_end == -1) {
+          c_end = c_value.length;
+        }
+        c_value = unescape(c_value.substring(c_start, c_end));
+      }
+      return c_value;
+    };
+    const getNotificationCookie = () => {
+      const signedKnockTokenCookie = getCookie('signed_knock_token');
+      setNotificationToken(signedKnockTokenCookie);
+    };
+
+    getNotificationCookie();
+  });
 
   useEffect(() => {
     // set up searchable
@@ -67,7 +94,8 @@ const Navigation = () => {
         appState.logger.error(err, accountData.id, 'Navigation.js1');
       }
       // set up gnosis safe
-
+    };
+    const fetchPrices = async () => {
       // set up tokens
       let tokenPrices = {};
 
@@ -76,12 +104,12 @@ const Navigation = () => {
       } catch (err) {
         appState.logger.error(err, accountData.id, 'Navigation.js2');
       }
-
-      tokenClient.firstTenPrices = tokenPrices;
+      tokenClient.firstTenPrices = { ...tokenPrices, '0x2791bca1f2de4661ed88a30c99a7a9449aa84174': { usd: 1 } };
     };
     if (includeSearch) {
       fetchSearch();
     }
+    fetchPrices();
   }, []);
 
   const handleSearch = (e) => {
@@ -97,7 +125,6 @@ const Navigation = () => {
       .map((searchableItem) => searchableItem);
     setItems(e.target.value ? names.slice(0, 5) : []);
   };
-
   return (
     <>
       {openMenu ? (
@@ -151,6 +178,11 @@ const Navigation = () => {
             </div>
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
             <div className='flex items-center text-[0.8rem] md:text-[1rem]'>
+              <div className='pr-4 md:block hidden'>
+                {notificationToken && accountData.github ? (
+                  <NotificationBell userId={accountData.github} notificationToken={notificationToken} />
+                ) : null}
+              </div>
               <div className='pr-4 md:block hidden'>
                 <ConnectButton
                   needsGithub={true}

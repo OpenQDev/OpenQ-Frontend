@@ -12,7 +12,6 @@ import ToolTipNew from './../ToolTipNew';
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
   const [justMinted, setJustMinted] = useState(false);
-  const { bodyHTML } = bounty;
   const [senderEnsName] = useEns(action?.sender?.id);
   const { library, account } = useWeb3();
   const [minterEnsName] = useEns(bounty?.issuer?.id || account);
@@ -207,14 +206,6 @@ const ActionBubble = ({ bounty, action }) => {
             <span className='flex items-center border rounded-sm border-web-gray px-2 py-px m-1'> Refunded</span>
           )}
         </div>
-        {!action && bodyHTML && (
-          <div
-            className='w-full p-8 p-4 border-web-gray border-t markdown-body'
-            dangerouslySetInnerHTML={{
-              __html: bodyHTML,
-            }}
-          ></div>
-        )}
       </div>
     </div>
   );
