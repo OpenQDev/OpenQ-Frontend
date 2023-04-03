@@ -73,6 +73,6 @@ describe('SetTierAdminPage', () => {
     expect(await screen.findByText(/^50 Matic/i)).toBeInTheDocument();
     expect(await screen.findByText(/^30 Matic/i)).toBeInTheDocument();
     expect(await screen.findByText(/^20 Matic/i)).toBeInTheDocument();
-    expect(setTier).toBeCalledWith(bounty.bountyId, [50, 30, 20], Constants.maticAddress);
+    expect(setTier).toBeCalledWith(bounty.bountyId, ['50', '30', '20'], Constants.maticAddress);
   });
 });
