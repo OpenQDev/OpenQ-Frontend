@@ -112,7 +112,7 @@ const RequestIndividual = ({ item }) => {
     setLoading(true);
     try {
       if (item.bounty.type === '3') {
-        const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
+        const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.githubUser.id));
 
         const abiCoder = new ethers.utils.AbiCoder();
         const bigNumberTier = ethers.BigNumber.from(tier);
@@ -178,7 +178,6 @@ const RequestIndividual = ({ item }) => {
       </div>
       <div>
         <button
-          disabled={accepted || loading}
           onClick={acceptRequest}
           className={`flex w-fit gap-2 ${
             accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'

@@ -70,9 +70,6 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
   const canClaim = isEveryValueNotNull(claimable);
   const hasRequirements = bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired;
 
-  console.log(githubHasWallet, 'githubHasWallet');
-  console.log(accountData, 'accountData');
-
   useEffect(() => {
     setClaimable({ kyc, w8Form, githubHasWallet, invoice });
   }, [kyc, w8Form, githubHasWallet, invoice]);
