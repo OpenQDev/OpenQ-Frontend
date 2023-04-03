@@ -79,16 +79,12 @@ function BatchSetDocumentsComplete() {
           const bounty = await loadOnChainBounty(bountyId);
 
           const { tierWinners } = bounty;
-          console.log('tierWinners', tierWinners);
 
           const tier = tierWinners.findIndex((value) => value === userId);
 
           if (tier == -1) {
             throw new Error(`User ${winnerGithubProfileUrl} is not a tier winner for bounty ${githubIssueUrl}`);
           }
-
-          console.log('tier', tier);
-
           const encoded = abiCoder.encode(initializationSchema, [tier, true]);
           const encodedFormatted = `"${encoded}"`;
 
