@@ -9,16 +9,16 @@ describe('Batch Mint - Supporting Documents Complete', () => {
   };
 
   const loadGithubDataUser = async (githubUserUrl) => {
-		if (githubUserUrl == 'https://github.com/FlacoJones') {
-			return 'USER_1';
-		} else {
-			return 'USER_2';
-		}
+    if (githubUserUrl == 'https://github.com/FlacoJones') {
+      return 'USER_1';
+    } else {
+      return 'USER_2';
+    }
   };
 
   const loadOnChainBounty = async () => {
     return {
-      tierWinners: ['USER_1', 'USER_2']
+      tierWinners: ['USER_1', 'USER_2'],
     };
   };
 

@@ -206,7 +206,7 @@ const Footer = () => {
             rel='noopener noreferrer'
           >
             <span>Batch Tax Form Approval</span>
-					</Link>
+          </Link>
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image
