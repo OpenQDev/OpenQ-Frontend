@@ -20,16 +20,8 @@ describe('Batch Mint - Supporting Documents Complete', () => {
       bountyMintTime: '1679415624',
       bountyClosedTime: null,
       claimedTransactionHash: null,
-      payoutSchedule: [
-        '375000000',
-        '375000000',
-        '375000000'
-      ],
-      tierWinners: [
-				"user1",
-				"user2",
-				"user3",
-			],
+      payoutSchedule: ['375000000', '375000000', '375000000'],
+      tierWinners: ['user1', 'user2', 'user3'],
       payoutTokenAddress: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
       status: '0',
       bountyType: '3',

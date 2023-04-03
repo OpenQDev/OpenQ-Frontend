@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ethers } from 'ethers';
 import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
 import supportingDocumentsCompleteTemplate from '../constants/supportingDocumentsCompleteTemplate.json';
-import supportingDocumentsCompleteTransactionTemplate from '../constants/supportingDocumentsCompleteTransactionTemplate.json';
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,13 +11,9 @@ import RequestIndividualCardLean from '../components/Requests/RequestIndividualC
 
 function BatchSetDocumentsComplete() {
   const [supportingDocsCompleteBatchData, setSupportingDocsCompleteBatchData] = useState(null);
-  const [, setUsers] = useState([]);
+  const [supportingDocsCompletePreviewData, setSupportingDocsCompletePreviewData] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
-  const mockData = [];
-
-  let abiCoder = new ethers.utils.AbiCoder();
-  const initializationSchema = ['uint256', 'bool'];
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(JSON.stringify(supportingDocsCompleteBatchData));
@@ -40,7 +34,7 @@ function BatchSetDocumentsComplete() {
     document.body.removeChild(element);
   };
 
-	const loadGithubData = async (githubIssueUrl) => {
+  const loadGithubData = async (githubIssueUrl) => {
     const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
     const bountyId = resource.id;
     return { bountyId };
@@ -67,56 +61,18 @@ function BatchSetDocumentsComplete() {
       // Convert CSV data to JSON
       const jsonData = convertCsvToJson(csvData);
 
-			// Populate the transaction template
-			let transactions = [];
-			try {
-				transactions = await getSetSupportingDocumentsCompleteTransactions(
-					jsonData,
-					process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
-					loadGithubData,
-					loadGithubDataUser,
-					loadOnChainBounty,
-					appState.tokenClient
-				);
-			} catch (error) {
-				appState.logger.error(error, 'batchSetDocumentsComplete.js1');
-			}
-
-      for (const transactionData of jsonData) {
-        const { githubIssueUrl, winnerGithubProfileUrl } = transactionData;
-
-        try {
-          const { bountyId } = await loadGithubData(githubIssueUrl);
-          const userId = await loadGithubDataUser(winnerGithubProfileUrl);
-          const bounty = await loadOnChainBounty(bountyId);
-
-          const { tierWinners } = bounty;
-          console.log('tierWinners', tierWinners);
-
-          const tier = tierWinners.findIndex((value) => value === userId);
-
-          if (tier == -1) {
-            throw new Error(`User ${winnerGithubProfileUrl} is not a tier winner for bounty ${githubIssueUrl}`);
-          }
-
-          console.log('tier', tier);
-
-          const encoded = abiCoder.encode(initializationSchema, [tier, true]);
-          const encodedFormatted = `"${encoded}"`;
-
-          const supportingDocumentsCompleteTransactionTemplateCopy = _.cloneDeep(
-            supportingDocumentsCompleteTransactionTemplate
-          );
-
-          supportingDocumentsCompleteTransactionTemplateCopy.to = process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS;
-
-          supportingDocumentsCompleteTransactionTemplateCopy.contractInputsValues._bountyId = bountyId;
-          supportingDocumentsCompleteTransactionTemplateCopy.contractInputsValues._data = encodedFormatted;
-
-          transactions.push(supportingDocumentsCompleteTransactionTemplateCopy);
-        } catch (err) {
-          appState.logger.error(err, 'batchSetDocumentsComplete.js1');
-        }
+      // Populate the transaction template
+      let transactions = [];
+      try {
+        transactions = await getSetSupportingDocumentsCompleteTransactions(
+          jsonData,
+          process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
+          loadGithubData,
+          loadGithubDataUser,
+          loadOnChainBounty
+        );
+      } catch (error) {
+        appState.logger.error(error, 'batchSetDocumentsComplete.js1');
       }
 
       const supportingDocumentsCompleteTemplateCopy = _.cloneDeep(supportingDocumentsCompleteTemplate);
@@ -157,7 +113,7 @@ function BatchSetDocumentsComplete() {
             status: '0',
           }; //<BountyCardLean key={index} item={bountyData} />;
         });
-        setUsers(await Promise.all(bounties));
+        setSupportingDocsCompletePreviewData(await Promise.all(bounties));
       }
     };
     getBountyData();
@@ -242,13 +198,13 @@ function BatchSetDocumentsComplete() {
               <div className='my-4'>
                 {
                   <div>
-                    {mockData.map((mockDataum, index) => {
+                    {supportingDocsCompletePreviewData.map((supportingDocsCompleteDatum, index) => {
                       return (
                         <RequestIndividualCardLean
-                          length={mockData.length}
+                          length={supportingDocsCompletePreviewData.length}
                           index={index}
                           key={index}
-                          item={mockDataum}
+                          item={supportingDocsCompleteDatum}
                         />
                       );
                     })}
