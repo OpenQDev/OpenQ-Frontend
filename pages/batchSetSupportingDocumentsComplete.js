@@ -89,24 +89,24 @@ function BatchSetSupportingDocumentsComplete() {
     const { contractInputsValues } = transaction;
     const { _bountyId, _data } = contractInputsValues;
 
-		const abiCoder = new ethers.utils.AbiCoder();
-		const decodedData = abiCoder.decode(['uint256', 'bool'], _data);
-		const tier = decodedData[0];
+    const abiCoder = new ethers.utils.AbiCoder();
+    const decodedData = abiCoder.decode(['uint256', 'bool'], _data);
+    const tier = decodedData[0];
 
     const githubData = await appState.githubRepository.fetchIssueById(_bountyId);
-		const { tierWinners, payoutTokenAddress, payoutSchedule } = await loadOnChainBounty(_bountyId);
-		
-		const userId = tierWinners[tier]
-		const user = await appState.githubRepository.fetchUserById(userId);
+    const { tierWinners, payoutTokenAddress, payoutSchedule } = await loadOnChainBounty(_bountyId);
 
-		const volumeWon = payoutSchedule[tier].toString()
-		console.log('volumeWon', volumeWon)
+    const userId = tierWinners[tier];
+    const user = await appState.githubRepository.fetchUserById(userId);
+
+    const volumeWon = payoutSchedule[tier].toString();
+    console.log('volumeWon', volumeWon);
 
     return {
       ...githubData,
       tierWon: tier.toString(),
-			volumeWon,
-			payoutTokenAddress,
+      volumeWon,
+      payoutTokenAddress,
       ...user,
     };
   };
@@ -116,7 +116,7 @@ function BatchSetSupportingDocumentsComplete() {
       if (supportingDocsCompleteBatchData) {
         const bounties = supportingDocsCompleteBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
-					console.log('bountyData', bountyData)
+          console.log('bountyData', bountyData);
           return bountyData;
         });
         setSupportingDocsCompletePreviewData(await Promise.all(bounties));
