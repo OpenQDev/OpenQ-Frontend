@@ -8,7 +8,7 @@ import supportingDocumentsCompleteTransactionTemplate from '../constants/support
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
-import { convertCsvToJson } from '../lib/batchUtils';
+import { convertCsvToJson, getSetSupportingDocumentsCompleteTransactions } from '../lib/batchUtils';
 import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
 
 function BatchSetDocumentsComplete() {
@@ -40,7 +40,7 @@ function BatchSetDocumentsComplete() {
     document.body.removeChild(element);
   };
 
-  const loadGithubData = async (githubIssueUrl) => {
+	const loadGithubData = async (githubIssueUrl) => {
     const resource = await appState.githubRepository.fetchIssueByUrl(githubIssueUrl);
     const bountyId = resource.id;
     return { bountyId };
@@ -67,8 +67,20 @@ function BatchSetDocumentsComplete() {
       // Convert CSV data to JSON
       const jsonData = convertCsvToJson(csvData);
 
-      // Populate the transaction template
-      const transactions = [];
+			// Populate the transaction template
+			let transactions = [];
+			try {
+				transactions = await getSetSupportingDocumentsCompleteTransactions(
+					jsonData,
+					process.env.NEXT_PUBLIC_OPENQ_PROXY_ADDRESS,
+					loadGithubData,
+					loadGithubDataUser,
+					loadOnChainBounty,
+					appState.tokenClient
+				);
+			} catch (error) {
+				appState.logger.error(error, 'batchSetDocumentsComplete.js1');
+			}
 
       for (const transactionData of jsonData) {
         const { githubIssueUrl, winnerGithubProfileUrl } = transactionData;

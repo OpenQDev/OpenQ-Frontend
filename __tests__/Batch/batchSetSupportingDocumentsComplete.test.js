@@ -1,48 +1,66 @@
-import { getUnclaimedTierWithVolume } from '../../lib/batchUtils';
-import { ethers } from 'ethers';
+import { getSetSupportingDocumentsCompleteTransactions } from '../../lib/batchUtils';
+import tierWinnerJSON from './json/tierWinner.json';
+import tierWinnerBatchTxnArray from './json/tierWinnerBatchTxnArray.json';
 
-describe('Batch Mint - Supporting Docs', () => {
-  it('should return correct tier', async () => {
-    const tierWinners = ['USER1', '', '', '', ''];
+describe('Batch Mint - Supporting Documents Complete', () => {
+  const loadGithubData = async () => {
+    return { bountyId: 'bountyId' };
+  };
 
-    const twelve = ethers.BigNumber.from('1250000000');
-    const fivehundred = ethers.BigNumber.from('5000000000');
+  const loadGithubDataUser = async (userId, tier) => {
+    return `USER-${tier}`;
+  };
 
-    const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
+  const loadOnChainBounty = async () => {
+    return {
+      bountyAddress: '0xbc14a8773a9ebffb8cb275765f34666c33c358b2',
+      id: '0xbc14a8773a9ebffb8cb275765f34666c33c358b2',
+      bountyId: 'I_kwDOI-Vpys5fTA1o',
+      closerData: null,
+      bountyMintTime: '1679415624',
+      bountyClosedTime: null,
+      claimedTransactionHash: null,
+      payoutSchedule: [
+        '375000000',
+        '375000000',
+        '375000000'
+      ],
+      tierWinners: [
+				"user1",
+				"user2",
+				"user3",
+			],
+      payoutTokenAddress: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+      status: '0',
+      bountyType: '3',
+      deposits: [],
+      bountyTokenBalances: [],
+      issuer: {
+        id: '0xbcb0a2d4e644f294849d7792f2a077f9349b155f',
+      },
+    };
+  };
 
-    const tiersClaimedPreviouslyInBatch = [1];
+  const getToken = async () => {
+    return { decimals: 6 };
+  };
 
-    const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
+  it.only('should return correct transactions', async () => {
+    let transactions = [];
+    try {
+      transactions = await getSetSupportingDocumentsCompleteTransactions(
+        tierWinnerJSON,
+        '0xOPENQ',
+        loadGithubData,
+        loadGithubDataUser,
+        loadOnChainBounty,
+        { getToken }
+      );
+    } catch (error) {
+      console.log(error);
+      expect(1).toEqual(0);
+    }
 
-    const tier = getUnclaimedTierWithVolume(
-      payoutSchedule,
-      tierWinners,
-      tiersClaimedPreviouslyInBatch,
-      bigNumberTierVolume
-    );
-
-    expect(tier).toEqual(3);
-  });
-
-  it('should return null if no tier', async () => {
-    const tierWinners = ['USER1', '', '', '', ''];
-
-    const twelve = ethers.BigNumber.from('1250000000');
-    const fivehundred = ethers.BigNumber.from('5000000000');
-
-    const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
-
-    const tiersClaimedPreviouslyInBatch = [1, 2, 3, 4];
-
-    const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
-
-    const tier = getUnclaimedTierWithVolume(
-      payoutSchedule,
-      tierWinners,
-      tiersClaimedPreviouslyInBatch,
-      bigNumberTierVolume
-    );
-
-    expect(tier).toEqual(null);
+    expect(transactions).toEqual(tierWinnerBatchTxnArray);
   });
 });
