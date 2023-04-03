@@ -199,14 +199,14 @@ const Footer = () => {
           <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Winner Selection</span>
           </Link>
-          {/* <Link
-            href={'/batchSetDocumentsComplete'}
+          <Link
+            href={'/batchSetSupportingDocumentsComplete'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
             <span>Batch Tax Form Approval</span>
-					</Link> */}
+					</Link>
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image

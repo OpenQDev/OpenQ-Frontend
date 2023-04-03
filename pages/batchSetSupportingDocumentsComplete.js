@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { convertCsvToJson, getSetSupportingDocumentsCompleteTransactions } from '../lib/batchUtils';
 import RequestIndividualCardLean from '../components/Requests/RequestIndividualCardLean';
 
-function BatchSetDocumentsComplete() {
+function BatchSetSupportingDocumentsComplete() {
   const [supportingDocsCompleteBatchData, setSupportingDocsCompleteBatchData] = useState(null);
   const [supportingDocsCompletePreviewData, setSupportingDocsCompletePreviewData] = useState([]);
   const [appState] = useContext(StoreContext);
@@ -257,4 +257,4 @@ function BatchSetDocumentsComplete() {
   );
 }
 
-export default BatchSetDocumentsComplete;
+export default BatchSetSupportingDocumentsComplete;
