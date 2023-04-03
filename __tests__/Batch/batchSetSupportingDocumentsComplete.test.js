@@ -1,48 +1,47 @@
-import { getUnclaimedTierWithVolume } from '../../lib/batchUtils';
-import { ethers } from 'ethers';
+import { getSetSupportingDocumentsCompleteTransactions } from '../../lib/batchUtils';
+import supportingDocsJSON from './json/supportingDocs.json';
 
-describe('Batch Mint - Supporting Docs', () => {
-  it('should return correct tier', async () => {
-    const tierWinners = ['USER1', '', '', '', ''];
+import SupportingDocsBatchTxnArray from './json/SupportingDocsBatchTxnArray.json';
 
-    const twelve = ethers.BigNumber.from('1250000000');
-    const fivehundred = ethers.BigNumber.from('5000000000');
+describe('Batch Mint - Supporting Documents Complete', () => {
+  const loadGithubData = async () => {
+    return { bountyId: 'bountyId' };
+  };
 
-    const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
+  const loadGithubDataUser = async (githubUserUrl) => {
+    if (githubUserUrl == 'https://github.com/FlacoJones') {
+      return 'USER_1';
+    } else {
+      return 'USER_2';
+    }
+  };
 
-    const tiersClaimedPreviouslyInBatch = [1];
+  const loadOnChainBounty = async () => {
+    return {
+      tierWinners: ['USER_1', 'USER_2'],
+    };
+  };
 
-    const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
+  const getToken = async () => {
+    return { decimals: 6 };
+  };
 
-    const tier = getUnclaimedTierWithVolume(
-      payoutSchedule,
-      tierWinners,
-      tiersClaimedPreviouslyInBatch,
-      bigNumberTierVolume
-    );
+  it.only('should return correct transactions', async () => {
+    let transactions = [];
+    try {
+      transactions = await getSetSupportingDocumentsCompleteTransactions(
+        supportingDocsJSON,
+        '0xOPENQ',
+        loadGithubData,
+        loadGithubDataUser,
+        loadOnChainBounty,
+        { getToken }
+      );
+    } catch (error) {
+      console.log(error);
+      expect(1).toEqual(0);
+    }
 
-    expect(tier).toEqual(3);
-  });
-
-  it('should return null if no tier', async () => {
-    const tierWinners = ['USER1', '', '', '', ''];
-
-    const twelve = ethers.BigNumber.from('1250000000');
-    const fivehundred = ethers.BigNumber.from('5000000000');
-
-    const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
-
-    const tiersClaimedPreviouslyInBatch = [1, 2, 3, 4];
-
-    const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
-
-    const tier = getUnclaimedTierWithVolume(
-      payoutSchedule,
-      tierWinners,
-      tiersClaimedPreviouslyInBatch,
-      bigNumberTierVolume
-    );
-
-    expect(tier).toEqual(null);
+    expect(transactions).toEqual(SupportingDocsBatchTxnArray);
   });
 });
