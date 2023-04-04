@@ -28,6 +28,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   const [paginationStateObj, setPaginationStateObj] = paginationState;
   const { searchText } = paginationStateObj.filters;
   const [renderedSearch, setRenderedSearch] = useState(searchText);
+  const [filteredLength, setFilteredLength] = useState(0);
   let showDropdowns;
 
   // Utilities
@@ -196,7 +197,15 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
           })}
         </Carousel>
       ) : null}
-      <PaginatedList paginationState={paginationState} PaginationCard={BountyCardLean} />
+      {paginationState[0].complete && filteredLength == 0 && (
+        <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>No Bounties Found</div>
+      )}
+      <PaginatedList
+        paginationState={paginationState}
+        PaginationCard={BountyCardLean}
+        setFilteredLength={setFilteredLength}
+        filteredLength={filteredLength}
+      />
     </div>
   );
 };
