@@ -244,7 +244,7 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
     {
       bountiesCursor: oldCursor,
       bountiesLimit: batch,
-      states: fetchFilters.states,
+      states: fetchFilters?.states,
     }
   );
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
