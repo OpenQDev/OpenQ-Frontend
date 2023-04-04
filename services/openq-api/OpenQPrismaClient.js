@@ -73,12 +73,12 @@ class OpenQPrismaClient {
     this.client.setLink(authLink.concat(this.httpLink));
   };
 
-  async watchBounty(contractAddress, idObj) {
+  async watchBounty(bountyAddress) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: WATCH_BOUNTY,
-          variables: { contractAddress, ...idObj },
+          variables: { bountyAddress },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -89,12 +89,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unWatchBounty(contractAddress, idObj) {
+  async unWatchBounty(bountyAddress) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UNWATCH_BOUNTY,
-          variables: { contractAddress, ...idObj },
+          variables: { bountyAddress },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
