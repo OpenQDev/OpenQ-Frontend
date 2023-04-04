@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils/';
+import { waitFor } from '@testing-library/react';
 import ActionBubble from '.';
 import nextRouter from 'next/router';
 import userEvent from '@testing-library/user-event';
@@ -255,7 +256,9 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
+    await waitFor(() => {
+      render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
+    });
 
     // ASSERT
     expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 7:33.'));
