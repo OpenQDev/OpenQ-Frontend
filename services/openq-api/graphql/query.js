@@ -466,14 +466,14 @@ export const GET_REPOSITORIES = gql`
   query getRepositories(
     $organizationId: String
     $contestOnly: Boolean
-    $proAccountId: String
+    $teamAccountId: String
     $proContestsOnly: Boolean
   ) {
     repositories(
       limit: 100
       contestOnly: $contestOnly
       organizationId: $organizationId
-      proAccountId: $proAccountId
+      teamAccountId: $teamAccountId
       proContestsOnly: $proContestsOnly
     ) {
       nodes {
@@ -534,7 +534,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       twitter
       createdAsHackathonDate
       discord
-      proAccountId
+      teamAccountId
       telegram
       slack
       description
@@ -735,7 +735,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $organizationId: String
     $isContest: Boolean!
     $isDraft: Boolean!
-    $proAccountId: String!
+    $teamAccountId: String!
     $startDate: String
     $registrationDeadline: String
     $city: String
@@ -759,7 +759,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
       organizationId: $organizationId
       isContest: $isContest
       isDraft: $isDraft
-      proAccountId: $proAccountId
+      teamAccountId: $teamAccountId
       description: $description
       startDate: $startDate
       registrationDeadline: $registrationDeadline
@@ -785,8 +785,8 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
 `;
 
 export const CREATE_PRO_ACCOUNT = gql`
-  mutation CreateProAccount($name: String!) {
-    createProAccount(name: $name) {
+  mutation CreateTeamAccount($name: String!) {
+    createTeamAccount(name: $name) {
       id
       name
     }
@@ -794,9 +794,9 @@ export const CREATE_PRO_ACCOUNT = gql`
 `;
 
 export const GET_PRO_ACCOUNTS = gql`
-  query GetProAccount {
-    proAccounts {
-      proAccountConnection {
+  query GetTeamAccount {
+    teamAccounts {
+      teamAccountConnection {
         nodes {
           name
           id
@@ -832,8 +832,8 @@ export const GET_PRO_ACCOUNTS = gql`
 `;
 
 export const GET_PRO_ACCOUNT = gql`
-  query GetProAccount($id: String!) {
-    proAccount(id: $id) {
+  query GetTeamAccount($id: String!) {
+    teamAccount(id: $id) {
       id
       name
       repositories(limit: 100) {
@@ -931,8 +931,8 @@ export const UPDATE_PRODUCT = gql`
 `;
 
 export const ADD_PRODUCT_TO_PRO_ACCOUNT = gql`
-  mutation AddProductToProAccount($proAccountId: String!, $productId: String!) {
-    addProductToProAccount(proAccountId: $proAccountId, productId: $productId) {
+  mutation AddProductToTeamAccount($teamAccountId: String!, $productId: String!) {
+    addProductToTeamAccount(teamAccountId: $teamAccountId, productId: $productId) {
       id
       name
     }
@@ -940,8 +940,8 @@ export const ADD_PRODUCT_TO_PRO_ACCOUNT = gql`
 `;
 
 export const ADD_PRO_ACCOUNT_ADMIN = gql`
-  mutation AddProAccountAdmin($proAccountId: String!, $targetUserId: String!) {
-    addProAccountAdmin(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+  mutation AddTeamAccountAdmin($teamAccountId: String!, $targetUserId: String!) {
+    addTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
     }
@@ -949,8 +949,8 @@ export const ADD_PRO_ACCOUNT_ADMIN = gql`
 `;
 
 export const ADD_PRO_ACCOUNT_MEMBER = gql`
-  mutation AddProAccountMember($proAccountId: String!, $targetUserId: String!) {
-    addProAccountMember(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+  mutation AddTeamAccountMember($teamAccountId: String!, $targetUserId: String!) {
+    addTeamAccountMember(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
     }
@@ -958,8 +958,8 @@ export const ADD_PRO_ACCOUNT_MEMBER = gql`
 `;
 
 export const REMOVE_PRO_ACCOUNT_ADMIN = gql`
-  mutation RemoveProAccountAdmin($proAccountId: String!, $targetUserId: String!) {
-    removeProAccountAdmin(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+  mutation RemoveTeamAccountAdmin($teamAccountId: String!, $targetUserId: String!) {
+    removeTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
     }
@@ -967,8 +967,8 @@ export const REMOVE_PRO_ACCOUNT_ADMIN = gql`
 `;
 
 export const REMOVE_PRO_ACCOUNT_MEMBER = gql`
-  mutation RemoveProAccountMember($proAccountId: String!, $targetUserId: String!) {
-    removeProAccountMember(proAccountId: $proAccountId, targetUserId: $targetUserId) {
+  mutation RemoveTeamAccountMember($teamAccountId: String!, $targetUserId: String!) {
+    removeTeamAccountMember(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
     }

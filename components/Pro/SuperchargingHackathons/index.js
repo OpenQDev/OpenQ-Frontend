@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 
-const SuperchargingHackathons = ({ proAccount }) => {
+const SuperchargingHackathons = ({ teamAccount }) => {
   return (
     <div>
-      <Link href={`/pro/${proAccount.id}/hackathons/create`}>Create a New Hackathon</Link>
+      <Link href={`/pro/${teamAccount.id}/hackathons/create`}>Create a New Hackathon</Link>
     </div>
   );
 };

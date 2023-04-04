@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Manager from '../../components/Manager/index.js';
 
-const Hackathons = ({ proAccount, githubRepositoryIndex, repositories }) => {
-  const hasSuperchargedHackathons = proAccount?.permissionedProducts?.nodes?.some(
+const Hackathons = ({ teamAccount, githubRepositoryIndex, repositories }) => {
+  const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
     (node) => node.name === 'SuperchargingHackathonsProduct'
   );
   const [searchText, setSearchText] = useState('');
@@ -83,10 +83,10 @@ export const getServerSideProps = async (context) => {
   for (let githubRepository of githubRepositories) {
     githubRepositoryIndex[githubRepository.id] = githubRepository;
   }
-  const { proAccount } = await openQPrismaClient.instance.getProAccount(id);
+  const { teamAccount } = await openQPrismaClient.instance.getTeamAccount(id);
   return {
     props: {
-      proAccount,
+      teamAccount,
       githubRepositoryIndex,
       repositories,
     },

@@ -1,4 +1,4 @@
-const ProAccountReducer = (state, action) => {
+const TeamAccountReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_OWNER_ORGANIZATION':
       return {
@@ -10,4 +10,4 @@ const ProAccountReducer = (state, action) => {
   }
 };
 
-export default ProAccountReducer;
+export default TeamAccountReducer;

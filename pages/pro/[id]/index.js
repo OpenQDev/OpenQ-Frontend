@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient.js';
-import ManageUserGroup from '../../../components/Pro/ProAccountPage/ManageUserGroup';
+import ManageUserGroup from '../../../components/Pro/TeamAccountPage/ManageUserGroup';
 import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
 
-import ProProvider from '../../../components/Pro//ProAccountPage/ProProvider';
+import ProProvider from '../../../components/Pro//TeamAccountPage/ProProvider';
 import PageHeader from '../../../components/PageHeader/index.js';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Manager from '../../../components/Manager/index.js';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient.js';
 
-const ProAccount = ({ proAccount, repositories }) => {
-  const hasSuperchargedHackathons = proAccount?.permissionedProducts?.nodes?.some(
+const TeamAccount = ({ teamAccount, repositories }) => {
+  const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
     (node) => node.name === 'SuperchargingHackathonsProduct'
   );
   const [searchText, setSearchText] = useState('');
@@ -50,7 +50,7 @@ const ProAccount = ({ proAccount, repositories }) => {
       },
     },
     [TEAM]: {
-      Title: () => <>Manage the {proAccount.name} Team</>,
+      Title: () => <>Manage the {teamAccount.name} Team</>,
       SubTitle: () => (
         <>
           Learn more about our hackathon platform{' '}
@@ -87,14 +87,14 @@ const ProAccount = ({ proAccount, repositories }) => {
       >
         {internalMenu === 'Hackathons' && <Manager repositories={searchedRepos} />}
         {internalMenu === 'Team' && (
-          <ProProvider proAccount={proAccount}>
+          <ProProvider teamAccount={teamAccount}>
             <div className='w-full flex flex-col gap-y-4 relative flex-1  min-w-[260px]'>
-              <ManageUserGroup groupName={'Owner(s)'} groupKey='ownerUsers' proAccount={proAccount} />
+              <ManageUserGroup groupName={'Owner(s)'} groupKey='ownerUsers' teamAccount={teamAccount} />
 
-              <ManageUserGroup groupName={'Admins'} groupKey='adminUsers' proAccount={proAccount} />
-              {proAccount.permissionedProducts.nodes.some((node) => node.name === 'SuperchargingHackathonsProduct') && (
-                <SuperchargingHackathons proAccount={proAccount} />
-              )}
+              <ManageUserGroup groupName={'Admins'} groupKey='adminUsers' teamAccount={teamAccount} />
+              {teamAccount.permissionedProducts.nodes.some(
+                (node) => node.name === 'SuperchargingHackathonsProduct'
+              ) && <SuperchargingHackathons teamAccount={teamAccount} />}
             </div>
           </ProProvider>
         )}
@@ -103,7 +103,7 @@ const ProAccount = ({ proAccount, repositories }) => {
   );
 };
 
-export default ProAccount;
+export default TeamAccount;
 
 export const getServerSideProps = async (context) => {
   const openQPrismaClient = new WrappedOpenQPrismaClient();
@@ -111,8 +111,8 @@ export const getServerSideProps = async (context) => {
 
   await openQPrismaClient.instance.setGraphqlHeaders(context.req.headers.cookie);
   const { id } = context.query;
-  const { proAccount } = await openQPrismaClient.instance.getProAccount(id);
-  const { repositories } = proAccount;
+  const { teamAccount } = await openQPrismaClient.instance.getTeamAccount(id);
+  const { repositories } = teamAccount;
   const repositoryIds = repositories.nodes?.map((repository) => repository.id);
   const githubRepositories = await githubRepository.instance.fetchReposByIds(repositoryIds);
   let githubRepositoryIndex = {};
@@ -127,7 +127,7 @@ export const getServerSideProps = async (context) => {
   });
   return {
     props: {
-      proAccount,
+      teamAccount,
       repositories: combinedRepo,
     },
   };

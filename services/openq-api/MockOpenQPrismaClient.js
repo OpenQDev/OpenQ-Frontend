@@ -246,11 +246,11 @@ class OpenQPrismaClient {
         });
     }
 
-      async getProAccounts() {
+      async getTeamAccounts() {
     return new Promise(async (resolve, reject) => {
            axios.get(`http://localhost:3030/proaccounts`)
                 .then(result => {
-                    const nodes = result.data.proAccounts.proAccountConnection.nodes
+                    const nodes = result.data.teamAccounts.teamAccountConnection.nodes
                     resolve( nodes );
                 })
                 .catch(error => {
@@ -293,11 +293,11 @@ class OpenQPrismaClient {
                 });
     });
   }
-  addProductToProAccount(secret, variables) {
+  addProductToTeamAccount(secret, variables) {
     return new Promise(async (resolve, reject) => {
           axios.get(`http://localhost:3030/proaccount`)
                 .then(result => {
-                    resolve({ addProductToProAccount: result.data });
+                    resolve({ addProductToTeamAccount: result.data });
                 })
                 .catch(error => {
                     reject(error);

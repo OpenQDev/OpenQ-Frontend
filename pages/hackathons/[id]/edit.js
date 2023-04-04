@@ -10,7 +10,7 @@ import WrappedGithubRepository from '../../../services/github/WrappedGithubClien
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 
 const CreateHackathon = ({ githubRepository, hackathon }) => {
-  const { proAccountId } = hackathon;
+  const { teamAccountId } = hackathon;
   return (
     <HackathonProvider githubRepository={githubRepository} hackathon={hackathon}>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
@@ -31,7 +31,7 @@ const CreateHackathon = ({ githubRepository, hackathon }) => {
                 <HackathonExtraInfo />
               </div>
               <div className='border-web-gray border-t'>
-                <CreateHackathonButton isEditing={true} proAccountId={proAccountId} />
+                <CreateHackathonButton isEditing={true} teamAccountId={teamAccountId} />
               </div>
             </form>
           </div>

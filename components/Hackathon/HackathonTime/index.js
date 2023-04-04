@@ -33,7 +33,7 @@ const HackathonTime = () => {
   return (
     <>
       <div className='my-2'>
-        <label className='font-semibold text-lg  block my-2 ' htmlFor={'proAccount'}>
+        <label className='font-semibold text-lg  block my-2 ' htmlFor={'teamAccount'}>
           Timezone
         </label>
         <TimezoneSelect
@@ -46,12 +46,12 @@ const HackathonTime = () => {
       <div className='my-2'>
         <label
           className='font-semibold text-lg my-2 max-w-xs flex content-center gap-2 items-center'
-          htmlFor={'proAccount'}
+          htmlFor={'teamAccount'}
         >
           Hackathon Period
           <InfoInToolTip toolTipText={'Choose the start and end dates for your hackathon'} />
         </label>
-        <div className='input-field w-full h-8 max-w-60 block my-2' id={'proAccount'}>
+        <div className='input-field w-full h-8 max-w-60 block my-2' id={'teamAccount'}>
           <div className='relative flex'>
             <div className='absolute pointer-events-none left-0 top-1 bottom-1'>{startDate}</div>
             <CalendarIcon className='absolute right-0 top-1 bottom-1' />
@@ -65,7 +65,7 @@ const HackathonTime = () => {
           </div>
         </div>
 
-        <div className='input-field w-full h-8 max-w-60 block my-2' id={'proAccount'}>
+        <div className='input-field w-full h-8 max-w-60 block my-2' id={'teamAccount'}>
           <div className='relative flex'>
             <CalendarIcon onChange={handleEndDate} className=' absolute right-0 top-1 bottom-1' />
             <div className='absolute pointer-events-none left-0 top-1 bottom-1'>{endDate}</div>

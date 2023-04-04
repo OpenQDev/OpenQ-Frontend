@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
+const MemberManagementCard = ({ member, groupKey, teamAccountId }) => {
   const [appState] = useContext(StoreContext);
   const [githubAccount, setGithubAccount] = useState(null);
   useEffect(() => {
@@ -15,7 +15,7 @@ const MemberManagementCard = ({ member, groupKey, proAccountId }) => {
     fetchGithubAccount();
   }, [member.github]);
   const removeMember = async () => {
-    await appState.openQPrismaClient.removeProAccountRole({ targetUserId: member.id, proAccountId }, groupKey);
+    await appState.openQPrismaClient.removeTeamAccountRole({ targetUserId: member.id, teamAccountId }, groupKey);
   };
   return (
     <div className='w-full px-4 py-2 gap-4 bg-nav-bg border-x border-b border-web-gray rounded-b-sm flex '>

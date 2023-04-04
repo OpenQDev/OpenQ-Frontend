@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
-import ProAccount from '../ProAccount';
+import TeamAccount from '../TeamAccount';
 import Products from '../Products';
 
 const Users = () => {
@@ -71,7 +71,7 @@ const Users = () => {
             </tbody>
           </table>
           <Products setProducts={setProducts} products={products} apiSecret={apiSecret} />
-          <ProAccount apiSecret={apiSecret} products={products} />
+          <TeamAccount apiSecret={apiSecret} products={products} />
         </>
       ) : (
         <>

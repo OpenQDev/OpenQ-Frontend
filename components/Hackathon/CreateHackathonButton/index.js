@@ -5,7 +5,7 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import { useRouter } from 'next/router';
 import { updateHackathonState } from '../../../services/utils/lib';
 
-const CreateHackathonButton = ({ proAccountId, isEditing }) => {
+const CreateHackathonButton = ({ teamAccountId, isEditing }) => {
   const CONFIRM = 'CONFIRM';
   const PENDING = 'PENDING';
   const SUCCESS = 'SUCCESS';
@@ -27,10 +27,10 @@ const CreateHackathonButton = ({ proAccountId, isEditing }) => {
   const handleCreate = async (e) => {
     e.preventDefault();
     const push = () => {
-      router.push(`/pro/${proAccountId}?tab=Hackathons`);
+      router.push(`/pro/${teamAccountId}?tab=Hackathons`);
     };
     try {
-      await updateHackathonState({ ...hackathonState, proAccountId }, appState, setCreateHackathonResponse, push);
+      await updateHackathonState({ ...hackathonState, teamAccountId }, appState, setCreateHackathonResponse, push);
     } catch (e) {
       if (JSON.stringify(e).includes('auth')) {
         setError("You can't create a hackathon for a repository you don't have permissions for.");

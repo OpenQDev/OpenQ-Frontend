@@ -426,7 +426,7 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     slack,
     registrationDeadline,
     eventName,
-    proAccountId,
+    teamAccountId,
     isDraft,
   } = hackathonState;
   const forwardedDraft = isDraft ? true : false;
@@ -441,7 +441,7 @@ export const updateHackathonState = async (hackathonState, appState, setCreateHa
     const repositoryId = githubRepository.id;
     const organizationId = githubRepository.owner?.id;
     const variables = {
-      proAccountId,
+      teamAccountId,
       repositoryId,
       startDate,
       endDate,

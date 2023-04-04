@@ -2,15 +2,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import ModalLarge from '../../../Utils/ModalLarge';
 import StoreContext from '../../../../store/Store/StoreContext';
 
-const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
+const ManageTeamAccountModal = ({ teamAccount, products, apiSecret }) => {
   const [appState] = useContext(StoreContext);
   const [showProModal, setShowProModal] = useState(false);
-  const [myProducts, setMyProducts] = useState(proAccount.permissionedProducts.nodes);
+  const [myProducts, setMyProducts] = useState(teamAccount.permissionedProducts.nodes);
   const [selectedProduct, setSelectedProduct] = useState();
   useEffect(() => {
     setSelectedProduct(products[0]?.id);
   }, [products]);
-  const openProAccountModal = () => {
+  const openTeamAccountModal = () => {
     setShowProModal(true);
   };
   const handleSelectChange = (e) => {
@@ -23,8 +23,8 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
     const alreadyHasProduct = myProducts.find((myProduct) => myProduct.id === product.id);
     if (product && !alreadyHasProduct) {
       // send mutation
-      await appState.openQPrismaClient.addProductToProAccount(apiSecret, {
-        proAccountId: proAccount.id,
+      await appState.openQPrismaClient.addProductToTeamAccount(apiSecret, {
+        teamAccountId: teamAccount.id,
         productId: product.id,
       });
       setMyProducts([...myProducts, product]);
@@ -34,9 +34,9 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
   return (
     <div className='my-16 p-4  border-web-gray border'>
       <div className='flex w-full justify-between content-center items-center'>
-        <div>{proAccount.name}</div>
+        <div>{teamAccount.name}</div>
 
-        <button onClick={openProAccountModal} className='btn-primary'>
+        <button onClick={openTeamAccountModal} className='btn-primary'>
           Update Pro Account
         </button>
       </div>
@@ -44,7 +44,7 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
         {showProModal && (
           <div onClick={(e) => e.preventDefault()}>
             <ModalLarge
-              title={`Manage ${proAccount.name}'s proAccount`}
+              title={`Manage ${teamAccount.name}'s teamAccount`}
               resetState={() => null}
               setShowModal={setShowProModal}
             >
@@ -77,4 +77,4 @@ const ManageProAccountModal = ({ proAccount, products, apiSecret }) => {
   );
 };
 
-export default ManageProAccountModal;
+export default ManageTeamAccountModal;

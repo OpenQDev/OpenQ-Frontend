@@ -135,7 +135,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getProAccount(id) {
+  async getTeamAccount(id) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
@@ -150,7 +150,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  removeProAccountRole = async (variables, role) => {
+  removeTeamAccountRole = async (variables, role) => {
     if (role === 'admin' || role === 'adminUsers') {
       const promise = new Promise(async (resolve, reject) => {
         try {
@@ -180,7 +180,7 @@ class OpenQPrismaClient {
     }
   };
 
-  addProAccountRole = async (variables, role) => {
+  addTeamAccountRole = async (variables, role) => {
     if (role === 'admin' || role === 'adminUsers') {
       const promise = new Promise(async (resolve, reject) => {
         try {
@@ -447,7 +447,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getProAccountInfoOfCurrent() {
+  getTeamAccountInfoOfCurrent() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
@@ -697,7 +697,7 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async createProAccount(variables) {
+  async createTeamAccount(variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -711,13 +711,13 @@ class OpenQPrismaClient {
     });
   }
 
-  async getProAccounts() {
+  async getTeamAccounts() {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_PRO_ACCOUNTS,
         });
-        resolve(result.data.proAccounts.proAccountConnection.nodes);
+        resolve(result.data.teamAccounts.teamAccountConnection.nodes);
       } catch (e) {
         reject(e);
       }
@@ -766,7 +766,7 @@ class OpenQPrismaClient {
       }
     });
   }
-  addProductToProAccount(secret, variables) {
+  addProductToTeamAccount(secret, variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
@@ -793,7 +793,7 @@ class OpenQPrismaClient {
       }
     });
   }
-  removeProAccountMember(variables) {
+  removeTeamAccountMember(variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({

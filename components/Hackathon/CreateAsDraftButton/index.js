@@ -6,7 +6,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import { updateHackathonState } from '../../../services/utils/lib';
 const CreateAsDraftButton = () => {
   const [hackathonState] = useContext(HackathonContext);
-  const { proAccountId } = hackathonState;
+  const { teamAccountId } = hackathonState;
   const [appState] = useContext(StoreContext);
   const setCreateHackathonResponse = () => {};
 
@@ -14,7 +14,7 @@ const CreateAsDraftButton = () => {
   const handleCreateAsDraft = async (e) => {
     e.preventDefault();
     const push = () => {
-      router.push(`/pro/${proAccountId}?tab=Hackathons`);
+      router.push(`/pro/${teamAccountId}?tab=Hackathons`);
     };
     try {
       await updateHackathonState({ ...hackathonState, isDraft: true }, appState, setCreateHackathonResponse, push);

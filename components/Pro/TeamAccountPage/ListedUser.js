@@ -27,12 +27,12 @@ const ListedUser = ({ item }) => {
   const [toggleVal, setToggleVal] = useState(role || 'Select Role');
   const toggleFunc = async (toggle) => {
     if (toggle === 'admin') {
-      await appState.openQPrismaClient.addProAccountRole({ proAccountId: id, targetUserId: item.id }, toggle);
+      await appState.openQPrismaClient.addTeamAccountRole({ teamAccountId: id, targetUserId: item.id }, toggle);
       setToggleVal(toggle);
     }
   };
   const removeFunc = async () => {
-    await appState.openQPrismaClient.removeProAccountRole({ proAccountId: id, targetUserId: item.id }, role);
+    await appState.openQPrismaClient.removeTeamAccountRole({ teamAccountId: id, targetUserId: item.id }, role);
     setToggleVal('Select Role');
   };
   const [githubAccount, setGithubAcount] = useState(null);

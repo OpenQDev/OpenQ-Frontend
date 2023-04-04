@@ -20,7 +20,7 @@ const HackathonCard = ({ repository }) => {
     day: 'numeric',
   });
   const { query } = useRouter();
-  const { id: proAccountId } = query;
+  const { id: teamAccountId } = query;
   return (
     <>
       {repository && (
@@ -34,7 +34,7 @@ const HackathonCard = ({ repository }) => {
             </div>
             <div>
               {repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>}
-              {proAccountId && (
+              {teamAccountId && (
                 <Link href={`/hackathons/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
                   Edit
                 </Link>

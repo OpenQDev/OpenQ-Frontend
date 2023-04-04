@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import ModalDefault from '../../../Utils/ModalDefault';
 import StoreContext from '../../../../store/Store/StoreContext';
-import ProAccountContext from '../ProPageContext';
+import TeamAccountContext from '../ProPageContext';
 const CreateAccountModal = ({ showModal, setShowModal }) => {
   const [appState] = useContext(StoreContext);
-  const [, setProAccountDispatch] = useContext(ProAccountContext);
+  const [, setTeamAccountDispatch] = useContext(TeamAccountContext);
 
   const [error, setError] = useState();
   const { accountData } = appState;
@@ -18,12 +18,12 @@ const CreateAccountModal = ({ showModal, setShowModal }) => {
     setCreateAccountState(CONFIRM);
     setShowModal(false);
   };
-  const createProAccount = async (e) => {
+  const createTeamAccount = async (e) => {
     e.preventDefault();
     const idObj = github ? { github } : { email };
     try {
-      const { createProAccount } = await appState.openQPrismaClient.createProAccount({ name, userId: id, ...idObj });
-      setProAccountDispatch({ type: 'ADD_OWNER_ORGANIZATION', payload: createProAccount });
+      const { createTeamAccount } = await appState.openQPrismaClient.createTeamAccount({ name, userId: id, ...idObj });
+      setTeamAccountDispatch({ type: 'ADD_OWNER_ORGANIZATION', payload: createTeamAccount });
     } catch (e) {
       setCreateAccountState(ERROR);
       setError('Name already taken.');
@@ -32,7 +32,7 @@ const CreateAccountModal = ({ showModal, setShowModal }) => {
   };
   const rightBtnMap = {
     [CONFIRM]: (
-      <button className='btn-primary' onClick={createProAccount}>
+      <button className='btn-primary' onClick={createTeamAccount}>
         Confirm
       </button>
     ),
