@@ -49,7 +49,7 @@ const AssociateModal = ({
   const associateExternalIdToAddress = async () => {
     setAssociateState('SIGN_MESSAGE');
     setShowModal(true);
-    const signature = await appState.openQClient.signMessage(account);
+    const signature = await appState.openQClient.signMessage(library, account);
     setAssociateState('TRANSACTION_SUBMITTED');
     axios
       .post(

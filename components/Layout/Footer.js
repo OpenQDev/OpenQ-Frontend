@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDownIcon, ChevronUpIcon, DownloadIcon } from '@primer/octicons-react';
+import { ChevronDownIcon, ChevronUpIcon, LinkExternalIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
@@ -115,11 +115,13 @@ const Footer = () => {
           <div className='pr-4 min-w-[196px]'>
             <span className='pr-2'> Audited by Sherlock</span>
             <a
+              target='_blank'
+              rel='noopener noreferrer'
               href={
-                'https://github.com/OpenQDev/OpenQ-Frontend/files/11056446/2023.03.22_-_Preliminary_-_OpenQ_Audit_Report.1.pdf'
+                'https://github.com/sherlock-protocol/sherlock-reports/blob/main/audits/2023.03.27%20-%20Final%20-%20OpenQ%20Audit%20Report.pdf'
               }
             >
-              <DownloadIcon className='cursor-pointer' size={16} />
+              <LinkExternalIcon className='cursor-pointer' size={16} />
             </a>
           </div>
           <NoSSR>
@@ -197,14 +199,14 @@ const Footer = () => {
           <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Winner Selection</span>
           </Link>
-          {/* <Link
-            href={'/batchSetDocumentsComplete'}
+          <Link
+            href={'/batchSetSupportingDocumentsComplete'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
           >
             <span>Batch Tax Form Approval</span>
-					</Link> */}
+          </Link>
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image
