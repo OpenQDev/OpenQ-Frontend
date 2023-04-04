@@ -126,7 +126,7 @@ const W8Requirement = ({ bounty }) => {
           they request changes, you will be notified via your contact email. If you have any questions, feel free to
           reach out in our{' '}
           <a target={'_blank'} className='underline' href='https://discord.gg/puQVqEvVXn' rel='noreferrer'>
-            discord
+            Discord
           </a>
           .
         </>
@@ -228,7 +228,14 @@ const W8Requirement = ({ bounty }) => {
           <div>
             {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
-                Your tax form was not accepted. {currentRequest}
+                The organization has requested changes on the tax form you submitted. Please review the requested change
+                below, update your tax forms, and re-upload them here.
+                <br />
+                <br />
+                <br />
+                <div className='flex gap-2 font-bold'>
+                  Requested change: <div className='text-gray-400 font-normal'>{currentRequest}</div>
+                </div>
               </div>
             )}
             <div>
@@ -265,14 +272,14 @@ const W8Requirement = ({ bounty }) => {
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
             {sent && (
               <div
-                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
               >
                 Pending
               </div>
             )}
             <label htmlFor='file input' className={`relative flex items-center`}>
               <div
-                className={`relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center ${
+                className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center ${
                   noEmail ? 'cursor-not-allowed' : 'cursor-pointer'
                 } ${file || noEmail ? 'btn-primary' : 'btn-requirements'}`}
               >

@@ -16,8 +16,8 @@ import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import Logger from '../../../services/logger/Logger';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
@@ -36,13 +36,16 @@ import ClaimOverview from '../../../components/Claim/ClaimOverview';
 import Log from '../../../components/svg/log';
 import FundProvider from '../../../components/FundBounty/FundStore/FundProvider';
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
+import { useRouter } from 'next/router';
 
 const address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
+
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
   const repo = { owner: bounty.owner, name: bounty.repoName };
+  const router = useRouter();
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
   const claimable = status === 'Claimable' || status === 'Claimed';
@@ -135,12 +138,6 @@ const address = ({ address, mergedBounty, renderError }) => {
     };
   }, [internalMenu]);
 
-  useEffect(() => {
-    if (bounty && bounty.issuer?.id && ethers.utils.getAddress(bounty.issuer.id) !== account) {
-      setInternalMenu('View');
-    }
-  }, [account]);
-
   // Hooks
   useEffect(() => {
     const bountyTypeName = getBountyTypeName(bounty.bountyType);
@@ -191,17 +188,20 @@ const address = ({ address, mergedBounty, renderError }) => {
       sessionStorage.setItem('justMinted', false);
     }
     // set route and populate
-    if (address) {
-      const route = sessionStorage.getItem(address);
-      if (route !== internalMenu) {
-        setInternalMenu(route || 'View');
-      }
-    }
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  useEffect(() => {
+    const route = sessionStorage.getItem(address);
+    const tab = router?.query?.tab;
+    const newTab = tab || route || 'View';
+    if (newTab !== internalMenu) {
+      if (Object.keys(accountData).length === 0 || (newTab === 'Claim' && !claimable)) {
+        setInternalMenu('View');
+      }
+    }
+  }, []);
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
-  const claim = claimable ? [{ name: 'Claim', Svg: Fire }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
   const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
@@ -239,7 +239,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   ...fund,
                   { name: bounty.issuer && 'Deposits', Svg: bounty.issuer && Subtract },
                   ...submissions,
-                  ...claim,
+                  { name: 'Claim', Svg: Fire },
                   ...claimOverView,
                   {
                     name: bounty.issuer && ethers.utils.getAddress(bounty?.issuer?.id) == account ? 'Admin' : null,
@@ -280,6 +280,12 @@ const address = ({ address, mergedBounty, renderError }) => {
                     claimState={claimState}
                   />
                 ) : null}
+                {!claimable && internalMenu == 'Claim' && (
+                  <div className='w-full h-min bg-info border-info-strong border rounded-sm p-3  w-full  lg:max-w-[800px]'>
+                    Looking to claim your prize? The bounty administrator has not selected your PR yet. Please wait
+                    until they have awarded your prize in order to continue.
+                  </div>
+                )}
                 {internalMenu == 'Claims Overview' && bounty ? (
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}
@@ -293,7 +299,6 @@ const address = ({ address, mergedBounty, renderError }) => {
                   <Submissions refreshBounty={refreshBounty} bounty={bounty} />
                 ) : null}
                 {bounty && <RefundPage bounty={bounty} refreshBounty={refreshBounty} internalMenu={internalMenu} />}
-
                 {internalMenu && internalMenu !== 'Submissions' && (
                   <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
                 )}

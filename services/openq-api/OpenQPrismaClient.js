@@ -42,6 +42,7 @@ import {
   REMOVE_PRO_ACCOUNT_ADMIN,
   GET_PRO_ACCOUNT_INFO_CURRENT,
   GET_USERS_PAGE,
+  GET_REQUEST,
 } from './graphql/query';
 import { ethers } from 'ethers';
 
@@ -479,12 +480,10 @@ class OpenQPrismaClient {
       if (idObject.email) {
         variables.email = idObject.email;
       }
-
       try {
         const result = await this.client.query({
           query: GET_REQUESTS,
           variables,
-
           fetchPolicy: 'no-cache',
           errorPolicy: 'ignore',
         });
@@ -806,6 +805,24 @@ class OpenQPrismaClient {
         reject(e);
       }
     });
+  }
+  async getRequest(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      const variables = {
+        id,
+      };
+
+      try {
+        const result = await this.client.query({
+          query: GET_REQUEST,
+          variables,
+        });
+        resolve(result.data.request);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
   }
 }
 

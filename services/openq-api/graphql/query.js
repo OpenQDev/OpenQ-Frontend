@@ -115,7 +115,14 @@ export const GET_USER = gql`
   }
 `;
 export const GET_REQUESTS = gql`
-  query ($id: String, $github: String, $email: String, $bountiesLimit: PaginationInt!, $bountiesCursor: ID) {
+  query (
+    $id: String
+    $github: String
+    $email: String
+    $bountiesLimit: PaginationInt!
+    $bountiesCursor: ID
+    $states: [String!]
+  ) {
     user(id: $id, github: $github, email: $email) {
       id
       watchedBountyIds
@@ -147,7 +154,7 @@ export const GET_REQUESTS = gql`
             address
             bountyId
             type
-            requests(limit: 100) {
+            requests(limit: 100, states: $states) {
               nodes {
                 id
                 requestingUser {
@@ -1036,6 +1043,28 @@ export const GET_USERS_PAGE = gql`
           }
         }
         cursor
+      }
+    }
+  }
+`;
+
+export const GET_REQUEST = gql`
+  query getRequest($id: String!) {
+    request(id: $id) {
+      id
+
+      requestingUser {
+        github
+      }
+      bounty {
+        type
+        address
+        bountyId
+      }
+    }
+    requests(limit: 10) {
+      nodes {
+        id
       }
     }
   }

@@ -28,6 +28,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   const [paginationStateObj, setPaginationStateObj] = paginationState;
   const { searchText } = paginationStateObj.filters;
   const [renderedSearch, setRenderedSearch] = useState(searchText);
+  let showDropdowns;
 
   // Utilities
 
@@ -65,13 +66,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     if (!orderRegex.test(newSearch)) {
       newSearch = `${searchText} ${`order:${toggleTo}`}`;
     }
-    const orderTextToObj = new Map([
-      ['newest', { sortOrder: 'desc', field: 'createdAt' }],
-      ['oldest', { sortOrder: 'asc', field: 'createdAt' }],
-      ['highest', { sortOrder: 'desc', field: 'tvl' }],
-      ['lowest', { sortOrder: 'asc', field: 'tvl' }],
-    ]);
-    const newOrdering = orderTextToObj.get(toggleTo);
+
     setPaginationStateObj({
       ...paginationStateObj,
       items: [],
@@ -80,11 +75,9 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
         searchText: newSearch,
       },
       cursor: null,
-      ordering: newOrdering,
       complete: false,
     });
   };
-
   const handleSearchInput = (e) => {
     setSearch(e.target.value);
   };
@@ -152,39 +145,46 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
             toggleFunc={showUnready}
           />
 
-          <Dropdown
-            dropdownWidth='w-36'
-            toggleFunc={handleSortBounties}
-            toggleVal={sortOrder || 'newest'}
-            styles='whitespace-nowrap'
-            width='w-32'
-            title={'Sort Order'}
-            names={['newest', 'oldest', 'highest', 'lowest']}
-            borderShape={'rounded-r-lg'}
-          />
-          <Dropdown
-            dropdownWidth='w-52'
-            toggleFunc={addLabel}
-            removeFunc={handleRemoveLabel}
-            toggleVal={searchedLabels}
-            styles='whitespace-nowrap w-56 md:w-24'
-            width='w-24'
-            title='Labels'
-            names={labels}
-            borderShape={'rounded-r-lg'}
-          />
-          {contractToggle && (
-            <Dropdown
-              dropdownWidth='w-36'
-              toggleFunc={setContractType}
-              removeFunc={handleRemoveTypeCheck}
-              toggleVal={contractType || ''}
-              styles='whitespace-nowrap'
-              width='w-36'
-              title='Contract Type'
-              names={['Fixed Price', 'Split Price', 'Hackathon']}
-              borderShape={'rounded-r-lg'}
-            />
+          {showDropdowns ? (
+            <>
+              {' '}
+              <Dropdown
+                dropdownWidth='w-36'
+                toggleFunc={handleSortBounties}
+                toggleVal={sortOrder || 'newest'}
+                styles='whitespace-nowrap'
+                width='w-32'
+                title={'Sort Order'}
+                names={['newest', 'oldest', 'highest', 'lowest']}
+                borderShape={'rounded-r-lg'}
+              />
+              <Dropdown
+                dropdownWidth='w-52'
+                toggleFunc={addLabel}
+                removeFunc={handleRemoveLabel}
+                toggleVal={searchedLabels}
+                styles='whitespace-nowrap w-56 md:w-24'
+                width='w-24'
+                title='Labels'
+                names={labels}
+                borderShape={'rounded-r-lg'}
+              />
+              {contractToggle && (
+                <Dropdown
+                  dropdownWidth='w-36'
+                  toggleFunc={setContractType}
+                  removeFunc={handleRemoveTypeCheck}
+                  toggleVal={contractType || ''}
+                  styles='whitespace-nowrap'
+                  width='w-36'
+                  title='Contract Type'
+                  names={['Fixed Price', 'Split Price', 'Hackathon']}
+                  borderShape={'rounded-r-lg'}
+                />
+              )}
+            </>
+          ) : (
+            <></>
           )}
         </div>
       </div>

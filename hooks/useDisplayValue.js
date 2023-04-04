@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import useGetTokenValues from './useGetTokenValues';
 import useGetValueFromComposite from './useGetValueFromComposite';
+import { rounder } from '../services/utils/lib';
 
 const useDisplayValue = (bounty, formatter, type) => {
   //takes in bounty and returns correct value object
@@ -24,7 +25,9 @@ const useDisplayValue = (bounty, formatter, type) => {
   );
   const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const setDisplayValues = (budget = 0, tvc, tvl) => {
-    const hasTvl = (tvl >= budget && type !== 'budget') || type === 'actual';
+    // TODO ensure fuzzy solvency is correct
+    const smallerBudget = budget - 1;
+    const hasTvl = (tvl >= smallerBudget && type !== 'budget') || type === 'actual';
     if (bounty.status !== '0') {
       if (tvl - tvc > tvc / 50) {
         setValueObj({
@@ -56,7 +59,7 @@ const useDisplayValue = (bounty, formatter, type) => {
         value: budget,
         valueType: 'Budget',
         valueTypeFull: 'Budget',
-        displayValue: formatter(budget),
+        displayValue: formatter(rounder(budget)),
       });
     } else if (budget === 0) {
       setValueObj({
