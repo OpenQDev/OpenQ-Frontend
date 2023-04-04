@@ -88,7 +88,7 @@ const PaginatedList = ({
   );
   const filteredItems = filtering(paginationObj.items, filters, fetchFilters);
   useEffect(() => {
-    setFilteredLength(filteredItems.length);
+    setFilteredLength && setFilteredLength(filteredItems.length);
     if (filteredItems.length > 0 || complete || loading) return;
     setLoading(true);
     fetchPage(paginationObj);
