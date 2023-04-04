@@ -6,8 +6,6 @@ const TermsOfUse = () => {
     <div className='flex flex-col items-center justify-center bg-dark-mode'>
       <div className='flex flex-col w-[1000px] p-12'>
         <h1 className='text-3xl pb-8 self-center font-bold'>Terms of Use</h1>
-        <p className='pb-4 font-bold'>Last updated: 24.03.2023</p>
-        <p className='pb-4'>Thank you for using OpenQ, our blockchain-based escrow service for hackathons. </p>
         <p className='pb-4'>
           Please read these terms of use carefully. By accessing or using our services and products and by checking the
           checkbox, you confirm you have read and understood these terms of use and agree to be bound by these terms of
