@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // Custom
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
@@ -7,30 +7,23 @@ import Centered from '../../components/Layout/Centered';
 import RequestPage from '../../components/Requests/RequestPage';
 import AuthorizedOnly from '../../components/Authentication/HigherOrderComponents/OwnerOnly';
 import { useRouter } from 'next/router';
-import SubMenu from '../../components/Utils/SubMenu';
 
 const Requests = () => {
   const router = useRouter();
   const { userId } = router.query;
-  const [internalMenu, setInternalMenu] = useState('Pending');
-
   return (
     <Centered>
       <AuthorizedOnly slug='' expectedId={userId}>
         <>
-          <div className='flex justify-center'>
+          {/*<div className='flex justify-center'>
             <SubMenu
               updatePage={setInternalMenu}
               internalMenu={internalMenu}
               styles={'justify-center'}
               items={[{ name: 'Pending' }, { name: 'Accepted' }]}
             />
-          </div>
-          {internalMenu === 'Pending' ? (
-            <RequestPage key='OPEN' states={['OPEN']} />
-          ) : (
-            <RequestPage key='CLOSED' states={['CLOSED']} />
-          )}
+  </div>*/}
+          <RequestPage />
         </>
       </AuthorizedOnly>
     </Centered>
