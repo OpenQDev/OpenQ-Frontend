@@ -435,7 +435,14 @@ describe('fetchRequestsWithServiceArg', () => {
       id: '0x123',
     };
     const oldCursor = '0x123';
-    const result = await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch);
+    const result = await fetchRequestsWithServiceArg(
+      appState,
+      identity,
+      oldCursor,
+      batch,
+      { states: 'OPEN' },
+      { states: 'OPEN' }
+    );
     expect(result).toEqual({
       complete: true,
       cursor: undefined,
