@@ -45,6 +45,8 @@ const ClaimButton = ({
   const budget = budgetValues?.value;
   const actualValues = useDisplayValue(bounty, appState.utils.formatter.format, 'actual');
   const price = actualValues?.value;
+  // TODO refine fuzzy solvency
+  const isSolvent = price >= budget - 1 && price > 0;
   const canClaim = isEveryValueNotNull(claimable);
 
   const getRequiredText = (claimable) => {
@@ -84,7 +86,6 @@ const ClaimButton = ({
       setClaimState(CONFIRM_CLAIM);
     }
   };
-
   const claimBounty = async () => {
     setClaimState(CHECKING_WITHDRAWAL_ELIGIBILITY);
     const promise = new Promise(async (resolve, reject) => {
@@ -168,9 +169,9 @@ const ClaimButton = ({
           relativePosition={tooltipStyle}
           triangleStyles={'left-3'}
           outerStyles={'relative bottom-1'}
-          hideToolTip={price >= budget && price > 0 && canClaim}
+          hideToolTip={isSolvent && canClaim}
           toolTipText={
-            price >= budget && price > 0
+            isSolvent
               ? claimValuesRequiredText
               : 'There are not enough funds locked to claim, contact the maintainer of this issue.'
           }
@@ -178,14 +179,14 @@ const ClaimButton = ({
           <button
             type='submit'
             className={`h-8 ${
-              price >= budget && price > 0 && canClaim
+              isSolvent && canClaim
                 ? 'btn-primary bg-green cursor-pointer w-fit'
                 : internalMenu == 'Claim' || !bountyHeading
                 ? 'btn-default cursor-not-allowed'
                 : 'btn-default'
             }
                 `}
-            disabled={!(price >= budget && price > 0 && canClaim) && !bountyHeading}
+            disabled={!(isSolvent && canClaim) && !bountyHeading}
             onClick={
               bountyHeading && internalMenu !== 'Claim'
                 ? () => setInternalMenu('Claim')

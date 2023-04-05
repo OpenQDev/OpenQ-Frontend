@@ -16,13 +16,11 @@ exports[`FirstTimeBanner should show nothing 1`] = `
     <br />
     <br />
     <div>
-      You
-      '
-      re early to the party - most EthDenver 2023 bounties will be minted on March 23.
+      Most EthDenver bounties have been minted and are in the process of being funded by sponsors.
     </div>
     <br />
     <div>
-      Some will be minted later as sponsors finalize decisions.
+      EthDenver and team are reviewing all pull request submissions and will verify winners ASAP.
     </div>
     <br />
     <div>
@@ -69,13 +67,11 @@ exports[`FirstTimeBanner should show the Banner and match DOM Snapshot 1`] = `
     <br />
     <br />
     <div>
-      You
-      '
-      re early to the party - most EthDenver 2023 bounties will be minted on March 23.
+      Most EthDenver bounties have been minted and are in the process of being funded by sponsors.
     </div>
     <br />
     <div>
-      Some will be minted later as sponsors finalize decisions.
+      EthDenver and team are reviewing all pull request submissions and will verify winners ASAP.
     </div>
     <br />
     <div>

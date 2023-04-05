@@ -4,10 +4,12 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import ActionBubble from '../../Utils/ActionBubble';
 import StoreContext from '../../../store/Store/StoreContext';
+import GithubHtmlRenderer from '../../Utils/HtmlReneder';
 
 const BountyCardDetails = ({ bounty }) => {
   const [rendered, setRendered] = useState(false);
   const [appState] = useContext(StoreContext);
+  const { bodyHTML } = bounty;
 
   useEffect(() => {
     setRendered(true);
@@ -63,6 +65,9 @@ const BountyCardDetails = ({ bounty }) => {
 
   return (
     <div className='flex-1 pr-4 min-w-[260px]'>
+      {bodyHTML && (
+        <GithubHtmlRenderer className={'w-full py-8 mb-2 border-web-gray border-b markdown-body'} html={bodyHTML} />
+      )}
       {rendered && (
         <>
           {allActions.map((action, index) => (

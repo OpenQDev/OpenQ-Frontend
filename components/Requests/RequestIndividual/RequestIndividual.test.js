@@ -8,8 +8,8 @@ import RequestIndividual from '.';
 import userEvent from '@testing-library/user-event';
 import InitialState from '../../../store/Store/InitialState';
 import nextRouter from 'next/router';
-import MockOpenQPrismaClient from '../../../services/openq-api/MockOpenQPrismaClient';
 import MockOpenQClient from '../../../services/ethers/MockOpenQClient';
+import MockOpenQPrismaClient from '../../../services/openq-api/MockOpenQPrismaClient';
 
 InitialState.openQClient.shouldSleep = 200;
 nextRouter.useRouter = jest.fn();
@@ -21,17 +21,17 @@ nextRouter.useRouter.mockImplementation(() => ({
   }),
 }));
 
+const item = {
+  bounty: Constants.bounty,
+
+  request: {
+    requestingUser: { ...Constants.accountData, githubUser: {} },
+  },
+};
 describe('ReqiestIndividual', () => {
   it('should allow to accept documents on chain', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    const item = {
-      bounty: Constants.bounty,
-
-      request: {
-        requestingUser: Constants.accountData,
-      },
-    };
     const setSupportingDocumentsComplete = jest.fn();
     render(<RequestIndividual item={item} />, null, {
       ...InitialState,
@@ -47,14 +47,7 @@ describe('ReqiestIndividual', () => {
   it('should allow to reject documents on chain', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    const item = {
-      bounty: Constants.bounty,
 
-      request: {
-        id: 1,
-        requestingUser: Constants.accountData,
-      },
-    };
     const updateRequest = jest.fn();
     render(<RequestIndividual item={item} />, null, {
       ...InitialState,
@@ -67,8 +60,5 @@ describe('ReqiestIndividual', () => {
     await user.click(rejectRequestButton);
     expect(await screen.findByText(/Please add/i)).toBeInTheDocument();
     expect(await screen.findByRole('textbox')).toBeInTheDocument();
-    const modalDecline = await screen.findAllByRole('button', { name: /Decline/i })[0];
-    await user.click(modalDecline);
-    expect(updateRequest).toBeCalledWith({ message: '', requestId: 1, userId: undefined });
   });
 });

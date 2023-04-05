@@ -1,6 +1,6 @@
 // Third party
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@primer/octicons-react';
+import { ChevronDownIcon, ChevronUpIcon, LinkExternalIcon } from '@primer/octicons-react';
 import { ethers } from 'ethers';
 import Link from 'next/link';
 import OpenQSocials from './OpenQSocials';
@@ -112,6 +112,18 @@ const Footer = () => {
               </NoSSR>
             </div>
           </div>
+          <div className='pr-4 min-w-[196px]'>
+            <span className='pr-2'> Audited by Sherlock</span>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href={
+                'https://github.com/sherlock-protocol/sherlock-reports/blob/main/audits/2023.03.27%20-%20Final%20-%20OpenQ%20Audit%20Report.pdf'
+              }
+            >
+              <LinkExternalIcon className='cursor-pointer' size={16} />
+            </a>
+          </div>
           <NoSSR>
             <div className='flex flex-col lg:flex-row gap-2 lg:gap-4 lg:items-center'>
               {process.env.NEXT_PUBLIC_BUILD_NUMBER ? (
@@ -148,9 +160,6 @@ const Footer = () => {
         </div>
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>COMPANY</h1>
-          <Link href={'/'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
-            <span>About</span>
-          </Link>
           <Link
             href={'https://github.com/OpenQDev/OpenQ-Careers'}
             className=' lg:justify-self-center'
@@ -186,6 +195,17 @@ const Footer = () => {
           </Link>
           <Link href={'/batch'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Mint</span>
+          </Link>
+          <Link href={'/batchTierWinner'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+            <span>Batch Winner Selection</span>
+          </Link>
+          <Link
+            href={'/batchSetSupportingDocumentsComplete'}
+            className=' lg:justify-self-center'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <span>Batch Tax Form Approval</span>
           </Link>
         </div>
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>

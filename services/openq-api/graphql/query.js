@@ -115,7 +115,14 @@ export const GET_USER = gql`
   }
 `;
 export const GET_REQUESTS = gql`
-  query ($id: String, $github: String, $email: String, $bountiesLimit: PaginationInt!, $bountiesCursor: ID) {
+  query (
+    $id: String
+    $github: String
+    $email: String
+    $bountiesLimit: PaginationInt!
+    $bountiesCursor: ID
+    $states: [String!]
+  ) {
     user(id: $id, github: $github, email: $email) {
       id
       watchedBountyIds
@@ -147,7 +154,7 @@ export const GET_REQUESTS = gql`
             address
             bountyId
             type
-            requests(limit: 100) {
+            requests(limit: 100, states: $states) {
               nodes {
                 id
                 requestingUser {
@@ -662,49 +669,6 @@ export const UPDATE_USER = gql`
   }
 `;
 
-export const WATCH_BOUNTY = gql`
-  mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
-    watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      watchingCount
-    }
-  }
-`;
-
-export const UNWATCH_BOUNTY = gql`
-  mutation UnwatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
-    unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      address
-      watchingCount
-    }
-  }
-`;
-
-export const STAR_ORGANIZATION = gql`
-  mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
-    starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
-      id
-      starringUsers(limit: 100) {
-        nodes {
-          id
-        }
-      }
-    }
-  }
-`;
-
-export const UNSTAR_ORGANIZATION = gql`
-  mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
-    unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
-      id
-      starringUsers(limit: 100) {
-        nodes {
-          id
-        }
-      }
-    }
-  }
-`;
-
 export const GET_CONTRACT_PAGE = gql`
   query BountiesConnection(
     $after: ID
@@ -1036,6 +1000,67 @@ export const GET_USERS_PAGE = gql`
           }
         }
         cursor
+      }
+    }
+  }
+`;
+
+export const GET_REQUEST = gql`
+  query getRequest($id: String!) {
+    request(id: $id) {
+      id
+
+      requestingUser {
+        github
+      }
+      bounty {
+        type
+        address
+        bountyId
+      }
+    }
+    requests(limit: 10) {
+      nodes {
+        id
+      }
+    }
+  }
+`;
+export const WATCH_BOUNTY = gql`
+  mutation watchBounty($bountyAddress: String!) {
+    watchBounty(bountyAddress: $bountyAddress) {
+      id
+    }
+  }
+`;
+
+export const UNWATCH_BOUNTY = gql`
+  mutation unwatchBounty($bountyAddress: String!) {
+    unwatchBounty(bountyAddress: $bountyAddress) {
+      id
+    }
+  }
+`;
+
+export const STAR_ORGANIZATION = gql`
+  mutation starOrganization($organizationId: String!) {
+    starOrganization(organizationId: $organizationId) {
+      starredOrganizations {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const UNSTAR_ORGANIZATION = gql`
+  mutation unstarOrganization($organizationId: String!) {
+    unstarOrganization(organizationId: $organizationId) {
+      starredOrganizations {
+        nodes {
+          id
+        }
       }
     }
   }

@@ -16,7 +16,7 @@ const OrganizationCard = ({ organization, starringParent }) => {
   const [starredDisabled, setStarredDisabled] = useState(true);
   const [appState] = context;
 
-  const { github, email, id } = appState.accountData;
+  const { id } = appState.accountData;
   const description = organization.description || organization.bio;
   useEffect(() => {
     const alreadyStarred = organization?.starringUsers?.nodes?.some((user) => user.id === id) || starringParent;
@@ -30,7 +30,7 @@ const OrganizationCard = ({ organization, starringParent }) => {
   const handleStar = (e) => {
     e.stopPropagation();
 
-    starOrganization(github, email, id, organization.id, starred, setStarred, setStarredDisabled, context);
+    starOrganization(organization.id, starred, setStarred, setStarredDisabled, context);
   };
 
   let orgName;

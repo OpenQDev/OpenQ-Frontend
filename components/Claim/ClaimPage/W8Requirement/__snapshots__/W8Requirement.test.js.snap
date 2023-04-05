@@ -89,7 +89,7 @@ exports[`W8Requirement should match initial DOM Snapshot 1`] = `
       class="flex gap-2 items-center flex-wrap md:flex-nowrap"
     >
       <div
-        class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed"
+        class="relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed"
       >
         Pending
       </div>
@@ -98,7 +98,7 @@ exports[`W8Requirement should match initial DOM Snapshot 1`] = `
         for="file input"
       >
         <div
-          class="relative flex w-fit whitespace-nowrap gap-2 z-20 h-8 items-center justify-center text-center cursor-not-allowed btn-primary"
+          class="relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center cursor-not-allowed btn-primary"
         >
           <svg
             aria-hidden="true"

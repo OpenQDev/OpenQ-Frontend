@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -7,11 +7,11 @@ import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
-import { getBountyTypeName } from '../../../services/utils/lib';
+import { getBountyTypeName, rounder } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
-  const [fundsNeeded, setFundsNeeded] = useState();
+  const [fundsNeeded] = useState();
   const getPayoutScheduleBalance = (bounty) => {
     const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
       return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
@@ -28,7 +28,8 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
   );
   const [fundingGoalValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const budgetValues = bounty.bountyType === '0' ? fundingGoalValue : payoutScheduledValue;
-  const getFundsNeeded = (bounty) => {
+  // TODO refine fuzzy solvency
+  /*const getFundsNeeded = (bounty) => {
     const { BigNumber } = ethers;
     if (bounty.fundingGoalVolume) {
       const { fundingGoalTokenAddress, fundingGoalVolume } = bounty;
@@ -67,14 +68,13 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
       return { volume: formattedVolume, symbol: tokenMetadata.symbol };
     }
   };
-
   useEffect(() => {
     const fundsNeeded = getFundsNeeded(bounty);
     if (!bounty.claims?.length) {
       setFundsNeeded(fundsNeeded);
     }
   }, [bounty]);
-
+*/
   const typeName = getBountyTypeName(bounty.bountyType);
 
   function formatVolume(tierVolume) {
@@ -131,7 +131,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            {appState.utils.formatter.format(budgetValues?.total) || '$0.00'}
+            {appState.utils.formatter.format(rounder(budgetValues?.total)) || '$0.00'}
           </div>
         </li>
       ) : null}

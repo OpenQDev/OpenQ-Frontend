@@ -1,25 +1,15 @@
 import { ethers } from 'ethers';
 
-const watchBounty = async (context, github, email, id, bounty, watchingDisplay, setWatchingDisplay) => {
+const watchBounty = async (context, bounty, watchingDisplay, setWatchingDisplay) => {
   const promise = new Promise(async (resolve, reject) => {
     const [appState, dispatch] = context;
-    let idObj = {};
-    if (github) {
-      idObj.github = github;
-    }
-    if (email) {
-      idObj.email = email;
-    }
-    if (id) {
-      idObj.userId = id;
-    }
 
     try {
       if (watchingDisplay) {
-        await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress), idObj);
+        await appState.openQPrismaClient.unWatchBounty(ethers.utils.getAddress(bounty.bountyAddress));
         setWatchingDisplay(false);
       } else {
-        await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress), idObj);
+        await appState.openQPrismaClient.watchBounty(ethers.utils.getAddress(bounty.bountyAddress));
         setWatchingDisplay(true);
       }
 

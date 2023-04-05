@@ -6,7 +6,7 @@ import '@knocklabs/react-notification-feed/dist/index.css';
 
 const notificationClicked = (item) => {
   const { bountyId, bountyAddress } = item.data;
-  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bountyId}/${bountyAddress}`;
+  window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bountyId}/${bountyAddress}?tab=Claim`;
 };
 
 const NotificationBell = ({ userId, notificationToken }) => {

@@ -21,7 +21,7 @@ import {
 import Constants from '../../test-utils/constant';
 
 describe('getNonBlacklisted', () => {
-  it('should return an array of non-blacklisted repos', async () => {
+  it('should return an  of non-blacklisted repos', async () => {
     const repoName = Constants.repoName;
     const getPrs = jest.fn().mockReturnValue({ repoPrs: [{ id: 'a' }, { id: 'b' }], totalCount: 0 });
     const getSubmissions = jest.fn().mockReturnValue([{ id: 'a', blacklisted: true }]);
@@ -57,16 +57,16 @@ describe('parseVolume', () => {
   });
 });
 describe('listWordsWithAnd', () => {
-  it('should return empty string if empty array', () => {
+  it('should return empty string if empty ', () => {
     expect(listWordsWithAnd([])).toBe('');
   });
-  it('should return empty string if empty array', () => {
+  it('should return empty string if empty ', () => {
     expect(listWordsWithAnd(['a'])).toBe('a');
   });
-  it('should return empty string if empty array', () => {
+  it('should return empty string if empty ', () => {
     expect(listWordsWithAnd(['a', 'b'])).toBe('a and b');
   });
-  it('should return empty string if empty array', () => {
+  it('should return empty string if empty ', () => {
     expect(listWordsWithAnd(['a', 'b', 'c'])).toBe('a, b, and c');
   });
 });
@@ -405,7 +405,7 @@ describe('formatVolume', () => {
   });
 });
 describe('fetchRequestsWithServiceArg', () => {
-  it('should return an array of requests', async () => {
+  it('should return an  of requests', async () => {
     const batch = 10;
     const bountyWithRequest = {
       ...Constants.bounty0,
@@ -416,9 +416,18 @@ describe('fetchRequestsWithServiceArg', () => {
     const getUserRequests = jest.fn().mockReturnValueOnce({
       createdBounties: { bountyConnection: { nodes: [bountyWithRequest, bountyWithRequest] } },
     });
+    const fetchUserById = jest.fn().mockReturnValueOnce({
+      user: {
+        github: 'test',
+        id: '0x123',
+      },
+    });
     const appState = {
       openQPrismaClient: {
         getUserRequests,
+      },
+      githubRepository: {
+        fetchUserById,
       },
     };
     const identity = {
@@ -426,13 +435,224 @@ describe('fetchRequestsWithServiceArg', () => {
       id: '0x123',
     };
     const oldCursor = '0x123';
-    const result = await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch);
+    const result = await fetchRequestsWithServiceArg(
+      appState,
+      identity,
+      oldCursor,
+      batch,
+      { states: 'OPEN' },
+      { states: 'OPEN' }
+    );
     expect(result).toEqual({
       complete: true,
       cursor: undefined,
       nodes: [
-        { bounty: bountyWithRequest, request: Constants.request0 },
-        { bounty: bountyWithRequest, request: Constants.request1 },
+        {
+          bounty: {
+            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            assignees: [],
+            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+            body: 'body of test2',
+            bodyHTML: '<p dir="auto">body of test2</p>',
+            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            bountyId: 'I_kwDOGWnnz85I9Agl',
+            bountyMintTime: '1662545344',
+            bountyTokenBalances: [
+              {
+                __typename: 'BountyFundedTokenBalance',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                volume: '2000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+                volume: '2000000000000000000',
+              },
+            ],
+            bountyType: '0',
+            claims: [],
+            closed: true,
+            closedAt: '2022-03-28T17:57:44Z',
+            closedEvents: [
+              {
+                __typename: 'ClosedEvent',
+                actor: {
+                  __typename: 'User',
+                  avatarUrl:
+                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                  login: 'FlacoJones',
+                  name: null,
+                  url: 'https://github.com/FlacoJones',
+                },
+                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
+              },
+            ],
+            closerData: null,
+            createdAt: '1661767948472',
+            deposits: [
+              {
+                __typename: 'Deposit',
+                expiration: '1296000',
+                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
+                receiveTime: '1662545374',
+                refundTime: null,
+                refunded: false,
+                sender: {
+                  __typename: 'User',
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                },
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                volume: '1000000000000000000',
+              },
+              {
+                __typename: 'Deposit',
+                expiration: '30',
+                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                receiveTime: '1662545373',
+                refundTime: '1662559726',
+                refunded: true,
+                sender: {
+                  __typename: 'User',
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                },
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+              },
+              {
+                __typename: 'Deposit',
+                expiration: '1296000',
+                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
+                receiveTime: '1662545372',
+                refundTime: null,
+                refunded: false,
+                sender: {
+                  __typename: 'User',
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                },
+                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+                volume: '1000000000000000000',
+              },
+            ],
+            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+            id: undefined,
+            issuer: {
+              __typename: 'User',
+              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+            },
+            labels: [
+              {
+                __typename: 'Label',
+                color: '0075ca',
+                name: 'documentation',
+              },
+              {
+                __typename: 'Label',
+                color: 'cfd3d7',
+                name: 'duplicate',
+              },
+            ],
+            number: 8,
+            owner: 'OpenQDev',
+            prs: [
+              {
+                __typename: 'CrossReferencedEvent',
+                assignees: [],
+                id: 'CRE_kwDOGWnnz85GHUw1',
+                referencedAt: '2022-03-28T17:47:26Z',
+                source: {
+                  __typename: 'PullRequest',
+                  author: {
+                    __typename: 'User',
+                    avatarUrl:
+                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                    email: '',
+                    id: 'U_kgDOBZIDuA',
+                    login: 'FlacoJones',
+                    url: 'https://github.com/FlacoJones',
+                    user: {
+                      __typename: 'User',
+                      login: 'FlacoJones',
+                      url: 'https://github.com/FlacoJones',
+                    },
+                  },
+                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  bodyHTML:
+                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  id: 'PR_kwDOGWnnz841LGsK',
+                  mergeCommit: {
+                    __typename: 'Commit',
+                    author: {
+                      __typename: 'GitActor',
+                      avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
+                      name: 'FlacoJones',
+                      user: {
+                        __typename: 'User',
+                        login: 'FlacoJones',
+                        url: 'https://github.com/FlacoJones',
+                      },
+                    },
+                  },
+                  merged: true,
+                  mergedAt: '2022-03-28T17:57:44Z',
+                  title: 'Update README.md',
+                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+                },
+              },
+            ],
+            refunds: [
+              {
+                __typename: 'Refund',
+                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                refundTime: '1662559726',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+              },
+            ],
+            repoName: 'OpenQ-Frontend',
+            requests: {
+              nodes: [
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                    watchedBounties: undefined,
+                  },
+                },
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                    watchedBounties: undefined,
+                  },
+                },
+              ],
+            },
+            title: 'Properly Referenced and Merged by FlacoJones',
+            titleHTML: 'Properly Referenced and Merged by FlacoJones',
+            tvl: '9.51848',
+            twitterUsername: 'openqlabs',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
+          },
+          request: {
+            requestingUser: {
+              email: 'abc123@gmail.com',
+              githubUser: {
+                user: {
+                  github: 'test',
+                  id: '0x123',
+                },
+              },
+              username: 'Christopher',
+              watchedBounties: undefined,
+            },
+          },
+        },
       ],
     });
   });

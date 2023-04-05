@@ -101,7 +101,7 @@ export const getServerSideProps = async (context) => {
       break;
   }
 
-  const batch = 10;
+  const batch = 20;
   const appState = {
     githubRepository: githubRepository.instance,
     openQSubgraphClient: openQSubgraphClient.instance,
@@ -120,7 +120,7 @@ export const getServerSideProps = async (context) => {
     ordering: { direction: 'desc', field: 'createdAt' },
     fetchFilters: { types },
     filters: {
-      searchText: `order:newest`,
+      searchText: ``,
       isReady: getReadyText(isOnlyContest(types)),
     },
     cursor,

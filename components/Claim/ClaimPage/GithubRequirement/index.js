@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import GithubConnection from '../../../User/OverviewTab/GithubConnection';
 import ToolTipNew from '../../../Utils/ToolTipNew';
 
-const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
+const GithubRequirement = ({ githubHasWalletVerifiedState, associatedAddress, setAssociatedAddress }) => {
   const [verified, setVerified] = githubHasWalletVerifiedState;
   const [claimPageError, setClaimPageError] = useState('');
   return (
@@ -43,7 +43,13 @@ const GithubRequirement = ({ githubHasWalletVerifiedState }) => {
           </div>
         </ToolTipNew>
       </div>
-      <GithubConnection setVerified={setVerified} claimPage={true} setClaimPageError={setClaimPageError} />
+      <GithubConnection
+        setVerified={setVerified}
+        claimPage={true}
+        setClaimPageError={setClaimPageError}
+        associatedAddress={associatedAddress}
+        setAssociatedAddress={setAssociatedAddress}
+      />
     </section>
   );
 };

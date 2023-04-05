@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "chainId": "137",
+  "createdAt": 1679777486785,
+  "meta": {
+    "name": "Select Tier Winner Batch",
+    "description": "",
+    "txBuilderVersion": "1.13.3",
+    "createdFromSafeAddress": "0xBCb0a2D4e644F294849D7792f2A077F9349b155F",
+    "createdFromOwnerAddress": "",
+    "checksum": "0xb6f050b7f9f1f6431c855e85aa7a6efeb8b9ce116574b9e52f39b8fe8aca3c0a"
+  },
+  "transactions": []
+}

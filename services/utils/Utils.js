@@ -257,7 +257,7 @@ class Utils {
         } catch (err) {
           githubIssues = [];
         }
-        const complete = prismaContracts.length < batch;
+        const complete = prismaContracts.length === 0;
         const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
         resolve([fullBounties, newCursor, complete]);
       } catch (err) {

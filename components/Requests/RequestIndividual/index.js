@@ -17,9 +17,8 @@ const RequestIndividual = ({ item }) => {
   const { accountData } = appState;
 
   const requestingUser = request?.requestingUser;
-  const githubId = requestingUser.github;
+  const { githubUser } = requestingUser;
   const issueId = bounty.bountyId;
-  const [githubUser, setGithubUser] = useState({});
   const [issue, setIssue] = useState({});
   const { library } = useWeb3();
   const [message, setMessage] = useState('');
@@ -35,10 +34,8 @@ const RequestIndividual = ({ item }) => {
 
   const declineRequest = async () => {
     setDeclineState(CONFIRM);
-    const requestId = request.id;
-    const userId = accountData.id;
-    await appState.openQPrismaClient.updateRequest({ requestId, message, userId });
   };
+
   const rejectRequest = async () => {
     setDeclineState(TRANSFERRING);
     const requestId = request.id;
@@ -53,6 +50,7 @@ const RequestIndividual = ({ item }) => {
       setError({ title: 'Error', message: e?.message });
     }
   };
+
   const confirmBtn = {
     CONFIRM: (
       <button className='btn-danger' onClick={rejectRequest}>
@@ -75,6 +73,7 @@ const RequestIndividual = ({ item }) => {
       </button>
     ),
   };
+
   const modalTitle = {
     CONFIRM: `Decline Request`,
     TRANSFERRING: 'Decline Request',
@@ -113,7 +112,7 @@ const RequestIndividual = ({ item }) => {
     setLoading(true);
     try {
       if (item.bounty.type === '3') {
-        const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.github));
+        const tier = parseInt(subgraphBounty.tierWinners.indexOf(request.requestingUser.githubUser.id));
 
         const abiCoder = new ethers.utils.AbiCoder();
         const bigNumberTier = ethers.BigNumber.from(tier);
@@ -138,24 +137,13 @@ const RequestIndividual = ({ item }) => {
   };
 
   useEffect(() => {
-    const getGithubUser = async () => {
-      try {
-        const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        setGithubUser(githubUser);
-      } catch (err) {
-        appState.logger.error(err, 'RequestIndividual2', accountData.id);
-      }
-    };
-    getGithubUser();
-  }, [githubId]);
-
-  useEffect(() => {
     const getIssue = async () => {
       const issue = await appState.githubRepository.fetchIssueById(issueId);
       setIssue(issue);
     };
     getIssue();
   }, [issueId]);
+  if (!githubUser) return null;
   return (
     <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>
       {githubUser.avatarUrl && (
@@ -179,14 +167,17 @@ const RequestIndividual = ({ item }) => {
         <div>Request for acceptance of the W8/W9 form.</div>
         <div className='flex gap-2'>
           {issue.title}{' '}
-          <a href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}>
+          <a
+            href={`${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bounty.bountyId}/${bounty.address}`}
+            target='_blank'
+            rel='noreferrer'
+          >
             <Chain className='w-6 h-6 fill-primary' />
           </a>
         </div>
       </div>
       <div>
         <button
-          disabled={accepted || loading}
           onClick={acceptRequest}
           className={`flex w-fit gap-2 ${
             accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'

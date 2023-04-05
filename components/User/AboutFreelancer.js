@@ -28,6 +28,7 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
   const [watchedFullBounties, setWatchedFullBounties] = useState([]);
   const [githubUser, setGithubUser] = useState();
   const [kycVerified, setKycVerified] = useState(null);
+  const [associatedAddress, setAssociatedAddress] = useState(null);
 
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -175,7 +176,11 @@ const AboutFreelancer = ({ user, starredOrganizations, watchedBounties, tab }) =
             <div
               className={`flex flex-col px-8 justify-between ${internalMenu !== 'Wallet-to-GitHub' && 'hidden'} mt-12`}
             >
-              <GithubRequirement githubHasWalletVerifiedState={githubHasWalletVerifiedState} />
+              <GithubRequirement
+                githubHasWalletVerifiedState={githubHasWalletVerifiedState}
+                associatedAddress={associatedAddress}
+                setAssociatedAddress={setAssociatedAddress}
+              />
             </div>
 
             <div className={`flex flex-col px-8 justify-between ${internalMenu !== 'KYC' && 'hidden'} mt-12`}>
