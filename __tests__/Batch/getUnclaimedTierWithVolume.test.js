@@ -1,7 +1,9 @@
 import { getUnclaimedTierWithVolume } from '../../lib/batchUtils';
 import { ethers } from 'ethers';
+import Constants from '../../test-utils/constant.js';
 
 describe('Batch Mint - Tier Winner', () => {
+  const bounty = Constants.bounty;
   it('EMPTY TIER WINNERS + EMPTY PREVIOUSLY SET - should return correct tier', async () => {
     const tierWinners = [];
 
@@ -9,11 +11,12 @@ describe('Batch Mint - Tier Winner', () => {
 
     const payoutSchedule = [twelve, twelve];
 
-    const tiersClaimedPreviouslyInBatch = [];
+    const tiersClaimedPreviouslyInBatch = { [bounty.id]: [] };
 
     const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
 
     const tier = getUnclaimedTierWithVolume(
+      bounty.id,
       payoutSchedule,
       tierWinners,
       tiersClaimedPreviouslyInBatch,
@@ -30,11 +33,12 @@ describe('Batch Mint - Tier Winner', () => {
 
     const payoutSchedule = [twelve, twelve];
 
-    const tiersClaimedPreviouslyInBatch = [0];
+    const tiersClaimedPreviouslyInBatch = { [bounty.id]: [0] };
 
     const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
 
     const tier = getUnclaimedTierWithVolume(
+      bounty.id,
       payoutSchedule,
       tierWinners,
       tiersClaimedPreviouslyInBatch,
@@ -52,11 +56,12 @@ describe('Batch Mint - Tier Winner', () => {
 
     const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
 
-    const tiersClaimedPreviouslyInBatch = [1];
+    const tiersClaimedPreviouslyInBatch = { [bounty.id]: [1] };
 
     const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
 
     const tier = getUnclaimedTierWithVolume(
+      bounty.id,
       payoutSchedule,
       tierWinners,
       tiersClaimedPreviouslyInBatch,
@@ -74,11 +79,12 @@ describe('Batch Mint - Tier Winner', () => {
 
     const payoutSchedule = [twelve, twelve, fivehundred, twelve, twelve];
 
-    const tiersClaimedPreviouslyInBatch = [1, 2, 3, 4];
+    const tiersClaimedPreviouslyInBatch = { [bounty.id]: [1, 2, 3, 4] };
 
     const bigNumberTierVolume = ethers.BigNumber.from('1250000000');
 
     const tier = getUnclaimedTierWithVolume(
+      bounty.id,
       payoutSchedule,
       tierWinners,
       tiersClaimedPreviouslyInBatch,
