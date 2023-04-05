@@ -43,8 +43,7 @@ class GithubRepository {
     errorPolicy: 'all',
   });
 
-  async getIsAdmin(login, team, githubId) {
-    console.log(login, team);
+  async getIsAdmin() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({

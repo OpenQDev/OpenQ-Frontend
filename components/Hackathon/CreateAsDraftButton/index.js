@@ -7,7 +7,6 @@ import { updateHackathonState } from '../../../services/utils/lib';
 const CreateAsDraftButton = ({ teamAccountId, hackathonProductInstanceId }) => {
   const [hackathonState] = useContext(HackathonContext);
 
-  console.log(hackathonState);
   const [appState] = useContext(StoreContext);
   const setCreateHackathonResponse = () => {};
 

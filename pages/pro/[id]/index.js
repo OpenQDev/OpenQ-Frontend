@@ -14,7 +14,6 @@ const TeamAccount = ({ teamAccount, repositories }) => {
   const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
     (node) => node.name === 'SuperchargingHackathonsProduct'
   );
-  console.log(teamAccount);
   const [searchText, setSearchText] = useState('');
   const HACKATHONS = 'Hackathons';
   const TEAM = 'Team';

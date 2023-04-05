@@ -27,7 +27,9 @@ const TeamAccountManagement = ({ apiSecret, products }) => {
   return (
     <div>
       {teamAccounts.map((teamAccount, index) => {
-        return <ManageTeamAccountModal apiSecret={apiSecret} key={index} teamAccount={teamAccount} products={products} />;
+        return (
+          <ManageTeamAccountModal apiSecret={apiSecret} key={index} teamAccount={teamAccount} products={products} />
+        );
       })}
     </div>
   );
