@@ -10,13 +10,17 @@ import WrappedGithubRepository from '../../../services/github/WrappedGithubClien
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 
 const CreateHackathon = ({ githubRepository, hackathon }) => {
-  const { teamAccountId } = hackathon;
+  const teamAccountId = hackathon.hackathonProductInstance.teamAccount.id;
+  const hackathonProductInstanceId = hackathon.hackathonProductInstance.id;
   return (
     <HackathonProvider githubRepository={githubRepository} hackathon={hackathon}>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>
         <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[690px] mx-auto'>
           <div className=' flex-wrap gap-4 w-full items-center pt-10'>
-            <CreateAsDraftButton />
+            <CreateAsDraftButton
+              hackathonProductInstanceId={hackathonProductInstanceId}
+              teamAccountId={teamAccountId}
+            />
             <h2 className='text-3xl my-2'>Edit your hackathon</h2>
             <p className='note my-2 pb-4'>
               A hackathon contains all possible information about your event, manages your prizes in one of our escrow
@@ -31,7 +35,11 @@ const CreateHackathon = ({ githubRepository, hackathon }) => {
                 <HackathonExtraInfo />
               </div>
               <div className='border-web-gray border-t'>
-                <CreateHackathonButton isEditing={true} teamAccountId={teamAccountId} />
+                <CreateHackathonButton
+                  hackathonProductInstanceId={hackathonProductInstanceId}
+                  isEditing={true}
+                  teamAccountId={teamAccountId}
+                />
               </div>
             </form>
           </div>

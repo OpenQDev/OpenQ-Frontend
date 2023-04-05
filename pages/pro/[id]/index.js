@@ -14,6 +14,7 @@ const TeamAccount = ({ teamAccount, repositories }) => {
   const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
     (node) => node.name === 'SuperchargingHackathonsProduct'
   );
+  console.log(teamAccount);
   const [searchText, setSearchText] = useState('');
   const HACKATHONS = 'Hackathons';
   const TEAM = 'Team';
@@ -112,7 +113,7 @@ export const getServerSideProps = async (context) => {
   await openQPrismaClient.instance.setGraphqlHeaders(context.req.headers.cookie);
   const { id } = context.query;
   const { teamAccount } = await openQPrismaClient.instance.getTeamAccount(id);
-  const { repositories } = teamAccount;
+  const { repositories } = teamAccount.hackathonProductInstances.nodes[0];
   const repositoryIds = repositories.nodes?.map((repository) => repository.id);
   const githubRepositories = await githubRepository.instance.fetchReposByIds(repositoryIds);
   let githubRepositoryIndex = {};

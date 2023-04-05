@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import HackathonContext from '../HackathonStore/HackathonContext';
 import StoreContext from '../../../store/Store/StoreContext';
 import { updateHackathonState } from '../../../services/utils/lib';
-const CreateAsDraftButton = () => {
+const CreateAsDraftButton = ({ teamAccountId, hackathonProductInstanceId }) => {
   const [hackathonState] = useContext(HackathonContext);
-  const { teamAccountId } = hackathonState;
+
+  console.log(hackathonState);
   const [appState] = useContext(StoreContext);
   const setCreateHackathonResponse = () => {};
 
@@ -17,7 +18,12 @@ const CreateAsDraftButton = () => {
       router.push(`/pro/${teamAccountId}?tab=Hackathons`);
     };
     try {
-      await updateHackathonState({ ...hackathonState, isDraft: true }, appState, setCreateHackathonResponse, push);
+      await updateHackathonState(
+        { ...hackathonState, hackathonProductInstanceId, isDraft: true },
+        appState,
+        setCreateHackathonResponse,
+        push
+      );
     } catch (e) {
       appState.logger.error('CreateAsDraftButton1', e);
     }

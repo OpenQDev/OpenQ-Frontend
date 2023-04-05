@@ -216,12 +216,6 @@ export const GET_PRO_ACCOUNT_INFO_CURRENT = gql`
               username
             }
           }
-
-          repositories(limit: 100) {
-            nodes {
-              id
-            }
-          }
         }
       }
       ownerOrganizations {
@@ -517,6 +511,13 @@ export const GET_REPOSITORY_BY_ID = gql`
       id
       hackathonBlacklisted
       description
+      hackathonProductInstance {
+        name
+        teamAccount {
+          id
+        }
+      }
+      hackathonProductInstanceId
       isContest
       isDraft
       startDate
@@ -735,7 +736,6 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $organizationId: String
     $isContest: Boolean!
     $isDraft: Boolean!
-    $teamAccountId: String!
     $startDate: String
     $registrationDeadline: String
     $city: String
@@ -753,13 +753,14 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $telegram: String
     $slack: String
     $description: String
+    $hackathonProductInstanceId: String!
   ) {
     updateRepositoryAsContest(
       repositoryId: $repositoryId
       organizationId: $organizationId
       isContest: $isContest
       isDraft: $isDraft
-      teamAccountId: $teamAccountId
+      hackathonProductInstanceId: $hackathonProductInstanceId
       description: $description
       startDate: $startDate
       registrationDeadline: $registrationDeadline
@@ -836,36 +837,41 @@ export const GET_PRO_ACCOUNT = gql`
     teamAccount(id: $id) {
       id
       name
-      repositories(limit: 100) {
+      hackathonProductInstances(limit: 10) {
         nodes {
           id
-          hackathonBlacklisted
-          description
-          isContest
-          isDraft
-          startDate
-          registrationDeadline
-          city
-          timezone
-          eventOrganizer
-          repositoryUrl
-          isIrl
-          endDate
-          topic
-          website
-          contactEmail
-          twitter
-          discord
-          telegram
-          slack
-          description
-          organization {
-            blacklisted
-          }
-          bounties(limit: 100) {
+          repositories(limit: 100) {
             nodes {
-              bountyId
-              blacklisted
+              id
+              hackathonBlacklisted
+              description
+              isContest
+              isDraft
+              startDate
+              registrationDeadline
+              city
+              timezone
+              eventOrganizer
+              repositoryUrl
+              isIrl
+              endDate
+              topic
+              website
+              contactEmail
+              twitter
+              discord
+              telegram
+              slack
+              description
+              organization {
+                blacklisted
+              }
+              bounties(limit: 100) {
+                nodes {
+                  bountyId
+                  blacklisted
+                }
+              }
             }
           }
         }
