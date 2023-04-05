@@ -13,6 +13,7 @@ import StoreContext from '../../store/Store/StoreContext';
 import PaginatedList from '../../components/Utils/PaginatedList';
 import { fetchBountiesWithServiceArg, getReadyText, isOnlyContest } from '../../services/utils/lib';
 import filterBounties from './searchHelpers/filterBounties/index.js';
+import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, paginationObj }) => {
   const READY_TEXT = getReadyText(isOnlyContest(types));
@@ -199,6 +200,11 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       ) : null}
       {paginationState[0].complete && filteredLength == 0 && (
         <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>No Bounties Found</div>
+      )}
+      {!paginationState[0].complete && filteredLength == 0 && (
+        <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+          Searching... <LoadingIcon />
+        </div>
       )}
       <PaginatedList
         paginationState={paginationState}
