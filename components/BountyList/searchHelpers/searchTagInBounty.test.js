@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import searchTagInBounty from './searchTagInBounty.js';
 

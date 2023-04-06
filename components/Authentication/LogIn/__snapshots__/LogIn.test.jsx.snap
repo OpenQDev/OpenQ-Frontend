@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Login Snapshot > should match DOM Snapshot 1`] = `
+<a
+  href="/login"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onTouchStart={[Function]}
+>
+  <button
+    className="flex justify-center btn-default whitespace-nowrap w-full"
+  >
+    <div
+      className="flex flex-row items-center justify-center space-x-3"
+    >
+      <div>
+        Log in
+      </div>
+    </div>
+  </button>
+</a>
+`;

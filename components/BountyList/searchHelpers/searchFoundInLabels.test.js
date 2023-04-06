@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
 import searchFoundInLabels from './searchFoundInLabels.js';
 

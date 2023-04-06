@@ -1,0 +1,72 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NavLinks > should match DOM Snapshot 1`] = `
+[
+  <a
+    className="nav-link ml-1 $ false"
+    href="/"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Explore
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/marketplace"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+      Marketplace
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/hackathons"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Hackathons
+    </span>
+  </a>,
+  <a
+    className="nav-link $ false"
+    href="/good-first-issues"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Good First Issues
+    </span>
+  </a>,
+  <a
+    className="nav-link md:hidden"
+    href="/login"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+       Login 
+    </span>
+  </a>,
+  <a
+    className="nav-link md:hidden"
+    href="/login"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onTouchStart={[Function]}
+  >
+    <span>
+      Sign up
+    </span>
+  </a>,
+]
+`;

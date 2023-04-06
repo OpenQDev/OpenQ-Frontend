@@ -23,8 +23,8 @@ import Constants from '../../test-utils/constant';
 describe('getNonBlacklisted', () => {
   it('should return an  of non-blacklisted repos', async () => {
     const repoName = Constants.repoName;
-    const getPrs = jest.fn().mockReturnValue({ repoPrs: [{ id: 'a' }, { id: 'b' }], totalCount: 0 });
-    const getSubmissions = jest.fn().mockReturnValue([{ id: 'a', blacklisted: true }]);
+    const getPrs = vi.fn().mockReturnValue({ repoPrs: [{ id: 'a' }, { id: 'b' }], totalCount: 0 });
+    const getSubmissions = vi.fn().mockReturnValue([{ id: 'a', blacklisted: true }]);
     const githubRepository = { getPrs };
     const openQPrismaClient = { getSubmissions };
     const mockAppState = { githubRepository, openQPrismaClient };
@@ -413,10 +413,10 @@ describe('fetchRequestsWithServiceArg', () => {
         nodes: [Constants.request0, Constants.request1],
       },
     };
-    const getUserRequests = jest.fn().mockReturnValueOnce({
+    const getUserRequests = vi.fn().mockReturnValueOnce({
       createdBounties: { bountyConnection: { nodes: [bountyWithRequest, bountyWithRequest] } },
     });
-    const fetchUserById = jest.fn().mockReturnValueOnce({
+    const fetchUserById = vi.fn().mockReturnValueOnce({
       user: {
         github: 'test',
         id: '0x123',

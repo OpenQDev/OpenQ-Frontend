@@ -35,6 +35,9 @@
 		"unused-imports",
 		"prettier"
 	],
+	"globals": {
+		"vi": true
+	  },
 	"rules": {
 		"no-async-promise-executor": "off",
 		"no-inner-declarations": "off",

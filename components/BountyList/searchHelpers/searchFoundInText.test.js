@@ -1,7 +1,7 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
-import searchFoundInText from '../../../components/BountyList/searchHelpers/searchFoundInText.js';
+import searchFoundInText from './searchFoundInText.js';
 
 //searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 

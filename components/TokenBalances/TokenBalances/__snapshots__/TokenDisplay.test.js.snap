@@ -1,0 +1,44 @@
+// vi Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TokenDisplay should match DOM Snapshot 1`] = `
+<button
+  aria-label="select DAI"
+  className="flex flex-row undefined space-x-4 pb-3"
+  onClick={[Function]}
+>
+  <div
+    className="pt-2 h-8 w-6"
+  >
+    <img
+      alt="n/a"
+      className="rounded-full"
+      data-nimg="1"
+      decoding="async"
+      height={24}
+      loading="lazy"
+      onError={[Function]}
+      onLoad={[Function]}
+      src="/_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=48&q=75"
+      srcSet="/_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=32&q=75 1x, /_next/image?url=https%3A%2F%2Ftokens.1inch.exchange%2F0x6b175474e89094c44da98b954eedeac495271d0f.png&w=48&q=75 2x"
+      style={
+        {
+          "color": "transparent",
+        }
+      }
+      width={24}
+    />
+  </div>
+  <div
+    className="flex flex-col"
+  >
+    <div
+      className="font-bold truncate"
+    >
+      DAI
+    </div>
+    <div
+      className="text-sm text-gray-200 truncate w-32"
+    />
+  </div>
+</button>
+`;

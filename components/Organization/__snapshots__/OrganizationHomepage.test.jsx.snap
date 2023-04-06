@@ -1,0 +1,922 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OrganizationHomepage > should render match DOM Snapshot 1`] = `
+<div>
+  <div
+    className="text-center bg-[#161B22] py-14"
+  >
+    <div
+      className="text-2xl font-bold"
+    >
+      Organizations
+    </div>
+    <div
+      className="text-gray-500 text-md"
+    >
+      GitHub organizations outsourcing to OpenQ
+    </div>
+  </div>
+  <div
+    className="lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8 "
+  >
+    <div
+      className="lg:col-start-2 justify-between justify-self-center space-y-2 w-full pb-8 max-w-[966px] mx-auto"
+    >
+      <div
+        className="flex flex-wrap items-center justify-center gap-4 w-full pt-10"
+      >
+        <SearchBar
+          onKeyUp={[Function]}
+          placeholder="Search Organization..."
+          searchText=""
+          styles="rounded-sm w-full"
+        />
+        <MintBountyButton
+          styles="w-full"
+        />
+      </div>
+      <Carousel
+        height="80"
+      >
+        <OrganizationCard
+          index={0}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x4dDd4eD2510ED5Ec3DCE3f0f67c3CB8EB5030f0A",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85Oi-oQ",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x151499820f34E92D6a315e75E20Ee93B9bE14018",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85AkiDt",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xd9ac0186E4CB6Cb6a3e78b0b327d27B403A7F38D",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85CZwGJ",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x93FFA71dbc8706b703bb63C58f114D4f6836d383",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz84-qyDq",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x70A87cfB7d93284ea9Ad4834BBacbbd4b2A85bb4",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGAqhQc48U5_r",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 14.493048,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x9CbA1bd8bfe8F5376d45F0Ba25287c16FDBe0268",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85AkkDW",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 6.4,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xD2e813C297f3cf9985bAa5331CEC80778755BF2a",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85GjwA1",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 7.246524000000001,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x2b961E3959b79326A8e7F64Ef0d2d825707669b5",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOE5zs-M480ik8",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 38.4,
+                  },
+                ],
+              },
+              "description": "Free, open-source work platform tailored for software development",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "login": "OpenQDev",
+              "name": "OpenQ Labs",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/OpenQDev",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={1}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/34966464?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x532323de74BAb864b7005D910E5bD8562D038b9b",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCHE8585AYvGo",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "A marketplace for the decentralized web",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "login": "ProjectOpenSea",
+              "name": "OpenSea",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/ProjectOpenSea",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={2}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/38917137?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x1f466F899d63CDE25eB4a857BC9725ADe0128439",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOB7jojM5HoxGM",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 12.8,
+                  },
+                ],
+              },
+              "description": "We build open source software to unlock developer productivity in the Ethereum ecosystem.",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "login": "NomicFoundation",
+              "name": "Nomic Foundation",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/NomicFoundation",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={3}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/102983781?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xFF83615517140c6737E221a3383c4c27CF0AAAC1",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOBhc8WM5Fqi_o",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Collection of production code that is used in the Safe Ecosystem",
+              "id": "O_kgDOBiNoZQ",
+              "login": "safe-global",
+              "name": "Safe Ecosystem",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/safe-global",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={4}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/12523025?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x7a2a1BB961C74a0EBE106E4bafE229937b441d97",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCQWAHM5EzBw7",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "login": "makerdao",
+              "name": "Maker",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/makerdao",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={5}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/14176906?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x537EcB09f77322F7Bb8B206bF0b0478e99B91125",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCJdoNs5QCrBu",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Solutions for a trust-free world",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "login": "paritytech",
+              "name": "Parity Technologies",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/paritytech",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={6}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/16928085?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xF752C6324fb1b9e776FF6559CE7723b9DecBD049",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOAAiu0c5P78Fn",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "groks those URLs",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "login": "curl",
+              "name": "curl",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/curl",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+        <OrganizationCard
+          index={7}
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/17219288?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x001192Fa1EA7A2816445Ec2EFD5843c1a60562aa",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOC1sh0c5W6yQL",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Prisma makes working with databases easy",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+              "login": "prisma",
+              "name": "Prisma",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/prisma",
+            }
+          }
+          organizationIds={
+            [
+              "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "O_kgDOBiNoZQ",
+              "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+            ]
+          }
+        />
+      </Carousel>
+      <div
+        className="grid grid-cols-[repeat(3,_300px)] justify-center lg:justify-between"
+      />
+      <div
+        className=""
+      >
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/77402538?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x4dDd4eD2510ED5Ec3DCE3f0f67c3CB8EB5030f0A",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85Oi-oQ",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x151499820f34E92D6a315e75E20Ee93B9bE14018",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85AkiDt",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xd9ac0186E4CB6Cb6a3e78b0b327d27B403A7F38D",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85CZwGJ",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x93FFA71dbc8706b703bb63C58f114D4f6836d383",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz84-qyDq",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x70A87cfB7d93284ea9Ad4834BBacbbd4b2A85bb4",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGAqhQc48U5_r",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 14.493048,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x9CbA1bd8bfe8F5376d45F0Ba25287c16FDBe0268",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85AkkDW",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 6.4,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xD2e813C297f3cf9985bAa5331CEC80778755BF2a",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOGWnnz85GjwA1",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 7.246524000000001,
+                  },
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x2b961E3959b79326A8e7F64Ef0d2d825707669b5",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOE5zs-M480ik8",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 38.4,
+                  },
+                ],
+              },
+              "description": "Free, open-source work platform tailored for software development",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjc3NDAyNTM4",
+              "login": "OpenQDev",
+              "name": "OpenQ Labs",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/OpenQDev",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/34966464?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x532323de74BAb864b7005D910E5bD8562D038b9b",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCHE8585AYvGo",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "A marketplace for the decentralized web",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjM0OTY2NDY0",
+              "login": "ProjectOpenSea",
+              "name": "OpenSea",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/ProjectOpenSea",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/38917137?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x1f466F899d63CDE25eB4a857BC9725ADe0128439",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOB7jojM5HoxGM",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 12.8,
+                  },
+                ],
+              },
+              "description": "We build open source software to unlock developer productivity in the Ethereum ecosystem.",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjM4OTE3MTM3",
+              "login": "NomicFoundation",
+              "name": "Nomic Foundation",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/NomicFoundation",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/102983781?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xFF83615517140c6737E221a3383c4c27CF0AAAC1",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOBhc8WM5Fqi_o",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Collection of production code that is used in the Safe Ecosystem",
+              "id": "O_kgDOBiNoZQ",
+              "login": "safe-global",
+              "name": "Safe Ecosystem",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/safe-global",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/12523025?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x7a2a1BB961C74a0EBE106E4bafE229937b441d97",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCQWAHM5EzBw7",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjEyNTIzMDI1",
+              "login": "makerdao",
+              "name": "Maker",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/makerdao",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/14176906?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x537EcB09f77322F7Bb8B206bF0b0478e99B91125",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOCJdoNs5QCrBu",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Solutions for a trust-free world",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE0MTc2OTA2",
+              "login": "paritytech",
+              "name": "Parity Technologies",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/paritytech",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/16928085?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0xF752C6324fb1b9e776FF6559CE7723b9DecBD049",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOAAiu0c5P78Fn",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "groks those URLs",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE2OTI4MDg1",
+              "login": "curl",
+              "name": "curl",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/curl",
+            }
+          }
+        />
+        <HorizontalOrganizationCard
+          organization={
+            {
+              "__typename": "Organization",
+              "avatarUrl": "https://avatars.githubusercontent.com/u/17219288?v=4",
+              "blacklisted": false,
+              "bounties": {
+                "__typename": "Bounties",
+                "nodes": [
+                  {
+                    "__typename": "Bounty",
+                    "address": "0x001192Fa1EA7A2816445Ec2EFD5843c1a60562aa",
+                    "blacklisted": false,
+                    "bountyId": "I_kwDOC1sh0c5W6yQL",
+                    "category": null,
+                    "tvc": 0,
+                    "tvl": 0,
+                  },
+                ],
+              },
+              "description": "Prisma makes working with databases easy",
+              "id": "MDEyOk9yZ2FuaXphdGlvbjE3MjE5Mjg4",
+              "login": "prisma",
+              "name": "Prisma",
+              "starringUsers": {
+                "nodes": [
+                  {
+                    "address": "0xa7b7DcBb35A58294Ba9E51cC9AA20670E124536b",
+                    "discord": null,
+                    "email": null,
+                    "github": "Christopher-Stevers",
+                    "starredOrganizationIds": [],
+                    "twitter": null,
+                  },
+                ],
+              },
+              "url": "https://github.com/prisma",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;
