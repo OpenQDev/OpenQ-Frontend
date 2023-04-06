@@ -193,7 +193,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
           <p className='font-semibold'>How to use OpenQ's Invoice Generator</p>
           <div>
             {' '}
-            <p className='font-semibold flex gap-2'>
+            <div className='font-semibold flex gap-2'>
               Step 1{' '}
               <>
                 {!needsAccountData && !successInvoice && (
@@ -202,7 +202,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
                   </div>
                 )}
               </>
-            </p>
+            </div>
             <p>
               Please fill in your billing details in your{' '}
               <Link
