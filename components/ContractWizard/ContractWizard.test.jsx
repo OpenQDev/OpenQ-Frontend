@@ -7,6 +7,7 @@ import ContractWizard from '.';
 import userEvent from '@testing-library/user-event';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import nextRouter from 'next/router';
+import { cleanup } from '@testing-library/react';
 
 nextRouter.useRouter = vi.fn();
 nextRouter.useRouter.mockImplementation(() => ({
@@ -18,6 +19,10 @@ nextRouter.useRouter.mockImplementation(() => ({
 }));
 
 describe('ContractWizard', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('should render match DOM Snapshot', () => {
     const shallow = new ShallowRenderer();
     shallow.render(<ContractWizard wizardVisibility={true} />);

@@ -6,7 +6,7 @@ import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import TokenSearch from '../../TokenSelection/TokenSearch';
 import SetTierValues from '../../MintBounty/MintBountyModal/AddContestParams/SetTierValues';
-import AdminModal from '../AdminModal/index.js';
+import AdminModal from '../AdminModal';
 import TokenContext from '../../TokenSelection/TokenStore/TokenContext';
 import { ethers } from 'ethers';
 

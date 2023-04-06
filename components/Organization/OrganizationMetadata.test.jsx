@@ -9,6 +9,7 @@ import InitialState from '../../store/Store/InitialState';
 import OrganizationMetadata from '../../components/Organization/OrganizationMetadata';
 import mocks from '../../__mocks__/mock-server.json';
 import renderer from 'react-test-renderer';
+import { cleanup } from '@testing-library/react';
 
 describe('OrganizationMetadata', () => {
   let mergedOrgs = mocks.organizations.map((org) => {
@@ -19,6 +20,9 @@ describe('OrganizationMetadata', () => {
       }
     }
     return { ...org, ...currentGithubOrg };
+  });
+  afterEach(() => {
+    cleanup();
   });
 
   const test = (organization) => {

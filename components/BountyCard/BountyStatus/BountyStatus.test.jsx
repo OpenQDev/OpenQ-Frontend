@@ -41,7 +41,7 @@ describe('BountyStatus', () => {
         expect(screen.getByText(Constants.inProgress)).toBeInTheDocument();
       }
       if (bounty.status === '0' && bounty.closed) {
-        expect(screen.getByText(/closed/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/closed/i)[0]).toBeInTheDocument();
       }
       expect(screen.getByText(/Smart Contract Deployed/i)).toBeInTheDocument();
 

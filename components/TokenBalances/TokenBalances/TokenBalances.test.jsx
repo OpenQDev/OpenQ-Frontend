@@ -16,8 +16,8 @@
           <TokenBalances lean={true} tokenBalances={deposit} tokenValues={tokenValues} singleCurrency={true} />
 */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import TokenBalances from '../../components/TokenBalances/TokenBalances';
+import { render, screen } from '../../../test-utils';
+import TokenBalances from '.';
 // Test cases for full balances, empty balances, and undefined balances.
 
 const tokenBalances = [

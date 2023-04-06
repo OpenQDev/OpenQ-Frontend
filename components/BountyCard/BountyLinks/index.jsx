@@ -4,7 +4,6 @@ import React from 'react';
 // Custom
 import Link from 'next/link';
 import Skeleton from 'react-loading-skeleton';
-import useWeb3 from '../../../hooks/useWeb3';
 import Twitter from '../../svg/twitter';
 import Github from '../../svg/github';
 import Image from 'next/image';
@@ -13,7 +12,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
   const tweetText = `Check out this contract ${
     bounty?.owner && `for ${bounty?.owner}`
   } on OpenQ. You can claim it just by making a pull request that completes the issue! `;
-  const { safe } = useWeb3();
+  const safe = false;
 
   const resetScroll = () => {
     if (safe) {

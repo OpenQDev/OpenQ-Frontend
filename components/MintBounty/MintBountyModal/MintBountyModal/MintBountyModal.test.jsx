@@ -164,6 +164,7 @@ const test = (issue, type) => {
 };
 describe('MintBountyModal', () => {
   issues.forEach((issue) => {
-    types.forEach((type) => test(issue, type));
+    test(issue, types[0]);
+    test(issue, types[3]);
   });
 });

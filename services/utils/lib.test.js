@@ -593,6 +593,7 @@ describe('fetchRequestsWithServiceArg', () => {
                   },
                   merged: true,
                   mergedAt: '2022-03-28T17:57:44Z',
+                  createdAt: '2022-03-28T17:57:44Z',
                   title: 'Update README.md',
                   url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
                 },

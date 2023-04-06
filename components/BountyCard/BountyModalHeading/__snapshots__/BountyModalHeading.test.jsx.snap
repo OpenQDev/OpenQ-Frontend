@@ -206,6 +206,7 @@ exports[`BountyModalHeading Snapshot > should match DOM Snapshot 1`] = `
                 "body": "This Closes #136 and also unrelated thing of Fixes #137",
                 "bodyHTML": "<p dir=\\"auto\\">This <span class=\\"issue-keyword tooltipped tooltipped-se\\" aria-label=\\"This pull request closes issue #136.\\">Closes</span> <a class=\\"issue-link js-issue-link\\" data-error-text=\\"Failed to load title\\" data-id=\\"1183776821\\" data-permission-text=\\"Title is private\\" data-url=\\"https://github.com/OpenQDev/OpenQ-TestRepo/issues/136\\" data-hovercard-type=\\"issue\\" data-hovercard-url=\\"/OpenQDev/OpenQ-TestRepo/issues/136/hovercard\\" href=\\"https://github.com/OpenQDev/OpenQ-TestRepo/issues/136\\">#136</a> and also unrelated thing of <span class=\\"issue-keyword tooltipped tooltipped-se\\" aria-label=\\"This pull request closes issue #137.\\">Fixes</span> <a class=\\"issue-link js-issue-link\\" data-error-text=\\"Failed to load title\\" data-id=\\"1183777365\\" data-permission-text=\\"Title is private\\" data-url=\\"https://github.com/OpenQDev/OpenQ-TestRepo/issues/137\\" data-hovercard-type=\\"issue\\" data-hovercard-url=\\"/OpenQDev/OpenQ-TestRepo/issues/137/hovercard\\" href=\\"https://github.com/OpenQDev/OpenQ-TestRepo/issues/137\\">#137</a></p>",
                 "bodyText": "This Closes #136 and also unrelated thing of Fixes #137",
+                "createdAt": "2022-03-28T17:57:44Z",
                 "id": "PR_kwDOGWnnz841LGsK",
                 "mergeCommit": {
                   "__typename": "Commit",

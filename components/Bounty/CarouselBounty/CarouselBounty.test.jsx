@@ -15,13 +15,6 @@ describe('CarouselBounty', () => {
     { ...Constants.bounty3, tvc: 9.52 },
   ];
 
-  let wasClicked;
-  beforeEach(() => {
-    wasClicked = vi.fn();
-    // eslint-disable-next-line react/display-name
-    vi.mock('next/link', () => ({ children }) => <div onClick={wasClicked}>{children}</div>);
-  });
-
   const test = (bounty) => {
     it('should render CarouselBounty', async () => {
       // ARRANGE

@@ -2,9 +2,9 @@
  * @vi-environment jsdom
  */
 import React from 'react';
-import { render, screen } from '../../test-utils';
-import RefundPage from './RefundPage';
-import InitialState from '../../store/Store/InitialState';
+import { render, screen } from '../../../test-utils';
+import RefundPage from '../RefundPage';
+import InitialState from '../../../store/Store/InitialState';
 
 describe('RefundPage', () => {
   const bounty = {

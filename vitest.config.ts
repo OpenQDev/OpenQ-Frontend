@@ -7,6 +7,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './test-utils/setup.js',
+   maxConcurrency: 2,
+   minThreads:1,
+   maxThreads: 1,
     
   }
 })

@@ -1,0 +1,242 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SetTierAdminPage > should match DOM and render "Which token?", "Volumes:" if bounty type is 3 1`] = `
+<DocumentFragment>
+  <div
+    class=" flex flex-col gap-4"
+  >
+    <div
+      class=" w-11/12 text-base flex flex-col gap-2"
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        How many Tiers?
+        <div
+          class="group undefined"
+        >
+          <div
+            class="cursor-help rounded-full border border-[#c9d1d9] aspect-square leading-4 h-4 box-content text-center font-bold text-primary"
+          >
+            ?
+          </div>
+          <div
+            class="justify-center w-full relative hidden z-50 group-hover:block  undefined "
+          >
+            <div
+              class="flex flex-col items-center"
+            >
+              <div
+                class="flex mt-0.5 md:mt-1 tooltip-triangle absolute undefined"
+              />
+              <div
+                class="flex tooltip absolute undefined"
+              >
+                <div
+                  class="undefined"
+                >
+                  How many people will be able to claim a prize? Don't exceed 100.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex-1 w-full mt-2"
+      >
+        <input
+          autocomplete="off"
+          class="flex-1 ml-4 input-field w-full"
+          id="name"
+          max="100"
+          min="0"
+          placeholder="0"
+          type="text"
+          value="3"
+        />
+      </div>
+    </div>
+    <div
+      class="flex flex-col w-11/12 items-start py-2 gap-2 text-base pb-4"
+    >
+      <div
+        class="flex items-center gap-2"
+      >
+        <div
+          class="flex items-center gap-2"
+        >
+          Which token?
+          <div
+            class="group undefined"
+          >
+            <div
+              class="cursor-help rounded-full border border-[#c9d1d9] aspect-square text-sm leading-4 h-4 box-content text-center font-bold text-primary"
+            >
+              ?
+            </div>
+            <div
+              class="justify-center w-full relative hidden z-50 group-hover:block  undefined "
+            >
+              <div
+                class="flex flex-col items-center"
+              >
+                <div
+                  class="flex mt-0.5 md:mt-1 tooltip-triangle absolute undefined"
+                />
+                <div
+                  class="flex tooltip absolute undefined"
+                >
+                  <div
+                    class="undefined"
+                  >
+                    Fixed contests can only be funded with one token.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class=" pl-4"
+      >
+        <div
+          class="justify-self-end"
+        >
+          <div>
+            <button
+              class="flex flex-row items-center space-x-1 py-2 p-2 pr-2 cursor-default"
+              disabled=""
+            >
+              <div
+                class="flex flex-row space-x-5 items-center justify-center"
+              >
+                <div
+                  class="h-1 w-6 pb-6"
+                >
+                  <span
+                    style="box-sizing: border-box; display: inline-block; overflow: hidden; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;"
+                  >
+                    <span
+                      style="box-sizing: border-box; display: block; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;"
+                    >
+                      <img
+                        alt=""
+                        aria-hidden="true"
+                        src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2740%27%20height=%2740%27/%3e"
+                        style="display: block; max-width: 100%; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px;"
+                      />
+                    </span>
+                    <img
+                      alt="n/a"
+                      class="rounded-sm"
+                      data-nimg="intrinsic"
+                      decoding="async"
+                      src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                      style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; box-sizing: border-box; padding: 0px; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"
+                    />
+                    <noscript />
+                  </span>
+                </div>
+              </div>
+              <div
+                class="pl-3 "
+              >
+                MATIC
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      Volumes:
+    </div>
+    <div
+      class="max-h-40 w-full flex flex-col gap-2 overflow-y-auto overflow-x-hidden"
+    >
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          1st
+        </div>
+        <div
+          class="flex-1 w-11/12 mb-1 undefined"
+        >
+          <input
+            autocomplete="off"
+            class="input-field w-full number"
+            id="tier-volume"
+            name="1"
+            placeholder="1st winner"
+            value="30.0"
+          />
+        </div>
+      </div>
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          2nd
+        </div>
+        <div
+          class="flex-1 w-11/12 mb-1 undefined"
+        >
+          <input
+            autocomplete="off"
+            class="input-field w-full number"
+            id="tier-volume"
+            name="2"
+            placeholder="2nd winner"
+            value="60.0"
+          />
+        </div>
+      </div>
+      <div
+        class="flex gap-2 mr-10"
+      >
+        <div
+          class="w-10"
+        >
+          3rd
+        </div>
+        <div
+          class="flex-1 w-11/12 mb-1 undefined"
+        >
+          <input
+            autocomplete="off"
+            class="input-field w-full number"
+            id="tier-volume"
+            name="3"
+            placeholder="3rd winner"
+            value="10.0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex items-center"
+  />
+  <div
+    class="px-4"
+  >
+    <button
+      class="w-full btn-default cursor-pointer"
+      type="button"
+    >
+      Set New Payout Schedule
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`SetTierAdminPage > should render nothing if bounty type is 0 1`] = `<DocumentFragment />`;
+
+exports[`SetTierAdminPage > should render nothing if bounty type is 1 1`] = `<DocumentFragment />`;

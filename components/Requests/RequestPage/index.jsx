@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
-import RequestIndividual from '../RequestIndividual/index.js';
+import RequestIndividual from '../RequestIndividual';
 import { getPlural } from '../../../services/utils/lib';
 import StoreContext from '../../../store/Store/StoreContext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
-import PaginatedList from '../../Utils/PaginatedList/index.js';
+import PaginatedList from '../../Utils/PaginatedList';
 import { fetchRequestsWithServiceArg } from '../../../services/utils/lib';
 import SearchBar from '../../Search/SearchBar';
 import { useRouter } from 'next/router';
-import useWeb3 from '../../../hooks/useWeb3.js';
+import useWeb3 from '../../../hooks/useWeb3';
 
 const RequestPage = ({ states }) => {
   const router = useRouter();
