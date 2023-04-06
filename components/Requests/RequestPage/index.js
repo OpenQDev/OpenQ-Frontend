@@ -9,7 +9,7 @@ import SearchBar from '../../Search/SearchBar';
 import { useRouter } from 'next/router';
 import useWeb3 from '../../../hooks/useWeb3.js';
 
-const RequestPage = () => {
+const RequestPage = ({ states }) => {
   const router = useRouter();
   const [authState] = useContext(AuthContext);
   const [appState] = useContext(StoreContext);
@@ -22,9 +22,9 @@ const RequestPage = () => {
 
   const isOwner = loggedId == userId;
   const { githubId, email } = authState;
-  const getItems = async (oldCursor, batch, ordering = 'asc', filters = {}) => {
+  const getItems = async (oldCursor, batch, ordering = 'asc', fetchFilters = {}) => {
     try {
-      return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, filters);
+      return await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch, ordering, fetchFilters);
     } catch (e) {
       appState.logger.error(e);
       return { nodes: [], cursor: null, complete: true };
@@ -38,7 +38,7 @@ const RequestPage = () => {
   const paginationObj = {
     items: [],
     ordering: { direction: 'asc', field: 'name' },
-    fetchFilters: {},
+    fetchFilters: { states },
     filters: { searchText: '' },
     filterFunction,
     cursor: null,

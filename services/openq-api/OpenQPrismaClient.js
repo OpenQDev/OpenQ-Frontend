@@ -375,12 +375,10 @@ class OpenQPrismaClient {
       if (idObject.email) {
         variables.email = idObject.email;
       }
-
       try {
         const result = await this.client.query({
           query: GET_REQUESTS,
           variables,
-
           fetchPolicy: 'no-cache',
           errorPolicy: 'ignore',
         });

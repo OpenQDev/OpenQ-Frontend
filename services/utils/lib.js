@@ -235,7 +235,7 @@ export const formatVolume = (tierVolume, token) => {
   return formattedVolume;
 };
 
-export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor, batch) => {
+export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor, batch, ordering, fetchFilters) => {
   const { userId, githubId, email } = identity;
   const userOffChainData = await appState.openQPrismaClient.getUserRequests(
     {
@@ -246,6 +246,7 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
     {
       bountiesCursor: oldCursor,
       bountiesLimit: batch,
+      states: fetchFilters?.states,
     }
   );
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {

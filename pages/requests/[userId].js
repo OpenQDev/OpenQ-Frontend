@@ -4,7 +4,7 @@ import React from 'react';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
 import Logger from '../../services/logger/Logger';
 import Centered from '../../components/Layout/Centered';
-import RequestPage from '../../components/Requests/RequestPage/index.js';
+import RequestPage from '../../components/Requests/RequestPage';
 import AuthorizedOnly from '../../components/Authentication/HigherOrderComponents/OwnerOnly';
 import { useRouter } from 'next/router';
 
@@ -14,7 +14,17 @@ const Requests = () => {
   return (
     <Centered>
       <AuthorizedOnly slug='' expectedId={userId}>
-        <RequestPage />
+        <>
+          {/*<div className='flex justify-center'>
+            <SubMenu
+              updatePage={setInternalMenu}
+              internalMenu={internalMenu}
+              styles={'justify-center'}
+              items={[{ name: 'Pending' }, { name: 'Accepted' }]}
+            />
+  </div>*/}
+          <RequestPage />
+        </>
       </AuthorizedOnly>
     </Centered>
   );

@@ -20,7 +20,14 @@ Also need to have lib function for both ssr and csr portions that takes in
 and returns
 {nodes, cursor, complete}
 */
-const PaginatedList = ({ paginationState, PaginationCard, className, singleSubmission, setSingleSubmission }) => {
+const PaginatedList = ({
+  paginationState,
+  PaginationCard,
+  className,
+  singleSubmission,
+  setSingleSubmission,
+  setFilteredLength,
+}) => {
   const [paginationObj, setPaginationObj] = paginationState;
   const { getItems, filterFunction, filters, fetchFilters, cursor, complete } = paginationObj;
   const [loading, setLoading] = useState(false);
@@ -81,6 +88,7 @@ const PaginatedList = ({ paginationState, PaginationCard, className, singleSubmi
   );
   const filteredItems = filtering(paginationObj.items, filters, fetchFilters);
   useEffect(() => {
+    setFilteredLength && setFilteredLength(filteredItems.length);
     if (filteredItems.length > 0 || complete || loading) return;
     setLoading(true);
     fetchPage(paginationObj);
