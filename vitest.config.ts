@@ -11,5 +11,6 @@ export default defineConfig({
    minThreads:1,
    maxThreads: 1,
     reporters: [ 'junit'],
+    outputFile: 'junit.xml',
   }
 })
