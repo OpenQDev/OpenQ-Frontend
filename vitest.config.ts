@@ -10,6 +10,6 @@ export default defineConfig({
    maxConcurrency: 2,
    minThreads:1,
    maxThreads: 1,
-    
+    reporters: [ 'junit'],
   }
 })
