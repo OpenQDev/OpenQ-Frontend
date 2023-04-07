@@ -268,7 +268,8 @@ const W8Requirement = ({ bounty }) => {
             </button>
             .
           </div>
-          <div className='font-semibold flex gap-2 group w-fit'>Upload PDF</div>
+          <div>✅ PDF File must be less than 6 MB</div>
+          <div>🔔 Don't forget to add your signature and date to your W8 or W9 Form!</div>
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
             {sent && (
               <div
