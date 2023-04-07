@@ -41,7 +41,7 @@ const RequestIndividual = ({ item }) => {
         }
         if (!subgraphBounty.tierWinners) return;
         if (subgraphBounty.bountyType === '3') {
-          const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
+          const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.githubUser.id));
           console.log('UBAS tier', tier);
           if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
             console.log('UBAS setAccepted');
