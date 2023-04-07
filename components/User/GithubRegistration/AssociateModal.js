@@ -111,16 +111,18 @@ const AssociateModal = ({
       });
   };
   const changeAccount = async () => {
-    await window.ethereum
-      .request({
-        method: 'wallet_requestPermissions',
-        params: [
-          {
-            eth_accounts: {},
-          },
-        ],
-      })
-      .catch((error) => appState.logger.error(error, accountData.id, 'AssociateModal.js1'));
+    if (window?.ethereum?.isMetaMask) {
+      await window.ethereum
+        .request({
+          method: 'wallet_requestPermissions',
+          params: [
+            {
+              eth_accounts: {},
+            },
+          ],
+        })
+        .catch((error) => appState.logger.error(error, accountData.id, 'AssociateModal.js1'));
+    }
     setUpdateAddress(true);
   };
   const statesFormat = {

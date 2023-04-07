@@ -17,7 +17,14 @@ import AuthProvider from '../store/AuthStore/AuthProvider';
 import Navigation from '../components/Layout/Navigation';
 import Head from 'next/head';
 import Footer from '../components/Layout/Footer';
-import { walletConnect, walletConnectHooks, metaMask, metaMaskHooks } from '../components/WalletConnect/connectors';
+import {
+  walletConnect,
+  walletConnectHooks,
+  metaMask,
+  metaMaskHooks,
+  coinbaseWallet,
+  coinbaseHooks,
+} from '../components/WalletConnect/connectors';
 import Script from 'next/script';
 import FirstTimeBanner from '../components/Layout/FirstTimeBanner';
 
@@ -25,6 +32,7 @@ function OpenQ({ Component, pageProps }) {
   const connectors = [
     [metaMask, metaMaskHooks],
     [walletConnect, walletConnectHooks],
+    [coinbaseWallet, coinbaseHooks],
   ];
 
   const [user, setUser] = useState();
