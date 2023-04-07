@@ -720,6 +720,18 @@ describe('BountyList', () => {
     },
   ];
 
+  const paginationObj = {
+    items: bounties,
+    ordering: { direction: 'desc', field: 'createdAt' },
+    fetchFilters: { types: ['0', '1', '2', '3'] },
+    filters: {
+      searchText: ``,
+      isReady: true,
+    },
+    complet: true,
+    batch: 10,
+  };
+
   beforeEach(() => {
     const observe = jest.fn();
     const disconnect = jest.fn();
@@ -738,13 +750,14 @@ describe('BountyList', () => {
     }));
   });
 
-  it.skip('should allow user to open BountyCardDetailsModal', async () => {
+  it('should allow user to open BountyCardDetailsModal', async () => {
     const user = userEvent.setup();
-    // ARRANGE
+    // ARRAN
+
     render(
       <BountyList
         types={['0', '1', '2', '3']}
-        bounties={bounties}
+        paginationObj={paginationObj}
         complete={true}
         addCarousel={false}
         category={undefined}
@@ -757,8 +770,7 @@ describe('BountyList', () => {
 
     expect(screen.queryByText('ongoing bounty')).not.toBeInTheDocument();
     await user.click(screen.getByText(/All Issues/i));
-    expect(screen.queryByText('ongoing bounty')).toBeInTheDocument();
-
+    expect(screen.queryByText(/cannot determine a size for curl_off_t in curl-7.84.0/)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
@@ -770,7 +782,7 @@ describe('BountyList', () => {
     render(
       <BountyList
         types={['0', '1', '2', '3']}
-        bounties={bounties}
+        paginationObj={paginationObj}
         complete={true}
         addCarousel={false}
         category={undefined}
@@ -788,7 +800,8 @@ describe('BountyList', () => {
     const search = screen.getByLabelText(/search text/i);
     expect(search).toBeInTheDocument();
 
-    await user.type(search, 'multicall supports');
+    await user.type(search, 'multicall');
+    console.log(unFilteredIssue[0]);
     expect(unFilteredIssue[0]).toBeInTheDocument();
     expect(filteredIssue1[0]).not.toBeInTheDocument();
   });
@@ -799,7 +812,7 @@ describe('BountyList', () => {
     render(
       <BountyList
         types={['0', '1', '2', '3']}
-        bounties={bounties}
+        paginationObj={paginationObj}
         complete={true}
         addCarousel={false}
         category={undefined}

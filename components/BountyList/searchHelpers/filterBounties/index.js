@@ -36,7 +36,7 @@ const filterBounties = (item, filters, fetchFilters) => {
     .replace(orderRegex, '')
     .replace(contractTypeRegex, '')
     .trim();
-  const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
+  const isFoundInText = searchFoundInText(bounty.title, lowerCaseSearch);
   const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
   const emptySearchText = searchText.length === 0;
 
