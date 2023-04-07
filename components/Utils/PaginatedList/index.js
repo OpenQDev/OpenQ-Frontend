@@ -46,7 +46,6 @@ const PaginatedList = ({
       cursor: newCursor,
       complete: newComplete,
     } = await getItems(cursor, paginationObj.batch, paginationObj.ordering, paginationObj.fetchFilters);
-    console.log('getItems', nodes);
 
     setPaginationObj({
       ...currentPaginationObj,
