@@ -111,7 +111,7 @@ const AssociateModal = ({
       });
   };
   const changeAccount = async () => {
-    if (window.ethereum.isMetaMask) {
+    if (window?.ethereum?.isMetaMask) {
       await window.ethereum
         .request({
           method: 'wallet_requestPermissions',
