@@ -1,5 +1,5 @@
-const searchFoundInText = (title, body, localSearchText) => {
-  const lowerCaseContent = (title + body).toLowerCase();
+const searchFoundInText = (title, localSearchText) => {
+  const lowerCaseContent = title.toLowerCase();
   const lowerCaseSearch = localSearchText.toLowerCase();
   return lowerCaseContent.indexOf(lowerCaseSearch) > -1;
 };
