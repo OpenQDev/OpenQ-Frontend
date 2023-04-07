@@ -14,11 +14,12 @@ import {
   INVALID_EMAIL_CLIENT,
   INVALID_EMAIL_FREELANCER,
 } from '../../../../constants/invoiceableResponses';
+import useWeb3 from '../../../../hooks/useWeb3';
 
 const Invoicing = ({ bounty, setClaimable }) => {
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
-  const { account } = appState;
+  const { account } = useWeb3();
   const { accountData } = appState;
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
 
@@ -193,7 +194,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
           <p className='font-semibold'>How to use OpenQ's Invoice Generator</p>
           <div>
             {' '}
-            <p className='font-semibold flex gap-2'>
+            <div className='font-semibold flex gap-2'>
               Step 1{' '}
               <>
                 {!needsAccountData && !successInvoice && (
@@ -202,7 +203,7 @@ const Invoicing = ({ bounty, setClaimable }) => {
                   </div>
                 )}
               </>
-            </p>
+            </div>
             <p>
               Please fill in your billing details in your{' '}
               <Link
