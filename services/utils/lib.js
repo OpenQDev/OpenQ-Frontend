@@ -278,7 +278,7 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
       }
     }
   }
-  console.log8(processedRequests, 'processedRequests');
+  console.log(processedRequests, 'processedRequests');
 
   // re write using for loop
   return {
