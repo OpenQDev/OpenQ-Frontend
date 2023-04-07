@@ -16,6 +16,8 @@ const RequestIndividual = ({ item }) => {
   const [subgraphBounty, setSubgraphBounty] = useState();
   const { accountData } = appState;
 
+  console.log('RequestIndividual 1', item, bounty, request);
+
   const requestingUser = request?.requestingUser;
   const { githubUser } = requestingUser;
   const issueId = bounty.bountyId;
@@ -26,6 +28,40 @@ const RequestIndividual = ({ item }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [declineState, setDeclineState] = useState(RESTING);
+
+  useEffect(() => {
+    console.log('useEffect on bounty.address started UBAS');
+    const getSubgraphBounty = async () => {
+      try {
+        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
+        console.log('UBAS subgraphBounty', subgraphBounty);
+        setSubgraphBounty(subgraphBounty);
+        if (subgraphBounty.bountyType === '0' && subgraphBounty.supportingDocumentsCompleted?.[0]) {
+          setAccepted(true);
+        }
+        if (!subgraphBounty.tierWinners) return;
+        if (subgraphBounty.bountyType === '3') {
+          const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
+          console.log('UBAS tier', tier);
+          if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
+            console.log('UBAS setAccepted');
+            setAccepted(true);
+          }
+        }
+      } catch (err) {
+        appState.logger.error(err, 'RequestIndividual1', accountData.id);
+      }
+    };
+    getSubgraphBounty();
+  }, [bounty.address]);
+
+  useEffect(() => {
+    const getIssue = async () => {
+      const issue = await appState.githubRepository.fetchIssueById(issueId);
+      setIssue(issue);
+    };
+    getIssue();
+  }, [issueId]);
 
   const resetState = () => {
     setDeclineState(RESTING);
@@ -81,28 +117,6 @@ const RequestIndividual = ({ item }) => {
     ERROR: error.title,
   };
 
-  useEffect(() => {
-    const getSubgraphBounty = async () => {
-      try {
-        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
-        setSubgraphBounty(subgraphBounty);
-        if (subgraphBounty.bountyType === '0' && subgraphBounty.supportingDocumentsCompleted?.[0]) {
-          setAccepted(true);
-        }
-        if (!subgraphBounty.tierWinners) return;
-        if (subgraphBounty.bountyType === '3') {
-          const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.github));
-          if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
-            setAccepted(true);
-          }
-        }
-      } catch (err) {
-        appState.logger.error(err, 'RequestIndividual1', accountData.id);
-      }
-    };
-    getSubgraphBounty();
-  }, [bounty.address]);
-
   const updateMessage = async (e) => {
     setMessage(e.target.innerText);
   };
@@ -136,13 +150,6 @@ const RequestIndividual = ({ item }) => {
     }
   };
 
-  useEffect(() => {
-    const getIssue = async () => {
-      const issue = await appState.githubRepository.fetchIssueById(issueId);
-      setIssue(issue);
-    };
-    getIssue();
-  }, [issueId]);
   if (!githubUser) return null;
   return (
     <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>

@@ -10,19 +10,24 @@ const Request = ({ request }) => {
   const githubId = request.requestingUser.github;
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
-  const [updatedItem, setItem] = useState(null);
+  const [updatedItem, setUpdatedItem] = useState(null);
 
   useEffect(() => {
     const getGithubUser = async () => {
       try {
         const githubUser = await appState.githubRepository.fetchUserById(githubId);
-        setItem({ ...item, request: { ...item.request, requestingUser: { ...item.requestingUser, githubUser } } });
+        setUpdatedItem({
+          ...item,
+          request: { ...item.request, requestingUser: { ...item.requestingUser, githubUser } },
+        });
       } catch (err) {
         appState.logger.error(err, 'RequestIndividual2', accountData.id);
       }
     };
     getGithubUser();
   }, [githubId]);
+
+  console.log('[requestId].js: updatedItem', updatedItem, githubId);
 
   return <div className='max-w-[1280px] mx-auto px-40'>{updatedItem && <RequestIndividual item={updatedItem} />}</div>;
 };
