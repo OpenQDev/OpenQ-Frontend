@@ -253,12 +253,15 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const processedRequests = [];
   for (let bounty of createdBounties) {
     for (let request of bounty.requests.nodes) {
+      console.log('request', request);
       const user = processedRequests.find(
         (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
       );
+      console.log('user', user);
       if (!user) {
         const requestGithubId = request.requestingUser.github;
         const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+        console.log(githubUser, 'githubUser');
         const requestWithGithubUser = {
           ...request,
           requestingUser: {
@@ -266,10 +269,16 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
             githubUser,
           },
         };
+        console.log(requestWithGithubUser);
         processedRequests.push({ request: requestWithGithubUser, bounty });
+        console.log(processedRequests, 'processedRequests 1');
+      } else {
+        processedRequests.push({ request, bounty });
+        console.log(processedRequests, 'processedRequests 2');
       }
     }
   }
+  console.log8(processedRequests, 'processedRequests');
 
   // re write using for loop
   return {
