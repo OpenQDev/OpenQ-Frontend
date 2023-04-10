@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils';
-import { waitFor } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 import ActionBubble from '.';
 import nextRouter from 'next/router';
 import userEvent from '@testing-library/user-event';
@@ -163,6 +163,9 @@ const bounty = {
 };
 
 describe('ActionBubble', () => {
+  afterEach(() => {
+    cleanup();
+  });
   // Test cases for
 
   beforeEach(() => {
