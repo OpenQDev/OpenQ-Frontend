@@ -13,7 +13,17 @@ class MockOpenQClient {
         this.shouldSleep = time;
     }
 
-    constructor(mockMutations) { this.mockMutations = mockMutations; }
+    constructor(mockMutations) {
+        
+        const initialMockMutations = {
+            setFundingGoal: () => { },
+            setPayout: () => { },
+            setSupportingDocumentsComplete: () => { },
+            setTier: () => { },
+            closeOngoing: () => { },
+        }
+
+        this.mockMutations = {...mockMutations, ...initialMockMutations}; }
 
     async sleep(time = this.shouldSleep) {
         return new Promise(async (resolve) => {

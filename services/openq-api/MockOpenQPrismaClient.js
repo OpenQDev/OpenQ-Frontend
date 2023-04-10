@@ -1,7 +1,11 @@
 import axios from "axios";
 class OpenQPrismaClient {
     constructor(mockMutations) {
-        this.mockMutations = mockMutations;
+        const initialMocks = {
+            updateUserMockFunc: () => { },
+            updateRequest: () => { },
+        };
+        this.mockMutations = {...initialMocks, ...mockMutations};
     }
 
     async getPaginatedTVLS(id, startAt, order, first) {
