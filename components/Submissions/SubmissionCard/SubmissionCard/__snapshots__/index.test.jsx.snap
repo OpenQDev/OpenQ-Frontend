@@ -61,7 +61,7 @@ exports[`SubmissionCard > should match DOM Snapshot 1`] = `
       <div
         class="text-center pt-2 text-gray-400 w-full"
       >
-        On March 28, 2022 at 17:57
+        On September 5, 2022 at 16:44
       </div>
       <div
         class=" pt-2 text-gray-400 h-20 w-full break-word"

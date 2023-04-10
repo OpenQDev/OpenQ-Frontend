@@ -2,6 +2,7 @@
 import React from 'react';
 // Cusotm
 import { render, renderHook } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 
 import StoreProvider from '../store/Store/TestStoreProvider';
 import AuthProvider from '../store/AuthStore/TestAuthProvider';
@@ -11,6 +12,10 @@ import TokenProvider from '../components/TokenSelection/TokenStore/TokenProvider
 // Add in any providers here if necessary:
 // test-utils.js
 // (ReduxProvider, ThemeProvider, etc)
+afterEach(() => {
+  cleanup();
+});
+
 const customRender = (ui, options = {}, storeProps, authProps) => {
   const IntersectionObserverMock = vi.fn(() => ({
     disconnect: vi.fn(),

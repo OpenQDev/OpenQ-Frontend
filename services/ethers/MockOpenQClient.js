@@ -23,7 +23,7 @@ class MockOpenQClient {
             closeOngoing: () => { },
         }
 
-        this.mockMutations = {...mockMutations, ...initialMockMutations}; }
+        this.mockMutations = { ...initialMockMutations,...mockMutations}; }
 
     async sleep(time = this.shouldSleep) {
         return new Promise(async (resolve) => {
@@ -38,7 +38,8 @@ class MockOpenQClient {
     getENS = async (_callerAddress) => {
         let promise = new Promise(async (resolve) => {
             await this.sleep();
-            resolve("sample.eth");
+        
+            (_callerAddress).slice(0,4)+"..."+(_callerAddress).slice(-4)
 
         });
         return promise;
