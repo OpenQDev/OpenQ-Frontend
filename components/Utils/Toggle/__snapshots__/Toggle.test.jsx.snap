@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Toggle > should match DOM Snapshot & foo should have class bg-[#21262d] while bar should not 1`] = `
+<div
+  className="flex justify-center"
+>
+  <div
+    className="flex flex-row justify-center space-x-2 rounded-sm border border-border-gray bg-menu-bg p-1 w-fit"
+  >
+    <button
+      className="rounded-sm p-2 px-8 hover:bg-[#161B22]  bg-[#21262d]"
+      onClick={[Function]}
+    >
+      foo
+    </button>
+    <button
+      className="rounded-sm p-2 px-8 hover:bg-[#161B22]  null"
+      onClick={[Function]}
+    >
+      bar
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Toggle > should match DOM Snapshot & foo should not have class bg-[#21262d] while bar should 1`] = `
+<div
+  className="flex justify-center"
+>
+  <div
+    className="flex flex-row justify-center space-x-2 rounded-sm border border-border-gray bg-menu-bg p-1 w-fit"
+  >
+    <button
+      className="rounded-sm p-2 px-8 hover:bg-[#161B22]  null"
+      onClick={[Function]}
+    >
+      foo
+    </button>
+    <button
+      className="rounded-sm p-2 px-8 hover:bg-[#161B22]  bg-[#21262d]"
+      onClick={[Function]}
+    >
+      bar
+    </button>
+  </div>
+</div>
+`;

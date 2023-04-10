@@ -9,7 +9,7 @@
       "email": null,
       "starredOrganizationIds": [],
       "devRoles": ["machine learning"],
-      "createdAt": null
+      "createdAt": "1672865114143"
     },
     {
       "__typename": "User",

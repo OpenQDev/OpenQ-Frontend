@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// vi Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SetTierAdminPage should match DOM and render "Which token?", "Volumes:" if bounty type is 3 1`] = `
 <DocumentFragment>

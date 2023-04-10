@@ -1,0 +1,101 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BountyHomepage > should render BountyDetails and match DOM Snapshot > contest 1`] = `
+<div>
+  <div
+    className="text-center bg-[#161B22] py-14 "
+  >
+    <div
+      className="text-2xl font-bold"
+    >
+      Explore Issues
+    </div>
+    <div
+      className="text-gray-500 text-md"
+    >
+      GitHub issues backed by OpenQ escrows.
+    </div>
+  </div>
+  <div
+    className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10"
+  >
+    <BountyList
+      addCarousel={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`BountyHomepage > should render BountyDetails and match DOM Snapshot > fixed price 1`] = `
+<div>
+  <div
+    className="text-center bg-[#161B22] py-14 "
+  >
+    <div
+      className="text-2xl font-bold"
+    >
+      Explore Issues
+    </div>
+    <div
+      className="text-gray-500 text-md"
+    >
+      GitHub issues backed by OpenQ escrows.
+    </div>
+  </div>
+  <div
+    className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10"
+  >
+    <BountyList
+      addCarousel={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`BountyHomepage > should render BountyDetails and match DOM Snapshot > split-price 1`] = `
+<div>
+  <div
+    className="text-center bg-[#161B22] py-14 "
+  >
+    <div
+      className="text-2xl font-bold"
+    >
+      Explore Issues
+    </div>
+    <div
+      className="text-gray-500 text-md"
+    >
+      GitHub issues backed by OpenQ escrows.
+    </div>
+  </div>
+  <div
+    className="lg:grid lg:grid-cols-extra-wide mx-4 sm:mx-8 xl:grid-cols-wide justify-center md:pr-3 pt-10"
+  >
+    <BountyList
+      addCarousel={true}
+    />
+  </div>
+</div>
+`;
+
+exports[`BountyHomepage > should render UnexpectedErrorModal and match DOM Snapshot 1`] = `
+<div>
+  <div
+    className="text-center bg-[#161B22] py-14 "
+  >
+    <div
+      className="text-2xl font-bold"
+    >
+      Explore Issues
+    </div>
+    <div
+      className="text-gray-500 text-md"
+    >
+      GitHub issues backed by OpenQ escrows.
+    </div>
+  </div>
+  <UnexpectedErrorModal
+    error={true}
+  />
+</div>
+`;

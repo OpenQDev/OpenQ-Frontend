@@ -1,0 +1,136 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SubmissionCard > should match DOM Snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="min-w-[300px] w-60  border rounded-sm border-border-gray bg-menu-bg"
+  >
+    <div
+      class="flex flex-col p-6 items-center text-[0.8rem] tracking-wider placeholder-input-gray outline-none rounded-sm w-full h-120 mb-1"
+      rel="noopener norefferer"
+      target="_blank"
+    >
+      <div
+        class="flex justify-end w-full items-center -mt-2 relative pt-2"
+      />
+      <div
+        class="pt-2"
+      >
+        <div
+          class="w-16 h-16 relative"
+        >
+          <img
+            alt="n/a"
+            class="rounded-full"
+            data-nimg="1"
+            decoding="async"
+            height="64"
+            src="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=128&q=75"
+            srcset="/_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=64&q=75 1x, /_next/image?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F93455288%3Fu%3Dfd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84%26v%3D4&w=128&q=75 2x"
+            style="color: transparent; background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;"
+            width="64"
+          />
+        </div>
+      </div>
+      <a
+        class="w-full"
+        href="/showcase/pr/PR_kwDOGWnnz841LGsK"
+      >
+        <div
+          class="pt-5 text-center cursor-pointer underline w-full font-medium text-xl truncate"
+        >
+          Update README.md
+        </div>
+      </a>
+      <div
+        class="text-center pt-2 text-gray-400 w-full"
+      >
+        By 
+        <a
+          class="underline cursor-pointer"
+          href="https://github.com/FlacoJones"
+        >
+          FlacoJones
+        </a>
+      </div>
+      <div
+        class="text-center btn-default my-2"
+      >
+        More than a week ago
+      </div>
+      <div
+        class="text-center pt-2 text-gray-400 w-full"
+      >
+        On September 5, 2022 at 16:44
+      </div>
+      <div
+        class=" pt-2 text-gray-400 h-20 w-full break-word"
+      >
+        This Closes #136 and also unrelated thing of Fixes #137...
+      </div>
+      <a
+        href="https://github.com/OpenQDev/OpenQ-TestRepo/pull/138"
+        rel="noreferrer"
+        target="_blank"
+      >
+        <div
+          class="pt-4 cursor-pointer"
+          id="github-link"
+        >
+          <svg
+            fill="white"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+        </div>
+      </a>
+    </div>
+    <div
+      class="border-web-gray border-t px-2"
+    >
+      <h4
+        class="py-4 text-center w-full font-medium text-xl"
+      >
+        Select Winner
+      </h4>
+      <div
+        class="flex flex-col w-full relative h-48 overflow-y-auto"
+      >
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(18, 18, 18);"
+        >
+          <div>
+            30.0 Chainlink Token 
+          </div>
+        </button>
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(21, 21, 21);"
+        >
+          <div>
+            60.0 Chainlink Token 
+          </div>
+        </button>
+        <button
+          class="flex justify-center cursor-pointer text-black content-center items-center font-semibold"
+          data-testid="winnerSelectAmounts"
+          style="background-color: rgb(22, 22, 22);"
+        >
+          <div>
+            10.0 Chainlink Token 
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

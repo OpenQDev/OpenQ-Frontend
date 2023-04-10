@@ -87,8 +87,9 @@ export const checkHackathonDates = (startDate, endDate, today) => {
   const end = endDate && new Date(endDate);
   if ((start && start < today) || (end && end < today) || (start && end && end < start)) {
     return false;
+  } else {
+    return true;
   }
-  return true;
 };
 const checkPrUsed = (pr, bounty) => {
   return bounty.claims?.some((claim) => claim.claimantAsset === pr.source.url);

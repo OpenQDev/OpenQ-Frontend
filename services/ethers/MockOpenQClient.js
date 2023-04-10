@@ -13,7 +13,17 @@ class MockOpenQClient {
         this.shouldSleep = time;
     }
 
-    constructor(mockMutations) { this.mockMutations = mockMutations; }
+    constructor(mockMutations) {
+        
+        const initialMockMutations = {
+            setFundingGoal: () => { },
+            setPayout: () => { },
+            setSupportingDocumentsComplete: () => { },
+            setTier: () => { },
+            closeOngoing: () => { },
+        }
+
+        this.mockMutations = { ...initialMockMutations,...mockMutations}; }
 
     async sleep(time = this.shouldSleep) {
         return new Promise(async (resolve) => {
@@ -28,7 +38,8 @@ class MockOpenQClient {
     getENS = async (_callerAddress) => {
         let promise = new Promise(async (resolve) => {
             await this.sleep();
-            resolve("sample.eth");
+        
+            (_callerAddress).slice(0,4)+"..."+(_callerAddress).slice(-4)
 
         });
         return promise;

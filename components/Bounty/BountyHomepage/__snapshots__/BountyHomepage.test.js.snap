@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// vi Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BountyHomepage should render BountyDetails and match DOM Snapshot: contest 1`] = `
 <div>
