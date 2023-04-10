@@ -1,4 +1,4 @@
-import { getTierWinnerTransactions } from '../../lib/batchUtils';
+import { getTierWinnerTransactions } from '../../../lib/batchUtils';
 import tierWinnerJSON from './json/tierWinner.json';
 import tierWinnerBatchTxnArray from './json/tierWinnerBatchTxnArray.json';
 

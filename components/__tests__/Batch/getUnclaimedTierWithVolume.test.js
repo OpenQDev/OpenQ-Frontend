@@ -1,6 +1,6 @@
-import { getUnclaimedTierWithVolume } from '../../lib/batchUtils';
+import { getUnclaimedTierWithVolume } from '../../../lib/batchUtils';
 import { ethers } from 'ethers';
-import Constants from '../../test-utils/constant.js';
+import Constants from '../../../test-utils/constant.js';
 
 describe('Batch Mint - Tier Winner', () => {
   const bounty = Constants.bounty;

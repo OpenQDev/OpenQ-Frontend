@@ -1,4 +1,4 @@
-import { getSetSupportingDocumentsCompleteTransactions } from '../../lib/batchUtils';
+import { getSetSupportingDocumentsCompleteTransactions } from '../../../lib/batchUtils';
 import supportingDocsJSON from './json/supportingDocs.json';
 
 import SupportingDocsBatchTxnArray from './json/SupportingDocsBatchTxnArray.json';

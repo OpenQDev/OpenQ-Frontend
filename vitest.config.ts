@@ -7,8 +7,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './test-utils/setup.js',
-   minThreads:1,
-   maxThreads: 1,
     reporters: [ "default",'junit'],
     outputFile: 'junit.xml',
   }

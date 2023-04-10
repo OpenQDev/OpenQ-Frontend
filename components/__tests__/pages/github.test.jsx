@@ -2,9 +2,9 @@
  * @vi-environment jsdom
  */
 import React from 'react';
-import GithubAuth from '../../pages/auth/github';
+import GithubAuth from '../../../pages/auth/github';
 
-import { render } from '../../test-utils';
+import { render } from '../../../test-utils';
 import nextRouter from 'next/router';
 
 describe('GithubAuth', () => {

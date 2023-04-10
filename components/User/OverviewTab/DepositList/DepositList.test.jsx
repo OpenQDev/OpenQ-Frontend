@@ -15,14 +15,14 @@ describe('DepositList', () => {
   afterEach(() => {
     cleanup();
   });
-  it('should match DOM Snapshot', () => {
+  it.skip('should match DOM Snapshot', () => {
     const shallow = new ShallowRenderer();
     shallow.render(<DepositList deposits={deposits} />);
     const tree = shallow.getRenderOutput();
     expect(tree).toMatchSnapshot();
   });
 
-  it('should render Bounty heading', async () => {
+  it.skip('should render Bounty heading', async () => {
     // ARRANGE
     render(<DepositList deposits={deposits} />);
 

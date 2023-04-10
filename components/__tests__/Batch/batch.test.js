@@ -1,4 +1,4 @@
-import { convertPayoutScheduleToBigInt } from '../../lib/batchUtils';
+import { convertPayoutScheduleToBigInt } from '../../../lib/batchUtils';
 
 describe('Batch Mint', () => {
   it('should pass', async () => {
