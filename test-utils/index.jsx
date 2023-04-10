@@ -12,6 +12,13 @@ import TokenProvider from '../components/TokenSelection/TokenStore/TokenProvider
 // test-utils.js
 // (ReduxProvider, ThemeProvider, etc)
 const customRender = (ui, options = {}, storeProps, authProps) => {
+  const IntersectionObserverMock = vi.fn(() => ({
+    disconnect: vi.fn(),
+    observe: vi.fn(),
+    takeRecords: vi.fn(),
+    unobserve: vi.fn(),
+  }));
+  vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
   const Providers = ({ children }) => {
     return (
       <AuthProvider StoreProps={authProps}>
