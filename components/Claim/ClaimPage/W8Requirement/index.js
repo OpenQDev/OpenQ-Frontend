@@ -239,9 +239,9 @@ const W8Requirement = ({ bounty }) => {
               </div>
             )}
             <div>
-              Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We
-              encourage you to consult with you own tax or financial adviser to determine which form is appropriate for
-              you or ask in our
+              Please complete and upload a W-8/W-9 form (must be in PDF format). Choose one of five types, depending on
+              your entity. We encourage you to consult with you own tax or financial adviser to determine which form is
+              appropriate for you or ask in our
               <div>
                 <Link
                   href={'https://discord.gg/puQVqEvVXn'}
@@ -268,7 +268,8 @@ const W8Requirement = ({ bounty }) => {
             </button>
             .
           </div>
-          <div className='font-semibold flex gap-2 group w-fit'>Upload</div>
+          <div>✅ PDF File must be less than 6 MB</div>
+          <div>🔔 Don't forget to add your signature and date to your W8 or W9 Form!</div>
           <form onSubmit={handleSend} className='flex gap-2 items-center flex-wrap md:flex-nowrap'>
             {sent && (
               <div
@@ -286,17 +287,17 @@ const W8Requirement = ({ bounty }) => {
                 {file ? (
                   <>
                     <CheckIcon size={16} />
-                    Change File
+                    Change PDF File
                   </>
                 ) : sent ? (
                   <>
                     <UploadIcon size={16} />
-                    Upload Updated W8/W9
+                    Upload Updated W8/W9 PDF
                   </>
                 ) : (
                   <>
                     <UploadIcon size={16} />
-                    Choose File
+                    Choose PDF File
                   </>
                 )}
               </div>
