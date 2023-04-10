@@ -9,5 +9,12 @@ export default defineConfig({
     setupFiles: './test-utils/setup.js',
     reporters: [ "default",'junit'],
     outputFile: 'junit.xml',
+    cache: false,
+    
   }
 })
+process.env = Object.assign(process.env, {
+  NEXT_PUBLIC_DEPLOY_ENV: 'local',
+  DEPLOY_ENV: 'local',
+  TZ: 'UTC',
+});

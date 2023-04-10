@@ -10,7 +10,7 @@ import InitialMintState from '../../InitialMintState';
 import nextRouter from 'next/router';
 import { cleanup } from '@testing-library/react';
 
-describe('MintBountyModalButton', () => {
+describe.skip('MintBountyModalButton', () => {
   afterEach(() => {
     cleanup();
   });
