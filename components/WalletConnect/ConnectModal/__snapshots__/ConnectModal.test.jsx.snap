@@ -95,6 +95,27 @@ exports[`ConnectModal > should render match DOM Snapshot 1`] = `
                   WalletConnect
                 </div>
               </button>
+              <button
+                class="flex py-4 pl-4 mb-8 w-full gap-8 btn-default"
+              >
+                <img
+                  alt="wallet connect logo"
+                  class="rounded-full"
+                  data-nimg="1"
+                  decoding="async"
+                  height="40"
+                  loading="lazy"
+                  src="/_next/image?url=%2Fwallet-logos%2Fcoinbase-logo.jpg&w=96&q=75"
+                  srcset="/_next/image?url=%2Fwallet-logos%2Fcoinbase-logo.jpg&w=48&q=75 1x, /_next/image?url=%2Fwallet-logos%2Fcoinbase-logo.jpg&w=96&q=75 2x"
+                  style="color: transparent;"
+                  width="40"
+                />
+                <div
+                  class="leading-loose text-lg"
+                >
+                  Coinbase
+                </div>
+              </button>
             </div>
           </div>
           <div

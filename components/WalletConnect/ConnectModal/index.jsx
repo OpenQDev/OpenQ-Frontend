@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { metaMask, walletConnect } from '../connectors';
+import { metaMask, walletConnect, coinbaseWallet } from '../connectors';
 import useWeb3 from '../../../hooks/useWeb3';
 import Image from 'next/image';
 import ModalLarge from '../../Utils/ModalLarge';
@@ -16,7 +16,7 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       await metaMask.activate();
       closeModal();
     } catch (err) {
-      appState.logger.info(err, accountData?.id, 'ConnectModal.js');
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js1');
     }
   };
 
@@ -26,7 +26,16 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       await walletConnect.activate();
       closeModal();
     } catch (err) {
-      appState.logger.info(err, accountData?.id, 'ConnectModal.js');
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js2');
+    }
+  };
+  const handleCoinbase = async () => {
+    try {
+      if (!coinbaseWallet) return;
+      await coinbaseWallet.activate();
+      closeModal();
+    } catch (err) {
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js3');
     }
   };
 
@@ -71,6 +80,16 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
             alt={'wallet connect logo'}
           />
           <div className='leading-loose text-lg'>WalletConnect</div>
+        </button>
+        <button onClick={handleCoinbase} className='flex py-4 pl-4 mb-8 w-full gap-8 btn-default'>
+          <Image
+            src={'/wallet-logos/coinbase-logo.jpg'}
+            className='rounded-full'
+            height={40}
+            width={40}
+            alt={'wallet connect logo'}
+          />
+          <div className='leading-loose text-lg'>Coinbase</div>
         </button>
       </div>
     </ModalLarge>

@@ -5,7 +5,7 @@ import chainIdDeployEnvMap from '../chainIdDeployEnvMap';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import { SignOutIcon } from '@primer/octicons-react';
 import StoreContext from '../../../store/Store/StoreContext';
-import { metaMask, walletConnect } from '../connectors';
+import { metaMask, walletConnect, coinbaseWallet } from '../../WalletConnect/connectors';
 import useWeb3 from '../../../hooks/useWeb3';
 import useEns from '../../../hooks/useENS';
 
@@ -21,7 +21,7 @@ const AccountModal = ({ setIsConnecting, domRef, showModal }) => {
     }
   }
   const disconnectAccount = () => {
-    const connectors = [walletConnect, metaMask];
+    const connectors = [walletConnect, metaMask, coinbaseWallet];
     try {
       connectors.forEach((connector) => {
         if (connector?.deactivate) {
