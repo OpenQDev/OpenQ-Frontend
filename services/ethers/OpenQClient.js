@@ -63,10 +63,8 @@ class OpenQClient {
   signMessage = async (library, account) => {
     const date = new Date().toISOString().slice(0, 10);
     const message = 'OpenQ ' + date;
-    const signature = await library.provider.request({
-      method: 'personal_sign',
-      params: [message, account],
-    });
+    const signer = library.getSigner(account);
+    const signature = signer.signMessage(message);
     return signature;
   };
 
