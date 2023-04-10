@@ -7,10 +7,14 @@ import { render, screen } from '../../../../test-utils';
 import DepositList from '../../../../components/User/OverviewTab/DepositList';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import Constants from '../../../../test-utils/constant';
+import { cleanup } from '@testing-library/react';
 
 describe('DepositList', () => {
   const deposits = Constants.deposits;
 
+  afterEach(() => {
+    cleanup();
+  });
   it('should match DOM Snapshot', () => {
     const shallow = new ShallowRenderer();
     shallow.render(<DepositList deposits={deposits} />);

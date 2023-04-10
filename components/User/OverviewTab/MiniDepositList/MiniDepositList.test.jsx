@@ -3,7 +3,7 @@
  */
 import React from 'react';
 
-import { render, screen } from '../../../../test-utils';
+import { cleanup, render, screen } from '../../../../test-utils';
 import MiniDepositList from '../../../../components/User/OverviewTab/DepositList';
 
 describe('MiniDepositList', () => {
@@ -41,6 +41,7 @@ describe('MiniDepositList', () => {
   beforeEach(() => {
     const observe = vi.fn();
     const disconnect = vi.fn();
+    cleanup();
 
     window.IntersectionObserver = vi.fn(() => ({
       observe,

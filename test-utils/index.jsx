@@ -12,11 +12,12 @@ import TokenProvider from '../components/TokenSelection/TokenStore/TokenProvider
 // Add in any providers here if necessary:
 // test-utils.js
 // (ReduxProvider, ThemeProvider, etc)
-afterEach(() => {
-  cleanup();
-});
 
 const customRender = (ui, options = {}, storeProps, authProps) => {
+  afterEach(() => {
+    cleanup();
+  });
+
   const IntersectionObserverMock = vi.fn(() => ({
     disconnect: vi.fn(),
     observe: vi.fn(),
