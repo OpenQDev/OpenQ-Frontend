@@ -17,7 +17,7 @@ exports[`W8Requirement > should match initial DOM Snapshot 1`] = `
     </h4>
     <div>
       <div>
-        Please complete and upload a W-8/W-9 form. Choose one of five types, depending on your entity. We encourage you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our
+        Please complete and upload a W-8/W-9 form (must be in PDF format). Choose one of five types, depending on your entity. We encourage you to consult with you own tax or financial adviser to determine which form is appropriate for you or ask in our
         <div>
           <a
             class="text-link-colour hover:underline col-span-2"
@@ -80,10 +80,11 @@ exports[`W8Requirement > should match initial DOM Snapshot 1`] = `
       </button>
       .
     </div>
-    <div
-      class="font-semibold flex gap-2 group w-fit"
-    >
-      Upload
+    <div>
+      ✅ PDF File must be less than 6 MB
+    </div>
+    <div>
+      🔔 Don't forget to add your signature and date to your W8 or W9 Form!
     </div>
     <form
       class="flex gap-2 items-center flex-wrap md:flex-nowrap"
@@ -118,7 +119,7 @@ exports[`W8Requirement > should match initial DOM Snapshot 1`] = `
               d="M11.78 4.72a.749.749 0 1 1-1.06 1.06L8.75 3.811V9.5a.75.75 0 0 1-1.5 0V3.811L5.28 5.78a.749.749 0 1 1-1.06-1.06l3.25-3.25a.749.749 0 0 1 1.06 0l3.25 3.25Z"
             />
           </svg>
-          Upload Updated W8/W9
+          Upload Updated W8/W9 PDF
         </div>
         <input
           class="absolute invisible w-full top-0 bottom-0 z-10"
