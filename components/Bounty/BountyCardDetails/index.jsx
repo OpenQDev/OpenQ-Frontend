@@ -1,19 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 // Custom
 
 import ActionBubble from '../../Utils/ActionBubble';
 import StoreContext from '../../../store/Store/StoreContext';
 import GithubHtmlRenderer from '../../Utils/HtmlReneder';
+import NoSSR from '../../Utils/NoSSR';
 
 const BountyCardDetails = ({ bounty }) => {
-  const [rendered, setRendered] = useState(false);
   const [appState] = useContext(StoreContext);
   const { bodyHTML } = bounty;
 
-  useEffect(() => {
-    setRendered(true);
-  }, []);
   const prs = bounty.prs.map((pr) => {
     const referencedTime = new Date(pr.referencedAt).getTime() / 1000;
 
@@ -68,14 +65,17 @@ const BountyCardDetails = ({ bounty }) => {
       {bodyHTML && (
         <GithubHtmlRenderer className={'w-full py-8 mb-2 border-web-gray border-b markdown-body'} html={bodyHTML} />
       )}
-      {rendered && (
+      <NoSSR>
+        {' '}
+        (
         <>
           {allActions.map((action, index) => (
             <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
           ))}
           <ActionBubble suppressHydrationWarning bounty={bounty} />
         </>
-      )}
+        )}
+      </NoSSR>
     </div>
   );
 };
