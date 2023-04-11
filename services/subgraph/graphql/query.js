@@ -155,12 +155,6 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
       claimedTransactionHash
       alternativeName
       alternativeLogo
-      tierWinners
-      supportingDocumentsCompleted
-      claims {
-        tier
-      }
-
       deposits {
         id
         refunded
