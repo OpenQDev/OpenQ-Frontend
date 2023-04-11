@@ -251,8 +251,9 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
     return bounty.requests;
   });
-  const processedRequests = [];
+  const processedBounties = [];
   for (let bounty of createdBounties) {
+    const processedRequests = [];
     for (let request of bounty.requests.nodes) {
       const user = processedRequests.find(
         (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
@@ -270,11 +271,12 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
         processedRequests.push({ request: requestWithGithubUser, bounty });
       }
     }
+    processedBounties.push(...processedRequests);
   }
 
   // re write using for loop
   return {
-    nodes: processedRequests,
+    nodes: processedBounties,
     cursor: userOffChainData.createdBounties.bountyConnection.cursor,
     complete: createdBounties.length !== batch,
   };
