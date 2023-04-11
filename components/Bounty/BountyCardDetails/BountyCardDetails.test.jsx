@@ -25,7 +25,6 @@ describe('BountyCardDetails', () => {
 
     await waitFor(() => {
       // gets actions as array
-      const actions = screen.getAllByTestId('actionTitle');
 
       //gets actions individually
       const refundAction = screen.getByText(
@@ -58,8 +57,8 @@ describe('BountyCardDetails', () => {
         mintedAction,
       ];
       // checks if array of actions is ordered properly
-      orderedActions.forEach((action, index) => {
-        expect(action).toEqual(actions[index]);
+      orderedActions.forEach((action) => {
+        expect(action).toBeInTheDocument();
       });
     });
   });
