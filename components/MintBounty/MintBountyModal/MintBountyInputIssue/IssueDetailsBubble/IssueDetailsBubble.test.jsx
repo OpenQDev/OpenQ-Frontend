@@ -119,7 +119,7 @@ describe('IssueDetailsBubble', () => {
     },
   };
 
-  it.skip('should display mintable issue', async () => {
+  it('should display mintable issue', async () => {
     const mintState = {
       ...InitialMintState.mintState,
       enableRegistration: true,
@@ -140,7 +140,7 @@ describe('IssueDetailsBubble', () => {
     expect(nullish).toHaveLength(0);
   });
 
-  it.skip('should display unmintable issue', async () => {
+  it('should display unmintable issue', async () => {
     const mintState = {
       ...InitialMintState.mintState,
       enableRegistration: true,

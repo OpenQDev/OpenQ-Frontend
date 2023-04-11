@@ -16,7 +16,15 @@ exports[`FirstTimeBanner > should show nothing 1`] = `
     <br />
     <br />
     <div>
-      The Graph is experiencing availability issues. Please standby while the talented folks at the Graph fix the issue.
+      Most EthDenver bounties have been minted and are in the process of being funded by sponsors.
+    </div>
+    <br />
+    <div>
+      EthDenver and team are reviewing all pull request submissions and will verify winners ASAP.
+    </div>
+    <br />
+    <div>
+      Keep an eye on your inbox for updates.
     </div>
   </div>
   <div
