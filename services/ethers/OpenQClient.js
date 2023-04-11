@@ -64,8 +64,12 @@ class OpenQClient {
     const date = new Date().toISOString().slice(0, 10);
     const message = 'OpenQ ' + date;
     const signer = library.getSigner(account);
-    const signature = signer.signMessage(message);
-    return signature;
+    try {
+      const signature = signer.signMessage(message);
+      return signature;
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   mintBounty = async (

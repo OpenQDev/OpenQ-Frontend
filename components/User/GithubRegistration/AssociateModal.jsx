@@ -49,7 +49,16 @@ const AssociateModal = ({
   const associateExternalIdToAddress = async () => {
     setAssociateState('SIGN_MESSAGE');
     setShowModal(true);
-    const signature = await appState.openQClient.signMessage(library, account);
+    const signature = await appState.openQClient.signMessage(library, account).catch((err) => {
+      if (err.message.includes(canvas)) return;
+      logger.error(err, account, githubId);
+      setAssociateState('ERROR');
+      setError({
+        message: err?.response?.data?.errorMessage || `User Rejected Signing. Please try again.`,
+        title: 'Error',
+      });
+    });
+    if (!signature) return;
     setAssociateState('TRANSACTION_SUBMITTED');
     axios
       .post(
