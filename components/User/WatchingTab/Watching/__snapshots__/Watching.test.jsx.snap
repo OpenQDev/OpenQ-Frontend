@@ -59,9 +59,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "0",
+              "expiration": "2342342",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661005920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -89,7 +89,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
               "__typename": "Deposit",
               "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661305920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -237,9 +237,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "0",
+              "expiration": "2342342",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661005920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -417,9 +417,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "0",
+              "expiration": "2342342",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661005920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -447,7 +447,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
               "__typename": "Deposit",
               "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661305920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -600,9 +600,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "0",
+              "expiration": "2342342",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661005920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -630,7 +630,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
               "__typename": "Deposit",
               "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1661785920",
+              "receiveTime": "1661305920",
               "refundTime": null,
               "refunded": false,
               "sender": {

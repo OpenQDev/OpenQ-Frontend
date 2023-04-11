@@ -10,6 +10,7 @@ export default defineConfig({
     reporters: [ "default",'junit'],
     outputFile: 'junit.xml',
     cache: false,
+    allowOnly: true,
     
   }
 })
