@@ -43,7 +43,7 @@ const RequestPage = ({ states }) => {
     filterFunction,
     cursor: null,
     complete: false,
-    batch: 20,
+    batch: 50,
     getItems,
   };
   const paginationState = useState(paginationObj);

@@ -92,7 +92,7 @@ const ClaimButton = ({
       try {
         if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
           const pr = bounty?.prs?.find((pr) => pr?.source?.author?.id === accountData?.github);
-          const prUrl = pr ? pr?.source.url : null;
+          const prUrl = pr ? pr?.source.url : '';
           const externalUserId = accountData.github;
           const closerAddress = account;
           const tier = targetTier;
