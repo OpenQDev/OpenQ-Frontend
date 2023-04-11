@@ -16,7 +16,7 @@
     "lint:fix": "next lint --fix",
     "test": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest  watch",
     "test:cicd": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run --no-threads",
-    "test:pre-push": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run",
+    "test:pre-push": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run --no-threads",
     "vitest": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run",
     "gen": "node services/ethers/mocks/abiToJavascriptClass.js",
     "prepare-mumbai": "mustache constants/config/mumbai.json constants/polygon-mumbai.json.mustache > constants/polygon-mumbai.json && mustache constants/config/mumbai.json constants/polygon-mumbai-tokens.json.mustache > constants/polygon-mumbai-tokens.json",
