@@ -19,7 +19,6 @@ import ShowCaseCard from '../../../components/ShowCase/ShowCaseCard';
 import StoreContext from '../../../store/Store/StoreContext';
 import PaginatedList from '../../../components/Utils/PaginatedList';
 import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
-import ClaimsPerBounty from '../../../components/Claim/ClaimsTracking';
 import { ChevronLeftIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import Image from 'next/image';

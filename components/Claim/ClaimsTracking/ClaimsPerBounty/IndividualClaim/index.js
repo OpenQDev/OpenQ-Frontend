@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../../../../../store/Store/StoreContext';
+import React /* , { useContext, useEffect, useState } */ from 'react';
+/* import StoreContext from '../../../../../store/Store/StoreContext'; */
 
 const IndividualClaim = ({ payout, bounty, index }) => {
- /*  const appState = useContext(StoreContext);
+  /*  const appState = useContext(StoreContext);
   const [githubUser, setGithubUser] = useState(undefined);
   useEffect(() => {
     if (bounty.tierWinners[index]) {
