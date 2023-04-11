@@ -16,7 +16,7 @@ const Footer = () => {
   const [open, setOpen] = useState();
   const modal = useRef();
 
-  const year = new Date().getFullYear();
+  const year = 2023;
   useEffect(() => {
     let didCancel;
     // Courtesy of https://stackoverflow.com/questions/32553158/detect-click-outside-react-component

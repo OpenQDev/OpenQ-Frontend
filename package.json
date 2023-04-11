@@ -15,7 +15,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest  watch",
-    "test:cicd": "TZ=UTC vitest run --no-threads",
+    "test:cicd": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run --no-threads",
     "test:pre-push": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run",
     "vitest": "TZ=UTC NEXT_PUBLIC_DEPLOY_ENV=local vitest run",
     "gen": "node services/ethers/mocks/abiToJavascriptClass.js",

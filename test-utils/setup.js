@@ -3,7 +3,6 @@ import { cleanup } from '@testing-library/react';
 import matchers from '@testing-library/jest-dom/matchers';
 
 expect.extend(matchers);
-console.log('set up');
 beforeEach(() => {
   cleanup();
 });

@@ -29,7 +29,7 @@ describe('BountyCardDetails', () => {
 
       //gets actions individually
       const refundAction = screen.getByText(
-        /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on August 29, 2022 at 17:58/i
+        '0xf3...2266 refunded a deposit of 2.0 DERC20 ($1.34) on August 29, 2022 at 17:58.'
       );
       const fundActionOne = screen.getByText(
         /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on August 29, 2022 at 15:12/i

@@ -9,7 +9,7 @@
       "email": null,
       "starredOrganizationIds": [],
       "devRoles": ["machine learning"],
-      "createdAt": "1672865114143"
+      "createdAt": "1661749200000"
     },
     {
       "__typename": "User",
@@ -19,7 +19,7 @@
       "twitter": null,
       "email": "christopher.stevers1@gmail.com",
       "starredOrganizationIds": [],
-      "createdAt": "1672865114143"
+      "createdAt": "1661749200000"
     }
   ],
   "prismaOrgs": {

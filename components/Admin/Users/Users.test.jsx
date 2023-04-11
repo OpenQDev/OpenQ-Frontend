@@ -17,7 +17,7 @@ describe('Users', async () => {
     const secretField = screen.getByLabelText(/OPENQ_API_SECRET/i);
     await user.type(secretField, 'testSecret');
     await user.click(screen.getByRole('button', { name: 'Submit' }));
-    expect(await screen.findAllByText(/Wed Jan 04 2023/i)).toHaveLength(2);
+    expect(await screen.findAllByText(/Mon Aug 29 2022/i)).toHaveLength(2);
     expect(await screen.findByText(/Github/i)).toBeInTheDocument();
     expect(await screen.findByText(/discord/i)).toBeInTheDocument();
     expect(await screen.findByText(/Christopher-Stevers/)).toBeInTheDocument();

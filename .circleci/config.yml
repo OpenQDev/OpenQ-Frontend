@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Test application
           command: |
-            TEST=$(circleci tests glob "__tests__/**/*.test.js" | circleci tests split)
+            TEST=$(circleci tests glob "__tests__/**/*.test.js" | circleci tests split --split-by=timings)
             docker exec openq-frontend yarn test:cicd $TEST
             echo $TEST
       - run:
