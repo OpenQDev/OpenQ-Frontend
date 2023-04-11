@@ -57,9 +57,10 @@ describe('BountyCardDetails', () => {
         mintedAction,
       ];
       // checks if array of actions is ordered properly
-      orderedActions.forEach((action) => {
+      for (let i = 0; i < orderedActions.length; i++) {
+        const action = orderedActions[i];
         expect(action).toBeInTheDocument();
-      });
+      }
     });
   });
 });
