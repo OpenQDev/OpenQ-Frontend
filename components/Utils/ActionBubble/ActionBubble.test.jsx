@@ -75,7 +75,7 @@ const bounty = {
   __typename: 'Bounty',
   bountyAddress: '0x3c57cd59335d9a56b76feb48b3925d095e7e8e9f',
   bountyId: 'I_kwDOGAqhQc48U5_r',
-  bountyMintTime: '1661767971',
+  bountyMintTime: '1661785920',
   bountyClosedTime: null,
   status: '0',
   fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
@@ -178,21 +178,22 @@ describe('ActionBubble', () => {
     }));
   });
 
-  it.skip('should display minted links', async () => {
+  it('should display minted links', async () => {
     // ARRANGE
     const user = userEvent.setup();
     render(<ActionBubble bounty={bounty} />);
     // ASSERT
     const link = await screen.findByTestId('link');
     await user.hover(link);
-    expect(screen.getByText('0xf3...2266 minted this contract on August 29, 2022 at 10:12.'));
+    expect(screen.getByText('0xf3...2266 minted this contract on August 29, 2022 at 15:12.'));
   });
 
-  it.skip('should display funded action message', async () => {
+  it('should display funded action message', async () => {
     // ARRANGE
 
     const action = {
-      receiveTime: 200000,
+      expiration: '0',
+      receiveTime: '1661785920',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
       volume: '10000000000000000000',
@@ -202,16 +203,16 @@ describe('ActionBubble', () => {
     // ASSERT
     expect(
       await screen.findByText(
-        '0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on January 3, 1970 at 7:33. This deposit will expire on undefined NaN, NaN at NaN:NaN.'
+        '0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on August 29, 2022 at 15:12. This deposit will expire on August 29, 2022 at 15:12.'
       )
-    );
+    ).toBeInTheDocument();
   });
 
-  it.skip('should display refunded action message', async () => {
+  it('should display refunded action message', async () => {
     // ARRANGE
 
     const action = {
-      refundTime: 200000,
+      refundTime: 1661785920,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
@@ -219,14 +220,16 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={{ ...action }} bounty={bounty} />);
 
     // ASSERT
-    expect(await screen.findByText('0xf3...2266 refunded a deposit of 10.0 MATIC ($6.70) on January 3, 1970 at 7:33.'));
+    expect(
+      await screen.findByText('0xf3...2266 refunded a deposit of 10.0 MATIC ($6.70) on August 29, 2022 at 15:12.')
+    );
   });
 
-  it.skip('should display multi claimed action message', async () => {
+  it('should display multi claimed action message', async () => {
     // ARRANGE
 
     const action = {
-      claimTime: 200000,
+      claimTime: 1661785920,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
@@ -234,13 +237,15 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={bounty} />);
 
     // ASSERT
-    expect(await screen.findByText('0x5F...0aa3 made a claim of $0.00 on this contract on January 3, 1970 at 7:33.'));
+    expect(
+      await screen.findByText(/0x5F...0aa3 made a claim of \$0.00 on this contract on August 29/)
+    ).toBeInTheDocument();
   });
-  it.skip('should display single claimed action message', async () => {
+  it('should display single claimed action message', async () => {
     // ARRANGE
 
     const action = {
-      claimTime: 200000,
+      claimTime: 1661785920,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
@@ -248,13 +253,15 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
-    expect(await screen.findByText('0x5F...0aa3 claimed $0.00 on this contract on January 3, 1970 at 7:33.'));
+    expect(
+      await screen.findByText(/0x5F...0aa3 claimed \$0.00 on this contract on August 29, 2022 at 15:12/)
+    ).toBeInTheDocument();
   });
-  it.skip('should display closed action message', async () => {
+  it('should display closed action message', async () => {
     // ARRANGE
 
     const action = {
-      closingTime: 200000,
+      closingTime: 1661785920,
       tokenAddress: '0x0000000000000000000000000000000000000000',
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
@@ -264,13 +271,13 @@ describe('ActionBubble', () => {
     });
 
     // ASSERT
-    expect(await screen.findByText('0xf3...2266 closed this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText(/0xf3...2266 closed this contract on August 29, 2022 at 15:12./));
   });
-  it.skip('should display pull request linked action message', async () => {
+  it('should display pull request linked action message', async () => {
     // ARRANGE
     const url = 'https://github.com/OpenQDev/OpenQ-Frontend/pull/720';
     const action = {
-      referencedTime: 200000,
+      referencedTime: 1661785920,
 
       author: {
         login: 'Christopher-Stevers',
@@ -285,7 +292,7 @@ describe('ActionBubble', () => {
     render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
-    expect(await screen.findByText(/Christopher-Stevers linked/));
+    expect(await screen.findByText(/Christopher-Stevers linked/)).toBeInTheDocument();
     expect(screen.getAllByRole('link')[1].href).toBe(url);
   });
 });

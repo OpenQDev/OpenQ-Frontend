@@ -30,7 +30,7 @@ describe('RefundPage', () => {
     bountyId: 'I_kwDOCQWAHM5EzBw7',
     bountyAddress: '0xae71d223b7508877f4562939709326e2371c632e',
     closerData: null,
-    bountyMintTime: '1662372831',
+    bountyMintTime: '1661785920',
     bountyClosedTime: null,
     fundingGoalVolume: '100',
     fundingGoalTokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
@@ -48,7 +48,7 @@ describe('RefundPage', () => {
       {
         id: '0xbf3f0b23ed5abb06f6ea2bdc516729d30cd5e9731a7a31ef77ef5382488455b2',
         refunded: false,
-        receiveTime: '1662395968',
+        receiveTime: '1661785920',
         tokenAddress: '0x0000000000000000000000000000000000000000',
         expiration: '1',
         volume: '23000000000000000000',
@@ -109,7 +109,7 @@ describe('RefundPage', () => {
     bountyId: 'I_kwDOCQWAHM5EzBw7',
     bountyAddress: '0xae71d223b7508877f4562939709326e2371c632e',
     closerData: null,
-    bountyMintTime: '1662372831',
+    bountyMintTime: '1661785920',
     bountyClosedTime: null,
     fundingGoalVolume: '100',
     fundingGoalTokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
@@ -127,7 +127,7 @@ describe('RefundPage', () => {
       {
         id: '0xbf3f0b23ed5abb06f6ea2bdc516729d30cd5e9731a7a31ef77ef5382488455b2',
         refunded: true,
-        receiveTime: '1662395968',
+        receiveTime: '1661785920',
         tokenAddress: '0x0000000000000000000000000000000000000000',
         expiration: '1',
         volume: '23000000000000000000',
@@ -138,7 +138,7 @@ describe('RefundPage', () => {
       {
         id: '0x8f5c1c912b8ffca325a22eadb33d6d54fa8e85b3752f2392eb54ecc6dd24b1e1',
         refunded: false,
-        receiveTime: '1662395948',
+        receiveTime: '1661785920',
         tokenAddress: '0x0000000000000000000000000000000000000000',
         expiration: '2592000',
         volume: '23000000000000000000',
@@ -149,7 +149,7 @@ describe('RefundPage', () => {
       {
         id: '0x9c5e530511dff239da2c1c1205649aaa24fe2cc797d583a162744f26d623726a',
         refunded: false,
-        receiveTime: '1662395897',
+        receiveTime: '1661785920',
         tokenAddress: '0x0000000000000000000000000000000000000000',
         expiration: '2592000',
         volume: '23000000000000000000',
@@ -175,7 +175,7 @@ describe('RefundPage', () => {
     ],
     issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
   };
-  const isoDate = 1662396272728;
+  const isoDate = 1661785920000;
   const RealDate = Date;
   global.Date = class extends RealDate {
     constructor() {
@@ -221,7 +221,7 @@ describe('RefundPage', () => {
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       // ASSERT
       expect(nullish).toHaveLength(0);
-      expect(screen.getAllByText(/Refundable on: September 5, 2022 at 16:44/)).toHaveLength(3);
+      expect(screen.getAllByText(/Refundable on: August 29, 2022 at 15:12/)).toHaveLength(3);
     });
 
     it('should render refunded', async () => {
@@ -232,7 +232,7 @@ describe('RefundPage', () => {
       // ASSERT
       expect(heading).toBeInTheDocument();
       // ASSERT
-      expect(screen.getAllByText(/Refunded on: September 5, 2022 at 16:44/)).toHaveLength(1);
+      expect(screen.getAllByText(/Refunded on: August 29, 2022 at 15:12/)).toHaveLength(1);
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
     });

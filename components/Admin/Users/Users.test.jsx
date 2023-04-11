@@ -7,7 +7,7 @@ import Users from '.';
 import userEvent from '@testing-library/user-event';
 
 describe('Users', async () => {
-  it.skip('should display the Users', async () => {
+  it('should display the Users', async () => {
     const user = userEvent.setup();
     // ARRANGE
     render(<Users />);

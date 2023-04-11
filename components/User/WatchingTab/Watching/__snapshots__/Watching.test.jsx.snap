@@ -19,7 +19,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "bodyHTML": "<p dir=\\"auto\\">body of test2</p>",
           "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "bountyId": "I_kwDOGWnnz85I9Agl",
-          "bountyMintTime": "1662545344",
+          "bountyMintTime": "1661785920",
           "bountyTokenBalances": [
             {
               "__typename": "BountyFundedTokenBalance",
@@ -59,9 +59,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1662545374",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -73,10 +73,10 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "30",
+              "expiration": "0",
               "id": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "receiveTime": "1662545373",
-              "refundTime": "1662559726",
+              "receiveTime": "1661785920",
+              "refundTime": "1661785920",
               "refunded": true,
               "sender": {
                 "__typename": "User",
@@ -87,9 +87,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1662545372",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -170,7 +170,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             {
               "__typename": "Refund",
               "depositId": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "refundTime": "1662559726",
+              "refundTime": "1661795920",
               "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
               "volume": "2000000000000000000",
             },
@@ -197,7 +197,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "bodyHTML": "<p dir=\\"auto\\">body of test2</p>",
           "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "bountyId": "I_kwDOGWnnz85I9Agl",
-          "bountyMintTime": "1662545344",
+          "bountyMintTime": "1661785920",
           "bountyTokenBalances": [
             {
               "__typename": "BountyFundedTokenBalance",
@@ -237,9 +237,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1662545374",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -253,7 +253,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
               "__typename": "Deposit",
               "expiration": "30",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e001",
-              "receiveTime": "1662545371",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": true,
               "sender": {
@@ -267,7 +267,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
               "__typename": "Deposit",
               "expiration": "1296000",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e000",
-              "receiveTime": "1662545370",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -350,7 +350,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             {
               "__typename": "Refund",
               "depositId": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "refundTime": "1662559726",
+              "refundTime": "1661795920",
               "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
               "volume": "2000000000000000000",
             },
@@ -377,7 +377,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "bodyHTML": "<p dir=\\"auto\\">body of test2</p>",
           "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "bountyId": "I_kwDOGWnnz85I9Agl",
-          "bountyMintTime": "1662545344",
+          "bountyMintTime": "1661785920",
           "bountyTokenBalances": [
             {
               "__typename": "BountyFundedTokenBalance",
@@ -417,9 +417,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1662545374",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -431,10 +431,10 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "30",
+              "expiration": "0",
               "id": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "receiveTime": "1662545373",
-              "refundTime": "1662559726",
+              "receiveTime": "1661785920",
+              "refundTime": "1661785920",
               "refunded": true,
               "sender": {
                 "__typename": "User",
@@ -445,9 +445,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1662545372",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -533,7 +533,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             {
               "__typename": "Refund",
               "depositId": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "refundTime": "1662559726",
+              "refundTime": "1661795920",
               "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
               "volume": "2000000000000000000",
             },
@@ -560,7 +560,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "bodyHTML": "<p dir=\\"auto\\">body of test2</p>",
           "bountyAddress": "0x066efd87027a4cc4a21c57467f224ef98241d774",
           "bountyId": "I_kwDOGWnnz85I9Agl",
-          "bountyMintTime": "1662545344",
+          "bountyMintTime": "1661785920",
           "bountyTokenBalances": [
             {
               "__typename": "BountyFundedTokenBalance",
@@ -600,9 +600,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
           "deposits": [
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356",
-              "receiveTime": "1662545374",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -614,10 +614,10 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "30",
+              "expiration": "0",
               "id": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "receiveTime": "1662545373",
-              "refundTime": "1662559726",
+              "receiveTime": "1661785920",
+              "refundTime": "1661785920",
               "refunded": true,
               "sender": {
                 "__typename": "User",
@@ -628,9 +628,9 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             },
             {
               "__typename": "Deposit",
-              "expiration": "1296000",
+              "expiration": "0",
               "id": "0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0",
-              "receiveTime": "1662545372",
+              "receiveTime": "1661785920",
               "refundTime": null,
               "refunded": false,
               "sender": {
@@ -717,7 +717,7 @@ exports[`Watching > should render match DOM Snapshot 1`] = `
             {
               "__typename": "Refund",
               "depositId": "0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a",
-              "refundTime": "1662559726",
+              "refundTime": "1661795920",
               "tokenAddress": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
               "volume": "2000000000000000000",
             },

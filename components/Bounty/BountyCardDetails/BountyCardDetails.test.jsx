@@ -16,7 +16,7 @@ describe('BountyCardDetails', () => {
     cleanup();
   });
 
-  it.skip('should display bubles in correct order', async () => {
+  it('should display bubles in correct order', async () => {
     // Arrange
     render(<BountyCardDetails bounty={bounty} />);
 
@@ -29,21 +29,21 @@ describe('BountyCardDetails', () => {
 
       //gets actions individually
       const refundAction = screen.getByText(
-        /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 14:08/i
+        /0xf3\.\.\.2266 refunded a deposit of 2\.0 DERC20 \(\$1\.34\) on August 29, 2022 at 17:58/i
       );
       const fundActionOne = screen.getByText(
-        /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on September 7, 2022 at 10:09/i
+        /0xf3\.\.\.2266 funded this contract with 1\.0 MATIC \(\$0\.67\) on August 29, 2022 at 15:12/i
       );
       const fundActionTwo = screen.getByText(
-        /funded this contract with 2\.0 DERC20 \(\$1\.34\) on September 7, 2022 at 10:09/i
+        /funded this contract with 2\.0 DERC20 \(\$1\.34\) on August 29, 2022 at 15:12/i
       );
       const fundActionThree = screen.getByText(
-        /funded this contract with 1\.0 LINK \(\$0\.67\) on September 7, 2022 at 10:09/i
+        /funded this contract with 1\.0 LINK \(\$0\.67\) on August 29, 2022 at 15:12/i
       );
       const mergeAction = screen.getByText(/FlacoJones merged linked pull request/i);
       const closedAction = screen.getByText(/FlacoJones closed this issue on March 28, 2022 at 17:57/i);
       const linkedAction = screen.getByText(/FlacoJones linked/i);
-      const mintedAction = screen.getByText(/0xf3\.\.\.2266 minted this contract on September 7, 2022 at 10:09/i);
+      const mintedAction = screen.getByText(/0xf3\.\.\.2266 minted this contract on August 29, 2022 at 15:12/i);
       expect(mintedAction).toBeInTheDocument();
 
       //orders individual actions into a correctly ordered array.

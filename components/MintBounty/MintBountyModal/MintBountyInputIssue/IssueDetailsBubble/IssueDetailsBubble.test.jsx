@@ -46,7 +46,7 @@ describe('IssueDetailsBubble', () => {
       __typename: 'LabelConnection',
       edges: [],
     },
-    createdAt: '2022-05-03T16:44:14Z',
+    createdAt: '2022-08-29T15:12:14Z',
     repository: {
       __typename: 'Repository',
       id: 'R_kgDOGWnnzw',
@@ -98,7 +98,7 @@ describe('IssueDetailsBubble', () => {
       __typename: 'LabelConnection',
       edges: [],
     },
-    createdAt: '2022-05-03T16:44:14Z',
+    createdAt: '2022-08-29T15:12:14Z',
     repository: {
       __typename: 'Repository',
       id: 'R_kgDOGWnnzw',
@@ -119,7 +119,7 @@ describe('IssueDetailsBubble', () => {
     },
   };
 
-  it.skip('should display mintable issue', async () => {
+  it('should display mintable issue', async () => {
     const mintState = {
       ...InitialMintState.mintState,
       enableRegistration: true,
@@ -133,14 +133,14 @@ describe('IssueDetailsBubble', () => {
       </MintContext.Provider>
     );
 
-    expect(screen.getByText('Created on May 3, 2022 at 16:44')).toBeInTheDocument();
+    expect(screen.getByText('Created on August 29, 2022 at 15:12')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
     expect(nullish).toHaveLength(0);
   });
 
-  it.skip('should display unmintable issue', async () => {
+  it('should display unmintable issue', async () => {
     const mintState = {
       ...InitialMintState.mintState,
       enableRegistration: true,
@@ -154,7 +154,7 @@ describe('IssueDetailsBubble', () => {
       </MintContext.Provider>
     );
 
-    expect(screen.getByText('Created on May 3, 2022 at 16:44')).toBeInTheDocument();
+    expect(screen.getByText('Created on August 29, 2022 at 15:12')).toBeInTheDocument();
     expect(screen.getByText(/Mintable Issue/i)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];

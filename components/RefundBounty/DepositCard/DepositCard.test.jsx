@@ -11,7 +11,7 @@ describe('DepositCard', () => {
     {
       id: '0xbf3f0b23ed5abb06f6ea2bdc516729d30cd5e9731a7a31ef77ef5382488455b2',
       refunded: false,
-      receiveTime: '1662395968',
+      receiveTime: '1661785920',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '1',
       volume: '23000000000000000000',
@@ -21,7 +21,7 @@ describe('DepositCard', () => {
     {
       id: '0x8f5c1c912b8ffca325a22eadb33d6d54fa8e85b3752f2392eb54ecc6dd24b1e1',
       refunded: false,
-      receiveTime: '1662395948',
+      receiveTime: '1661785920',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '2592000',
       volume: '23000000000000000000',
@@ -31,7 +31,7 @@ describe('DepositCard', () => {
     {
       id: '0x9c5e530511dff239da2c1c1205649aaa24fe2cc797d583a162744f26d623726a',
       refunded: false,
-      receiveTime: '1662395897',
+      receiveTime: '1661785920',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '2592000',
       volume: '23000000000000000000',
@@ -41,7 +41,7 @@ describe('DepositCard', () => {
     {
       id: '0xbf3f0b23ed5abb06f6ea2bdc516729d30cd5e9731a7a31ef77ef5382488455b2',
       refunded: true,
-      receiveTime: '1662395968',
+      receiveTime: '1661785920',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '1',
       volume: '23000000000000000000',
@@ -50,7 +50,7 @@ describe('DepositCard', () => {
       __typename: 'Deposit',
     },
   ];
-  const isoDate = 1662396272728;
+  const isoDate = 1661785920000;
   const RealDate = Date;
   global.Date = class extends RealDate {
     constructor() {
@@ -95,9 +95,9 @@ describe('DepositCard', () => {
       // ASSERT
       expect(nullish).toHaveLength(0);
       if (deposit.refunded) {
-        expect(screen.getByText(/Refunded on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+        expect(screen.getByText(/Refunded on: August 29, 2022 at 15:12/)).toBeInTheDocument();
       } else {
-        expect(screen.getByText(/Refundable on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+        expect(screen.getByText(/Refundable on: August 29, 2022 at 15:12/)).toBeInTheDocument();
       }
     });
 

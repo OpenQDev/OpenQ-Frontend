@@ -10,7 +10,7 @@ import InitialMintState from '../../InitialMintState';
 import nextRouter from 'next/router';
 import { cleanup } from '@testing-library/react';
 
-describe.skip('MintBountyModalButton', () => {
+describe('MintBountyModalButton', () => {
   afterEach(() => {
     cleanup();
   });
@@ -67,13 +67,19 @@ describe.skip('MintBountyModalButton', () => {
     render(
       <MintContext.Provider value={[mintState, mintDispatch]}>
         <MintBountyModalButton currentSum={100} setError={vi.fn()} />
-      </MintContext.Provider>
+      </MintContext.Provider>,
+      {},
+      {
+        accountData: {
+          id: 'asdf',
+          username: 'asdf',
+          github: 'asdf',
+        },
+      }
     );
 
     expect(screen.getAllByRole('button', { name: 'Deploy Contract' })[0].disabled).toBe(true);
-    const tooltip = screen.getAllByText(
-      /Please make sure your Hackathon Start Date is > today and your End Date after your Start Date./i
-    );
+    const tooltip = screen.getAllByText(/Please make sure you have accepted the terms of use./i);
     expect(tooltip[0]).toBeInTheDocument();
   });
 
@@ -107,7 +113,7 @@ describe.skip('MintBountyModalButton', () => {
   });
 
   const test = (issue) => {
-    it.skip('should be disabled when on correct network but not mintable yet.', () => {
+    it('should be disabled when on correct network but not mintable yet.', () => {
       const mintState = {
         ...InitialMintState,
         enableMint: false,
@@ -128,7 +134,15 @@ describe.skip('MintBountyModalButton', () => {
       render(
         <MintContext.Provider value={[mintState, mintDispatch]}>
           <MintBountyModalButton currentSum={100} setError={vi.fn()} />
-        </MintContext.Provider>
+        </MintContext.Provider>,
+        {},
+        {
+          accountData: {
+            id: 'asdf',
+            username: 'asdf',
+            github: 'asdf',
+          },
+        }
       );
 
       expect(screen.getAllByRole('button', { name: 'Deploy Contract' })[0].disabled).toBe(true);
