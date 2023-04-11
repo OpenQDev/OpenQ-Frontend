@@ -4,13 +4,12 @@ import chainIdDeployEnvMap from '../components/WalletConnect/chainIdDeployEnvMap
 
 const useIsOnCorrectNetwork = (props) => {
   const { chainId, error, account } = useWeb3(props);
+  console.log(account);
   const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
+  const correctChainId = chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'];
 
   useEffect(() => {
-    if (
-      error?.message?.includes('Unsupported chain id') ||
-      (chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] !== chainId && account)
-    ) {
+    if (error?.message?.includes('Unsupported chain id') || (correctChainId !== chainId && account)) {
       setIsOnCorrectNetwork(false);
     } else {
       setIsOnCorrectNetwork(true);

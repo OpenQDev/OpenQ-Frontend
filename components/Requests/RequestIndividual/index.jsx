@@ -161,7 +161,7 @@ const RequestIndividual = ({ item }) => {
             className='text-link-colour hover:underline'
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/user/${requestingUser.id}`}
           >
-            {requestingUser?.username || githubUser.name || githubUser.login}
+            {githubUser.login}
           </a>
         </div>
         <div>Request for acceptance of the W8/W9 form.</div>
