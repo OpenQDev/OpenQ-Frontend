@@ -38,7 +38,6 @@ const Users = () => {
           </thead>
           <tbody>
             {users.map((user, index) => {
-              console.log(user.createdA, 'created atet');
               const dateCreated = user.createdAt
                 ? new Date(parseInt(user.createdAt)).toString().split(' ').slice(0, 4).join(' ')
                 : null;
