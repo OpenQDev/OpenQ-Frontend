@@ -5,6 +5,7 @@ import IndividualClaim from './IndividualClaim';
 
 const ClaimsPerBounty = ({ item, paginationState }) => {
   const githubIdFilter = paginationState[0].filters.searchText?.githubId;
+  const claimFilter = paginationState[0].filters.searchText?.claimed;
   return (
     <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
       <div className='flex items-center gap-4 mb-2'>
@@ -30,6 +31,8 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
       </div>
       {item.payoutSchedule?.map((payout, index) => {
         if (githubIdFilter && item.tierWinners?.[index] !== githubIdFilter) return;
+        if (claimFilter == 'true' && !item.claims?.some((claim) => claim.tier == index)) return;
+        if (claimFilter == 'false' && item.claims?.some((claim) => claim.tier == index)) return;
         return (
           <div key={index}>
             {' '}
