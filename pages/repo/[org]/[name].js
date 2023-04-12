@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -30,6 +30,17 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   const [toggleVal, setToggleVal] = useState('Overview');
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
+  const [showOverview, setShowOverview] = useState();
+  const githubId = appState.accountData.github;
+  useEffect(() => {
+    const updateIsAdmin = async () => {
+      const team = 'developers';
+      const login = 'OpenQDev';
+      const isAdmin = await appState.githubRepository.getIsAdmin(login, team, githubId);
+      setShowOverview(isAdmin);
+    };
+    if (githubId) updateIsAdmin();
+  }, [githubId]);
   // Render
 
   const handleToggle = (toggleVal) => {
@@ -98,7 +109,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
             items={[
               { name: 'Overview', Svg: Home },
               { name: 'Hackathon Submissions', Svg: Trophy },
-              { name: 'Claim Progress', Svg: Telescope },
+              ...[showOverview ? { name: 'Claim Progress', Svg: Telescope } : {}],
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -208,7 +219,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
               </div>
             </>
           )}
-          {toggleVal === 'Claim Progress' && (
+          {showOverview && toggleVal === 'Claim Progress' && (
             <>
               <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
                 <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
