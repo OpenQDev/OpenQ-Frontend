@@ -3,13 +3,18 @@ import React from 'react';
 import { render, screen } from '../../../test-utils';
 import BountyCardDetails from '.';
 import Constants from '../../../test-utils/constant';
+import { cleanup } from '@testing-library/react';
 
 // WARNING If you change the mock data for issues you may need to change some
 // of this test's getByText invocations to getAllByText.
 describe('BountyCardDetails', () => {
+  beforeEach(() => {
+    console.log(process.env.DEPLOY_ENV);
+    cleanup();
+  });
   const bounty = Constants.bounty0;
 
-  it.only('should display bubles in correct order', async () => {
+  it('should display bubles in correct order', async () => {
     // Arrange
     render(<BountyCardDetails bounty={bounty} />);
 

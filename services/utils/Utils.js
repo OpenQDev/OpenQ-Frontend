@@ -337,7 +337,10 @@ class Utils {
       }
       returnArrIndex++;
     }
-    return returnArr.map((elem) => elem.obj);
+    console.log(returnArrIndex, expectedLength);
+    while (returnArrIndex >= expectedLength) {
+      return returnArr.map((elem) => elem.obj);
+    }
   };
 
   capitalize = (word) => {

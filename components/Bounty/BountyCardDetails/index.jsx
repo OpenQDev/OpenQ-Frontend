@@ -50,6 +50,7 @@ const BountyCardDetails = ({ bounty }) => {
     const closingTime = action.claimTime || action.time;
     return { ...action, closingTime };
   });*/
+  console.log(refunds, 'refunds');
   const allActions = appState.utils.mergeOrdered([
     { arr: deposits, prop: 'receiveTime' },
     { arr: refunds, prop: 'refundTime' },
@@ -59,6 +60,7 @@ const BountyCardDetails = ({ bounty }) => {
     { arr: mergedPrs, prop: 'mergedTime' },
     { arr: issueClosedEvents, prop: 'issueClosedTime' },
   ]);
+  console.log('allActions', allActions);
 
   return (
     <div className='flex-1 pr-4 min-w-[260px]'>
