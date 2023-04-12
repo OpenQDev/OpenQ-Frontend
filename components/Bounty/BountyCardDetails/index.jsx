@@ -66,12 +66,10 @@ const BountyCardDetails = ({ bounty }) => {
         <GithubHtmlRenderer className={'w-full py-8 mb-2 border-web-gray border-b markdown-body'} html={bodyHTML} />
       )}
       <NoSSR>
-        <>
-          {allActions.map((action, index) => (
-            <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
-          ))}
-          <ActionBubble suppressHydrationWarning bounty={bounty} />
-        </>
+        {allActions.map((action, index) => (
+          <ActionBubble suppressHydrationWarning key={index} bounty={bounty} action={action} />
+        ))}
+        <ActionBubble suppressHydrationWarning bounty={bounty} />
       </NoSSR>
     </div>
   );

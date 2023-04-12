@@ -13,6 +13,11 @@ nextRouter.useRouter = vi.fn();
 const push = vi.fn(() => {
   return { catch: vi.fn };
 });
+
+afterEach(() => {
+  cleanup();
+});
+
 const bounty = {
   id: 'I_kwDOGAqhQc48U5_r',
   title: 'test2',
@@ -181,7 +186,7 @@ describe('ActionBubble', () => {
   it('should display minted links', async () => {
     // ARRANGE
     const user = userEvent.setup();
-    render(<ActionBubble bounty={bounty} />);
+    render(<ActionBubble key={'actionBubbleTest1'} bounty={bounty} />);
     // ASSERT
     const link = await screen.findByTestId('link');
     await user.hover(link);
@@ -198,7 +203,7 @@ describe('ActionBubble', () => {
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
       volume: '10000000000000000000',
     };
-    render(<ActionBubble action={action} bounty={bounty} />);
+    render(<ActionBubble key={'actionBubbleTest2'} action={action} bounty={bounty} />);
 
     // ASSERT
     expect(
@@ -217,7 +222,11 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       depositId: '0x5fad7d4850474383e594afa53cedd57709f994d3da7787d72ecd4d4f0b6e1264',
     };
-    render(<ActionBubble action={{ ...action }} bounty={bounty} />);
+    render(
+      <div className='BountyCardDetails are you using me'>
+        <ActionBubble key={'actionBubbleTest3'} action={{ ...action }} bounty={bounty} />
+      </div>
+    );
 
     // ASSERT
     expect(
@@ -234,7 +243,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={bounty} />);
+    render(<ActionBubble key={'actionBubbleTest4'} action={action} bounty={bounty} />);
 
     // ASSERT
     expect(
@@ -250,7 +259,7 @@ describe('ActionBubble', () => {
       volume: '10000000000000000000',
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
+    render(<ActionBubble key={'actionBubbleTest5'} action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
     expect(
@@ -267,7 +276,7 @@ describe('ActionBubble', () => {
       claimant: { id: '0x5fbdb2315678afecb367f032d93f642f64180aa3' },
     };
     await waitFor(() => {
-      render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
+      render(<ActionBubble key={'actionBubbleTest6'} action={action} bounty={{ ...bounty, bountyType: '0' }} />);
     });
 
     // ASSERT
@@ -289,7 +298,7 @@ describe('ActionBubble', () => {
       title: 'update readme.md',
       url,
     };
-    render(<ActionBubble action={action} bounty={{ ...bounty, bountyType: '0' }} />);
+    render(<ActionBubble key={'actionBubbleTest7'} action={action} bounty={{ ...bounty, bountyType: '0' }} />);
 
     // ASSERT
     expect(await screen.findByText(/Christopher-Stevers linked/)).toBeInTheDocument();
