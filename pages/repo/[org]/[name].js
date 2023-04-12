@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -7,6 +7,7 @@ import OrganizationHeader from '../../../components/Organization/OrganizationHea
 import SubMenu from '../../../components/Utils/SubMenu';
 import Home from '../../../components/svg/home';
 import Trophy from '../../../components/svg/trophy';
+import Telescope from '../../../components/svg/telescope';
 import BountyList from '../../../components/BountyList';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import Logger from '../../../services/logger/Logger';
@@ -21,6 +22,7 @@ import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ClaimsTracking from '../../../components/Claim/ClaimsTracking';
 
 const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
   // Context
@@ -28,6 +30,17 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   const [toggleVal, setToggleVal] = useState('Overview');
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
+  const [showOverview, setShowOverview] = useState();
+  const githubId = appState.accountData.github;
+  useEffect(() => {
+    const updateIsAdmin = async () => {
+      const team = 'developers';
+      const login = 'OpenQDev';
+      const isAdmin = await appState.githubRepository.getIsAdmin(login, team, githubId);
+      setShowOverview(isAdmin);
+    };
+    if (githubId) updateIsAdmin();
+  }, [githubId]);
   // Render
 
   const handleToggle = (toggleVal) => {
@@ -96,6 +109,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
             items={[
               { name: 'Overview', Svg: Home },
               { name: 'Hackathon Submissions', Svg: Trophy },
+              ...[showOverview ? { name: 'Claim Progress', Svg: Telescope } : {}],
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -202,6 +216,16 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
                     </ul>
                   </>
                 )}
+              </div>
+            </>
+          )}
+          {showOverview && toggleVal === 'Claim Progress' && (
+            <>
+              <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
+                <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
+                  <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
+                  <ClaimsTracking paginationObj={paginationObj} contractToggle={true} types={['0', '1', '2', '3']} />
+                </div>
               </div>
             </>
           )}
