@@ -159,6 +159,7 @@ const ActionBubble = ({ bounty, action }) => {
     } else if (action.refundTime) {
       name = refunderEnsName || shortenAddress(refunder);
       address = refunder;
+      console.log(titlePartOne, action.refundTime, 'refund title');
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
         : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
@@ -166,6 +167,7 @@ const ActionBubble = ({ bounty, action }) => {
           )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }
   }
+  console.log('titles', titlePartOne);
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (
