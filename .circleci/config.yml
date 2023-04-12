@@ -45,7 +45,7 @@ jobs:
             docker exec openq-frontend yarn test:cicd $TEST
             echo $TEST
       - run:
-          command: docker cp openq-frontend:/app/junit.xml ~/junit/
+          command: mkdir ~/junit docker cp openq-frontend:/app/junit.xml ~/junit/
           when: always
       - store_test_results:
           path: ~/junit
