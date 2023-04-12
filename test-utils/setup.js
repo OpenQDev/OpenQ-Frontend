@@ -6,4 +6,7 @@ expect.extend(matchers);
 
 afterEach(() => {
   cleanup();
+  vi.clearAllMocks();
+  vi.resetAllMocks();
+  vi.useRealTimers();
 });

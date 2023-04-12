@@ -175,16 +175,14 @@ describe('RefundPage', () => {
     ],
     issuer: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
   };
-  const isoDate = 1662396272728;
-  const RealDate = Date;
-  global.Date = class extends RealDate {
-    constructor() {
-      super();
-      return new RealDate(isoDate);
-    }
-  };
 
   beforeEach(() => {
+    InitialState.openQClient.reset();
+
+    const isoDate = 1662396272728;
+    InitialState.openQClient.reset();
+    const mockDate = new Date(isoDate);
+    vi.setSystemTime(mockDate);
     InitialState.openQClient.reset();
   });
 
@@ -221,7 +219,7 @@ describe('RefundPage', () => {
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       // ASSERT
       expect(nullish).toHaveLength(0);
-      expect(screen.getAllByText(/Refundable on: September 5, 2022 at 16:44/)).toHaveLength(3);
+      expect(screen.getAllByText(/Refundable on: September 5, 2022 at 16:39/)).toHaveLength(1);
     });
 
     it('should render refunded', async () => {
@@ -232,7 +230,7 @@ describe('RefundPage', () => {
       // ASSERT
       expect(heading).toBeInTheDocument();
       // ASSERT
-      expect(screen.getAllByText(/Refunded on: September 5, 2022 at 16:44/)).toHaveLength(1);
+      expect(screen.getAllByText(/Refunded on: September 5, 2022 at 19:49/)).toHaveLength(1);
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
     });

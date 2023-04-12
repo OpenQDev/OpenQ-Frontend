@@ -1,5 +1,5 @@
 /**
- * @vi-environment jsdom
+ * @jest-environment jsdom
  */
 import React from 'react';
 import { render, screen } from '../../../test-utils';
@@ -13,7 +13,7 @@ describe('DepositCard', () => {
       refunded: false,
       receiveTime: '1662395968',
       tokenAddress: '0x0000000000000000000000000000000000000000',
-      expiration: '1',
+      expiration: '2592000',
       volume: '23000000000000000000',
       sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
       __typename: 'Deposit',
@@ -21,7 +21,7 @@ describe('DepositCard', () => {
     {
       id: '0x8f5c1c912b8ffca325a22eadb33d6d54fa8e85b3752f2392eb54ecc6dd24b1e1',
       refunded: false,
-      receiveTime: '1662395948',
+      receiveTime: '1662395968',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '2592000',
       volume: '23000000000000000000',
@@ -31,7 +31,7 @@ describe('DepositCard', () => {
     {
       id: '0x9c5e530511dff239da2c1c1205649aaa24fe2cc797d583a162744f26d623726a',
       refunded: false,
-      receiveTime: '1662395897',
+      receiveTime: '1662395968',
       tokenAddress: '0x0000000000000000000000000000000000000000',
       expiration: '2592000',
       volume: '23000000000000000000',
@@ -43,29 +43,25 @@ describe('DepositCard', () => {
       refunded: true,
       receiveTime: '1662395968',
       tokenAddress: '0x0000000000000000000000000000000000000000',
-      expiration: '1',
+      expiration: '2592000',
       volume: '23000000000000000000',
       refundTime: '1662407371',
       sender: { id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266', __typename: 'User' },
       __typename: 'Deposit',
     },
   ];
-  const isoDate = 1662396272728;
-  const RealDate = Date;
-  global.Date = class extends RealDate {
-    constructor() {
-      super();
-      return new RealDate(isoDate);
-    }
-  };
 
   beforeEach(() => {
+    const isoDate = 1662396270728;
     InitialState.openQClient.reset();
+    const mockDate = new Date(isoDate);
+    vi.setSystemTime(mockDate);
   });
 
   const test = (deposit) => {
     it('should render the volume and name of token', async () => {
       // ARRANGE
+      console.log(new Date());
       render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
       let heading = await screen.findByText(/23.00 MATIC/i);
 
@@ -95,9 +91,11 @@ describe('DepositCard', () => {
       // ASSERT
       expect(nullish).toHaveLength(0);
       if (deposit.refunded) {
-        expect(screen.getByText(/Refunded on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+        expect(screen.getByText(/Refunded on:/)).toBeInTheDocument();
+        expect(screen.getByText(/September 5, 2022 at 19:49/)).toBeInTheDocument();
       } else {
-        expect(screen.getByText(/Refundable on: September 5, 2022 at 16:44/)).toBeInTheDocument();
+        expect(screen.getByText(/Refundable on:/)).toBeInTheDocument();
+        expect(screen.getByText(/October 5, 2022 at 16:39/)).toBeInTheDocument();
       }
     });
 
@@ -121,10 +119,8 @@ describe('DepositCard', () => {
       // ARRANGE
       render(<DepositCard deposit={deposit} isOnCorrectNetwork={false} />);
       const chgeNetworkBtn = await screen.findByRole('button', { name: /Network/i });
-
       // ASSERT
       expect(chgeNetworkBtn).toBeInTheDocument();
-
       const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
       expect(nullish).toHaveLength(0);
     }); */

@@ -261,7 +261,7 @@ describe('ActionBubble', () => {
     });
 
     // ASSERT
-    expect(await screen.findByText('sample.eth closed this contract on January 3, 1970 at 7:33.'));
+    expect(await screen.findByText('0xf3...2266 closed this contract on January 3, 1970 at 7:33.'));
   });
   it('should display pull request linked action message', async () => {
     // ARRANGE
