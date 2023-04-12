@@ -3,8 +3,8 @@ import React from 'react';
 import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
-const ClaimsPerBounty = ({ item }) => {
-  console.log('item', item);
+const ClaimsPerBounty = ({ item, paginationState }) => {
+  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
   return (
     <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
       <div className='flex items-center gap-4 mb-2'>
@@ -29,6 +29,7 @@ const ClaimsPerBounty = ({ item }) => {
         <div className='flex justify-center'>Claimed</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
+        if (githubIdFilter && item.tierWinners?.[index] !== githubIdFilter) return;
         return (
           <div key={index}>
             {' '}
