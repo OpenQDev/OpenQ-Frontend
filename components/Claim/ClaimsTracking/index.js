@@ -23,7 +23,13 @@ const ClaimsTracking = ({ paginationObj }) => {
     const hasGithubId = filters.searchText?.githubId
       ? item.tierWinners?.some((tierWinner) => tierWinner == filters.searchText?.githubId)
       : true;
-    const show = isBounty && hasGithubId;
+    const hasClaimedTiers =
+      filters.searchText?.claimed == 'true'
+        ? item.payouts?.length > 0
+        : filters.searchText?.claimed == 'false'
+        ? item.payouts?.length < item.payoutSchedule?.length
+        : true;
+    const show = isBounty && hasGithubId && hasClaimedTiers;
     return show;
   };
 
@@ -54,6 +60,17 @@ const ClaimsTracking = ({ paginationObj }) => {
     if (e.target.id === 'issueText') setIssueText(e.target.value);
     if (e.target.id === 'githubId') setGithubId(e.target.value);
     if (e.target.id === 'githubLogin') setGithubLogin(e.target.value);
+  };
+
+  const handleSelect = (e) => {
+    //it triggers by pressing the enter key
+    if (e.target.value == 'true') {
+      setSearch(e.target.id, e.target.value);
+    } else if (e.target.value == 'false') {
+      setSearch(e.target.id, e.target.value);
+    } else {
+      setSearch(e.target.id, 'all');
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -142,11 +159,15 @@ const ClaimsTracking = ({ paginationObj }) => {
             />
           </div>
 
-          <div className='flex justify-center'>Planned</div>
-          <div className='flex justify-center'>W8/W9?</div>
-          <div className='flex justify-center'>KYC'd?</div>
-          <div className='flex justify-center'>Wallet</div>
-          <div className='flex justify-center'>Claimed</div>
+          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>---</div>
+          <select id='claimed' name='claimed' className='input-field' defaultValue={'all'} onChange={handleSelect}>
+            <option value='all'></option>
+            <option value='true'>TRUE</option>
+            <option value='false'>FALSE</option>
+          </select>
         </div>
       </div>
       <PaginatedList
