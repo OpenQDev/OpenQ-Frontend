@@ -91,8 +91,9 @@ const ClaimButton = ({
     const promise = new Promise(async (resolve, reject) => {
       try {
         if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
-          const pr = bounty?.prs?.find((pr) => pr?.source?.author?.id === accountData?.github);
-          const prUrl = pr ? pr?.source.url : '';
+          // TODO Re-add the actual code for PRs here IF we continue to use PRs for submissions
+          // Unsure if an empty string will work here, using a placeholder for now
+          const prUrl = 'https://github.com/SporkDAOOfficial/ETHDenver-2023/pull/456';
           const externalUserId = accountData.github;
           const closerAddress = account;
           const tier = targetTier;
