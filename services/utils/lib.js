@@ -403,3 +403,25 @@ export const needsFreelancerData = (accountData) => {
   });
   return neededAccountData.length > 0;
 };
+export const formatUnixDate = (unixTime, hideDate) => {
+  const date = new Date(unixTime * 1000);
+
+  const day = date.getDate();
+  const month = this.monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Hours part from the timestamp
+  const hours = date.getHours();
+  // Minutes part from the timestamp
+  const minutes = date.getMinutes();
+  const displayMinutes = `${minutes.toString().length === 1 ? '0' : ''}${minutes}`;
+  // Seconds part from the timestamp
+  //const seconds = '0' + date.getSeconds();
+
+  // Will display time in 10:30:23 format
+  if (hideDate) {
+    return `${month} ${day}, ${year}`;
+  }
+  const formattedTime = `${month} ${day}, ${year} at ${hours}:${displayMinutes}`;
+  return formattedTime;
+};

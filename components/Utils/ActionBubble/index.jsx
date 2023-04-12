@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import Jazzicon from '../Jazzicon';
 import useWeb3 from '../../../hooks/useWeb3';
 import ToolTipNew from '../ToolTipNew';
+import { formatUnixDate } from '../../../services/utils/lib';
 
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
@@ -59,7 +60,7 @@ const ActionBubble = ({ bounty, action }) => {
     }
   };
   const minter = minterEnsName || (bounty.issuer && shortenAddress(bounty.issuer.id)) || shortenAddress(account);
-  let titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+  let titlePartOne = `${minter} minted this contract on ${formatUnixDate(bounty.bountyMintTime)}.`;
   let titlePartTwo = '';
   let avatarUrl, url, name;
   let address = bounty.issuer?.id;
@@ -67,18 +68,18 @@ const ActionBubble = ({ bounty, action }) => {
     if (justMinted) {
       address = account;
       const currentDate = Date.now();
-      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(currentDate / 1000)}.`;
+      titlePartOne = `${minter} minted this contract on ${formatUnixDate(currentDate / 1000)}.`;
       name = minter;
     } else if (!bounty.issuer) {
       titlePartOne = 'Waiting for this contract to be indexed by the Graph.';
     } else {
-      titlePartOne = `${minter} minted this contract on ${appState.utils.formatUnixDate(bounty.bountyMintTime)}.`;
+      titlePartOne = `${minter} minted this contract on ${formatUnixDate(bounty.bountyMintTime)}.`;
       name = minter;
     }
   }
 
   if (action?.closingTime) {
-    titlePartOne = `${minter} closed this contract on ${appState.utils.formatUnixDate(action.closingTime)}.`;
+    titlePartOne = `${minter} closed this contract on ${formatUnixDate(action.closingTime)}.`;
     name = minter;
   }
 
@@ -87,11 +88,9 @@ const ActionBubble = ({ bounty, action }) => {
     address = action.claimant.id;
     name = claimant;
     if (bounty.bountyType === '0') {
-      titlePartOne = `${claimant} claimed ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
-        action.claimTime
-      )}.`;
+      titlePartOne = `${claimant} claimed ${payoutTotal} on this contract on ${formatUnixDate(action.claimTime)}.`;
     } else {
-      titlePartOne = `${claimant} made a claim of ${payoutTotal} on this contract on ${appState.utils.formatUnixDate(
+      titlePartOne = `${claimant} made a claim of ${payoutTotal} on this contract on ${formatUnixDate(
         action.claimTime
       )}.`;
     }
@@ -105,14 +104,14 @@ const ActionBubble = ({ bounty, action }) => {
       address = name;
       titlePartOne = `${name} merged linked pull request: `;
 
-      titlePartTwo = ` on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
+      titlePartTwo = ` on ${formatUnixDate(action.referencedTime)}.`;
     } else {
       avatarUrl = action.author.avatarUrl;
       name = action.author.login;
       url = action.author.url;
       address = name;
       titlePartOne = `${name} linked `;
-      titlePartTwo = ` to this issue on ${appState.utils.formatUnixDate(action.referencedTime)}.`;
+      titlePartTwo = ` to this issue on ${formatUnixDate(action.referencedTime)}.`;
     }
   }
 
@@ -121,7 +120,7 @@ const ActionBubble = ({ bounty, action }) => {
     name = action.actor.login;
     url = action.actor.url;
     address = name;
-    titlePartOne = `${name} closed this issue on ${appState.utils.formatUnixDate(action.issueClosedTime)}.`;
+    titlePartOne = `${name} closed this issue on ${formatUnixDate(action.issueClosedTime)}.`;
   }
 
   if (action?.receiveTime || action?.refundTime) {
@@ -139,35 +138,29 @@ const ActionBubble = ({ bounty, action }) => {
       const addStrings = (a, b) => {
         return parseInt(a) + parseInt(b);
       };
-      const expiryDate = appState.utils.formatUnixDate(addStrings(action.receiveTime, action.expiration));
+      const expiryDate = formatUnixDate(addStrings(action.receiveTime, action.expiration));
 
       if (action.isNft) {
         titlePartOne = `${funder} funded this contract with `;
-        titlePartTwo = ` on ${appState.utils.formatUnixDate(
-          action.receiveTime
-        )}. This deposit will expire on ${expiryDate}.`;
+        titlePartTwo = ` on ${formatUnixDate(action.receiveTime)}. This deposit will expire on ${expiryDate}.`;
       } else {
         name = funder;
         titlePartOne = isNaN(tokenValues?.total)
           ? ''
           : `${funder} funded this contract with ${formattedVolume} ${
               tokenMetadata.symbol
-            } (${usdValue}) on ${appState.utils.formatUnixDate(
-              action.receiveTime
-            )}. This deposit will expire on ${expiryDate}.`;
+            } (${usdValue}) on ${formatUnixDate(action.receiveTime)}. This deposit will expire on ${expiryDate}.`;
       }
     } else if (action.refundTime) {
       name = refunderEnsName || shortenAddress(refunder);
       address = refunder;
-      console.log(titlePartOne, action.refundTime, 'refund title');
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
         : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
             tokenValues?.total
-          )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
+          )}) on ${formatUnixDate(action.refundTime)}.`;
     }
   }
-  console.log('titles', titlePartOne);
   return (
     <div className='w-full pt-4 flex relative'>
       {avatarUrl ? (

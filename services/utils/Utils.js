@@ -17,16 +17,16 @@ class Utils {
   ];
 
   formatUnixDate = (unixTime, hideDate) => {
-    var date = new Date(unixTime * 1000);
+    const date = new Date(unixTime * 1000);
 
-    var day = date.getDate();
-    var month = this.monthNames[date.getMonth()];
-    var year = date.getFullYear();
+    const day = date.getDate();
+    const month = this.monthNames[date.getMonth()];
+    const year = date.getFullYear();
 
     // Hours part from the timestamp
-    var hours = date.getHours();
+    const hours = date.getHours();
     // Minutes part from the timestamp
-    var minutes = date.getMinutes();
+    const minutes = date.getMinutes();
     const displayMinutes = `${minutes.toString().length === 1 ? '0' : ''}${minutes}`;
     // Seconds part from the timestamp
     //var seconds = '0' + date.getSeconds();
@@ -35,7 +35,7 @@ class Utils {
     if (hideDate) {
       return `${month} ${day}, ${year}`;
     }
-    var formattedTime = `${month} ${day}, ${year} at ${hours}:${displayMinutes}`;
+    const formattedTime = `${month} ${day}, ${year} at ${hours}:${displayMinutes}`;
     return formattedTime;
   };
 
