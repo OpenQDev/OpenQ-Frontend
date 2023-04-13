@@ -540,6 +540,14 @@ export const GET_CONTRACT_PAGE = gql`
         nodes {
           tvl
           tvc
+          requests(limit: 100) {
+            nodes {
+              id
+              requestingUser {
+                id
+              }
+            }
+          }
           address
           organizationId
           repositoryId

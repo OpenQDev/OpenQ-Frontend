@@ -14,13 +14,16 @@ const IndividualClaim = ({ payout, bounty, index }) => {
   );
   const [githubUser, setGithubUser] = useState('');
   const [associatedAddress, setAssociatedAddress] = useState('');
+  const [requested, setRequested] = useState(false);
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
         const githubUser = await appState[0].githubRepository.fetchUserById(bounty.tierWinners?.[index]);
-        if (githubUser) setGithubUser(githubUser);
+        if (githubUser) {
+          setGithubUser(githubUser);
+        }
       };
       try {
         getGithubUser();
@@ -29,7 +32,22 @@ const IndividualClaim = ({ payout, bounty, index }) => {
       }
     }
   }, [bounty]);
+  console.log(appState);
   useEffect(() => {
+    const checkRequested = async () => {
+      if (githubUser.id) {
+        try {
+          const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
+          if (user) {
+            const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
+            console.log(user, request);
+            setRequested(request);
+          }
+        } catch (err) {
+          appState[0].logger.error(err, 'IndividualClaim.js2');
+        }
+      }
+    };
     const checkAssociatedAddress = async () => {
       if (githubUser.id) {
         try {
@@ -39,10 +57,11 @@ const IndividualClaim = ({ payout, bounty, index }) => {
             setAssociatedAddress(associatedAddress);
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js2');
+          appState[0].logger.error(err, 'IndividualClaim.js3');
         }
       }
     };
+    checkRequested();
     checkAssociatedAddress();
   }, [githubUser]);
   useEffect(() => {
@@ -59,9 +78,8 @@ const IndividualClaim = ({ payout, bounty, index }) => {
       appState[0].logger.error(err, 'IndividualClaim.js3');
     }
   };
-  // console.log(bounty, token, associatedAddress);
   return (
-    <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr]'>
+    <div className='text-sm items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr]'>
       {githubUser?.url ? (
         <div className='flex gap-2 '>
           <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
@@ -70,26 +88,38 @@ const IndividualClaim = ({ payout, bounty, index }) => {
           ({githubUser.id})
         </div>
       ) : (
-        <div> Not Yet Assigned</div>
+        <div className='text-gray-500'> Not Yet Assigned</div>
       )}
       <div className='flex justify-center'>
         {formattedToken} {token.symbol}
       </div>
-      <div className={`flex justify-center ${bounty.supportingDocumentsCompleted?.[index] && 'font-bold text-green'}`}>
-        {bounty.supportingDocumentsCompleted?.[index]?.toString().toUpperCase()}
+      <div
+        className={`flex justify-center ${
+          bounty.supportingDocumentsCompleted?.[index]
+            ? 'font-bold text-green'
+            : requested
+            ? 'text-red-400'
+            : 'text-gray-500'
+        }`}
+      >
+        {bounty.supportingDocumentsCompleted?.[index] ? 'APPROVED' : requested ? 'PENDING' : 'NOT SENT'}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
         {account ? KYC.toString().toUpperCase() : 'n.a.*'}
       </div>
       <div className={`flex justify-center`}>
-        <Link
-          href={`https://polygonscan.com/address/${associatedAddress}`}
-          rel='noopener norefferer'
-          target='_blank'
-          className='text-link-colour hover:underline'
-        >
-          {appState[0].utils.shortenAddress(associatedAddress)}
-        </Link>
+        {associatedAddress ? (
+          <Link
+            href={`https://polygonscan.com/address/${associatedAddress}`}
+            rel='noopener norefferer'
+            target='_blank'
+            className='text-link-colour hover:underline'
+          >
+            {appState[0].utils.shortenAddress(associatedAddress)}
+          </Link>
+        ) : (
+          <span className='text-gray-500'>---</span>
+        )}
       </div>
       <div
         className={`flex justify-center ${
