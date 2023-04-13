@@ -6,7 +6,7 @@ import useWeb3 from '../../../../../hooks/useWeb3';
 
 const IndividualClaim = ({ payout, bounty, index }) => {
   const appState = useContext(StoreContext);
-  const { chainId, library } = useWeb3(true);
+  const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
   const formattedToken = ethers.utils.formatUnits(
     ethers.BigNumber.from(payout.toString()),
@@ -61,7 +61,7 @@ const IndividualClaim = ({ payout, bounty, index }) => {
   };
   // console.log(bounty, token, associatedAddress);
   return (
-    <div className='items-center gap-4 grid grid-cols-[4fr_1fr_1fr_1fr_1fr_1fr]'>
+    <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr]'>
       {githubUser?.url ? (
         <div className='flex gap-2 '>
           <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
@@ -78,7 +78,9 @@ const IndividualClaim = ({ payout, bounty, index }) => {
       <div className={`flex justify-center ${bounty.supportingDocumentsCompleted?.[index] && 'font-bold text-green'}`}>
         {bounty.supportingDocumentsCompleted?.[index]?.toString().toUpperCase()}
       </div>
-      <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>{KYC.toString().toUpperCase()}</div>
+      <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
+        {account ? KYC.toString().toUpperCase() : 'n.a.*'}
+      </div>
       <div className={`flex justify-center`}>
         <Link
           href={`https://polygonscan.com/address/${associatedAddress}`}
