@@ -64,13 +64,7 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   const handleSelect = (e) => {
     //it triggers by pressing the enter key
-    if (e.target.value == 'true') {
-      setSearch(e.target.id, e.target.value);
-    } else if (e.target.value == 'false') {
-      setSearch(e.target.id, e.target.value);
-    } else {
-      setSearch(e.target.id, 'all');
-    }
+    setSearch(e.target.id, e.target.value);
   };
 
   const handleKeyPress = (e) => {

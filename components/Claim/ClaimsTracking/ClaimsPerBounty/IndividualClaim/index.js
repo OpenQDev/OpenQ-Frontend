@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 
-const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
+const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
@@ -17,6 +17,11 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
   const [requested, setRequested] = useState(false);
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
+  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
+  const claimFilter = paginationState[0].filters.searchText?.claimed;
+  const w8Filter = paginationState[0].filters.searchText?.w8 || 'all';
+  const [w8Status, setW8Status] = useState('NOT SENT');
+  console.log('W8STUFF', w8Filter, w8Status, index, bounty.title, requested);
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
@@ -63,6 +68,15 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
     checkAssociatedAddress();
   }, [githubUser]);
   useEffect(() => {
+    const currentW8Status = bounty.supportingDocumentsCompleted?.[index]
+      ? 'APPROVED'
+      : requested
+      ? 'PENDING'
+      : 'NOT SENT';
+    setW8Status(currentW8Status);
+    console.log(bounty.supportingDocumentsCompleted?.[index], requested, currentW8Status, 'w8Status');
+  }, [bounty, requested, w8Filter]);
+  useEffect(() => {
     // chainId to 80001 if tested on Mumbai
     if (associatedAddress && chainId == 137) hasKYC();
   }, [chainId, associatedAddress]);
@@ -73,9 +87,13 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
         setKYC(true);
       }
     } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js3');
+      appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
+  if (githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter) return;
+  if (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) return;
+  if (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index)) return;
+  if (w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase()) return;
   return (
     <div className={`text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (
@@ -100,7 +118,7 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
             : 'text-gray-500'
         }`}
       >
-        {bounty.supportingDocumentsCompleted?.[index] ? 'APPROVED' : requested ? 'PENDING' : 'NOT SENT'}
+        {w8Status}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
         {account ? KYC.toString().toUpperCase() : 'n.a.*'}

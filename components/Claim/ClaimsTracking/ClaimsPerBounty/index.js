@@ -4,8 +4,6 @@ import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
 const ClaimsPerBounty = ({ item, paginationState }) => {
-  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
-  const claimFilter = paginationState[0].filters.searchText?.claimed;
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
   return (
     <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
@@ -31,13 +29,16 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
         <div className='flex justify-center'>Claimed</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
-        if (githubIdFilter && item.tierWinners?.[index] !== githubIdFilter) return;
-        if (claimFilter == 'true' && !item.claims?.some((claim) => claim.tier == index)) return;
-        if (claimFilter == 'false' && item.claims?.some((claim) => claim.tier == index)) return;
         return (
           <div key={index}>
             {' '}
-            <IndividualClaim bounty={item} index={index} payout={payout} gridFormat={gridFormat} />{' '}
+            <IndividualClaim
+              bounty={item}
+              index={index}
+              payout={payout}
+              gridFormat={gridFormat}
+              paginationState={paginationState}
+            />
           </div>
         );
       })}
