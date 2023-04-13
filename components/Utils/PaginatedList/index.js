@@ -105,6 +105,7 @@ const PaginatedList = ({
               length={filteredItems.length}
               singleSubmission={singleSubmission}
               setSingleSubmission={setSingleSubmission}
+              paginationState={paginationState}
             />
           </div>
         );
