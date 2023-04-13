@@ -56,6 +56,10 @@ const RequestPage = ({ states }) => {
       filters: { ...paginationStateObj.filters, searchText: e.target.value },
     });
   };
+  const getKey = (item) => {
+    return item?.request?.id;
+  };
+
   return (
     <>
       <div className='my-6'>
@@ -80,7 +84,9 @@ const RequestPage = ({ states }) => {
         )}
         <SearchBar placeholder='github-user' styles='w-full' value={searchText} onKeyUp={handleSearch} />
         <ul className='flex flex-col gap-4'>
-          {isOwner && <PaginatedList paginationState={paginationState} PaginationCard={RequestIndividual} />}
+          {isOwner && (
+            <PaginatedList getKey={getKey} paginationState={paginationState} PaginationCard={RequestIndividual} />
+          )}
         </ul>
       </div>
     </>

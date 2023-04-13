@@ -27,6 +27,7 @@ const PaginatedList = ({
   singleSubmission,
   setSingleSubmission,
   setFilteredLength,
+  getKey,
 }) => {
   const [paginationObj, setPaginationObj] = paginationState;
   const { getItems, filterFunction, filters, fetchFilters, cursor, complete } = paginationObj;
@@ -94,11 +95,13 @@ const PaginatedList = ({
     fetchPage(paginationObj);
     setLoading(false);
   }, [filteredItems, complete, loading]);
+
   return (
     <div className={className}>
       {filteredItems.map((item, index) => {
+        const key = getKey(item);
         return (
-          <div key={index} ref={index === filteredItems.length - 1 ? lastElem : null} className='pagination'>
+          <div key={key || index} ref={index === filteredItems.length - 1 ? lastElem : null} className='pagination'>
             <PaginationCard
               index={index}
               item={item}

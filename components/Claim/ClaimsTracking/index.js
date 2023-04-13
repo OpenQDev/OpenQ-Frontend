@@ -93,6 +93,9 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
+  const getKey = () => {
+    return null;
+  };
   // Render
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
@@ -182,6 +185,7 @@ const ClaimsTracking = ({ paginationObj }) => {
         </div>
       </div>
       <PaginatedList
+        getKey={getKey}
         paginationState={paginationState}
         PaginationCard={ClaimsPerBounty}
         setFilteredLength={setFilteredLength}
