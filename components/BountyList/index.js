@@ -124,7 +124,9 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     return label.slice(7, label.length - 1);
   });
   const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
-
+  const getKey = () => {
+    return null;
+  };
   // Render
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
@@ -207,6 +209,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
         </div>
       )}
       <PaginatedList
+        getKey={getKey}
         paginationState={paginationState}
         PaginationCard={BountyCardLean}
         setFilteredLength={setFilteredLength}

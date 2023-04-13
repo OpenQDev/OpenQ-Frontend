@@ -99,7 +99,9 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
       filters: { ...githubPaginationObj.filters, searchText: val },
     });
   };
-
+  const getKey = () => {
+    return null;
+  };
   return (
     <>
       {renderError ? (
@@ -161,6 +163,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
                       styles={'flex max-w-[960px] mb-8'}
                     />
                     <PaginatedList
+                      getKey={getKey}
                       paginationState={githubPaginationState}
                       PaginationCard={ShowCaseCard}
                       className='flex flex-wrap gap-8 w-full items-start'
