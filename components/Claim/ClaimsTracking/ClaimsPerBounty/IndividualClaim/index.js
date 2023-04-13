@@ -20,6 +20,7 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
   const githubIdFilter = paginationState[0].filters.searchText?.githubId;
   const claimFilter = paginationState[0].filters.searchText?.claimed;
   const w8Filter = paginationState[0].filters.searchText?.w8 || 'all';
+  const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
   const [w8Status, setW8Status] = useState('NOT SENT');
   console.log('W8STUFF', w8Filter, w8Status, index, bounty.title, requested);
   useEffect(() => {
@@ -94,6 +95,8 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
   if (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) return;
   if (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index)) return;
   if (w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase()) return;
+  if (kycFilter == 'true' && !KYC) return;
+  if (kycFilter == 'false' && KYC) return;
   return (
     <div className={`text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (

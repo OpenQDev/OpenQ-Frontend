@@ -7,8 +7,10 @@ import PaginatedList from '../../../components/Utils/PaginatedList';
 import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
+import useWeb3 from '../../../hooks/useWeb3';
 
 const ClaimsTracking = ({ paginationObj }) => {
+  const { account } = useWeb3(true);
   const [appState] = useContext(StoreContext);
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
@@ -162,7 +164,15 @@ const ClaimsTracking = ({ paginationObj }) => {
             <option value='pending'>PENDING</option>
             <option value='not sent'>NOT SENT</option>
           </select>
-          <div className='flex justify-center'>---</div>
+          {account ? (
+            <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
+              <option value='all'></option>
+              <option value='true'>TRUE</option>
+              <option value='false'>FALSE</option>
+            </select>
+          ) : (
+            <div className='flex justify-center'>n.a.*</div>
+          )}
           <div className='flex justify-center'>---</div>
           <select id='claimed' name='claimed' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
             <option value='all'></option>
