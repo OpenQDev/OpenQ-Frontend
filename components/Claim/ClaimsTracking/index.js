@@ -17,7 +17,6 @@ const ClaimsTracking = ({ paginationObj }) => {
   };
 
   const filterFunction = (item, filters) => {
-    console.log('item', item, filters);
     const isBounty = filters.searchText?.issueText
       ? item.title?.toLowerCase().includes(filters.searchText.issueText.toLowerCase()) ||
         item.alternativeName?.toLowerCase().includes(filters.searchText.issueText.toLowerCase())
@@ -45,6 +44,7 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [filteredLength, setFilteredLength] = useState(0);
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
 
   // Utilities
 
@@ -62,6 +62,7 @@ const ClaimsTracking = ({ paginationObj }) => {
     if (e.target.id === 'issueText') setIssueText(e.target.value);
     if (e.target.id === 'githubId') setGithubId(e.target.value);
     if (e.target.id === 'githubLogin') setGithubLogin(e.target.value);
+    if (e.target.id === 'walletAddress') setWalletAddress(e.target.value);
   };
 
   const handleSelect = (e) => {
@@ -173,7 +174,16 @@ const ClaimsTracking = ({ paginationObj }) => {
           ) : (
             <div className='flex justify-center'>n.a.*</div>
           )}
-          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>
+            <input
+              className='flex input-field w-28'
+              id='walletAddress'
+              placeholder='Address...'
+              value={walletAddress}
+              onChange={handleSearchInput}
+              onKeyDown={handleKeyPress}
+            />
+          </div>
           <select id='claimed' name='claimed' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
             <option value='all'></option>
             <option value='true'>TRUE</option>

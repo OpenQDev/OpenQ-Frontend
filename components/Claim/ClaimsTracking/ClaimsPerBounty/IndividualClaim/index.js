@@ -21,8 +21,9 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
   const claimFilter = paginationState[0].filters.searchText?.claimed;
   const w8Filter = paginationState[0].filters.searchText?.w8 || 'all';
   const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
+  const walletFilter = paginationState[0].filters.searchText?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
-  console.log('W8STUFF', w8Filter, w8Status, index, bounty.title, requested);
+  const [checkWallet, setCheckWallet] = useState(!walletFilter ? true : false);
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
@@ -75,8 +76,14 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
       ? 'PENDING'
       : 'NOT SENT';
     setW8Status(currentW8Status);
-    console.log(bounty.supportingDocumentsCompleted?.[index], requested, currentW8Status, 'w8Status');
   }, [bounty, requested, w8Filter]);
+  useEffect(() => {
+    if (walletFilter?.length > 0) {
+      setCheckWallet(walletFilter == associatedAddress);
+    } else {
+      setCheckWallet(true);
+    }
+  }, [walletFilter, associatedAddress]);
   useEffect(() => {
     // chainId to 80001 if tested on Mumbai
     if (associatedAddress && chainId == 137) hasKYC();
@@ -91,12 +98,14 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
       appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
+  console.log('walletFilter', walletFilter, 'aA', associatedAddress);
   if (githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter) return;
   if (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) return;
   if (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index)) return;
   if (w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase()) return;
   if (kycFilter == 'true' && !KYC) return;
   if (kycFilter == 'false' && KYC) return;
+  if (!checkWallet) return;
   return (
     <div className={`text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (
