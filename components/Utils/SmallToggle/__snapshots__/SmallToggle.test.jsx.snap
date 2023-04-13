@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SmallToggle > should atch DOM Snapshot 1`] = `
+<div
+  className="flex text-sm rounded-sm overflow-hidden w-fit undefined text-primary "
+>
+  <button
+    className="w-fit min-w-[80px] py-[5px] px-4 rounded-l-sm border whitespace-nowrap  border-web-gray"
+    onClick={[Function]}
+  >
+    Ready for work
+  </button>
+  <button
+    className="w-fit min-w-[80px] py-[5px] px-4 rounded-r-sm border whitespace-nowrap  border-web-gray"
+    onClick={[Function]}
+  >
+    All issues
+  </button>
+</div>
+`;

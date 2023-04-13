@@ -1,0 +1,28 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Languages and Frameworks > should match initial DOM Snapshot 1`] = `
+<DocumentFragment>
+  <p
+    class="font-semibold pt-4 py-2"
+  >
+    Tell us about your skills
+  </p>
+  <div
+    class="flex flex-wrap"
+  />
+  <div
+    class="flex justify-center gap-2 mt-2"
+  >
+    <input
+      class="flex input-field w-full"
+      placeholder="Programming languages, frameworks..."
+      value=""
+    />
+    <button
+      class="btn-primary"
+    >
+      Add
+    </button>
+  </div>
+</DocumentFragment>
+`;

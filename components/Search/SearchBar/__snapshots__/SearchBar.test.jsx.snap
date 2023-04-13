@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SearchBar > should match DOM Snapshot 1`] = `
+<input
+  className="flex-1 lg:col-span-3 col-span-4 input-field-big undefined"
+  onChange={[Function]}
+  placeholder="test"
+  type="text"
+  value=""
+/>
+`;

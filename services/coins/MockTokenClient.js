@@ -25,9 +25,7 @@ class MockCoinClient {
 
   async getTokenValues(data) {
     const promise = new Promise(async (resolve, reject) => {
-      await axios
-        .get('http://localhost:3030/tokenPrice')
-        .then(async (result) => {
+     const result =  await axios('http://localhost:3030/tokenPrice');
           const price = parseFloat(result.data['0x5FbDB2315678afecb367f032d93F642f64180aa']);
           const tokenValues = { tokenPrices: {}, tokens: {}, total: 0 };
           let total = 0;
@@ -42,10 +40,7 @@ class MockCoinClient {
           tokenValues.total = Math.round(parseFloat(total) * 100) / 100;
           await this.sleep(200);
           resolve(tokenValues);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+      
     });
     return promise;
   }
