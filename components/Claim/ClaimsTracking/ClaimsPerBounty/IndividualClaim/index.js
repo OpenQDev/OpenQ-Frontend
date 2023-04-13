@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 
-const IndividualClaim = ({ payout, bounty, index }) => {
+const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
@@ -14,13 +14,23 @@ const IndividualClaim = ({ payout, bounty, index }) => {
   );
   const [githubUser, setGithubUser] = useState('');
   const [associatedAddress, setAssociatedAddress] = useState('');
+  const [requested, setRequested] = useState(false);
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
+  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
+  const claimFilter = paginationState[0].filters.searchText?.claimed;
+  const w8Filter = paginationState[0].filters.searchText?.w8 || 'all';
+  const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
+  const walletFilter = paginationState[0].filters.searchText?.walletAddress;
+  const [w8Status, setW8Status] = useState('NOT SENT');
+  const [checkWallet, setCheckWallet] = useState(!walletFilter ? true : false);
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
         const githubUser = await appState[0].githubRepository.fetchUserById(bounty.tierWinners?.[index]);
-        if (githubUser) setGithubUser(githubUser);
+        if (githubUser) {
+          setGithubUser(githubUser);
+        }
       };
       try {
         getGithubUser();
@@ -30,6 +40,19 @@ const IndividualClaim = ({ payout, bounty, index }) => {
     }
   }, [bounty]);
   useEffect(() => {
+    const checkRequested = async () => {
+      if (githubUser.id) {
+        try {
+          const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
+          if (user) {
+            const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
+            setRequested(request);
+          }
+        } catch (err) {
+          appState[0].logger.error(err, 'IndividualClaim.js2');
+        }
+      }
+    };
     const checkAssociatedAddress = async () => {
       if (githubUser.id) {
         try {
@@ -39,12 +62,28 @@ const IndividualClaim = ({ payout, bounty, index }) => {
             setAssociatedAddress(associatedAddress);
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js2');
+          appState[0].logger.error(err, 'IndividualClaim.js3');
         }
       }
     };
+    checkRequested();
     checkAssociatedAddress();
   }, [githubUser]);
+  useEffect(() => {
+    const currentW8Status = bounty.supportingDocumentsCompleted?.[index]
+      ? 'APPROVED'
+      : requested
+      ? 'PENDING'
+      : 'NOT SENT';
+    setW8Status(currentW8Status);
+  }, [bounty, requested, w8Filter]);
+  useEffect(() => {
+    if (walletFilter?.length > 0) {
+      setCheckWallet(walletFilter == associatedAddress);
+    } else {
+      setCheckWallet(true);
+    }
+  }, [walletFilter, associatedAddress]);
   useEffect(() => {
     // chainId to 80001 if tested on Mumbai
     if (associatedAddress && chainId == 137) hasKYC();
@@ -56,12 +95,19 @@ const IndividualClaim = ({ payout, bounty, index }) => {
         setKYC(true);
       }
     } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js3');
+      appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
-  // console.log(bounty, token, associatedAddress);
+  console.log('walletFilter', walletFilter, 'aA', associatedAddress);
+  if (githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter) return;
+  if (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) return;
+  if (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index)) return;
+  if (w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase()) return;
+  if (kycFilter == 'true' && !KYC) return;
+  if (kycFilter == 'false' && KYC) return;
+  if (!checkWallet) return;
   return (
-    <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr]'>
+    <div className={`text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (
         <div className='flex gap-2 '>
           <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
@@ -70,26 +116,38 @@ const IndividualClaim = ({ payout, bounty, index }) => {
           ({githubUser.id})
         </div>
       ) : (
-        <div> Not Yet Assigned</div>
+        <div className='text-gray-500'> Not Yet Assigned</div>
       )}
       <div className='flex justify-center'>
         {formattedToken} {token.symbol}
       </div>
-      <div className={`flex justify-center ${bounty.supportingDocumentsCompleted?.[index] && 'font-bold text-green'}`}>
-        {bounty.supportingDocumentsCompleted?.[index]?.toString().toUpperCase()}
+      <div
+        className={`flex justify-center ${
+          bounty.supportingDocumentsCompleted?.[index]
+            ? 'font-bold text-green'
+            : requested
+            ? 'text-red-400'
+            : 'text-gray-500'
+        }`}
+      >
+        {w8Status}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
         {account ? KYC.toString().toUpperCase() : 'n.a.*'}
       </div>
       <div className={`flex justify-center`}>
-        <Link
-          href={`https://polygonscan.com/address/${associatedAddress}`}
-          rel='noopener norefferer'
-          target='_blank'
-          className='text-link-colour hover:underline'
-        >
-          {appState[0].utils.shortenAddress(associatedAddress)}
-        </Link>
+        {associatedAddress ? (
+          <Link
+            href={`https://polygonscan.com/address/${associatedAddress}`}
+            rel='noopener norefferer'
+            target='_blank'
+            className='text-link-colour hover:underline'
+          >
+            {appState[0].utils.shortenAddress(associatedAddress)}
+          </Link>
+        ) : (
+          <span className='text-gray-500'>---</span>
+        )}
       </div>
       <div
         className={`flex justify-center ${
