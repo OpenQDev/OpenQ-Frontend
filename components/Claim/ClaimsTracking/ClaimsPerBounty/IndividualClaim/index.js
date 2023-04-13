@@ -79,7 +79,7 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
   }, [bounty, requested, w8Filter]);
   useEffect(() => {
     if (walletFilter?.length > 0) {
-      setCheckWallet(walletFilter == associatedAddress);
+      setCheckWallet(walletFilter.toLowerCase() == associatedAddress.toLowerCase());
     } else {
       setCheckWallet(true);
     }
