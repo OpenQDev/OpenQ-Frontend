@@ -104,6 +104,8 @@ const ClaimsTracking = ({ paginationObj }) => {
     }
   };
 
+  const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+
   // Render
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
@@ -130,7 +132,7 @@ const ClaimsTracking = ({ paginationObj }) => {
         <div className='mb-2 text-sm text-mute italic'>
           Note that all search input must be an exact match for the search fields below.
         </div>
-        <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr] border-b border-web-gray pb-2 mb-2 font-bold'>
+        <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
           <div className=''>TierWinner</div>
           <div className='flex justify-center'>Planned</div>
           <div className='flex justify-center'>W8/W9?</div>
@@ -138,7 +140,7 @@ const ClaimsTracking = ({ paginationObj }) => {
           <div className='flex justify-center'>Wallet</div>
           <div className='flex justify-center'>Claimed</div>
         </div>
-        <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr] pb-2 mb-2'>
+        <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
           <div className='flex items-center gap-4'>
             <input
               className='input-field'
@@ -160,10 +162,15 @@ const ClaimsTracking = ({ paginationObj }) => {
           </div>
 
           <div className='flex justify-center'>---</div>
+          <select id='w8' name='w8' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
+            <option value='all'></option>
+            <option value='approved'>APPROVED</option>
+            <option value='pending'>PENDING</option>
+            <option value='not sent'>NOT SENT</option>
+          </select>
           <div className='flex justify-center'>---</div>
           <div className='flex justify-center'>---</div>
-          <div className='flex justify-center'>---</div>
-          <select id='claimed' name='claimed' className='input-field' defaultValue={'all'} onChange={handleSelect}>
+          <select id='claimed' name='claimed' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
             <option value='all'></option>
             <option value='true'>TRUE</option>
             <option value='false'>FALSE</option>

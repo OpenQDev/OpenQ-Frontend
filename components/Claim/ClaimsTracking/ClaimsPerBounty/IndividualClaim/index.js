@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 
-const IndividualClaim = ({ payout, bounty, index }) => {
+const IndividualClaim = ({ payout, bounty, index, gridFormat }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
@@ -32,7 +32,6 @@ const IndividualClaim = ({ payout, bounty, index }) => {
       }
     }
   }, [bounty]);
-  console.log(appState);
   useEffect(() => {
     const checkRequested = async () => {
       if (githubUser.id) {
@@ -40,7 +39,6 @@ const IndividualClaim = ({ payout, bounty, index }) => {
           const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
           if (user) {
             const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
-            console.log(user, request);
             setRequested(request);
           }
         } catch (err) {
@@ -79,7 +77,7 @@ const IndividualClaim = ({ payout, bounty, index }) => {
     }
   };
   return (
-    <div className='text-sm items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr]'>
+    <div className={`text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (
         <div className='flex gap-2 '>
           <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
