@@ -4,7 +4,8 @@ import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
 const ClaimsPerBounty = ({ item, paginationState }) => {
-  const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
+  const claimFilter = paginationState[0].filters.searchText?.claimed;
   return (
     <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
       <div className='flex items-center gap-4 mb-2'>
@@ -20,7 +21,7 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
           <Github />
         </Link>
       </div>
-      <div className={`items-center gap-4 grid ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
+      <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr] border-b border-web-gray pb-2 mb-2 font-bold'>
         <div className=''>TierWinner</div>
         <div className='flex justify-center'>Planned</div>
         <div className='flex justify-center'>W8/W9?</div>
@@ -29,16 +30,13 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
         <div className='flex justify-center'>Claimed</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
+        if (githubIdFilter && item.tierWinners?.[index] !== githubIdFilter) return;
+        if (claimFilter == 'true' && !item.claims?.some((claim) => claim.tier == index)) return;
+        if (claimFilter == 'false' && item.claims?.some((claim) => claim.tier == index)) return;
         return (
           <div key={index}>
             {' '}
-            <IndividualClaim
-              bounty={item}
-              index={index}
-              payout={payout}
-              gridFormat={gridFormat}
-              paginationState={paginationState}
-            />
+            <IndividualClaim bounty={item} index={index} payout={payout} />{' '}
           </div>
         );
       })}

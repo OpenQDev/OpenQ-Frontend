@@ -7,21 +7,30 @@ import PaginatedList from '../../../components/Utils/PaginatedList';
 import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
-import useWeb3 from '../../../hooks/useWeb3';
 
 const ClaimsTracking = ({ paginationObj }) => {
-  const { account } = useWeb3(true);
   const [appState] = useContext(StoreContext);
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
 
   const filterFunction = (item, filters) => {
+    console.log('item', item, filters);
     const isBounty = filters.searchText?.issueText
       ? item.title?.toLowerCase().includes(filters.searchText.issueText.toLowerCase()) ||
         item.alternativeName?.toLowerCase().includes(filters.searchText.issueText.toLowerCase())
       : true;
-    return isBounty;
+    const hasGithubId = filters.searchText?.githubId
+      ? item.tierWinners?.some((tierWinner) => tierWinner == filters.searchText?.githubId)
+      : true;
+    const hasClaimedTiers =
+      filters.searchText?.claimed == 'true'
+        ? item.payouts?.length > 0
+        : filters.searchText?.claimed == 'false'
+        ? item.payouts?.length < item.payoutSchedule?.length
+        : true;
+    const show = isBounty && hasGithubId && hasClaimedTiers;
+    return show;
   };
 
   const paginationObjWithFunctions = { ...paginationObj, filterFunction: filterFunction, getItems };
@@ -34,7 +43,6 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [filteredLength, setFilteredLength] = useState(0);
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
-  const [walletAddress, setWalletAddress] = useState('');
 
   // Utilities
 
@@ -52,12 +60,17 @@ const ClaimsTracking = ({ paginationObj }) => {
     if (e.target.id === 'issueText') setIssueText(e.target.value);
     if (e.target.id === 'githubId') setGithubId(e.target.value);
     if (e.target.id === 'githubLogin') setGithubLogin(e.target.value);
-    if (e.target.id === 'walletAddress') setWalletAddress(e.target.value);
   };
 
   const handleSelect = (e) => {
     //it triggers by pressing the enter key
-    setSearch(e.target.id, e.target.value);
+    if (e.target.value == 'true') {
+      setSearch(e.target.id, e.target.value);
+    } else if (e.target.value == 'false') {
+      setSearch(e.target.id, e.target.value);
+    } else {
+      setSearch(e.target.id, 'all');
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -91,8 +104,6 @@ const ClaimsTracking = ({ paginationObj }) => {
     }
   };
 
-  const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
-
   // Render
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
@@ -119,7 +130,7 @@ const ClaimsTracking = ({ paginationObj }) => {
         <div className='mb-2 text-sm text-mute italic'>
           Note that all search input must be an exact match for the search fields below.
         </div>
-        <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
+        <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr] border-b border-web-gray pb-2 mb-2 font-bold'>
           <div className=''>TierWinner</div>
           <div className='flex justify-center'>Planned</div>
           <div className='flex justify-center'>W8/W9?</div>
@@ -127,7 +138,7 @@ const ClaimsTracking = ({ paginationObj }) => {
           <div className='flex justify-center'>Wallet</div>
           <div className='flex justify-center'>Claimed</div>
         </div>
-        <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
+        <div className='items-center gap-4 grid grid-cols-[3fr_1fr_0.5fr_0.5fr_0.75fr_0.5fr] pb-2 mb-2'>
           <div className='flex items-center gap-4'>
             <input
               className='input-field'
@@ -149,32 +160,10 @@ const ClaimsTracking = ({ paginationObj }) => {
           </div>
 
           <div className='flex justify-center'>---</div>
-          <select id='w8' name='w8' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
-            <option value='all'></option>
-            <option value='approved'>APPROVED</option>
-            <option value='pending'>PENDING</option>
-            <option value='not sent'>NOT SENT</option>
-          </select>
-          {account ? (
-            <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
-              <option value='all'></option>
-              <option value='true'>TRUE</option>
-              <option value='false'>FALSE</option>
-            </select>
-          ) : (
-            <div className='flex justify-center'>n.a.*</div>
-          )}
-          <div className='flex justify-center'>
-            <input
-              className='flex input-field w-28'
-              id='walletAddress'
-              placeholder='Address...'
-              value={walletAddress}
-              onChange={handleSearchInput}
-              onKeyDown={handleKeyPress}
-            />
-          </div>
-          <select id='claimed' name='claimed' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
+          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>---</div>
+          <div className='flex justify-center'>---</div>
+          <select id='claimed' name='claimed' className='input-field' defaultValue={'all'} onChange={handleSelect}>
             <option value='all'></option>
             <option value='true'>TRUE</option>
             <option value='false'>FALSE</option>
