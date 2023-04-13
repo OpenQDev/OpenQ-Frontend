@@ -21,17 +21,7 @@ const ClaimsTracking = ({ paginationObj }) => {
       ? item.title?.toLowerCase().includes(filters.searchText.issueText.toLowerCase()) ||
         item.alternativeName?.toLowerCase().includes(filters.searchText.issueText.toLowerCase())
       : true;
-    const hasGithubId = filters.searchText?.githubId
-      ? item.tierWinners?.some((tierWinner) => tierWinner == filters.searchText?.githubId)
-      : true;
-    const hasClaimedTiers =
-      filters.searchText?.claimed == 'true'
-        ? item.payouts?.length > 0
-        : filters.searchText?.claimed == 'false'
-        ? item.payouts?.length < item.payoutSchedule?.length
-        : true;
-    const show = isBounty && hasGithubId && hasClaimedTiers;
-    return show;
+    return isBounty;
   };
 
   const paginationObjWithFunctions = { ...paginationObj, filterFunction: filterFunction, getItems };
