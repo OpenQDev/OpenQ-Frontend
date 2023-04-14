@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 
-const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState }) => {
+const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState, setFilteredTiers, filteredTiers }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
@@ -23,7 +23,14 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
   const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
   const walletFilter = paginationState[0].filters.searchText?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
-  const [checkWallet, setCheckWallet] = useState(!walletFilter ? true : false);
+  const [checkWallet, setCheckWallet] = useState(true);
+  const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
+  const claimCondition =
+    (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) ||
+    (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index));
+  const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
+  const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
+  const [hide, setHide] = useState('');
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
@@ -85,7 +92,18 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
     }
   }, [walletFilter, associatedAddress]);
   useEffect(() => {
-    // chainId to 80001 if tested on Mumbai
+    let newFilteredTiers = filteredTiers;
+    if (githubCondition || claimCondition || w8Condition || kycCondition || !checkWallet) {
+      newFilteredTiers[index] = false;
+      setFilteredTiers(newFilteredTiers);
+      setHide('hidden');
+    } else {
+      newFilteredTiers[index] = true;
+      setFilteredTiers(newFilteredTiers);
+      setHide('');
+    }
+  }, [paginationState[0].filters.searchText, githubCondition, claimCondition, w8Condition, kycCondition, checkWallet]);
+  useEffect(() => {
     if (associatedAddress && chainId == 137) hasKYC();
   }, [chainId, associatedAddress]);
   const hasKYC = async () => {
@@ -98,16 +116,8 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState })
       appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
-  console.log('walletFilter', walletFilter, 'aA', associatedAddress);
-  if (githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter) return;
-  if (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) return;
-  if (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index)) return;
-  if (w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase()) return;
-  if (kycFilter == 'true' && !KYC) return;
-  if (kycFilter == 'false' && KYC) return;
-  if (!checkWallet) return;
   return (
-    <div className={`text-sm items-center gap-4 ${gridFormat}`}>
+    <div className={`${hide} text-sm items-center gap-4 ${gridFormat}`}>
       {githubUser?.url ? (
         <div className='flex gap-2 '>
           <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
