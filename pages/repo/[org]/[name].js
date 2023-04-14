@@ -23,7 +23,6 @@ import { ChevronLeftIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ClaimsTracking from '../../../components/Claim/ClaimsTracking';
-import useWeb3 from '../../../hooks/useWeb3';
 
 const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
   // Context
@@ -32,7 +31,6 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
   const [showOverview, setShowOverview] = useState();
-  const { account } = useWeb3();
   const githubId = appState.accountData.github;
   useEffect(() => {
     const updateIsAdmin = async () => {
@@ -225,19 +223,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
             </>
           )}
           {showOverview && toggleVal === 'Claim Progress' && (
-            <>
-              <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
-                <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
-                  <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
-                  {!account && (
-                    <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
-                      * You need to connect your wallet to see whether a winner has KYC'd or not.
-                    </div>
-                  )}
-                  <ClaimsTracking paginationObj={paginationObj} contractToggle={true} types={['0', '1', '2', '3']} />
-                </div>
-              </div>
-            </>
+            <ClaimsTracking paginationObj={paginationObj} contractToggle={true} types={['0', '1', '2', '3']} />
           )}
         </div>
       )}
@@ -254,7 +240,7 @@ export async function getServerSideProps(context) {
   const { org, name } = context.query;
   const utils = new Utils();
   const logger = new Logger();
-  const batch = 2;
+  const batch = 10;
   const types = ['0', '1', '2', '3'];
   const appState = {
     githubRepository: githubRepository.instance,

@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 //Custom
 import StoreContext from '../../../store/Store/StoreContext';
@@ -35,6 +35,25 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
+  const [TVL, setTVL] = useState('loading...');
+  const [claims, setClaims] = useState('loading...');
+  const [prize, setPrize] = useState('n.a.');
+
+  useEffect(() => {
+    let newTVL = 0;
+    let newClaims = 0;
+    if (paginationState[0].complete) {
+      newTVL = paginationStateObj.items.reduce((acc, item) => {
+        return acc + item.tvl;
+      }, 0);
+      newClaims = paginationStateObj.items.reduce((acc, item) => {
+        return acc + item.tvc;
+      }, 0);
+      setTVL(appState.utils.formatter.format(newTVL));
+      setClaims(appState.utils.formatter.format(newClaims));
+      setPrize('N/A');
+    }
+  }, [paginationState]);
 
   // Utilities
 
@@ -96,102 +115,129 @@ const ClaimsTracking = ({ paginationObj }) => {
   const getKey = () => {
     return null;
   };
+  console.log(paginationStateObj, paginationStateObj.items);
+
   // Render
   return (
-    <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
-      <div className='flex flex-wrap gap-4 w-full items-center'>
-        <input
-          className='input-field'
-          id='issueText'
-          placeholder='Search Issue...'
-          value={issueText}
-          onChange={handleSearchInput}
-          onKeyDown={handleKeyPress}
-        />
-      </div>
-      {paginationState[0].complete && filteredLength == 0 && (
-        <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>No Bounties Found</div>
-      )}
-      {!paginationState[0].complete && filteredLength == 0 && (
-        <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
-          Searching... <LoadingIcon />
-        </div>
-      )}
-      <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
-        <div className='mb-2'>Filter by:</div>
-        <div className='mb-2 text-sm text-mute italic'>
-          Note that all search input must be an exact match for the search fields below.
-        </div>
-        <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
-          <div className=''>TierWinner</div>
-          <div className='flex justify-center'>Planned</div>
-          <div className='flex justify-center'>W8/W9?</div>
-          <div className='flex justify-center'>KYC'd?</div>
-          <div className='flex justify-center'>Wallet</div>
-          <div className='flex justify-center'>Claimed</div>
-        </div>
-        <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
-          <div className='flex items-center gap-4'>
-            <input
-              className='input-field'
-              id='githubId'
-              placeholder='Github ID'
-              value={githubId}
-              onChange={handleSearchInput}
-              onKeyDown={handleKeyPress}
-            />
-            {' OR '}
-            <input
-              className='input-field'
-              id='githubLogin'
-              placeholder='Github Login'
-              value={githubLogin}
-              onChange={handleSearchInput}
-              onKeyDown={handleKeyPressLogin}
-            />
-          </div>
-
-          <div className='flex justify-center'>---</div>
-          <select id='w8' name='w8' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
-            <option value='all'></option>
-            <option value='approved'>APPROVED</option>
-            <option value='pending'>PENDING</option>
-            <option value='not sent'>NOT SENT</option>
-          </select>
-          {account ? (
-            <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
-              <option value='all'></option>
-              <option value='true'>TRUE</option>
-              <option value='false'>FALSE</option>
-            </select>
-          ) : (
-            <div className='flex justify-center'>n.a.*</div>
+    <>
+      <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
+        <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
+          <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
+          {!account && (
+            <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
+              * You need to connect your wallet to see whether a winner has KYC'd or not.
+            </div>
           )}
-          <div className='flex justify-center'>
-            <input
-              className='flex input-field w-28'
-              id='walletAddress'
-              placeholder='Address...'
-              value={walletAddress}
-              onChange={handleSearchInput}
-              onKeyDown={handleKeyPress}
+          <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
+            <div>Prize: {prize}</div>
+            <div>TVL: {TVL}</div>
+            <div>Claims: {claims}</div>
+          </div>
+          <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
+            <div className='flex flex-wrap gap-4 w-full items-center'>
+              <input
+                className='input-field'
+                id='issueText'
+                placeholder='Search Issue...'
+                value={issueText}
+                onChange={handleSearchInput}
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+            {paginationState[0].complete && filteredLength == 0 && (
+              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
+                No Bounties Found
+              </div>
+            )}
+            {!paginationState[0].complete && filteredLength == 0 && (
+              <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                Searching... <LoadingIcon />
+              </div>
+            )}
+            <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
+              <div className='mb-2'>Filter by:</div>
+              <div className='mb-2 text-sm text-mute italic'>
+                Note that all search input must be an exact match for the search fields below.
+              </div>
+              <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
+                <div className=''>TierWinner</div>
+                <div className='flex justify-center'>Planned</div>
+                <div className='flex justify-center'>W8/W9?</div>
+                <div className='flex justify-center'>KYC'd?</div>
+                <div className='flex justify-center'>Wallet</div>
+                <div className='flex justify-center'>Claimed</div>
+              </div>
+              <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
+                <div className='flex items-center gap-4'>
+                  <input
+                    className='input-field'
+                    id='githubId'
+                    placeholder='Github ID'
+                    value={githubId}
+                    onChange={handleSearchInput}
+                    onKeyDown={handleKeyPress}
+                  />
+                  {' OR '}
+                  <input
+                    className='input-field'
+                    id='githubLogin'
+                    placeholder='Github Login'
+                    value={githubLogin}
+                    onChange={handleSearchInput}
+                    onKeyDown={handleKeyPressLogin}
+                  />
+                </div>
+
+                <div className='flex justify-center'>---</div>
+                <select id='w8' name='w8' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
+                  <option value='all'></option>
+                  <option value='approved'>APPROVED</option>
+                  <option value='pending'>PENDING</option>
+                  <option value='not sent'>NOT SENT</option>
+                </select>
+                {account ? (
+                  <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
+                    <option value='all'></option>
+                    <option value='true'>TRUE</option>
+                    <option value='false'>FALSE</option>
+                  </select>
+                ) : (
+                  <div className='flex justify-center'>n.a.*</div>
+                )}
+                <div className='flex justify-center'>
+                  <input
+                    className='flex input-field w-28'
+                    id='walletAddress'
+                    placeholder='Address...'
+                    value={walletAddress}
+                    onChange={handleSearchInput}
+                    onKeyDown={handleKeyPress}
+                  />
+                </div>
+                <select
+                  id='claimed'
+                  name='claimed'
+                  className='input-field px-1'
+                  defaultValue={'all'}
+                  onChange={handleSelect}
+                >
+                  <option value='all'></option>
+                  <option value='true'>TRUE</option>
+                  <option value='false'>FALSE</option>
+                </select>
+              </div>
+            </div>
+            <PaginatedList
+              getKey={getKey}
+              paginationState={paginationState}
+              PaginationCard={ClaimsPerBounty}
+              setFilteredLength={setFilteredLength}
+              filteredLength={filteredLength}
             />
           </div>
-          <select id='claimed' name='claimed' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
-            <option value='all'></option>
-            <option value='true'>TRUE</option>
-            <option value='false'>FALSE</option>
-          </select>
         </div>
       </div>
-      <PaginatedList
-        getKey={getKey}
-        paginationState={paginationState}
-        PaginationCard={ClaimsPerBounty}
-        setFilteredLength={setFilteredLength}
-        filteredLength={filteredLength}
-      />
-    </div>
+    </>
   );
 };
 export default ClaimsTracking;
