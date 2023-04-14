@@ -4,7 +4,16 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 
-const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState, setFilteredTiers, filteredTiers }) => {
+const IndividualClaim = ({
+  payout,
+  bounty,
+  index,
+  gridFormat,
+  paginationState,
+  setFilteredTiers,
+  filteredTiers,
+  setFilteredCount,
+}) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
@@ -23,7 +32,7 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState, s
   const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
   const walletFilter = paginationState[0].filters.searchText?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
-  const [checkWallet, setCheckWallet] = useState(true);
+  const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
   const claimCondition =
     (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) ||
@@ -85,27 +94,39 @@ const IndividualClaim = ({ payout, bounty, index, gridFormat, paginationState, s
     setW8Status(currentW8Status);
   }, [bounty, requested, w8Filter]);
   useEffect(() => {
-    if (walletFilter?.length > 0) {
-      setCheckWallet(walletFilter.toLowerCase() == associatedAddress.toLowerCase());
-    } else {
-      setCheckWallet(true);
-    }
+    checkWallet();
   }, [walletFilter, associatedAddress]);
   useEffect(() => {
     let newFilteredTiers = filteredTiers;
-    if (githubCondition || claimCondition || w8Condition || kycCondition || !checkWallet) {
+    if (githubCondition || claimCondition || w8Condition || kycCondition || !walletCondition) {
       newFilteredTiers[index] = false;
       setFilteredTiers(newFilteredTiers);
+      setFilteredCount(newFilteredTiers?.filter((value) => value == true)?.length || 0);
       setHide('hidden');
     } else {
       newFilteredTiers[index] = true;
       setFilteredTiers(newFilteredTiers);
+      setFilteredCount(newFilteredTiers?.filter((value) => value == true)?.length || 0);
       setHide('');
     }
-  }, [paginationState[0].filters.searchText, githubCondition, claimCondition, w8Condition, kycCondition, checkWallet]);
+  }, [
+    paginationState[0].filters.searchText,
+    githubCondition,
+    claimCondition,
+    w8Condition,
+    kycCondition,
+    walletCondition,
+  ]);
   useEffect(() => {
     if (associatedAddress && chainId == 137) hasKYC();
   }, [chainId, associatedAddress]);
+  const checkWallet = () => {
+    if (walletFilter?.length > 0) {
+      setWalletCondition(walletFilter.toLowerCase() == associatedAddress.toLowerCase());
+    } else {
+      setWalletCondition(true);
+    }
+  };
   const hasKYC = async () => {
     try {
       const transaction = await appState[0].openQClient.hasKYC(library, associatedAddress);

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
@@ -7,10 +7,6 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
   const [filteredTiers, setFilteredTiers] = useState(Array(item.payoutSchedule?.length).fill(true));
   const [filteredCount, setFilteredCount] = useState(0);
-  useEffect(() => {
-    setFilteredCount(filteredTiers?.filter((value) => value == true)?.length || 0);
-  }, [paginationState[0].filters.searchText]);
-  console.log('filtered', filteredTiers, filteredCount);
   return (
     <div
       className={`${
@@ -50,6 +46,7 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
               paginationState={paginationState}
               setFilteredTiers={setFilteredTiers}
               filteredTiers={filteredTiers}
+              setFilteredCount={setFilteredCount}
             />
           </div>
         );
