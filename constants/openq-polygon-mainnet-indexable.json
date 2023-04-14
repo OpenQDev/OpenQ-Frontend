@@ -17,6 +17,15 @@
     "decimals": 6,
     "chainId": 137,
     "path": "/crypto-logos/USDC.svg"
-  }
+  },
 	
+"0xc2132D05D31c914a87C6611C10748AEb04B58e8F":	{
+		"chainId": 137,
+		"name": "Tether USD",
+		"symbol": "USDT",
+		"decimals": 6,
+		"valueAddress":"0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+		"address": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+    "path": "/crypto-logos/USDT.svg"
+		}
 }
