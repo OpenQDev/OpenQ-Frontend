@@ -1,12 +1,18 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
 const ClaimsPerBounty = ({ item, paginationState }) => {
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const [filteredTiers, setFilteredTiers] = useState(Array(item.payoutSchedule?.length).fill(true));
+  const [filteredCount, setFilteredCount] = useState(0);
   return (
-    <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
+    <div
+      className={`${
+        filteredCount == 0 && 'hidden'
+      } flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4`}
+    >
       <div className='flex items-center gap-4 mb-2'>
         {item.alternativeName && (
           <div className='break-word text-xl inline gap-1 pb-1'>
@@ -38,6 +44,9 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
               payout={payout}
               gridFormat={gridFormat}
               paginationState={paginationState}
+              setFilteredTiers={setFilteredTiers}
+              filteredTiers={filteredTiers}
+              setFilteredCount={setFilteredCount}
             />
           </div>
         );
