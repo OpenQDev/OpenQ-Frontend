@@ -139,12 +139,16 @@ const IndividualClaim = ({
   };
   return (
     <div className={`${hide} text-sm items-center gap-4 ${gridFormat}`}>
-      {githubUser?.url ? (
+      {bounty.tierWinners?.[index] ? (
         <div className='flex gap-2 '>
-          <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
-            {githubUser.login}
-          </Link>{' '}
-          ({githubUser.id})
+          {githubUser?.url ? (
+            <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
+              {githubUser.login}
+            </Link>
+          ) : (
+            'Loading...'
+          )}{' '}
+          ({bounty.tierWinners?.[index]})
         </div>
       ) : (
         <div className='text-gray-500'> Not Yet Assigned</div>
