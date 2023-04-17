@@ -28,6 +28,8 @@ const PaginatedList = ({
   setSingleSubmission,
   setFilteredLength,
   getKey,
+  setFilteredInfo,
+  filteredInfo,
 }) => {
   const [paginationObj, setPaginationObj] = paginationState;
   const { getItems, filterFunction, filters, fetchFilters, cursor, complete } = paginationObj;
@@ -109,6 +111,8 @@ const PaginatedList = ({
               singleSubmission={singleSubmission}
               setSingleSubmission={setSingleSubmission}
               paginationState={paginationState}
+              setFilteredInfo={setFilteredInfo}
+              filteredInfo={filteredInfo}
             />
           </div>
         );
