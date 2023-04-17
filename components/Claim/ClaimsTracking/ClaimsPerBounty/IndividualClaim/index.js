@@ -13,6 +13,8 @@ const IndividualClaim = ({
   setFilteredTiers,
   filteredTiers,
   setFilteredCount,
+  setFilteredInfo,
+  filteredInfo,
 }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
@@ -98,17 +100,21 @@ const IndividualClaim = ({
   }, [walletFilter, associatedAddress]);
   useEffect(() => {
     let newFilteredTiers = filteredTiers;
+    let newCount = 0;
+    let newFilteredInfo = filteredInfo;
     if (githubCondition || claimCondition || w8Condition || kycCondition || !walletCondition) {
       newFilteredTiers[index] = false;
-      setFilteredTiers(newFilteredTiers);
-      setFilteredCount(newFilteredTiers?.filter((value) => value == true)?.length || 0);
+      newCount = newFilteredTiers?.filter((value) => value == true)?.length || 0;
       setHide('hidden');
     } else {
       newFilteredTiers[index] = true;
-      setFilteredTiers(newFilteredTiers);
-      setFilteredCount(newFilteredTiers?.filter((value) => value == true)?.length || 0);
+      newCount = newFilteredTiers?.filter((value) => value == true)?.length || 0;
       setHide('');
     }
+    setFilteredTiers(newFilteredTiers);
+    setFilteredCount(newCount);
+    newFilteredInfo[bounty.id] = { filteredCount: newCount };
+    setFilteredInfo({ ...filteredInfo, ...newFilteredInfo });
   }, [
     paginationState[0].filters.searchText,
     githubCondition,
@@ -139,12 +145,16 @@ const IndividualClaim = ({
   };
   return (
     <div className={`${hide} text-sm items-center gap-4 ${gridFormat}`}>
-      {githubUser?.url ? (
+      {bounty.tierWinners?.[index] ? (
         <div className='flex gap-2 '>
-          <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
-            {githubUser.login}
-          </Link>{' '}
-          ({githubUser.id})
+          {githubUser?.url ? (
+            <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
+              {githubUser.login}
+            </Link>
+          ) : (
+            'Loading...'
+          )}{' '}
+          ({bounty.tierWinners?.[index]})
         </div>
       ) : (
         <div className='text-gray-500'> Not Yet Assigned</div>

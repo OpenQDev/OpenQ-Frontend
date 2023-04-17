@@ -8,6 +8,7 @@ import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
 import useWeb3 from '../../../hooks/useWeb3';
+/* import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite'; */
 
 const ClaimsTracking = ({ paginationObj }) => {
   const { account } = useWeb3(true);
@@ -35,25 +36,74 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
-  const [TVL, setTVL] = useState('loading...');
-  const [claims, setClaims] = useState('loading...');
-  const [prize, setPrize] = useState('n.a.');
+  const [countAll, setCountAll] = useState('');
+  const [TVL, setTVL] = useState('');
+  const [claims, setClaims] = useState('');
+  const [nbClaims, setNbClaims] = useState(0);
+  const [filteredInfo, setFilteredInfo] = useState({});
+  const [tierAmount, setTierAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  /*   let prizeObj = {};
+  const [prizeArr, setPrizeArr] = useState([]); */
 
   useEffect(() => {
+    let newTierAmount = 0;
+    for (let id in filteredInfo) {
+      if (filteredInfo[id].filteredCount) {
+        newTierAmount += filteredInfo[id]?.filteredCount;
+      }
+    }
+    setTierAmount(newTierAmount);
+  }, [filteredInfo]);
+
+  useEffect(() => {
+    let newCountAll = 0;
     let newTVL = 0;
     let newClaims = 0;
+    let newNbClaims = 0;
+    setLoading(true);
+    //let newPrizeObj = {};
     if (paginationState[0].complete) {
       newTVL = paginationStateObj.items.reduce((acc, item) => {
+        newCountAll += item.payoutSchedule?.length || 0;
         return acc + item.tvl;
       }, 0);
       newClaims = paginationStateObj.items.reduce((acc, item) => {
         return acc + item.tvc;
       }, 0);
+      newNbClaims = paginationStateObj.items.reduce((acc, item) => {
+        return acc + item.claims?.length;
+      }, 0);
+      /* paginationStateObj.items.map((item) => {
+        if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
+          return (newPrizeObj[item.fundingGoalTokenAddress] =
+            newPrizeObj?.[item.fundingGoalTokenAddress] || 0 + item?.fundingGoalVolume || 0);
+        } else if (item.payoutSchedule && item.payoutSchedule.length > 0) {
+          return (newPrizeObj[item.payoutTokenAddress] =
+            newPrizeObj?.[item.payoutTokenAddress] ||
+            0 + item.payoutSchedule?.reduce((a, b) => parseInt(a) + parseInt(b), 0) ||
+            0);
+        }
+      }); */
+      setNbClaims(newNbClaims);
+      setCountAll(newCountAll);
       setTVL(appState.utils.formatter.format(newTVL));
       setClaims(appState.utils.formatter.format(newClaims));
-      setPrize('N/A');
+      setLoading(false);
+      // prizeObj = newPrizeObj;
     }
   }, [paginationState]);
+
+  /* useEffect(() => {
+    if (Object.keys(prizeObj)?.length > 0) {
+      const newPrizeArr = Object.keys(prizeObj).map((item) => {
+        return useGetValueFromComposite(item, prizeObj[item]);
+      });
+      setPrizeArr(newPrizeArr);
+    }
+  }, [prizeObj]); */
+
+  // console.log(prizeObj, prizeArr);
 
   // Utilities
 
@@ -112,10 +162,9 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
-  const getKey = () => {
-    return null;
+  const getKey = (item) => {
+    return item.bountyId;
   };
-  console.log(paginationStateObj, paginationStateObj.items);
 
   // Render
   return (
@@ -129,9 +178,15 @@ const ClaimsTracking = ({ paginationObj }) => {
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Prize: {prize}</div>
-            <div>TVL: {TVL}</div>
-            <div>Claims: {claims}</div>
+            <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
+            <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
+            <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
+            <div>Total # of Claims: {loading ? 'Loading...' : nbClaims} </div>
+          </div>
+          <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
+            <div>Total Claim Volume: {claims}</div>
+            <div>Total TVL for the hackathon: {TVL}</div>
+            {/* <div>Prize: {prize}</div> */}
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>
@@ -233,6 +288,8 @@ const ClaimsTracking = ({ paginationObj }) => {
               PaginationCard={ClaimsPerBounty}
               setFilteredLength={setFilteredLength}
               filteredLength={filteredLength}
+              setFilteredInfo={setFilteredInfo}
+              filteredInfo={filteredInfo}
             />
           </div>
         </div>
