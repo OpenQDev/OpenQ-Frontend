@@ -112,8 +112,8 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
-  const getKey = () => {
-    return null;
+  const getKey = (item) => {
+    return item.bountyId;
   };
   console.log(paginationStateObj, paginationStateObj.items);
 

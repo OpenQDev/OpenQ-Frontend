@@ -35,8 +35,9 @@ const ClaimsPerBounty = ({ item, paginationState }) => {
         <div className='flex justify-center'>Claimed</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
+        const key = item.bountyId + index;
         return (
-          <div key={index}>
+          <div key={key}>
             {' '}
             <IndividualClaim
               bounty={item}
