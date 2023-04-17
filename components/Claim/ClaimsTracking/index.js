@@ -72,7 +72,7 @@ const ClaimsTracking = ({ paginationObj }) => {
         return acc + item.tvc;
       }, 0);
       newNbClaims = paginationStateObj.items.reduce((acc, item) => {
-        return acc + item.claims?.length;
+        return acc + (item.claims?.length || 0);
       }, 0);
       /* paginationStateObj.items.map((item) => {
         if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
