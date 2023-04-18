@@ -32,7 +32,7 @@ const ClaimsPerBounty = ({ item, paginationState, setFilteredInfo, filteredInfo 
         <div className='flex justify-center'>W8/W9?</div>
         <div className='flex justify-center'>KYC'd?</div>
         <div className='flex justify-center'>Wallet</div>
-        <div className='flex justify-center'>Claimed</div>
+        <div className='flex justify-center'>Paid out</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
         const key = item.bountyId + index;

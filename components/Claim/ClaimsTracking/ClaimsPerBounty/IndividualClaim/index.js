@@ -37,8 +37,8 @@ const IndividualClaim = ({
   const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
   const claimCondition =
-    (claimFilter == 'true' && !bounty.claims?.some((claim) => claim.tier == index)) ||
-    (claimFilter == 'false' && bounty.claims?.some((claim) => claim.tier == index));
+    (claimFilter == 'true' && !bounty.payouts?.some((payout) => payout.closer.id == associatedAddress)) ||
+    (claimFilter == 'false' && bounty.payouts?.some((payout) => payout.closer.id == associatedAddress));
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
   const [hide, setHide] = useState('');
@@ -192,10 +192,10 @@ const IndividualClaim = ({
       </div>
       <div
         className={`flex justify-center ${
-          bounty.claims?.some((claim) => claim.tier == index) && 'font-bold text-green'
+          bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) && 'font-bold text-green'
         }`}
       >
-        {bounty.claims?.some((claim) => claim.tier == index) ? 'TRUE' : 'FALSE'}
+        {bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) ? 'TRUE' : 'FALSE'}
       </div>
     </div>
   );
