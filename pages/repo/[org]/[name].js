@@ -242,7 +242,7 @@ export async function getServerSideProps(context) {
   const { org, name } = context.query;
   const utils = new Utils();
   const logger = new Logger();
-  const batch = 10;
+  const batch = 20;
   const types = ['0', '1', '2', '3'];
   const appState = {
     githubRepository: githubRepository.instance,
