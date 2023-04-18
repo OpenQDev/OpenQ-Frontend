@@ -128,6 +128,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     return null;
   };
   // Render
+  console.log('BountyList PagintionState', paginationState);
   return (
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
       <div className='flex flex-wrap gap-4 w-full items-center'>
