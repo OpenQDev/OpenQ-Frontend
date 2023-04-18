@@ -114,11 +114,12 @@ const ClaimsTracking = ({ paginationObj }) => {
   // Utilities
 
   const setSearch = (searchType, searchedText) => {
+    const newSearch = { [searchType]: searchedText };
     setPaginationStateObj({
       ...paginationStateObj,
       filters: {
         ...paginationStateObj.filters,
-        searchText: { ...searchText, [searchType]: searchedText },
+        searchText: { ...searchText, ...newSearch },
       },
     });
   };
