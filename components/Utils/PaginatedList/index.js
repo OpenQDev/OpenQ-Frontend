@@ -102,6 +102,7 @@ const PaginatedList = ({
     <div className={className}>
       {filteredItems.map((item, index) => {
         const key = getKey(item);
+        console.log('Paginatelist key', key);
         return (
           <div key={key || index} ref={index === filteredItems.length - 1 ? lastElem : null} className='pagination'>
             <PaginationCard

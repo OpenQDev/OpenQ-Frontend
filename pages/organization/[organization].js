@@ -71,6 +71,8 @@ const organization = ({ organizationData, renderError, paginationObj }) => {
       : []; */
 
   // Render
+  console.log('paginationObj', paginationObj);
+  console.log('organizationData', organizationData);
   return (
     <>
       {renderError ? (

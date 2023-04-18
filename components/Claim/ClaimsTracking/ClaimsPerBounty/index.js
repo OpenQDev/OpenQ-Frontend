@@ -7,6 +7,7 @@ const ClaimsPerBounty = ({ item, paginationState, setFilteredInfo, filteredInfo 
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
   const [filteredTiers, setFilteredTiers] = useState(Array(item.payoutSchedule?.length).fill(true));
   const [filteredCount, setFilteredCount] = useState(0);
+  console.log('ClaimsperBounty paginationsStat, filteredInfo', paginationState, filteredInfo);
   return (
     <div
       className={`${
@@ -36,6 +37,7 @@ const ClaimsPerBounty = ({ item, paginationState, setFilteredInfo, filteredInfo 
       </div>
       {item.payoutSchedule?.map((payout, index) => {
         const key = item.bountyId + index;
+        console.log('CLaimsperBounty key', key);
         return (
           <div key={key}>
             {' '}

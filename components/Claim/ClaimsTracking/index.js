@@ -166,6 +166,8 @@ const ClaimsTracking = ({ paginationObj }) => {
     return item.bountyId;
   };
 
+  console.log('Claimstracking aginationState', paginationState);
+
   // Render
   return (
     <>

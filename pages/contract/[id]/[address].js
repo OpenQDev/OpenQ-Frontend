@@ -204,6 +204,9 @@ const address = ({ address, mergedBounty, renderError }) => {
   const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
 
   // User Methods
+  console.log('address, mergedBounty, renderError', address, mergedBounty, renderError);
+  console.log('bounty', bounty);
+  console.log('refreshBounty', refreshBounty);
 
   // Render
   if (error) {

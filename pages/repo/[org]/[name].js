@@ -100,6 +100,8 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
   const getKey = () => {
     return null;
   };
+  console.log('paginationObj', paginationObj);
+  console.log('orgData, repoData', orgData, repoData);
   return (
     <>
       {renderError ? (

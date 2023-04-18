@@ -56,6 +56,8 @@ export default function Index({ orgs, types, category, renderError, paginationOb
     getMyWatched();
   }, [accountData, reloadNow]);
 
+  console.log('paginationObj', paginationObj);
+
   // Methods
 
   return (
