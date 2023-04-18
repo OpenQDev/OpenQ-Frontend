@@ -16,6 +16,11 @@ const IndividualClaim = ({
   setFilteredInfo,
   filteredInfo,
 }) => {
+  console.log('IndividualClaim', 'payout', payout);
+  console.log('IndividualClaim', 'index', index);
+  console.log('IndividualClaim', 'bounty', bounty);
+  console.log('IndividualClaim', 'paginationState', paginationState);
+  console.log('IndividualClaim', 'filteredInfo', filteredInfo, 'filteredTiers', filteredTiers);
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
