@@ -39,7 +39,7 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [countAll, setCountAll] = useState('');
   const [TVL, setTVL] = useState('');
   const [claims, setClaims] = useState('');
-  const [nbClaims, setNbClaims] = useState(0);
+  const [nbPayouts, setNbPayouts] = useState(0);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [tierAmount, setTierAmount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ const ClaimsTracking = ({ paginationObj }) => {
     let newCountAll = 0;
     let newTVL = 0;
     let newClaims = 0;
-    let newNbClaims = 0;
+    let newNbPayouts = 0;
     setLoading(true);
     //let newPrizeObj = {};
     if (paginationState[0].complete) {
@@ -71,8 +71,8 @@ const ClaimsTracking = ({ paginationObj }) => {
       newClaims = paginationStateObj.items.reduce((acc, item) => {
         return acc + item.tvc;
       }, 0);
-      newNbClaims = paginationStateObj.items.reduce((acc, item) => {
-        return acc + (item.claims?.length || 0);
+      newNbPayouts = paginationStateObj.items.reduce((acc, item) => {
+        return acc + (item.payouts?.length || 0);
       }, 0);
       /* paginationStateObj.items.map((item) => {
         if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
@@ -85,7 +85,7 @@ const ClaimsTracking = ({ paginationObj }) => {
             0);
         }
       }); */
-      setNbClaims(newNbClaims);
+      setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setTVL(appState.utils.formatter.format(newTVL));
       setClaims(appState.utils.formatter.format(newClaims));
@@ -181,7 +181,7 @@ const ClaimsTracking = ({ paginationObj }) => {
             <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
             <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
             <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
-            <div>Total # of Claims: {loading ? 'Loading...' : nbClaims} </div>
+            <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
             <div>Total Claim Volume: {claims}</div>
