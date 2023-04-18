@@ -38,6 +38,7 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [walletAddress, setWalletAddress] = useState('');
   const [countAll, setCountAll] = useState('');
   const [TVL, setTVL] = useState('');
+  const [bountyCount, setBountyCount] = useState(0);
   const [claims, setClaims] = useState('');
   const [nbPayouts, setNbPayouts] = useState(0);
   const [filteredInfo, setFilteredInfo] = useState({});
@@ -61,6 +62,7 @@ const ClaimsTracking = ({ paginationObj }) => {
     let newTVL = 0;
     let newClaims = 0;
     let newNbPayouts = 0;
+    let newBountyCount = 0;
     setLoading(true);
     //let newPrizeObj = {};
     if (paginationState[0].complete) {
@@ -74,6 +76,9 @@ const ClaimsTracking = ({ paginationObj }) => {
       newNbPayouts = paginationStateObj.items.reduce((acc, item) => {
         return acc + (item.payouts?.length || 0);
       }, 0);
+      newBountyCount = paginationStateObj.items.reduce((acc) => {
+        return acc + 1;
+      }, 0);
       /* paginationStateObj.items.map((item) => {
         if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
           return (newPrizeObj[item.fundingGoalTokenAddress] =
@@ -85,6 +90,7 @@ const ClaimsTracking = ({ paginationObj }) => {
             0);
         }
       }); */
+      setBountyCount(newBountyCount);
       setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setTVL(appState.utils.formatter.format(newTVL));
@@ -178,6 +184,7 @@ const ClaimsTracking = ({ paginationObj }) => {
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
+            <div>Total # of Bounties: {loading ? 'Loading...' : bountyCount}</div>
             <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
             <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
             <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
