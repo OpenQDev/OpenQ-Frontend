@@ -220,7 +220,7 @@ const ClaimsTracking = ({ paginationObj }) => {
                 <div className='flex justify-center'>W8/W9?</div>
                 <div className='flex justify-center'>KYC'd?</div>
                 <div className='flex justify-center'>Wallet</div>
-                <div className='flex justify-center'>Claimed</div>
+                <div className='flex justify-center'>Paid out</div>
               </div>
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
