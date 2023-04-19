@@ -65,7 +65,7 @@ const filterBounties = (item, filters, fetchFilters) => {
     if (bounty.type === '0') {
       return bounty.status !== '0';
     } else if (bounty.type === '3') {
-      return bounty.payoutSchedule.length === bounty.claims?.length;
+      return bounty.payoutSchedule?.length === bounty.claims?.length;
     }
   };
   const isStillOpen = !isClaimedOrTotallyClaimed(bounty) && bounty.assignees?.length == 0;
