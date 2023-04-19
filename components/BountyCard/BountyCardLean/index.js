@@ -11,7 +11,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
-import NoSSR from "../../Utils/NoSSR"
+import NoSSR from '../../Utils/NoSSR';
 import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib';
 
 const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatched }) => {
