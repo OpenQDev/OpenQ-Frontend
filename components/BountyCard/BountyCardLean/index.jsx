@@ -119,10 +119,7 @@ const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatc
                 {loading ? (
                   <Skeleton width={'100%'} />
                 ) : (
-                  <NoSSR>
-                    {' '}
-                    `Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`
-                  </NoSSR>
+                  <NoSSR>{`Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`}</NoSSR>
                 )}
               </div>
             </div>
