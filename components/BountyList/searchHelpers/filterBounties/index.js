@@ -61,14 +61,13 @@ const filterBounties = (item, filters, fetchFilters) => {
     });
   // Criteria: Must still be open:
   // => Bounty must still be open on OpenQ, unassigned and the issue must still be open on Github
-  const isClaimedOrTotallyClaimed = (bounty)=>{
-    if(bounty.type==="0"){
-     return  bounty.status !== '0'
+  const isClaimedOrTotallyClaimed = (bounty) => {
+    if (bounty.type === '0') {
+      return bounty.status !== '0';
+    } else if (bounty.type === '3') {
+      return bounty.payoutSchedule.length === bounty.claims.length;
     }
-    else if(bounty.type ==="3"){
-      return bounty.payoutSchedule.length === bounty.claims.length
-    }
-  }
+  };
   const isStillOpen = !isClaimedOrTotallyClaimed(bounty) && bounty.assignees?.length == 0;
 
   // Criteria: 'All Issues' or 'Ready For Work' selection:
