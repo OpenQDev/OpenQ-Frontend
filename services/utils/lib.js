@@ -125,7 +125,11 @@ export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
     return { status: 'Claimable' };
   }
-  return { status: null };
+  if (bounty?.tierWinners?.length !== bounty?.claims?.length) {
+    return { status: 'Open' };
+  } else {
+    return { status: null };
+  }
 };
 
 export const checkClaimable = (bounty, currentUser) => {
@@ -151,6 +155,7 @@ export const checkClaimable = (bounty, currentUser) => {
 export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImpl = checkClaimable) => {
   if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
   const { status } = checkClaimableImpl(bounty, githubId, openQClient);
+  console.log(status);
   if (status === 'Claimable') {
     return {
       status: 'Claim Available',
@@ -165,6 +170,14 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImp
       fill: 'fill-closed',
     };
   }
+  if (status === 'Open') {
+    return {
+      status: 'Open',
+      colour: 'bg-green',
+      fill: 'fill-green',
+    };
+  }
+
   if (bounty.bountyType === '0') {
     if (bounty.assignees[0]) {
       return {
@@ -227,7 +240,7 @@ export const isEveryValueNotNull = (obj) => {
   return kyc && w8Form && githubHasWallet && invoice;
 };
 export const formatVolume = (tierVolume, token) => {
-  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+  let bigNumberVolume = ethers.BigNumber.from(tierVolume?.toString() || '0');
   let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;

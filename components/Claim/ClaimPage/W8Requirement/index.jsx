@@ -275,7 +275,7 @@ const W8Requirement = ({ bounty }) => {
               <div
                 className={`relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed`}
               >
-                Pending
+                Under Review
               </div>
             )}
             <label htmlFor='file input' className={`relative flex items-center`}>
