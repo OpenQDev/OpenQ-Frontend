@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// vi Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FundPage Split Price Bounties should lock token choice to deposit token when there is 1+ deposit 1`] = `
 <DocumentFragment>

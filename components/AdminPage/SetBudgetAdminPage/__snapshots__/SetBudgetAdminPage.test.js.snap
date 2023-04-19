@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// vi Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SetBudgetAdminPage Split Price Contracts should allow user to update budget token and volume when no deposits: Snapshot: initial view 1`] = `
 <DocumentFragment>

@@ -38,8 +38,9 @@ const ClaimsTracking = ({ paginationObj }) => {
   const [walletAddress, setWalletAddress] = useState('');
   const [countAll, setCountAll] = useState('');
   const [TVL, setTVL] = useState('');
+  const [bountyCount, setBountyCount] = useState(0);
   const [claims, setClaims] = useState('');
-  const [nbClaims, setNbClaims] = useState(0);
+  const [nbPayouts, setNbPayouts] = useState(0);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [tierAmount, setTierAmount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -60,7 +61,8 @@ const ClaimsTracking = ({ paginationObj }) => {
     let newCountAll = 0;
     let newTVL = 0;
     let newClaims = 0;
-    let newNbClaims = 0;
+    let newNbPayouts = 0;
+    let newBountyCount = 0;
     setLoading(true);
     //let newPrizeObj = {};
     if (paginationState[0].complete) {
@@ -71,8 +73,11 @@ const ClaimsTracking = ({ paginationObj }) => {
       newClaims = paginationStateObj.items.reduce((acc, item) => {
         return acc + item.tvc;
       }, 0);
-      newNbClaims = paginationStateObj.items.reduce((acc, item) => {
-        return acc + (item.claims?.length || 0);
+      newNbPayouts = paginationStateObj.items.reduce((acc, item) => {
+        return acc + (item.payouts?.length || 0);
+      }, 0);
+      newBountyCount = paginationStateObj.items.reduce((acc) => {
+        return acc + 1;
       }, 0);
       /* paginationStateObj.items.map((item) => {
         if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
@@ -85,7 +90,8 @@ const ClaimsTracking = ({ paginationObj }) => {
             0);
         }
       }); */
-      setNbClaims(newNbClaims);
+      setBountyCount(newBountyCount);
+      setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setTVL(appState.utils.formatter.format(newTVL));
       setClaims(appState.utils.formatter.format(newClaims));
@@ -108,11 +114,12 @@ const ClaimsTracking = ({ paginationObj }) => {
   // Utilities
 
   const setSearch = (searchType, searchedText) => {
+    const newSearch = { [searchType]: searchedText };
     setPaginationStateObj({
       ...paginationStateObj,
       filters: {
         ...paginationStateObj.filters,
-        searchText: { ...searchText, [searchType]: searchedText },
+        searchText: { ...searchText, ...newSearch },
       },
     });
   };
@@ -178,10 +185,11 @@ const ClaimsTracking = ({ paginationObj }) => {
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
+            <div>Total # of Bounties: {loading ? 'Loading...' : bountyCount}</div>
             <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
             <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
             <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
-            <div>Total # of Claims: {loading ? 'Loading...' : nbClaims} </div>
+            <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
             <div>Total Claim Volume: {claims}</div>
@@ -220,7 +228,7 @@ const ClaimsTracking = ({ paginationObj }) => {
                 <div className='flex justify-center'>W8/W9?</div>
                 <div className='flex justify-center'>KYC'd?</div>
                 <div className='flex justify-center'>Wallet</div>
-                <div className='flex justify-center'>Claimed</div>
+                <div className='flex justify-center'>Paid out</div>
               </div>
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
