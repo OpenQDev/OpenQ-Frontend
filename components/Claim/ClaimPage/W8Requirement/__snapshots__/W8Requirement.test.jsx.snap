@@ -92,7 +92,7 @@ exports[`W8Requirement > should match initial DOM Snapshot 1`] = `
       <div
         class="relative flex w-fit whitespace-nowrap gap-2 h-8 items-center justify-center text-center btn-default-disabled cursor-not-allowed"
       >
-        Pending
+        Under Review
       </div>
       <label
         class="relative flex items-center"
