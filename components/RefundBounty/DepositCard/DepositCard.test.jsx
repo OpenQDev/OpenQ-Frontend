@@ -61,7 +61,6 @@ describe('DepositCard', () => {
   const test = (deposit) => {
     it('should render the volume and name of token', async () => {
       // ARRANGE
-      console.log(new Date());
       render(<DepositCard deposit={deposit} isOnCorrectNetwork={true} />);
       let heading = await screen.findByText(/23.00 MATIC/i);
 

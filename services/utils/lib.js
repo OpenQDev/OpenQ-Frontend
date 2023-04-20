@@ -155,7 +155,6 @@ export const checkClaimable = (bounty, currentUser) => {
 export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImpl = checkClaimable) => {
   if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
   const { status } = checkClaimableImpl(bounty, githubId, openQClient);
-  console.log(status);
   if (status === 'Claimable') {
     return {
       status: 'Claim Available',
@@ -266,21 +265,16 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const processedRequests = [];
   for (let bounty of createdBounties) {
     for (let request of bounty.requests.nodes) {
-      const user = processedRequests.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
-      if (!user) {
-        const requestGithubId = request.requestingUser.github;
-        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
-        const requestWithGithubUser = {
-          ...request,
-          requestingUser: {
-            ...request.requestingUser,
-            githubUser,
-          },
-        };
-        processedRequests.push({ request: requestWithGithubUser, bounty });
-      }
+      const requestGithubId = request.requestingUser.github;
+      const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+      const requestWithGithubUser = {
+        ...request,
+        requestingUser: {
+          ...request.requestingUser,
+          githubUser,
+        },
+      };
+      processedRequests.push({ request: requestWithGithubUser, bounty });
     }
   }
 

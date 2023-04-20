@@ -84,12 +84,12 @@ const RequestIndividual = ({ item }) => {
   useEffect(() => {
     const getSubgraphBounty = async () => {
       try {
-        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
+        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase(), 'no-cache');
         setSubgraphBounty(subgraphBounty);
         if (subgraphBounty.bountyType === '0' && subgraphBounty.supportingDocumentsCompleted?.[0]) {
           setAccepted(true);
         }
-        if (!subgraphBounty.tierWinners) return;
+        if (!subgraphBounty?.tierWinners) return;
         if (subgraphBounty.bountyType === '3') {
           const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.githubUser.id));
           if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
