@@ -198,9 +198,7 @@ describe('ActionBubble', () => {
 
     // ASSERT
     expect(
-      await screen.findByText(
-        '0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on January 3, 1970 at 7:33. This deposit will expire on undefined NaN, NaN at NaN:NaN.'
-      )
+      await screen.findByText('0xf3...2266 funded this contract with 10.0 MATIC ($6.70) on January 3, 1970 at 7:33.')
     );
   });
 

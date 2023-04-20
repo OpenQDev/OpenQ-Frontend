@@ -121,9 +121,11 @@ export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
     return { status: 'Claimed' };
   }
-
   if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
     return { status: 'Claimable' };
+  }
+  if (bounty.payoutSchedule?.length !== bounty.payouts?.length) {
+    return { status: 'Open' };
   }
   return { status: null };
 };
@@ -163,6 +165,13 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImp
       status: 'Claimed',
       colour: 'bg-closed',
       fill: 'fill-closed',
+    };
+  }
+  if (status === 'Open') {
+    return {
+      status: 'Open',
+      colour: 'bg-green',
+      fill: 'fill-green',
     };
   }
   if (bounty.bountyType === '0') {
