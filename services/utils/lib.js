@@ -175,10 +175,6 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImp
       fill: 'fill-green',
     };
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> 15c69e0f7c3dd8ed88bfb6f4f6995c35573bf3a8
   if (bounty.bountyType === '0') {
     if (bounty.assignees[0]) {
       return {
