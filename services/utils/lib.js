@@ -266,21 +266,16 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const processedRequests = [];
   for (let bounty of createdBounties) {
     for (let request of bounty.requests.nodes) {
-      const user = processedRequests.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
-      if (!user) {
-        const requestGithubId = request.requestingUser.github;
-        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
-        const requestWithGithubUser = {
-          ...request,
-          requestingUser: {
-            ...request.requestingUser,
-            githubUser,
-          },
-        };
-        processedRequests.push({ request: requestWithGithubUser, bounty });
-      }
+      const requestGithubId = request.requestingUser.github;
+      const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+      const requestWithGithubUser = {
+        ...request,
+        requestingUser: {
+          ...request.requestingUser,
+          githubUser,
+        },
+      };
+      processedRequests.push({ request: requestWithGithubUser, bounty });
     }
   }
 
