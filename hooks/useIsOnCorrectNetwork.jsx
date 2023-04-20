@@ -7,7 +7,6 @@ const useIsOnCorrectNetwork = (props) => {
   const [isOnCorrectNetwork, setIsOnCorrectNetwork] = useState(true);
 
   useEffect(() => {
-    console.log(chainId);
     if (
       error?.message?.includes('Unsupported chain id') ||
       (chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] !== chainId && account)

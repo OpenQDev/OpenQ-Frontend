@@ -155,7 +155,6 @@ export const checkClaimable = (bounty, currentUser) => {
 export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImpl = checkClaimable) => {
   if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
   const { status } = checkClaimableImpl(bounty, githubId, openQClient);
-  console.log(status);
   if (status === 'Claimable') {
     return {
       status: 'Claim Available',
