@@ -1,5 +1,21 @@
 import { gql } from '@apollo/client';
 
+export const GET_TOTAL_FUNDED_PER_ORGANIZATION_ID = gql`
+  query GetTotalFundedPerOrganizationId($organizationId: ID!) {
+    organizationFundedTokenBalances(where: { organization: $organizationId }) {
+      id
+      volume
+    }
+  }
+`;
+export const GET_TOTAL_PAYOUT_PER_ORGANIZATION_ID = gql`
+  query GetTotalPayoutPerOrganizationId($organizationId: ID!) {
+    organizationPayoutTokenBalances(where: { organization: $organizationId }) {
+      id
+      volume
+    }
+  }
+`;
 export const GET_PAYOUT_TRANSACTION_HASH = gql`
   query GetPayoutTransactionHash($bountyAddress: ID!) {
     payouts(where: { bounty: $bountyAddress }) {
