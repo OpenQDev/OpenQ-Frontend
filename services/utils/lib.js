@@ -124,10 +124,11 @@ export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
     return { status: 'Claimable' };
   }
-  if (bounty.payoutSchedule?.length !== bounty.payouts?.length) {
+  if (bounty?.payoutSchedule?.length !== bounty?.payouts?.length) {
     return { status: 'Open' };
+  } else {
+    return { status: null };
   }
-  return { status: null };
 };
 
 export const checkClaimable = (bounty, currentUser) => {
@@ -174,6 +175,10 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImp
       fill: 'fill-green',
     };
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 15c69e0f7c3dd8ed88bfb6f4f6995c35573bf3a8
   if (bounty.bountyType === '0') {
     if (bounty.assignees[0]) {
       return {
@@ -236,7 +241,7 @@ export const isEveryValueNotNull = (obj) => {
   return kyc && w8Form && githubHasWallet && invoice;
 };
 export const formatVolume = (tierVolume, token) => {
-  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toString());
+  let bigNumberVolume = ethers.BigNumber.from(tierVolume?.toString() || '0');
   let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;
@@ -262,21 +267,16 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const processedRequests = [];
   for (let bounty of createdBounties) {
     for (let request of bounty.requests.nodes) {
-      const user = processedRequests.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
-      if (!user) {
-        const requestGithubId = request.requestingUser.github;
-        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
-        const requestWithGithubUser = {
-          ...request,
-          requestingUser: {
-            ...request.requestingUser,
-            githubUser,
-          },
-        };
-        processedRequests.push({ request: requestWithGithubUser, bounty });
-      }
+      const requestGithubId = request.requestingUser.github;
+      const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+      const requestWithGithubUser = {
+        ...request,
+        requestingUser: {
+          ...request.requestingUser,
+          githubUser,
+        },
+      };
+      processedRequests.push({ request: requestWithGithubUser, bounty });
     }
   }
 

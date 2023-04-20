@@ -11,6 +11,7 @@ import ReactGA from 'react-ga4';
 import StoreContext from '../../../store/Store/StoreContext';
 import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
+import NoSSR from '../../Utils/NoSSR';
 import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib';
 
 const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatched }) => {
@@ -118,7 +119,7 @@ const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatc
                 {loading ? (
                   <Skeleton width={'100%'} />
                 ) : (
-                  `Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`
+                  <NoSSR>{`Deployed: ${relativeDeployDay} day${relativeDeployDay === 1 ? '' : 's'} ago.`}</NoSSR>
                 )}
               </div>
             </div>

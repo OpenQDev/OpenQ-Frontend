@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Cross from '../../svg/cross';
 
 const FirstTimeBanner = () => {
-  const [isFirstLaunch] = useState(true);
+  const [isFirstLaunch] = useState(false);
   const [showBanner, updateShowBanner] = useState(true);
 
   return (
