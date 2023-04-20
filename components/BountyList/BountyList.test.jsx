@@ -801,7 +801,6 @@ describe('BountyList', () => {
     expect(search).toBeInTheDocument();
 
     await user.type(search, 'multicall');
-    console.log(unFilteredIssue[0]);
     expect(unFilteredIssue[0]).toBeInTheDocument();
     expect(filteredIssue1[0]).not.toBeInTheDocument();
   });

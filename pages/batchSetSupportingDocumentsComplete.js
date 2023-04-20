@@ -100,7 +100,6 @@ function BatchSetSupportingDocumentsComplete() {
     const user = await appState.githubRepository.fetchUserById(userId);
 
     const volumeWon = payoutSchedule[tier].toString();
-    console.log('volumeWon', volumeWon);
 
     return {
       ...githubData,
@@ -116,7 +115,6 @@ function BatchSetSupportingDocumentsComplete() {
       if (supportingDocsCompleteBatchData) {
         const bounties = supportingDocsCompleteBatchData.transactions.map(async (transaction) => {
           const bountyData = await parseTransaction(transaction);
-          console.log('bountyData', bountyData);
           return bountyData;
         });
         setSupportingDocsCompletePreviewData(await Promise.all(bounties));

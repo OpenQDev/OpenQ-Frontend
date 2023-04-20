@@ -84,12 +84,12 @@ const RequestIndividual = ({ item }) => {
   useEffect(() => {
     const getSubgraphBounty = async () => {
       try {
-        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase());
+        const subgraphBounty = await appState.openQSubgraphClient.getBounty(bounty.address.toLowerCase(), 'no-cache');
         setSubgraphBounty(subgraphBounty);
         if (subgraphBounty.bountyType === '0' && subgraphBounty.supportingDocumentsCompleted?.[0]) {
           setAccepted(true);
         }
-        if (!subgraphBounty.tierWinners) return;
+        if (!subgraphBounty?.tierWinners) return;
         if (subgraphBounty.bountyType === '3') {
           const tier = parseInt(subgraphBounty?.tierWinners.indexOf(request.requestingUser.githubUser.id));
           if (subgraphBounty.supportingDocumentsCompleted?.[tier]) {
@@ -179,6 +179,7 @@ const RequestIndividual = ({ item }) => {
       <div>
         <button
           onClick={acceptRequest}
+          disabled={accepted || loading}
           className={`flex w-fit gap-2 ${
             accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
           } py-0.5 mb-2 w-full text-lg self-center flex content-center items-center justify-center`}
@@ -239,10 +240,12 @@ const RequestIndividual = ({ item }) => {
         </ModalLarge>
       )}
       {error && (
-        <UnexpectedErrorModal
-          closeModal={() => setError('')}
-          error={error || 'An error occured while accepting this submission.'}
-        />
+        <div className='col-span-3'>
+          <UnexpectedErrorModal
+            closeModal={() => setError('')}
+            error={error || 'An error occured while accepting this submission.'}
+          />
+        </div>
       )}
     </li>
   );

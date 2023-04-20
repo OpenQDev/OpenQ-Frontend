@@ -11,7 +11,11 @@ const useIsOnCorrectNetwork = (props) => {
       error?.message?.includes('Unsupported chain id') ||
       (chainIdDeployEnvMap[process.env.NEXT_PUBLIC_DEPLOY_ENV]['chainId'] !== chainId && account)
     ) {
-      setIsOnCorrectNetwork(false);
+      if (process.env.NEXT_PUBLIC_DEPLOY_ENV === 'docker' && chainId === '31337') {
+        setIsOnCorrectNetwork(true);
+      } else {
+        setIsOnCorrectNetwork(false);
+      }
     } else {
       setIsOnCorrectNetwork(true);
     }
