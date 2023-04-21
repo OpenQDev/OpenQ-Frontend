@@ -69,7 +69,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     };
     fetchPage();
   }, []);
-  console.log('filteredItems', filteredItems);
 
   useEffect(() => {
     const newFilteredItems = filtering(initialItems, filters);
