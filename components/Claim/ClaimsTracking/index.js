@@ -1,51 +1,82 @@
 // Third party
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 //Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import PaginatedList from '../../../components/Utils/PaginatedList';
 import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
 import useWeb3 from '../../../hooks/useWeb3';
-/* import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite'; */
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
 
-const ClaimsTracking = ({ paginationObj }) => {
+const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const { account } = useWeb3(true);
   const [appState] = useContext(StoreContext);
-  const getItems = async (oldCursor, batch, ordering, filters = {}) => {
-    return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
-  };
-
-  const filterFunction = (item, filters) => {
-    const isBounty = filters.searchText?.issueText
-      ? item.title?.toLowerCase().includes(filters.searchText.issueText.toLowerCase()) ||
-        item.alternativeName?.toLowerCase().includes(filters.searchText.issueText.toLowerCase())
-      : true;
-    return isBounty;
-  };
-
-  const paginationObjWithFunctions = { ...paginationObj, filterFunction: filterFunction, getItems };
 
   // Hooks
-  const paginationState = useState(paginationObjWithFunctions);
-  const [paginationStateObj, setPaginationStateObj] = paginationState;
-  const { searchText } = paginationStateObj.filters;
-  const [issueText, setIssueText] = useState(searchText);
-  const [filteredLength, setFilteredLength] = useState(0);
+  const [issueText, setIssueText] = useState('');
+  const [filters, setFilters] = useState({});
+  const [initialItems, setInitialItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [countAll, setCountAll] = useState('');
-  const [TVL, setTVL] = useState('');
   const [bountyCount, setBountyCount] = useState(0);
-  const [claims, setClaims] = useState('');
   const [nbPayouts, setNbPayouts] = useState(0);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [tierAmount, setTierAmount] = useState(0);
   const [loading, setLoading] = useState(false);
-  /*   let prizeObj = {};
-  const [prizeArr, setPrizeArr] = useState([]); */
+  const [loadingBounties, setLoadingBounties] = useState(false);
+  const ordering = { sortOrder: 'desc', field: 'createdAt' };
+  const createTVLObj = (TVLBalances) => {
+    return TVLBalances.map((item) => {
+      return { tokenAddress: item.id?.split('-')[1], volume: item.volume };
+    });
+  };
+  const TVLObj = useMemo(() => createTVLObj(TVLBalances), [TVLBalances]);
+  const [TVLValues] = useGetTokenValues(TVLObj);
+  const TVL = TVLValues?.total;
+  console.log('TVL', TVL);
+
+  const createPayoutObj = (payoutBalances) => {
+    return payoutBalances.map((item) => {
+      return { tokenAddress: item.id?.split('-')[1], volume: item.volume };
+    });
+  };
+  const payoutObj = useMemo(() => createPayoutObj(payoutBalances), [payoutBalances]);
+  const [payoutValues] = useGetTokenValues(payoutObj);
+  const payout = payoutValues?.total;
+  console.log('payout', payout);
+
+  useEffect(() => {
+    setLoadingBounties(true);
+    const fetchPage = async () => {
+      let cursor = null;
+      let nodes = [];
+      let complete = false;
+      while (!complete) {
+        const {
+          nodes: newNodes,
+          cursor: newCursor,
+          complete: newComplete,
+        } = await getItems(cursor, 100, ordering, fetchFilters);
+        nodes = [...nodes, ...newNodes];
+        cursor = newCursor;
+        complete = newComplete;
+      }
+      setInitialItems(nodes);
+      setFilteredItems(nodes);
+      setLoadingBounties(false);
+    };
+    fetchPage();
+  }, []);
+  console.log('filteredItems', filteredItems);
+
+  useEffect(() => {
+    const newFilteredItems = filtering(initialItems, filters);
+    setFilteredItems(newFilteredItems);
+  }, [filters]);
 
   useEffect(() => {
     let newTierAmount = 0;
@@ -59,69 +90,49 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   useEffect(() => {
     let newCountAll = 0;
-    let newTVL = 0;
-    let newClaims = 0;
     let newNbPayouts = 0;
     let newBountyCount = 0;
     setLoading(true);
     //let newPrizeObj = {};
-    if (paginationState[0].complete) {
-      newTVL = paginationStateObj.items.reduce((acc, item) => {
+    if (initialItems.length > 0) {
+      newNbPayouts = initialItems.reduce((acc, item) => {
         newCountAll += item.payoutSchedule?.length || 0;
-        return acc + item.tvl;
-      }, 0);
-      newClaims = paginationStateObj.items.reduce((acc, item) => {
-        return acc + item.tvc;
-      }, 0);
-      newNbPayouts = paginationStateObj.items.reduce((acc, item) => {
         return acc + (item.payouts?.length || 0);
       }, 0);
-      newBountyCount = paginationStateObj.items.reduce((acc) => {
+      newBountyCount = initialItems.reduce((acc) => {
         return acc + 1;
       }, 0);
-      /* paginationStateObj.items.map((item) => {
-        if (item.fundingGoalVolume && item.fundingGoalVolume > 0) {
-          return (newPrizeObj[item.fundingGoalTokenAddress] =
-            newPrizeObj?.[item.fundingGoalTokenAddress] || 0 + item?.fundingGoalVolume || 0);
-        } else if (item.payoutSchedule && item.payoutSchedule.length > 0) {
-          return (newPrizeObj[item.payoutTokenAddress] =
-            newPrizeObj?.[item.payoutTokenAddress] ||
-            0 + item.payoutSchedule?.reduce((a, b) => parseInt(a) + parseInt(b), 0) ||
-            0);
-        }
-      }); */
       setBountyCount(newBountyCount);
       setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
-      setTVL(appState.utils.formatter.format(newTVL));
-      setClaims(appState.utils.formatter.format(newClaims));
       setLoading(false);
       // prizeObj = newPrizeObj;
     }
-  }, [paginationState]);
-
-  /* useEffect(() => {
-    if (Object.keys(prizeObj)?.length > 0) {
-      const newPrizeArr = Object.keys(prizeObj).map((item) => {
-        return useGetValueFromComposite(item, prizeObj[item]);
-      });
-      setPrizeArr(newPrizeArr);
-    }
-  }, [prizeObj]); */
-
-  // console.log(prizeObj, prizeArr);
+  }, [initialItems]);
 
   // Utilities
 
+  const getItems = async (oldCursor, batch, ordering, filters = {}) => {
+    return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
+  };
+
+  const filtering = (items, filters) => {
+    return items.filter((item) => {
+      return filterFunction(item, filters);
+    });
+  };
+
+  const filterFunction = (item, filters) => {
+    const isBounty = filters.issueText
+      ? item.title?.toLowerCase().includes(filters.issueText.toLowerCase()) ||
+        item.alternativeName?.toLowerCase().includes(filters.issueText.toLowerCase())
+      : true;
+    return isBounty;
+  };
+
   const setSearch = (searchType, searchedText) => {
     const newSearch = { [searchType]: searchedText };
-    setPaginationStateObj({
-      ...paginationStateObj,
-      filters: {
-        ...paginationStateObj.filters,
-        searchText: { ...searchText, ...newSearch },
-      },
-    });
+    setFilters({ ...filters, ...newSearch });
   };
 
   const handleSearchInput = (e) => {
@@ -169,10 +180,6 @@ const ClaimsTracking = ({ paginationObj }) => {
 
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
-  const getKey = (item) => {
-    return item.bountyId;
-  };
-
   // Render
   return (
     <>
@@ -192,9 +199,8 @@ const ClaimsTracking = ({ paginationObj }) => {
             <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Claim Volume: {claims}</div>
-            <div>Total TVL for the hackathon: {TVL}</div>
-            {/* <div>Prize: {prize}</div> */}
+            <div>Total Payout Volume: {appState.utils.formatter.format(payout)}</div>
+            <div>Total TVL for the hackathon: {appState.utils.formatter.format(TVL)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>
@@ -207,14 +213,14 @@ const ClaimsTracking = ({ paginationObj }) => {
                 onKeyDown={handleKeyPress}
               />
             </div>
-            {paginationState[0].complete && filteredLength == 0 && (
+            {!loadingBounties && filteredItems?.length == 0 && (
               <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
                 No Bounties Found
               </div>
             )}
-            {!paginationState[0].complete && filteredLength == 0 && (
+            {loadingBounties && filteredItems?.length == 0 && (
               <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
-                Searching... <LoadingIcon />
+                Loading... <LoadingIcon />
               </div>
             )}
             <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
@@ -290,15 +296,18 @@ const ClaimsTracking = ({ paginationObj }) => {
                 </select>
               </div>
             </div>
-            <PaginatedList
-              getKey={getKey}
-              paginationState={paginationState}
-              PaginationCard={ClaimsPerBounty}
-              setFilteredLength={setFilteredLength}
-              filteredLength={filteredLength}
-              setFilteredInfo={setFilteredInfo}
-              filteredInfo={filteredInfo}
-            />
+            {filteredItems.map((item) => {
+              return (
+                <div key={item.bountyId}>
+                  <ClaimsPerBounty
+                    item={item}
+                    setFilteredInfo={setFilteredInfo}
+                    filteredInfo={filteredInfo}
+                    filters={filters}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
