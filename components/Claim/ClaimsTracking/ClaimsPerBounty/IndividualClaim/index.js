@@ -11,7 +11,6 @@ const IndividualClaim = ({
   gridFormat,
   setFilteredTiers,
   filteredTiers,
-  setFilteredCount,
   setFilteredInfo,
   filteredInfo,
   filters,
@@ -112,7 +111,6 @@ const IndividualClaim = ({
       setHide('');
     }
     setFilteredTiers(newFilteredTiers);
-    setFilteredCount(newCount);
     newFilteredInfo[bounty.id] = { filteredCount: newCount };
     setFilteredInfo({ ...filteredInfo, ...newFilteredInfo });
   }, [filters, githubCondition, claimCondition, w8Condition, kycCondition, walletCondition]);
