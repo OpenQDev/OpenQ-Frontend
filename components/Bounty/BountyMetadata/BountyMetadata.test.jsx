@@ -31,8 +31,6 @@ describe('BountyMetadata', () => {
         expect(label).toBeInTheDocument();
         const polygonscan = screen.getByText(/0x066efd8702/);
         expect(polygonscan).toBeInTheDocument();
-        const prs = screen.getByText(/merged/);
-        expect(prs).toBeInTheDocument();
         if (bounty.bountyType === Constants.bountyTypeFixed) {
           expect(await screen.findByText(/Fixed/));
         }

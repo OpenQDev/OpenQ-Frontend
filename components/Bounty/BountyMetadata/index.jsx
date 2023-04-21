@@ -217,7 +217,6 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
                         <Link href={pr.source.url} target='_blank'>
                           <span className={'underline cursor-pointer'}>{pr.source.title}</span>
                         </Link>
-                        <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
                       </li>
                     );
                   }

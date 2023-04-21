@@ -97,7 +97,6 @@ const BountyCardDetailsModal = ({ bounty, closeModal, showModal, watchingState, 
                             <Link href={pr.source.url} target='_blank' className={'underline'}>
                               {pr.source.title}
                             </Link>
-                            <span>{pr.source.merged ? ' (merged)' : ' (not merged)'}</span>
                           </li>
                         );
                       }
