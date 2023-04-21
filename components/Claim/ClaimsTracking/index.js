@@ -62,7 +62,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
         nodes = [...nodes, ...newNodes];
         cursor = newCursor;
         complete = newComplete;
-        console.log('while loop claim progress - nodes, cursor, complete', nodes, cursor, complete);
       }
       setInitialItems(nodes);
       setFilteredItems(nodes);
@@ -86,8 +85,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       }
     });
   }, [filteredItems]);
-
-  console.log('filteredInfo', filteredInfo);
 
   useEffect(() => {
     let newTierAmount = 0;
