@@ -176,6 +176,9 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
       claims {
         tier
       }
+      payouts {
+        id
+      }
 
       deposits {
         id

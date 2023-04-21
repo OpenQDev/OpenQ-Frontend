@@ -154,7 +154,6 @@ const ClaimLoadingModal = ({
             <Link href={latestUserPR.source.url} target='_blank' className={'underline'}>
               <span> {latestUserPR.source.title}</span>
             </Link>
-            <span>{latestUserPR.source.merged ? ' (merged)' : ' (not merged)'}</span>
           </span>
         ) : (
           <div>No linked PR</div>
