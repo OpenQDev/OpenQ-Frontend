@@ -79,11 +79,11 @@ exports[`W8FormModal > should match initial DOM Snapshot 1`] = `
                 Instructions: 
                 <a
                   class="text-link-colour hover:underline col-span-2"
-                  href="https://www.irs.gov/forms-pubs/about-form-w-9"
+                  href="https://support.ethdenver.com/hc/en-us/articles/14749776802715"
                   rel="noopener norefferer"
                   target="_blank"
                 >
-                  https://www.irs.gov/forms-pubs/about-form-w-9
+                  https://support.ethdenver.com/hc/en-us/articles/14749776802715
                 </a>
               </p>
               <p
@@ -121,11 +121,11 @@ exports[`W8FormModal > should match initial DOM Snapshot 1`] = `
                 Instructions: 
                 <a
                   class="text-link-colour hover:underline col-span-2"
-                  href="https://www.irs.gov/instructions/iw8ben"
+                  href="https://support.ethdenver.com/hc/en-us/articles/14352744772507"
                   rel="noopener norefferer"
                   target="_blank"
                 >
-                  https://www.irs.gov/instructions/iw8ben
+                  https://support.ethdenver.com/hc/en-us/articles/14352744772507
                 </a>
               </p>
               <p

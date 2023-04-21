@@ -137,7 +137,7 @@ exports[`W8Requirement > should match initial DOM Snapshot 1`] = `
               "
         disabled=""
       >
-        Sent
+        Send
       </button>
     </form>
     <div
