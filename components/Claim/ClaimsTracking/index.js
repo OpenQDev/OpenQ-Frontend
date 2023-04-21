@@ -37,7 +37,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const TVLObj = useMemo(() => createTVLObj(TVLBalances), [TVLBalances]);
   const [TVLValues] = useGetTokenValues(TVLObj);
   const TVL = TVLValues?.total;
-  console.log('TVL', TVL);
 
   const createPayoutObj = (payoutBalances) => {
     return payoutBalances.map((item) => {
@@ -47,7 +46,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const payoutObj = useMemo(() => createPayoutObj(payoutBalances), [payoutBalances]);
   const [payoutValues] = useGetTokenValues(payoutObj);
   const payout = payoutValues?.total;
-  console.log('payout', payout);
 
   useEffect(() => {
     setLoadingBounties(true);
@@ -91,18 +89,14 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   useEffect(() => {
     let newCountAll = 0;
     let newNbPayouts = 0;
-    let newBountyCount = 0;
     setLoading(true);
     //let newPrizeObj = {};
-    if (initialItems.length > 0) {
+    if (initialItems?.length > 0) {
       newNbPayouts = initialItems.reduce((acc, item) => {
         newCountAll += item.payoutSchedule?.length || 0;
         return acc + (item.payouts?.length || 0);
       }, 0);
-      newBountyCount = initialItems.reduce((acc) => {
-        return acc + 1;
-      }, 0);
-      setBountyCount(newBountyCount);
+      setBountyCount(initialItems.length);
       setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setLoading(false);
