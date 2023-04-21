@@ -62,6 +62,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
         nodes = [...nodes, ...newNodes];
         cursor = newCursor;
         complete = newComplete;
+        console.log('while loop claim progress - nodes, cursor, complete', nodes, cursor, complete);
       }
       setInitialItems(nodes);
       setFilteredItems(nodes);
@@ -75,6 +76,18 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     const newFilteredItems = filtering(initialItems, filters);
     setFilteredItems(newFilteredItems);
   }, [filters]);
+
+  useEffect(() => {
+    Object.keys(filteredInfo).forEach((id) => {
+      if (!filteredItems.some((item) => item.id == id)) {
+        let newFilteredInfo = filteredInfo;
+        newFilteredInfo[id].filteredCount = 0;
+        return setFilteredInfo({ ...filteredInfo, ...newFilteredInfo });
+      }
+    });
+  }, [filteredItems]);
+
+  console.log('filteredInfo', filteredInfo);
 
   useEffect(() => {
     let newTierAmount = 0;
