@@ -62,6 +62,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
         nodes = [...nodes, ...newNodes];
         cursor = newCursor;
         complete = newComplete;
+        console.log('while loop claim progress - nodes, cursor, complete', nodes, cursor, complete);
       }
       setInitialItems(nodes);
       setFilteredItems(nodes);
