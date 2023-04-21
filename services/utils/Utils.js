@@ -156,8 +156,10 @@ class Utils {
       const subgraphBounty = subgraphBounties.find((bounty) => {
         return contract.address?.toLowerCase() === bounty.bountyAddress;
       });
+      console.log('combineBounties 1 - contract, relatedIssue, subgraphBounty', contract, relatedIssue, subgraphBounty);
+      console.log('combineBounties condition reached', relatedIssue && contract && !contract.blacklisted);
 
-      if (relatedIssue && contract && !contract.blacklisted) {
+      if (relatedIssue && subgraphBounty && !contract.blacklisted) {
         let mergedBounty = {
           alternativeName: '',
           alternativeLogo: '',
@@ -165,7 +167,9 @@ class Utils {
           ...subgraphBounty,
           ...contract,
         };
+        console.log('combineBounties 2 - the merged bounty', mergedBounty);
         fullBounties.push(mergedBounty);
+        console.log('combineBounties 3 - the new fullbounties', fullBounties);
       }
     });
     return fullBounties;
@@ -258,7 +262,9 @@ class Utils {
           githubIssues = [];
         }
         const complete = prismaContracts.length === 0;
+        console.log('fetchBounties: ', subgraphContracts, githubIssues, prismaContracts);
         const fullBounties = this.combineBounties(subgraphContracts, githubIssues, prismaContracts);
+        console.log('fullBounties: ', fullBounties, newCursor, complete);
         resolve([fullBounties, newCursor, complete]);
       } catch (err) {
         reject(err);
