@@ -12,6 +12,7 @@ import StoreContext from '../../../../store/Store/StoreContext';
 import { getW8Approved } from '../../../../services/utils/lib';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
 import FreelancerDetails from '../../../User/InvoicingDetailsTab/FreelancerDetails';
+import ModalDefault from '../../../Utils/ModalDefault';
 const W8Requirement = ({ bounty }) => {
   const [loading, setLoading] = useState(false);
   const [appState] = useContext(StoreContext);
@@ -23,7 +24,9 @@ const W8Requirement = ({ bounty }) => {
   const [sent, setSent] = useState(pending);
   const profileLink = `${process.env.NEXT_PUBLIC_BASE_URL}/user/${accountData.id}?tab=Invoicing (Freelancer)`;
   const [w8Approved, setW8Approved] = useState(false);
+  const [showTaxModal, setShowTaxModal] = useState(false);
   const [currentRequest, setCurrentRequest] = useState(null);
+  const [compliance, setCompliance] = useState({});
 
   const noEmail = !accountData?.invoicingEmail;
   useEffect(() => {
@@ -59,6 +62,7 @@ const W8Requirement = ({ bounty }) => {
     setLoading(false);
   };
   const handleSend = async (e) => {
+    console.log('I send');
     e.preventDefault();
     setLoading(true);
     setW8FormResponse('LOADING');
@@ -66,6 +70,8 @@ const W8Requirement = ({ bounty }) => {
     setSent(true);
     formData.append('file', file);
     setFile(null);
+    setCompliance({});
+    setShowTaxModal();
     try {
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_INVOICE_URL}/taxform?id=${bounty.bountyAddress}`,
@@ -207,6 +213,27 @@ const W8Requirement = ({ bounty }) => {
       MessageHTML: () => <>Scanning and sending your tax form to your client.</>,
     },
   };
+  const isCompliant = compliance.dated && compliance.signed && compliance.relevant;
+  const submitBtn = (
+    <button
+      disabled={!isCompliant}
+      className={`flex gap-2 h-8 items-center justify-center text-center
+    ${isCompliant ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
+  `}
+    >
+      {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
+      {loading && <LoadingIcon />}
+    </button>
+  );
+  const updateCompliance = (e) => {
+    const id = e.target.id;
+    const value = e.target.checked;
+    setCompliance((prev) => ({ ...prev, [id]: value }));
+  };
+  const openModal = (e) => {
+    e.preventDefault();
+    setShowTaxModal(true);
+  };
 
   const MessageHTML = w8formResponseOptions[w8formResponse]?.MessageHTML || (() => <></>);
   return (
@@ -313,14 +340,51 @@ const W8Requirement = ({ bounty }) => {
               {file?.name}
             </div>
             <button
+              onClick={openModal}
               disabled={!file}
               className={`flex gap-2 h-8 items-center justify-center text-center
                 ${file ? 'btn-requirements cursor-pointer' : 'btn-default cursor-not-allowed'}
               `}
             >
-              {sent ? (loading ? 'Sending' : 'Sent') : 'Send'}
+              {'Send'}
               {loading && <LoadingIcon />}
             </button>
+            {showTaxModal && (
+              <ModalDefault setShowModal={setShowTaxModal} title='Submit tax form' footerRight={submitBtn}>
+                <div className='flex gap-2'>
+                  <input
+                    className='checkbox'
+                    checked={compliance.signed}
+                    id='signed'
+                    type='checkbox'
+                    onClick={updateCompliance}
+                  />
+                  <label htmlFor='signed'>I have properly signed my tax documents</label>
+                </div>{' '}
+                <div className='flex gap-2'>
+                  <input
+                    className='checkbox'
+                    checked={compliance.dated}
+                    id='dated'
+                    type='checkbox'
+                    onClick={updateCompliance}
+                  />
+
+                  <label htmlFor='dated'>I have properly dated my tax documents</label>
+                </div>
+                <div className='flex gap-2'>
+                  <input
+                    className='checkbox'
+                    checked={compliance.relevant}
+                    id='relevant'
+                    type='checkbox'
+                    onClick={updateCompliance}
+                  />
+
+                  <label htmlFor='relevant'>I have completed all relevant sections of my tax documents</label>
+                </div>
+              </ModalDefault>
+            )}
           </form>
           <div className=''>
             *W-8 forms are{' '}

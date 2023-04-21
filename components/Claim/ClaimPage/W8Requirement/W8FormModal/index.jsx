@@ -32,12 +32,12 @@ const index = ({ setShowModal }) => {
         <p className='py-2'>
           Instructions:{' '}
           <Link
-            href={'https://www.irs.gov/forms-pubs/about-form-w-9'}
+            href={'https://support.ethdenver.com/hc/en-us/articles/14749776802715'}
             rel='noopener norefferer'
             target='_blank'
             className='text-link-colour hover:underline col-span-2'
           >
-            https://www.irs.gov/forms-pubs/about-form-w-9
+            https://support.ethdenver.com/hc/en-us/articles/14749776802715
           </Link>
         </p>
 
@@ -64,12 +64,12 @@ const index = ({ setShowModal }) => {
         <p className='py-2'>
           Instructions:{' '}
           <Link
-            href={'https://www.irs.gov/instructions/iw8ben'}
+            href={'https://support.ethdenver.com/hc/en-us/articles/14352744772507'}
             rel='noopener norefferer'
             target='_blank'
             className='text-link-colour hover:underline col-span-2'
           >
-            https://www.irs.gov/instructions/iw8ben
+            https://support.ethdenver.com/hc/en-us/articles/14352744772507
           </Link>
         </p>
 
