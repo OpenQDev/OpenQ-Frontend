@@ -156,8 +156,7 @@ class Utils {
       const subgraphBounty = subgraphBounties.find((bounty) => {
         return contract.address?.toLowerCase() === bounty.bountyAddress;
       });
-
-      if (relatedIssue && contract && !contract.blacklisted) {
+      if (relatedIssue && subgraphBounty && !contract.blacklisted) {
         let mergedBounty = {
           alternativeName: '',
           alternativeLogo: '',

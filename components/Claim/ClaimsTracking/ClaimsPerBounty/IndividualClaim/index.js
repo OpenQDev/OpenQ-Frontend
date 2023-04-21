@@ -9,12 +9,11 @@ const IndividualClaim = ({
   bounty,
   index,
   gridFormat,
-  paginationState,
   setFilteredTiers,
   filteredTiers,
-  setFilteredCount,
   setFilteredInfo,
   filteredInfo,
+  filters,
 }) => {
   const appState = useContext(StoreContext);
   const { chainId, library, account } = useWeb3(true);
@@ -28,11 +27,11 @@ const IndividualClaim = ({
   const [requested, setRequested] = useState(false);
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const githubIdFilter = paginationState[0].filters.searchText?.githubId;
-  const claimFilter = paginationState[0].filters.searchText?.claimed;
-  const w8Filter = paginationState[0].filters.searchText?.w8 || 'all';
-  const kycFilter = paginationState[0].filters.searchText?.kyc || 'all';
-  const walletFilter = paginationState[0].filters.searchText?.walletAddress;
+  const githubIdFilter = filters?.githubId;
+  const claimFilter = filters?.claimed;
+  const w8Filter = filters?.w8 || 'all';
+  const kycFilter = filters?.kyc || 'all';
+  const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
@@ -112,17 +111,9 @@ const IndividualClaim = ({
       setHide('');
     }
     setFilteredTiers(newFilteredTiers);
-    setFilteredCount(newCount);
     newFilteredInfo[bounty.id] = { filteredCount: newCount };
     setFilteredInfo({ ...filteredInfo, ...newFilteredInfo });
-  }, [
-    paginationState[0].filters.searchText,
-    githubCondition,
-    claimCondition,
-    w8Condition,
-    kycCondition,
-    walletCondition,
-  ]);
+  }, [filters, githubCondition, claimCondition, w8Condition, kycCondition, walletCondition]);
   useEffect(() => {
     if (associatedAddress && chainId == 137) hasKYC();
   }, [chainId, associatedAddress]);

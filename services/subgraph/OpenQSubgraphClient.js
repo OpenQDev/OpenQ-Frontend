@@ -14,6 +14,8 @@ import {
   GET_CORE_VALUE_METRICS_CURRENT,
   GET_CORE_VALUE_METRICS_HISTORIC,
   GET_TVL_AND_TVC,
+  GET_TOTAL_FUNDED_PER_ORGANIZATION_ID,
+  GET_TOTAL_PAYOUT_PER_ORGANIZATION_ID,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -200,6 +202,38 @@ class OpenQSubgraphClient {
           variables: { types },
         });
         resolve(result.data.organizations);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
+  async getTotalFundedPerOrganizationId(organizationId) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_TOTAL_FUNDED_PER_ORGANIZATION_ID,
+          variables: { organizationId },
+        });
+        resolve(result.data.organizationFundedTokenBalances);
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    return promise;
+  }
+
+  async getTotalPayoutPerOrganizationId(organizationId) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_TOTAL_PAYOUT_PER_ORGANIZATION_ID,
+          variables: { organizationId },
+        });
+        resolve(result.data.organizationPayoutTokenBalances);
       } catch (e) {
         reject(e);
       }

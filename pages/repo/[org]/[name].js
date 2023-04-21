@@ -24,14 +24,31 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ClaimsTracking from '../../../components/Claim/ClaimsTracking';
 
-const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
+const showcase = ({ org, name, renderError, orgData, repoData, paginationObj, fetchFilters }) => {
   // Context
   const [appState] = useContext(StoreContext);
   const [toggleVal, setToggleVal] = useState('Overview');
   const [searchValue, setSearchValue] = useState('');
+  const [TVLBalances, setTVLBalances] = useState([]);
+  const [payoutBalances, setPayoutBalances] = useState([]);
   const [singleSubmission, setSingleSubmission] = useState(null);
   const [showOverview, setShowOverview] = useState();
   const githubId = appState.accountData.github;
+
+  useEffect(() => {
+    const fetchTotals = async (orgId) => {
+      try {
+        const fetchedData = await appState.openQSubgraphClient.getTotalFundedPerOrganizationId(orgId);
+        const fetchedTotalPayouts = await appState.openQSubgraphClient.getTotalPayoutPerOrganizationId(orgId);
+        setPayoutBalances(fetchedTotalPayouts);
+        setTVLBalances(fetchedData);
+      } catch (err) {
+        appState.logger.error(err, '[name].js1');
+      }
+    };
+    fetchTotals(orgData.id);
+  }, []);
+
   useEffect(() => {
     const updateIsAdmin = async () => {
       const team = 'developers';
@@ -223,7 +240,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
             </>
           )}
           {showOverview && toggleVal === 'Claim Progress' && (
-            <ClaimsTracking paginationObj={paginationObj} contractToggle={true} types={['0', '1', '2', '3']} />
+            <ClaimsTracking fetchFilters={fetchFilters} TVLBalances={TVLBalances} payoutBalances={payoutBalances} />
           )}
         </div>
       )}
@@ -277,7 +294,6 @@ export async function getServerSideProps(context) {
   const ordering = { sortOrder: 'desc', field: 'createdAt' };
   const fetchFilters = { types, organizationId: orgData.id, repositoryId: repoData.id };
   const { nodes, cursor, complete } = await getItems(null, batch, ordering, fetchFilters);
-
   const paginationObj = {
     items: nodes,
     ordering: { direction: 'desc', field: 'createdAt' },
@@ -299,6 +315,7 @@ export async function getServerSideProps(context) {
       paginationObj,
       org,
       name,
+      fetchFilters,
     },
   };
 }
