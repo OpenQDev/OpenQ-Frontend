@@ -163,6 +163,15 @@ const ClaimButton = ({
       }
     }
   };
+
+  const handleChangeInternalMenuOrOpenModal = () => {
+    if (bountyHeading && internalMenu !== 'Claim') {
+      setInternalMenu('Claim');
+    } else {
+      if (!canClaim) return;
+      setShowClaimLoadingModal(true);
+    }
+  };
   return (
     <>
       {account && isOnCorrectNetwork && authState.isAuthenticated && (
@@ -188,11 +197,7 @@ const ClaimButton = ({
             }
                 `}
             disabled={!(isSolvent && canClaim) && !bountyHeading}
-            onClick={
-              bountyHeading && internalMenu !== 'Claim'
-                ? () => setInternalMenu('Claim')
-                : () => setShowClaimLoadingModal(true)
-            }
+            onClick={handleChangeInternalMenuOrOpenModal}
           >
             <div className='flex gap-2 items-center'>
               {' '}

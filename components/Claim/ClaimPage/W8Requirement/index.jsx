@@ -26,7 +26,7 @@ const W8Requirement = ({ bounty }) => {
   const [w8Approved, setW8Approved] = useState(false);
   const [showTaxModal, setShowTaxModal] = useState(false);
   const [currentRequest, setCurrentRequest] = useState(null);
-  const [compliance, setCompliance] = useState({});
+  const [compliance, setCompliance] = useState({ signed: null, dated: null, relevant: null });
 
   const noEmail = !accountData?.invoicingEmail;
   useEffect(() => {
