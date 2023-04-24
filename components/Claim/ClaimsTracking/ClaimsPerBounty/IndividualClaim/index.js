@@ -3,6 +3,7 @@ import StoreContext from '../../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
+import ToolTipNew from '../../../../Utils/ToolTipNew';
 
 const IndividualClaim = ({
   payout,
@@ -25,6 +26,7 @@ const IndividualClaim = ({
   const [githubUser, setGithubUser] = useState('');
   const [associatedAddress, setAssociatedAddress] = useState('');
   const [requested, setRequested] = useState(false);
+  const [message, setMessage] = useState('');
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
   const githubIdFilter = filters?.githubId;
@@ -64,9 +66,14 @@ const IndividualClaim = ({
           if (user) {
             const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
             setRequested(request);
+            console.log(request);
+            if (request) {
+              const privateRequest = await appState[0].openQPrismaClient.getPrivateRequest(request.id);
+              setMessage(privateRequest?.message);
+            }
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js2');
+          appState[0].logger.error(err, 'IndividualClaim.js3');
         }
       }
     };
@@ -79,7 +86,7 @@ const IndividualClaim = ({
             setAssociatedAddress(associatedAddress);
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js3');
+          appState[0].logger.error(err, 'IndividualClaim.js4');
         }
       }
     };
@@ -162,7 +169,18 @@ const IndividualClaim = ({
             : 'text-gray-500'
         }`}
       >
-        {w8Status}
+        {message ? (
+          <ToolTipNew innerStyles={'whitespace-normal w-80 text-primary'} toolTipText={message}>
+            <div className='flex gap-2 items-center'>
+              <div>{w8Status}</div>
+              <div className='cursor-help p-0 rounded-full border border-[#c9d1d9] aspect-square leading-3 h-3 box-content text-center font-bold text-primary text-xs'>
+                i
+              </div>
+            </div>
+          </ToolTipNew>
+        ) : (
+          <> {w8Status}</>
+        )}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
         {account ? KYC.toString().toUpperCase() : 'n.a.*'}
