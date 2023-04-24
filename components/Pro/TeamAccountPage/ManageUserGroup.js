@@ -7,7 +7,6 @@ import TeamAccountContext from './TeamAccountContext';
 const ManageUserGroup = ({ groupKey, groupName }) => {
   const [addNewUser, setAddNewUser] = useState(false);
   const [teamAccountState] = useContext(TeamAccountContext);
-  console.log(teamAccountState);
   return (
     <div className='w-full'>
       <div className='bg-nav-bg flex content-center items-center justify-between border-t border-x border-web-gray rounded-t-sm w-full px-4 py-2  border border-web-gray'>
