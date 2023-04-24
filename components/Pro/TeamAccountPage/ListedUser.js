@@ -4,9 +4,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import DropDown from '../../Utils/Dropdown';
+import TeamAccountContext from './TeamAccountContext';
 
 const ListedUser = ({ item }) => {
   const [appState] = useContext(StoreContext);
+  const [, proAccountDispatch] = useContext(TeamAccountContext);
   const names = ['admin'];
   const router = useRouter();
   const { id } = router.query;
@@ -27,12 +29,20 @@ const ListedUser = ({ item }) => {
   const [toggleVal, setToggleVal] = useState(role || 'Select Role');
   const toggleFunc = async (toggle) => {
     if (toggle === 'admin') {
-      await appState.openQPrismaClient.addTeamAccountRole({ teamAccountId: id, targetUserId: item.id }, toggle);
+      const { addTeamAccountAdmin } = await appState.openQPrismaClient.addTeamAccountRole(
+        { teamAccountId: id, targetUserId: item.id },
+        toggle
+      );
       setToggleVal(toggle);
+      proAccountDispatch({ type: 'ADD_ADMIN', payload: addTeamAccountAdmin });
     }
   };
   const removeFunc = async () => {
-    await appState.openQPrismaClient.removeTeamAccountRole({ teamAccountId: id, targetUserId: item.id }, role);
+    const { removeTeamAccountAdmin } = await appState.openQPrismaClient.removeTeamAccountAdmin({
+      teamAccountId: id,
+      targetUserId: item.id,
+    });
+    proAccountDispatch({ type: 'ADD_ADMIN', payload: removeTeamAccountAdmin });
     setToggleVal('Select Role');
   };
   const [githubAccount, setGithubAcount] = useState(null);

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
-import PageHeader from '../../../components/PageHeader';
+import PageHeader from '../../PageHeader';
 import Link from 'next/link';
 import CreateAccountModal from './CreateAccountModal';
 import { CalendarIcon, PeopleIcon } from '@primer/octicons-react';
-import TeamAccountContext from './ProPageContext';
+import TeamAccountContext from './TeamsPageContext';
 import { getPlural } from '../../../services/utils/lib';
 
 const ProPage = () => {

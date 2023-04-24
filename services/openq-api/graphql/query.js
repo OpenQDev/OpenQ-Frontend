@@ -958,6 +958,12 @@ export const ADD_PRO_ACCOUNT_ADMIN = gql`
     addTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
+      adminUsers(limit: 10) {
+        nodes {
+          id
+          github
+        }
+      }
     }
   }
 `;
@@ -976,13 +982,19 @@ export const REMOVE_PRO_ACCOUNT_ADMIN = gql`
     removeTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
+      adminUsers(limit: 10) {
+        nodes {
+          id
+          github
+        }
+      }
     }
   }
 `;
 
 export const REMOVE_PRO_ACCOUNT_MEMBER = gql`
-  mutation RemoveTeamAccountMember($teamAccountId: String!, $targetUserId: String!) {
-    removeTeamAccountMember(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
+  mutation RemoveTeamAccountAdmin($teamAccountId: String!, $targetUserId: String!) {
+    removeTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
       id
       name
     }

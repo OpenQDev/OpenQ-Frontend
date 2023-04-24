@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import StoreContext from '../../store/Store/StoreContext';
 import AuthButton from '../../components/Authentication/AuthButton';
-import ProPage from '../../components/Pro/ProPage';
+import ProPage from '../../components/Pro/TeamsPage';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient';
-import TeamAccountProvider from '../../components/Pro/ProPage/ProPageProvider';
+import TeamAccountProvider from '../../components/Pro/TeamsPage/TeamsPageProvider';
 
 const TeamAccount = ({ myTeamAccountInfo }) => {
   const [appState] = useContext(StoreContext);

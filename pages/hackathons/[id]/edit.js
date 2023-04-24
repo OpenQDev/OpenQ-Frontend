@@ -4,8 +4,8 @@ import HackathonLocation from '../../../components/Hackathon/HackathonLocation';
 import HackathonExtraInfo from '../../../components/Hackathon/HackathonExtraInfo';
 import HackathonTime from '../../../components/Hackathon/HackathonTime';
 import HackathonProvider from '../../../components/Hackathon/HackathonStore/HackathonProvider';
-import CreateHackathonButton from '../../../components/Hackathon/CreateHackathonButton/index.js';
-import CreateAsDraftButton from '../../../components/Hackathon/CreateAsDraftButton/index.js';
+import CreateHackathonButton from '../../../components/Hackathon/CreateHackathonButton';
+import CreateAsDraftButton from '../../../components/Hackathon/CreateAsDraftButton';
 import WrappedGithubRepository from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
 

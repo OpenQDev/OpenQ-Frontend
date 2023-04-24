@@ -50,6 +50,9 @@ const InviteMemberModal = ({ setShowModal }) => {
   const handleChange = (e) => {
     setStatePaginationObj({ ...paginationStateObj, filters: { searchText: e.target.value } });
   };
+  const getKey = (item) => {
+    return item.id;
+  };
   return (
     <ModalLarge
       resetState={resetState}
@@ -62,7 +65,7 @@ const InviteMemberModal = ({ setShowModal }) => {
         <div className='p-4 border-b border-web-gray'>
           <input onChange={handleChange} placeholder='Find an OpenQ User' className='input-field w-full' />
         </div>
-        <PaginatedList paginationState={paginationState} PaginationCard={ListedUser} />
+        <PaginatedList getKey={getKey} paginationState={paginationState} PaginationCard={ListedUser} />
       </div>
     </ModalLarge>
   );

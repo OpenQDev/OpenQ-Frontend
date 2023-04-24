@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
-import Product from './Product/index.js';
+import Product from './Product';
 
 const Products = ({ apiSecret, products, setProducts }) => {
   const [appState] = useContext(StoreContext);

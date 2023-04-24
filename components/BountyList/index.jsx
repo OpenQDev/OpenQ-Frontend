@@ -12,7 +12,7 @@ import SmallToggle from '../Utils/SmallToggle';
 import StoreContext from '../../store/Store/StoreContext';
 import PaginatedList from '../Utils/PaginatedList';
 import { fetchBountiesWithServiceArg, getReadyText, isOnlyContest } from '../../services/utils/lib';
-import filterBounties from './searchHelpers/filterBounties/index.js';
+import filterBounties from './searchHelpers/filterBounties';
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, paginationObj }) => {

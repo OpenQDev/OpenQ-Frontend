@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import ModalDefault from '../../../Utils/ModalDefault';
 import StoreContext from '../../../../store/Store/StoreContext';
-import TeamAccountContext from '../ProPageContext';
+import TeamAccountContext from '../TeamsPageContext';
 const CreateAccountModal = ({ showModal, setShowModal }) => {
   const [appState] = useContext(StoreContext);
   const [, setTeamAccountDispatch] = useContext(TeamAccountContext);

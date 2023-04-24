@@ -38,7 +38,6 @@ import {
   ADD_PRODUCT_TO_PRO_ACCOUNT,
   ADD_PRO_ACCOUNT_ADMIN,
   ADD_PRO_ACCOUNT_MEMBER,
-  REMOVE_PRO_ACCOUNT_MEMBER,
   REMOVE_PRO_ACCOUNT_ADMIN,
   GET_PRO_ACCOUNT_INFO_CURRENT,
   GET_USERS_PAGE,
@@ -149,36 +148,6 @@ class OpenQPrismaClient {
     });
     return promise;
   }
-
-  removeTeamAccountRole = async (variables, role) => {
-    if (role === 'admin' || role === 'adminUsers') {
-      const promise = new Promise(async (resolve, reject) => {
-        try {
-          const result = await this.client.mutate({
-            mutation: REMOVE_PRO_ACCOUNT_ADMIN,
-            variables,
-          });
-          resolve(result.data);
-        } catch (e) {
-          reject(e);
-        }
-      });
-      return promise;
-    } else {
-      const promise = new Promise(async (resolve, reject) => {
-        try {
-          const result = await this.client.mutate({
-            mutation: REMOVE_PRO_ACCOUNT_MEMBER,
-            variables,
-          });
-          resolve(result.data);
-        } catch (e) {
-          reject(e);
-        }
-      });
-      return promise;
-    }
-  };
 
   addTeamAccountRole = async (variables, role) => {
     if (role === 'admin' || role === 'adminUsers') {
@@ -793,11 +762,11 @@ class OpenQPrismaClient {
       }
     });
   }
-  removeTeamAccountMember(variables) {
+  removeTeamAccountAdmin(variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: REMOVE_PRO_ACCOUNT_MEMBER,
+          mutation: REMOVE_PRO_ACCOUNT_ADMIN,
           variables,
         });
         resolve(result.data);

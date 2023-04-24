@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 import { useContext, useState } from 'react';
 import Image from 'next/image';
+import TeamAccountContext from './TeamAccountContext';
 import Link from 'next/link';
 
 const MemberManagementCard = ({ member, groupKey, teamAccountId }) => {
   const [appState] = useContext(StoreContext);
+  const [, proAccountDispatch] = useContext(TeamAccountContext);
   const [githubAccount, setGithubAccount] = useState(null);
   useEffect(() => {
     const fetchGithubAccount = async () => {
@@ -15,7 +17,11 @@ const MemberManagementCard = ({ member, groupKey, teamAccountId }) => {
     fetchGithubAccount();
   }, [member.github]);
   const removeMember = async () => {
-    await appState.openQPrismaClient.removeTeamAccountRole({ targetUserId: member.id, teamAccountId }, groupKey);
+    const { removeTeamAccountAdmin } = await appState.openQPrismaClient.removeTeamAccountAdmin(
+      { targetUserId: member.id, teamAccountId },
+      groupKey
+    );
+    proAccountDispatch({ type: 'ADD_ADMIN', payload: removeTeamAccountAdmin });
   };
   return (
     <div className='w-full px-4 py-2 gap-4 bg-nav-bg border-x border-b border-web-gray rounded-b-sm flex '>

@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
-import TeamAccountReducer from './ProPageReducer';
-import TeamAccountContext from './ProPageContext.js';
+import TeamAccountReducer from './TeamsPageReducer';
+import TeamAccountContext from './TeamsPageContext';
 import InitialState from './InitialProPageState';
 
 const TeamAccountProvider = ({ children, myTeamAccountInfo }) => {

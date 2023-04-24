@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient.js';
 import ManageUserGroup from '../../../components/Pro/TeamAccountPage/ManageUserGroup';
-import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons/index.js';
+import SuperchargingHackathons from '../../../components/Pro/SuperchargingHackathons';
 
-import ProProvider from '../../../components/Pro//TeamAccountPage/ProProvider';
-import PageHeader from '../../../components/PageHeader/index.js';
+import ProProvider from '../../../components/Pro/TeamAccountPage/TeamAccountProvider.js';
+import PageHeader from '../../../components/PageHeader';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Manager from '../../../components/Manager/index.js';
+import Manager from '../../../components/Manager';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient.js';
 
 const TeamAccount = ({ teamAccount, repositories }) => {

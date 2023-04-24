@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import WrappedOpenQPrismaClient from '../../services/openq-api/WrappedOpenQPrismaClient.js';
 import WrappedGithubClient from '../../services/github/WrappedGithubClient.js';
-import PageHeader from '../../components/PageHeader/index.js';
+import PageHeader from '../../components/PageHeader';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Manager from '../../components/Manager/index.js';
+import Manager from '../../components/Manager';
 
 const Hackathons = ({ teamAccount, githubRepositoryIndex, repositories }) => {
   const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
