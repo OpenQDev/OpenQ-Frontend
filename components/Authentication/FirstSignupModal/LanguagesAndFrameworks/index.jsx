@@ -116,7 +116,7 @@ const LanguagesAndFrameworks = ({ user }) => {
   };
   useEffect(() => {
     const addUsersLanguages = async () => {
-      await checkCategory(user.recentLanguages.map((lang) => lang.toLowerCase()));
+      await checkCategory(user.recentLanguages?.map((lang) => lang.toLowerCase()));
     };
     addUsersLanguages();
   }, [user]);

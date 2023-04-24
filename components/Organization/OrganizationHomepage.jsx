@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // Custom
 import OrganizationCard from '../Organization/OrganizationCard';
 import MintBountyButton from '../MintBounty/MintBountyButton';
-import SearchBar from '../Search/SearchBar';
+import SearchBar from '../SearchBar';
 import Carousel from '../Utils/Carousel';
 import HorizontalOrganizationCard from './HorizontalOrganizationCard';
 const OrganizationHomepage = ({ orgs, types }) => {

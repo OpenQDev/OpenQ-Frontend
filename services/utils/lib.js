@@ -405,3 +405,81 @@ export const needsFreelancerData = (accountData) => {
   });
   return neededAccountData.length > 0;
 };
+export const handleDispatch = (e, type, dispatchFunc) => {
+  const dispatch = {
+    type,
+    payload: e.target.value,
+  };
+  dispatchFunc(dispatch);
+};
+export const updateHackathonState = async (hackathonState, appState, setCreateHackathonResponse, push) => {
+  const {
+    repositoryUrl,
+    startDate,
+    endDate,
+    city,
+    eventOrganizer,
+    isIrl,
+    timezone,
+    topic,
+    website,
+    contactEmail,
+    twitter,
+    discord,
+    telegram,
+    description,
+    slack,
+    registrationDeadline,
+    eventName,
+    hackathonProductInstanceId,
+    isDraft,
+  } = hackathonState;
+  const forwardedDraft = isDraft ? true : false;
+  const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
+  const owner = ownerRegex.exec(repositoryUrl)?.[1];
+  const name = ownerRegex.exec(repositoryUrl)?.[2];
+  try {
+    setCreateHackathonResponse('PENDING');
+    const githubRepository = await appState.githubRepository.fetchRepoByName(owner, name, []).catch(() => {
+      return null;
+    });
+    const repositoryId = githubRepository.id;
+    const organizationId = githubRepository.owner?.id;
+    const variables = {
+      hackathonProductInstanceId,
+      repositoryId,
+      startDate,
+      endDate,
+      organizationId,
+      isContest: true,
+      isDraft: forwardedDraft,
+      city,
+      isIrl,
+      timezone,
+      eventOrganizer,
+      repositoryUrl,
+      topic,
+      website,
+      contactEmail,
+      twitter,
+      discord,
+      telegram,
+      slack,
+      registrationDeadline,
+      description,
+      eventName,
+    };
+    await appState.openQPrismaClient.updateRepositoryAsContest(variables);
+    setCreateHackathonResponse('SUCCESS');
+    push();
+  } catch (e) {
+    setCreateHackathonResponse('ERROR');
+    throw e;
+  }
+};
+export const shortenString = (str, maxLen) => {
+  if (str.length > maxLen) {
+    return str.substring(0, maxLen) + '...';
+  }
+  return str;
+};

@@ -1,29 +1,15 @@
-const starOrganization = async (
-  github,
-  email,
-  userId,
-  organizationId,
-  starred,
-  setStarred,
-  setStarredDisabled,
-  context
-) => {
+const starOrganization = async (organizationId, starred, setStarred, setStarredDisabled, context) => {
   const [appState, dispatch] = context;
 
   try {
     setStarredDisabled(true);
-    const variables = {
-      ...(github && { github }),
-      ...(email && { email }),
-      userId,
-      organizationId,
-    };
+
     if (starred) {
-      await appState.openQPrismaClient.unStarOrg(variables);
+      await appState.openQPrismaClient.unStarOrg({ organizationId });
       setStarred(false);
       setStarredDisabled(false);
     } else {
-      await appState.openQPrismaClient.starOrg(variables);
+      await appState.openQPrismaClient.starOrg({ organizationId });
       setStarred(true);
       setStarredDisabled(false);
     }

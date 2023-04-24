@@ -15,7 +15,6 @@ import AuthContext from '../../store/AuthStore/AuthContext';
 
 const userId = ({ initialUser, organizations, renderError, tab }) => {
   const [authState, dispatch] = useContext(AuthContext);
-  const { githubId, email } = authState;
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const loggedId = accountData?.id;
@@ -34,11 +33,7 @@ const userId = ({ initialUser, organizations, renderError, tab }) => {
       if (isOwner) {
         //get watched bounties.
         try {
-          const userOffChainData = await appState.openQPrismaClient.getUser({
-            id: userId,
-            github: githubId,
-            email: email,
-          });
+          const userOffChainData = await appState.openQPrismaClient.getUser();
           if (userOffChainData.watchedBountyIds) {
             setWatchedBounties(userOffChainData.watchedBounties.nodes);
           }

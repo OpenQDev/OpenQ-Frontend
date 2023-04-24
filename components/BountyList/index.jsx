@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from 'react';
 //Custom
 import BountyCardLean from '../BountyCard/BountyCardLean';
 import Dropdown from '../Utils/Dropdown';
-import SearchBar from '../Search/SearchBar';
+import SearchBar from '../SearchBar';
 import MintBountyButton from '../MintBounty/MintBountyButton';
 import Carousel from '../Utils/Carousel';
 import CarouselBounty from '../Bounty/CarouselBounty';

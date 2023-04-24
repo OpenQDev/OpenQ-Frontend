@@ -12,8 +12,7 @@ const SetContextState = (props) => {
   useEffect(() => {
     const checkGithub = async () => {
       if (githubId || email) {
-        const idObj = githubId ? { github: githubId } : { email };
-        const accountData = await appState.openQPrismaClient.getUser(idObj);
+        const accountData = await appState.openQPrismaClient.getUser();
         if (accountData) {
           dispatch({ payload: accountData, type: 'UPDATE_ACCOUNT_DATA' });
         }
@@ -24,7 +23,7 @@ const SetContextState = (props) => {
           if (githubUser.twitterUsername) {
             twitter = `https://twitter.com/${githubUser.twitterUsername}`;
           }
-          const languages = githubUser.recentLanguages;
+          const languages = githubUser?.recentLanguages;
           const params = {
             ...(github && { github: githubId }),
             ...(twitter && { twitter }),

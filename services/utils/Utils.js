@@ -279,7 +279,7 @@ class Utils {
       return [[]];
     }
     try {
-      const prismaResult = await openQPrismaClient.getUser(accountData, types, category, { fetchPolicy: 'no-cache' });
+      const prismaResult = await openQPrismaClient.getUser(types, category, { fetchPolicy: 'no-cache' });
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaContracts?.map((contract) => contract.address.toLowerCase());
       const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);
@@ -339,8 +339,8 @@ class Utils {
     return returnArr.map((elem) => elem.obj);
   };
 
-  capitalize = (word) => {
-    return word[0].toUpperCase() + word.substring(1);
+  capitalize = (word = '') => {
+    if (word.length) return word[0].toUpperCase() + word.substring(1);
   };
 
   // https://developers.google.com/analytics/devguides/collection/gtagjs/pages

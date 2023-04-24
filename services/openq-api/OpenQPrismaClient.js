@@ -21,17 +21,32 @@ import {
   BLACKLIST_ISSUE,
   BLACKLIST_ORGANIZATION,
   GET_USERS,
-  SET_IS_CONTEST,
+  UPDATE_REPOSITORY_AS_CONTEST,
   GET_REPOSITORIES,
+  GET_REPOSITORY_BY_ID,
   GET_ALL_SUBMISSIONS,
   COMBINE_USERS,
   GET_REQUESTS,
   GET_PRIVATE_REQUEST,
   UPDATE_REQUEST,
+  CREATE_PRO_ACCOUNT,
+  GET_PRO_ACCOUNTS,
+  GET_PRODUCTS,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  GET_PRO_ACCOUNT,
+  ADD_PRODUCT_TO_PRO_ACCOUNT,
+  ADD_PRO_ACCOUNT_ADMIN,
+  ADD_PRO_ACCOUNT_MEMBER,
+  REMOVE_PRO_ACCOUNT_MEMBER,
+  REMOVE_PRO_ACCOUNT_ADMIN,
+  GET_PRO_ACCOUNT_INFO_CURRENT,
+  GET_USERS_PAGE,
   GET_REQUEST,
 } from './graphql/query';
-import fetch from 'cross-fetch';
 import { ethers } from 'ethers';
+
+import { setContext } from '@apollo/client/link/context';
 
 class OpenQPrismaClient {
   constructor() {}
@@ -45,12 +60,25 @@ class OpenQPrismaClient {
     cache: new InMemoryCache(),
   });
 
-  async watchBounty(contractAddress, idObj) {
+  setGraphqlHeaders = (cookie) => {
+    let authLink;
+    authLink = setContext(() => {
+      return {
+        headers: {
+          cookie,
+        },
+      };
+    });
+
+    this.client.setLink(authLink.concat(this.httpLink));
+  };
+
+  async watchBounty(bountyAddress) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: WATCH_BOUNTY,
-          variables: { contractAddress, ...idObj },
+          variables: { bountyAddress },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -61,12 +89,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async unWatchBounty(contractAddress, idObj) {
+  async unWatchBounty(bountyAddress) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UNWATCH_BOUNTY,
-          variables: { contractAddress, ...idObj },
+          variables: { bountyAddress },
           fetchPolicy: 'no-cache',
         });
         resolve(result.data);
@@ -106,6 +134,81 @@ class OpenQPrismaClient {
     });
     return promise;
   }
+
+  async getTeamAccount(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNT,
+          variables: { id },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  removeTeamAccountRole = async (variables, role) => {
+    if (role === 'admin' || role === 'adminUsers') {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: REMOVE_PRO_ACCOUNT_ADMIN,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    } else {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: REMOVE_PRO_ACCOUNT_MEMBER,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    }
+  };
+
+  addTeamAccountRole = async (variables, role) => {
+    if (role === 'admin' || role === 'adminUsers') {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: ADD_PRO_ACCOUNT_ADMIN,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    } else {
+      const promise = new Promise(async (resolve, reject) => {
+        try {
+          const result = await this.client.mutate({
+            mutation: ADD_PRO_ACCOUNT_MEMBER,
+            variables,
+          });
+          resolve(result.data);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      return promise;
+    }
+  };
 
   async getBounty(contractAddress) {
     const promise = new Promise(async (resolve, reject) => {
@@ -233,12 +336,12 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  updateUser(values) {
+  updateUser(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPDATE_USER,
-          variables: values,
+          variables,
         });
         resolve(result.data);
       } catch (e) {
@@ -248,12 +351,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  upsertUser(values) {
+  upsertUser() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
           mutation: UPSERT_USER,
-          variables: values,
         });
         resolve(result.data.upsertUser);
       } catch (e) {
@@ -322,24 +424,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getUser(idObject, types, category) {
+  async getUser(types, category) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
         types,
       };
-
-      if (idObject.id) {
-        variables.id = idObject.id;
-      }
-
-      if (idObject.github) {
-        variables.github = idObject.github;
-      }
-
-      if (idObject.email) {
-        variables.email = idObject.email;
-      }
-
       if (category) {
         variables.category = category;
       }
@@ -347,17 +436,33 @@ class OpenQPrismaClient {
         const result = await this.client.query({
           query: GET_PRIVATE_USER,
           variables,
-
           fetchPolicy: 'no-cache',
           errorPolicy: 'ignore',
         });
-        resolve(result.data.user);
+        resolve(result.data.currentUser);
       } catch (e) {
         reject(e);
       }
     });
     return promise;
   }
+
+  getTeamAccountInfoOfCurrent() {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNT_INFO_CURRENT,
+          fetchPolicy: 'no-cache',
+          errorPolicy: 'ignore',
+        });
+        resolve(result.data.currentUser);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
   getUserRequests(idObject, paginationVars) {
     const promise = new Promise(async (resolve, reject) => {
       const variables = {
@@ -436,11 +541,11 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getPublicUser(github) {
+  getPublicUser(github, username) {
     const promise = new Promise(async (resolve, reject) => {
-      const variables = {
-        github,
-      };
+      const variables = {};
+      if (github) variables.github = github;
+      if (username) variables.username = username;
 
       try {
         const result = await this.client.query({
@@ -523,11 +628,11 @@ class OpenQPrismaClient {
     });
   }
 
-  async setIsContest(variables) {
+  async updateRepositoryAsContest(variables) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.mutate({
-          mutation: SET_IS_CONTEST,
+          mutation: UPDATE_REPOSITORY_AS_CONTEST,
           variables,
         });
         resolve(result.data);
@@ -545,6 +650,20 @@ class OpenQPrismaClient {
           variables,
         });
         resolve(result.data.repositories.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  getRepositoryById(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPOSITORY_BY_ID,
+          variables: { id },
+        });
+        resolve(result.data.repository);
       } catch (e) {
         reject(e);
       }
@@ -576,6 +695,116 @@ class OpenQPrismaClient {
       }
     });
     return promise;
+  }
+
+  async createTeamAccount(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_PRO_ACCOUNT,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async getTeamAccounts() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRO_ACCOUNTS,
+        });
+        resolve(result.data.teamAccounts.teamAccountConnection.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  async getProducts() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_PRODUCTS,
+        });
+        resolve(result.data.products.productConnection.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  async createProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_PRODUCT,
+          variables,
+
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  updateProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: UPDATE_PRODUCT,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  addProductToTeamAccount(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: ADD_PRODUCT_TO_PRO_ACCOUNT,
+          variables,
+          context: { headers: { authorization: secret } },
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  getUsersPage(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_USERS_PAGE,
+          variables,
+        });
+        resolve(result.data.users.userConnection);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  removeTeamAccountMember(variables) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.mutate({
+          mutation: REMOVE_PRO_ACCOUNT_MEMBER,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
   async getRequest(id) {
     const promise = new Promise(async (resolve, reject) => {

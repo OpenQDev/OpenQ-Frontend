@@ -52,7 +52,7 @@ function EmailAuth() {
   };
 
   const upsertUser = async (email) => {
-    const fullApiUser = await appState.openQPrismaClient.getUser({ email });
+    const fullApiUser = await appState.openQPrismaClient.getUser();
     const isNewUser = !fullApiUser;
     if (isNewUser) {
       const newUserDispatch = {

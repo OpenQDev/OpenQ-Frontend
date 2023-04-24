@@ -98,8 +98,8 @@ export const GET_USER_BY_ID = gql`
 `;
 
 export const GET_USER = gql`
-  query ($id: String, $email: String, $github: String) {
-    user(id: $id, email: $email, github: $github) {
+  query ($id: String, $email: String, $github: String, $username: String) {
+    user(id: $id, email: $email, github: $github, username: $username) {
       id
       github
       username
@@ -174,27 +174,9 @@ export const GET_REQUESTS = gql`
   }
 `;
 
-export const GET_PRIVATE_REQUEST = gql`
-  query ($id: String!) {
-    request(id: $id) {
-      id
-      message
-    }
-  }
-`;
-
-export const UPDATE_REQUEST = gql`
-  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
-    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
-      id
-      message
-    }
-  }
-`;
-
-export const GET_PRIVATE_USER = gql`
-  query ($id: String, $github: String, $email: String, $types: [String], $category: String) {
-    user(id: $id, github: $github, email: $email) {
+export const GET_PRO_ACCOUNT_INFO_CURRENT = gql`
+  query ($types: [String], $category: String) {
+    currentUser {
       id
       watchedBountyIds
       github
@@ -218,8 +200,154 @@ export const GET_PRIVATE_USER = gql`
       vatNumber
       vatRate
       memo
-      languages
+      adminOrganizations {
+        nodes {
+          name
+          id
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+        }
+      }
+      ownerOrganizations {
+        nodes {
+          name
+          id
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              username
+            }
+          }
+        }
+      }
+      memberOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
+      watchedBounties(limit: 100, types: $types, category: $category) {
+        nodes {
+          tvl
+          tvc
+          address
+          bountyId
+          watchingCount
+        }
+      }
+      createdBounties(limit: 100) {
+        nodes {
+          address
+          bountyId
+          requests(limit: 100) {
+            nodes {
+              id
+              requestingUser {
+                id
+                username
+                discord
+                github
+              }
+            }
+          }
+        }
+      }
+      starredOrganizationIds
+    }
+  }
+`;
 
+export const GET_PRIVATE_REQUEST = gql`
+  query ($id: String!) {
+    request(id: $id) {
+      id
+      message
+    }
+  }
+`;
+
+export const UPDATE_REQUEST = gql`
+  mutation updateRequest($requestId: String!, $message: String!, $userId: String!) {
+    updateRequest(requestId: $requestId, message: $message, userId: $userId) {
+      id
+      message
+    }
+  }
+`;
+
+export const GET_PRIVATE_USER = gql`
+  query ($types: [String], $category: String) {
+    currentUser {
+      id
+      watchedBountyIds
+      github
+      email
+      company
+      username
+      city
+      streetAddress
+      country
+      province
+      discord
+      github
+      twitter
+
+      postalCode
+      billingName
+      invoiceNumber
+      invoicingEmail
+      phoneNumber
+      taxId
+      vatNumber
+      vatRate
+      memo
+      adminOrganizations {
+        nodes {
+          name
+          id
+          createdAt
+          adminUsers(limit: 100) {
+            nodes {
+              id
+              username
+            }
+          }
+          ownerUsers(limit: 100) {
+            nodes {
+              id
+              username
+            }
+          }
+        }
+      }
+      ownerOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
+      memberOrganizations {
+        nodes {
+          name
+          id
+        }
+      }
       watchedBounties(limit: 100, types: $types, category: $category) {
         nodes {
           tvl
@@ -329,11 +457,41 @@ export const GET_LEAN_ORGANIZATIONS = gql`
 `;
 
 export const GET_REPOSITORIES = gql`
-  query getRepositories($organizationId: String, $contestOnly: Boolean) {
-    repositories(limit: 100, contestOnly: $contestOnly, organizationId: $organizationId) {
+  query getRepositories(
+    $organizationId: String
+    $contestOnly: Boolean
+    $teamAccountId: String
+    $proContestsOnly: Boolean
+  ) {
+    repositories(
+      limit: 100
+      contestOnly: $contestOnly
+      organizationId: $organizationId
+      teamAccountId: $teamAccountId
+      proContestsOnly: $proContestsOnly
+    ) {
       nodes {
         id
         hackathonBlacklisted
+        description
+        isContest
+        isDraft
+        startDate
+        registrationDeadline
+        city
+        timezone
+        eventOrganizer
+        repositoryUrl
+        isIrl
+        endDate
+        topic
+        website
+        contactEmail
+        twitter
+        discord
+        telegram
+        slack
+        description
         organization {
           blacklisted
         }
@@ -347,10 +505,55 @@ export const GET_REPOSITORIES = gql`
     }
   }
 `;
-
+export const GET_REPOSITORY_BY_ID = gql`
+  query getRepositoryById($id: String!) {
+    repository(id: $id) {
+      id
+      hackathonBlacklisted
+      description
+      hackathonProductInstance {
+        name
+        teamAccount {
+          id
+        }
+      }
+      hackathonProductInstanceId
+      isContest
+      isDraft
+      startDate
+      registrationDeadline
+      city
+      timezone
+      eventOrganizer
+      eventName
+      repositoryUrl
+      isIrl
+      endDate
+      topic
+      website
+      contactEmail
+      twitter
+      createdAsHackathonDate
+      discord
+      teamAccountId
+      telegram
+      slack
+      description
+      organization {
+        blacklisted
+      }
+      bounties(limit: 100) {
+        nodes {
+          bountyId
+          blacklisted
+        }
+      }
+    }
+  }
+`;
 export const UPSERT_USER = gql`
-  mutation upsertUser($email: String, $github: String) {
-    upsertUser(email: $email, github: $github) {
+  mutation upsertUser {
+    upsertUser {
       github
       email
       username
@@ -389,9 +592,6 @@ export const COMBINE_USERS = gql`
 
 export const UPDATE_USER = gql`
   mutation updateUser(
-    $id: String
-    $email: String
-    $github: String
     $username: String
     $company: String
     $city: String
@@ -416,9 +616,6 @@ export const UPDATE_USER = gql`
     $memo: String
   ) {
     updateUser(
-      id: $id
-      email: $email
-      github: $github
       username: $username
       company: $company
       city: $city
@@ -440,6 +637,7 @@ export const UPDATE_USER = gql`
       taxId: $taxId
       vatNumber: $vatNumber
       vatRate: $vatRate
+
       memo: $memo
     ) {
       github
@@ -468,49 +666,6 @@ export const UPDATE_USER = gql`
       vatNumber
       vatRate
       memo
-    }
-  }
-`;
-
-export const WATCH_BOUNTY = gql`
-  mutation WatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
-    watchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      watchingCount
-    }
-  }
-`;
-
-export const UNWATCH_BOUNTY = gql`
-  mutation UnwatchBounty($contractAddress: String!, $userId: String!, $github: String, $email: String) {
-    unwatchBounty(contractAddress: $contractAddress, userId: $userId, github: $github, email: $email) {
-      address
-      watchingCount
-    }
-  }
-`;
-
-export const STAR_ORGANIZATION = gql`
-  mutation StarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
-    starOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
-      id
-      starringUsers(limit: 100) {
-        nodes {
-          id
-        }
-      }
-    }
-  }
-`;
-
-export const UNSTAR_ORGANIZATION = gql`
-  mutation unstarOrg($userId: String!, $organizationId: String!, $github: String, $email: String) {
-    unstarOrg(userId: $userId, organizationId: $organizationId, github: $github, email: $email) {
-      id
-      starringUsers(limit: 100) {
-        nodes {
-          id
-        }
-      }
     }
   }
 `;
@@ -583,24 +738,283 @@ export const BLACKLIST_ORGANIZATION = gql`
   }
 `;
 
-export const SET_IS_CONTEST = gql`
-  mutation setIsContest(
-    $github: String
+export const UPDATE_REPOSITORY_AS_CONTEST = gql`
+  mutation updateRepositoryAsContest(
     $repositoryId: String!
+    $organizationId: String
     $isContest: Boolean!
-    $organizationId: String!
-    $startDate: String!
-    $registrationDeadline: String!
+    $isDraft: Boolean!
+    $startDate: String
+    $registrationDeadline: String
+    $city: String
+    $timezone: String
+    $eventOrganizer: String
+    $eventName: String
+    $repositoryUrl: String
+    $isIrl: Boolean
+    $endDate: String
+    $topic: [String]
+    $website: String
+    $contactEmail: String
+    $twitter: String
+    $discord: String
+    $telegram: String
+    $slack: String
+    $description: String
+    $hackathonProductInstanceId: String!
   ) {
-    setIsContest(
+    updateRepositoryAsContest(
       repositoryId: $repositoryId
-      isContest: $isContest
       organizationId: $organizationId
+      isContest: $isContest
+      isDraft: $isDraft
+      hackathonProductInstanceId: $hackathonProductInstanceId
+      description: $description
       startDate: $startDate
       registrationDeadline: $registrationDeadline
+      city: $city
+      timezone: $timezone
+      eventOrganizer: $eventOrganizer
+      eventName: $eventName
+      repositoryUrl: $repositoryUrl
+      isIrl: $isIrl
+      endDate: $endDate
+      topic: $topic
+      website: $website
+      contactEmail: $contactEmail
+      twitter: $twitter
+      discord: $discord
+      telegram: $telegram
+      slack: $slack
     ) {
       isContest
       id
+    }
+  }
+`;
+
+export const CREATE_PRO_ACCOUNT = gql`
+  mutation CreateTeamAccount($name: String!) {
+    createTeamAccount(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const GET_PRO_ACCOUNTS = gql`
+  query GetTeamAccount {
+    teamAccounts {
+      teamAccountConnection {
+        nodes {
+          name
+          id
+
+          adminUsers(limit: 10) {
+            nodes {
+              id
+              github
+            }
+          }
+          ownerUsers(limit: 10) {
+            nodes {
+              id
+              github
+            }
+          }
+          memberUsers(limit: 10) {
+            nodes {
+              id
+              github
+            }
+          }
+          permissionedProducts(limit: 10) {
+            nodes {
+              id
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_PRO_ACCOUNT = gql`
+  query GetTeamAccount($id: String!) {
+    teamAccount(id: $id) {
+      id
+      name
+      hackathonProductInstances(limit: 10) {
+        nodes {
+          id
+          repositories(limit: 100) {
+            nodes {
+              id
+              hackathonBlacklisted
+              description
+              isContest
+              isDraft
+              startDate
+              registrationDeadline
+              city
+              timezone
+              eventOrganizer
+              repositoryUrl
+              isIrl
+              endDate
+              topic
+              website
+              contactEmail
+              twitter
+              discord
+              telegram
+              slack
+              description
+              organization {
+                blacklisted
+              }
+              bounties(limit: 100) {
+                nodes {
+                  bountyId
+                  blacklisted
+                }
+              }
+            }
+          }
+        }
+      }
+      adminUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+        }
+      }
+      ownerUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+        }
+      }
+      memberUsers(limit: 10) {
+        nodes {
+          id
+          username
+          github
+        }
+      }
+      permissionedProducts(limit: 10) {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+export const GET_PRODUCTS = gql`
+  query GetProducts {
+    products(limit: 10) {
+      productConnection {
+        nodes {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct($name: String!) {
+    createProduct(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($id: String!, $name: String!) {
+    updateProduct(id: $id, name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRODUCT_TO_PRO_ACCOUNT = gql`
+  mutation AddProductToTeamAccount($teamAccountId: String!, $productId: String!) {
+    addProductToTeamAccount(teamAccountId: $teamAccountId, productId: $productId) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRO_ACCOUNT_ADMIN = gql`
+  mutation AddTeamAccountAdmin($teamAccountId: String!, $targetUserId: String!) {
+    addTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_PRO_ACCOUNT_MEMBER = gql`
+  mutation AddTeamAccountMember($teamAccountId: String!, $targetUserId: String!) {
+    addTeamAccountMember(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const REMOVE_PRO_ACCOUNT_ADMIN = gql`
+  mutation RemoveTeamAccountAdmin($teamAccountId: String!, $targetUserId: String!) {
+    removeTeamAccountAdmin(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const REMOVE_PRO_ACCOUNT_MEMBER = gql`
+  mutation RemoveTeamAccountMember($teamAccountId: String!, $targetUserId: String!) {
+    removeTeamAccountMember(teamAccountId: $teamAccountId, targetUserId: $targetUserId) {
+      id
+      name
+    }
+  }
+`;
+
+export const GET_USERS_PAGE = gql`
+  query GetUsersPage($after: ID, $limit: PaginationInt) {
+    users(limit: $limit, after: $after) {
+      userConnection {
+        nodes {
+          id
+          github
+          username
+          ownerOrganizations {
+            nodes {
+              id
+            }
+          }
+          adminOrganizations {
+            nodes {
+              id
+            }
+          }
+          memberOrganizations {
+            nodes {
+              id
+            }
+          }
+        }
+        cursor
+      }
     }
   }
 `;
@@ -622,6 +1036,45 @@ export const GET_REQUEST = gql`
     requests(limit: 10) {
       nodes {
         id
+      }
+    }
+  }
+`;
+export const WATCH_BOUNTY = gql`
+  mutation watchBounty($bountyAddress: String!) {
+    watchBounty(bountyAddress: $bountyAddress) {
+      id
+    }
+  }
+`;
+
+export const UNWATCH_BOUNTY = gql`
+  mutation unwatchBounty($bountyAddress: String!) {
+    unwatchBounty(bountyAddress: $bountyAddress) {
+      id
+    }
+  }
+`;
+
+export const STAR_ORGANIZATION = gql`
+  mutation starOrganization($organizationId: String!) {
+    starOrganization(organizationId: $organizationId) {
+      starredOrganizations {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const UNSTAR_ORGANIZATION = gql`
+  mutation unstarOrganization($organizationId: String!) {
+    unstarOrganization(organizationId: $organizationId) {
+      starredOrganizations {
+        nodes {
+          id
+        }
       }
     }
   }
