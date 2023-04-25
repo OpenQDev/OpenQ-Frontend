@@ -71,6 +71,7 @@ const ClaimPage = ({ bounty, refreshBounty, split, setInternalMenu, internalMenu
   const hasRequirements = bounty.kycRequired || bounty.supportingDocumentsRequired || bounty.invoiceRequired;
 
   useEffect(() => {
+    const { w8Form, invoice } = checkRequirementsWithGraph(bounty);
     setClaimable({ kyc, w8Form, githubHasWallet, invoice });
   }, [kyc, w8Form, githubHasWallet, invoice]);
 
