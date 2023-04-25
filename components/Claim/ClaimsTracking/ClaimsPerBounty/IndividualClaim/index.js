@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import StoreContext from '../../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
-import ToolTipNew from '../../../../Utils/ToolTipNew';
 
 const IndividualClaim = ({
   payout,
@@ -17,6 +16,9 @@ const IndividualClaim = ({
   filters,
 }) => {
   const appState = useContext(StoreContext);
+  const modalRef = useRef();
+  const buttonRef = useRef();
+  const [showAccountModal, setShowAccountModal] = useState();
   const { chainId, library, account } = useWeb3(true);
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
   const formattedToken = ethers.utils.formatUnits(
@@ -43,6 +45,20 @@ const IndividualClaim = ({
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
   const [hide, setHide] = useState('');
+
+  useEffect(() => {
+    let handler = (event) => {
+      if (!modalRef.current?.contains(event.target) && !buttonRef.current?.contains(event.target)) {
+        setShowAccountModal(false);
+      }
+    };
+    window.addEventListener('mousedown', handler);
+
+    return () => {
+      window.removeEventListener('mousedown', handler);
+    };
+  });
+
   useEffect(() => {
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
@@ -169,17 +185,35 @@ const IndividualClaim = ({
             : 'text-gray-500'
         }`}
       >
-        {message ? (
-          <ToolTipNew innerStyles={'whitespace-normal w-80 text-primary'} toolTipText={message}>
-            <div className='flex gap-2 items-center'>
+        {!bounty.supportingDocumentsCompleted?.[index] && message ? (
+          <div>
+            <button
+              ref={buttonRef}
+              onClick={() => {
+                setShowAccountModal(!showAccountModal);
+              }}
+              className='group flex items-center gap-x-1 whitespace-nowrap font-semibold cursor-pointer'
+            >
               <div>{w8Status}</div>
-              <div className='cursor-help p-0 rounded-full border border-[#c9d1d9] aspect-square leading-3 h-3 box-content text-center font-bold text-primary text-xs'>
+              <div className='cursor-pointer p-0 rounded-full border border-[#c9d1d9] aspect-square leading-3 h-3 box-content text-center font-bold text-primary text-xs'>
                 i
               </div>
-            </div>
-          </ToolTipNew>
+            </button>
+            {showAccountModal && (
+              <div className='flex mr-4 flex-col items-center'>
+                <div className='flex -mt-1 tooltip-triangle absolute'></div>
+                <div className='flex z-10 -mt-1 tooltip-triangle absolute'></div>
+
+                <div ref={modalRef} className='flex absolute  max-w-[960px] flex-col mt-0 z-[5] tooltip rounded-sm p-0'>
+                  <div className='flex whitespace-normal text-[#c9d1d9] items-center w-full p-2'>
+                    Requested changes: {message}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
-          <> {w8Status}</>
+          <>{w8Status}</>
         )}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
