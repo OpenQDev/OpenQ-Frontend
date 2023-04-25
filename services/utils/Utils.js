@@ -224,6 +224,7 @@ class Utils {
     const promise = new Promise(async (resolve, reject) => {
       let newCursor;
       let prismaContracts;
+      console.log(sortOrder);
       try {
         const prismaContractsResult = await openQPrismaClient.getContractPage(
           cursor,

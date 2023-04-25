@@ -286,6 +286,7 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
 
 export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
   let { sortOrder, field } = ordering;
+  console.log(ordering);
   if (!sortOrder) {
     sortOrder = 'desc';
   }

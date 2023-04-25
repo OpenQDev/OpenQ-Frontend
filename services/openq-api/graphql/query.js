@@ -552,6 +552,7 @@ export const GET_CONTRACT_PAGE = gql`
           organizationId
           repositoryId
           bountyId
+          budgetValue
           type
           category
           watchingCount

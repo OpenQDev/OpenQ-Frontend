@@ -112,12 +112,12 @@ export const getServerSideProps = async (context) => {
   const getItems = async (oldCursor, batch, ordering, filters) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
-  const ordering = { sortOrder: 'desc', field: 'createdAt' };
+  const ordering = { sortOrder: 'asc', field: 'budgetValue' };
   const { nodes, cursor, complete } = await getItems(null, batch, ordering, { types });
 
   const paginationObj = {
     items: nodes,
-    ordering: { direction: 'desc', field: 'createdAt' },
+    ordering,
     fetchFilters: { types },
     filters: {
       searchText: ``,

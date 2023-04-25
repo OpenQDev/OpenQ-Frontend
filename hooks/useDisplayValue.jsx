@@ -23,7 +23,6 @@ const useDisplayValue = (bounty, formatter, type) => {
     payoutScheduledBalance.tokenAddress,
     payoutScheduledBalance.volume
   );
-  const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const setDisplayValues = (budget = 0, tvc, tvl) => {
     // TODO ensure fuzzy solvency is correct
     const smallerBudget = budget - 1;
@@ -75,15 +74,9 @@ const useDisplayValue = (bounty, formatter, type) => {
     const tvc = bounty.tvc || payoutPrice?.total || 0;
     const tvl = bounty.tvl || tokenValues?.total || 0;
     const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
-    if (isFixedContest) {
-      if (payoutScheduledValue) {
-        budget = payoutScheduledValue.total;
-      }
-    } else {
-      budget = budgetValue?.total;
-    }
+    budget = bounty.budgetValue;
     setDisplayValues(budget, tvc, tvl);
-  }, [payoutPrice, tokenValues, payoutScheduledValue, budgetValue]);
+  }, [payoutPrice, tokenValues, payoutScheduledValue]);
 
   return valueObj;
 };

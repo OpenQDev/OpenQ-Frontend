@@ -296,7 +296,7 @@ export async function getServerSideProps(context) {
   const { nodes, cursor, complete } = await getItems(null, batch, ordering, fetchFilters);
   const paginationObj = {
     items: nodes,
-    ordering: { direction: 'desc', field: 'createdAt' },
+    ordering: { sortOrder: 'desc', field: 'createdAt' },
     fetchFilters,
     filters: {
       searchText: ``,
