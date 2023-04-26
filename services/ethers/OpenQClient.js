@@ -529,6 +529,19 @@ class OpenQClient {
     });
   };
 
+  tierClaimed = async (library, _bountyId, _tier) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        const tierClaimed = await contract.tierClaimed(_bountyId, _tier);
+        resolve(tierClaimed);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   getAddressById = async (library, externalUserId) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();

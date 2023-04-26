@@ -39,9 +39,8 @@ const IndividualClaim = ({
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
-  const claimCondition =
-    (claimFilter == 'true' && !bounty.payouts?.some((payout) => payout.closer.id == associatedAddress)) ||
-    (claimFilter == 'false' && bounty.payouts?.some((payout) => payout.closer.id == associatedAddress));
+  const [claimed, setClaimed] = useState(false);
+  const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
   const [hide, setHide] = useState('');
@@ -60,6 +59,7 @@ const IndividualClaim = ({
   });
 
   useEffect(() => {
+    tierClaimed();
     if (bounty.tierWinners?.[index]) {
       const getGithubUser = async () => {
         const githubUser = await appState[0].githubRepository.fetchUserById(bounty.tierWinners?.[index]);
@@ -75,6 +75,10 @@ const IndividualClaim = ({
     }
   }, [bounty]);
   useEffect(() => {
+    const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
+    setClaimCondition(claimCondition);
+  }, [claimFilter, claimed]);
+  useEffect(() => {
     const checkRequested = async () => {
       if (githubUser.id) {
         try {
@@ -82,7 +86,6 @@ const IndividualClaim = ({
           if (user) {
             const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
             setRequested(request);
-            console.log(request);
             if (request) {
               const privateRequest = await appState[0].openQPrismaClient.getPrivateRequest(request.id);
               setMessage(privateRequest?.message);
@@ -155,6 +158,16 @@ const IndividualClaim = ({
       }
     } catch (err) {
       appState[0].logger.error(err, 'IndividualClaim.js4');
+    }
+  };
+  const tierClaimed = async () => {
+    try {
+      const transaction = await appState[0].openQClient.tierClaimed(library, bounty.bountyId, index);
+      if (transaction) {
+        setClaimed(true);
+      }
+    } catch (err) {
+      appState[0].logger.error(err, 'IndividualClaim.js5');
     }
   };
   return (
@@ -233,13 +246,7 @@ const IndividualClaim = ({
           <span className='text-gray-500'>---</span>
         )}
       </div>
-      <div
-        className={`flex justify-center ${
-          bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) && 'font-bold text-green'
-        }`}
-      >
-        {bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) ? 'TRUE' : 'FALSE'}
-      </div>
+      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>{claimed ? 'TRUE' : 'FALSE'}</div>
     </div>
   );
 };
