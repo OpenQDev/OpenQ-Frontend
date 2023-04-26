@@ -751,9 +751,6 @@ describe('BountyList', () => {
   });
 
   it('should allow user to open BountyCardDetailsModal', async () => {
-    const user = userEvent.setup();
-    // ARRAN
-
     render(
       <BountyList
         types={['0', '1', '2', '3']}
@@ -769,7 +766,6 @@ describe('BountyList', () => {
     // ACT
 
     expect(screen.queryByText('ongoing bounty')).not.toBeInTheDocument();
-    await user.click(screen.getByText(/All Issues/i));
     expect(screen.queryByText(/cannot determine a size for curl_off_t in curl-7.84.0/)).toBeInTheDocument();
     // should not have null or undefined values
     const nullish = [...screen.queryAllByRole(/null/), ...screen.queryAllByRole(/undefined/)];
@@ -822,7 +818,6 @@ describe('BountyList', () => {
 
     // ASSERT
     await user.click(screen.getByText(/Sort Order/));
-    await user.click(screen.getByRole('button', { name: 'All issues' }));
     await user.click(screen.getByRole('button', { name: /oldest/i }));
     const repos = await screen.findAllByTestId('repo');
     expect(repos[0].textContent).toBe('openqdev/openq-frontend');
