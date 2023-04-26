@@ -406,3 +406,11 @@ export const needsFreelancerData = (accountData) => {
   });
   return neededAccountData.length > 0;
 };
+
+export const formatCurrency = (input) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  return formatter.format(input);
+};

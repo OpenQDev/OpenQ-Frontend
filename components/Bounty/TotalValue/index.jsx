@@ -1,11 +1,11 @@
 // Third party
-import React, { useContext } from 'react';
+import React from 'react';
 import useDisplayValue from '../../../hooks/useDisplayValue';
-import StoreContext from '../../../store/Store/StoreContext';
 
 const TotalValue = ({ bounty }) => {
-  const [appState] = useContext(StoreContext);
-  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
+  const bountyValues = useDisplayValue(bounty);
+  const displayValue = bountyValues && bountyValues[bountyValues.priorityValue];
+
   return (
     <div className='flex items-center gap-2 py-2 text-base'>
       <>

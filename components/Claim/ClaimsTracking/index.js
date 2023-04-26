@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 //Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
+import { fetchBountiesWithServiceArg, formatCurrency } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
 import useWeb3 from '../../../hooks/useWeb3';
@@ -202,8 +202,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {appState.utils.formatter.format(payout)}</div>
-            <div>Total TVL for the hackathon: {appState.utils.formatter.format(TVL)}</div>
+            <div>Total Payout Volume: {formatCurrency(payout)}</div>
+            <div>Total TVL for the hackathon: {formatCurrency(TVL)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>

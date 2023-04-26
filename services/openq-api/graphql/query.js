@@ -224,6 +224,7 @@ export const GET_PRIVATE_USER = gql`
         nodes {
           tvl
           tvc
+          budgetValue
           address
           bountyId
           watchingCount
