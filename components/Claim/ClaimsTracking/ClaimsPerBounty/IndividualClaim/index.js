@@ -3,6 +3,7 @@ import StoreContext from '../../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
+import useIsOnCorrectNetwork from '../../../../../hooks/useIsOnCorrectNetwork';
 
 const IndividualClaim = ({
   payout,
@@ -14,18 +15,25 @@ const IndividualClaim = ({
   setFilteredInfo,
   filteredInfo,
   filters,
+  winnersInfo,
 }) => {
   const appState = useContext(StoreContext);
   const modalRef = useRef();
   const buttonRef = useRef();
   const [showAccountModal, setShowAccountModal] = useState();
-  const { chainId, library, account } = useWeb3(true);
+  const { chainId, library, account, error } = useWeb3(true);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+    chainId: chainId,
+    error: error,
+    account: account,
+  });
+
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
   const formattedToken = ethers.utils.formatUnits(
     ethers.BigNumber.from(payout.toString()),
     parseInt(token.decimals) || 18
   );
-  const [githubUser, setGithubUser] = useState('');
+  const githubUser = winnersInfo?.find((winner) => winner.id === bounty.tierWinners?.[index]);
   const [associatedAddress, setAssociatedAddress] = useState('');
   const [requested, setRequested] = useState(false);
   const [message, setMessage] = useState('');
@@ -39,9 +47,8 @@ const IndividualClaim = ({
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
-  const claimCondition =
-    (claimFilter == 'true' && !bounty.payouts?.some((payout) => payout.closer.id == associatedAddress)) ||
-    (claimFilter == 'false' && bounty.payouts?.some((payout) => payout.closer.id == associatedAddress));
+  const [claimed, setClaimed] = useState(false);
+  const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
   const [hide, setHide] = useState('');
@@ -60,23 +67,15 @@ const IndividualClaim = ({
   });
 
   useEffect(() => {
-    if (bounty.tierWinners?.[index]) {
-      const getGithubUser = async () => {
-        const githubUser = await appState[0].githubRepository.fetchUserById(bounty.tierWinners?.[index]);
-        if (githubUser) {
-          setGithubUser(githubUser);
-        }
-      };
-      try {
-        getGithubUser();
-      } catch (err) {
-        appState.logger.error(err, 'IndividualClaim.js1');
-      }
-    }
+    tierClaimed();
   }, [bounty]);
   useEffect(() => {
+    const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
+    setClaimCondition(claimCondition);
+  }, [claimFilter, claimed]);
+  useEffect(() => {
     const checkRequested = async () => {
-      if (githubUser.id) {
+      if (githubUser?.id) {
         try {
           const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
           if (user) {
@@ -93,10 +92,10 @@ const IndividualClaim = ({
       }
     };
     const checkAssociatedAddress = async () => {
-      if (githubUser.id) {
+      if (githubUser?.id) {
         try {
           const associatedAddressSubgraph = await appState[0].openQSubgraphClient.getUserByGithubId(githubUser.id);
-          const associatedAddress = associatedAddressSubgraph.id;
+          const associatedAddress = associatedAddressSubgraph?.id;
           if (associatedAddress !== zeroAddress) {
             setAssociatedAddress(associatedAddress);
           }
@@ -154,6 +153,16 @@ const IndividualClaim = ({
       }
     } catch (err) {
       appState[0].logger.error(err, 'IndividualClaim.js4');
+    }
+  };
+  const tierClaimed = async () => {
+    try {
+      const transaction = await appState[0].openQClient.tierClaimed(library, bounty.bountyId, index);
+      if (transaction) {
+        setClaimed(true);
+      }
+    } catch (err) {
+      appState[0].logger.error(err, 'IndividualClaim.js5');
     }
   };
   return (
@@ -216,7 +225,7 @@ const IndividualClaim = ({
         )}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
-        {account ? KYC.toString().toUpperCase() : 'n.a.*'}
+        {isOnCorrectNetwork ? KYC.toString().toUpperCase() : 'n.a.*'}
       </div>
       <div className={`flex justify-center`}>
         {associatedAddress ? (
@@ -232,12 +241,8 @@ const IndividualClaim = ({
           <span className='text-gray-500'>---</span>
         )}
       </div>
-      <div
-        className={`flex justify-center ${
-          bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) && 'font-bold text-green'
-        }`}
-      >
-        {bounty.payouts?.some((payout) => payout.closer.id == associatedAddress) ? 'TRUE' : 'FALSE'}
+      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>
+        {!isOnCorrectNetwork ? 'n.a.*' : claimed ? 'TRUE' : 'FALSE'}
       </div>
     </div>
   );
