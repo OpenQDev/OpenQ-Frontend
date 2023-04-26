@@ -525,6 +525,7 @@ export const GET_CONTRACT_PAGE = gql`
     $limit: PaginationInt!
     $category: String
     $repositoryId: String
+    $title: String
   ) {
     bounties(
       after: $after
@@ -535,6 +536,7 @@ export const GET_CONTRACT_PAGE = gql`
       types: $types
       category: $category
       repositoryId: $repositoryId
+      title: $title
     ) {
       bountyConnection {
         nodes {

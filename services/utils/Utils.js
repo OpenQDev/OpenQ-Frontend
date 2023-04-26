@@ -219,12 +219,12 @@ class Utils {
     organization,
     address,
     category,
-    repositoryId
+    repositoryId,
+    title
   ) => {
     const promise = new Promise(async (resolve, reject) => {
       let newCursor;
       let prismaContracts;
-      console.log(sortOrder);
       try {
         const prismaContractsResult = await openQPrismaClient.getContractPage(
           cursor,
@@ -234,7 +234,8 @@ class Utils {
           types,
           organization,
           category,
-          repositoryId
+          repositoryId,
+          title
         );
         prismaContracts =
           prismaContractsResult.nodes.filter(

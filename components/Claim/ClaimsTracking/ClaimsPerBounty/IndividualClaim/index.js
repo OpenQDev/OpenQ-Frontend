@@ -66,7 +66,6 @@ const IndividualClaim = ({
           if (user) {
             const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
             setRequested(request);
-            console.log(request);
             if (request) {
               const privateRequest = await appState[0].openQPrismaClient.getPrivateRequest(request.id);
               setMessage(privateRequest?.message);

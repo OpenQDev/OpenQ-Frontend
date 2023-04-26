@@ -17,10 +17,12 @@ import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, paginationObj }) => {
   const READY_TEXT = getReadyText(isOnlyContest(types));
+  const [sortOrder, setSortOrder] = useState('newest');
   const filterBounties = () => {
     return true;
   };
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
+    console.log(filters, 'my filters');
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
   const paginationObjWithFunctions = { ...paginationObj, filterFunction: filterBounties, getItems };
@@ -33,7 +35,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   const [renderedSearch, setRenderedSearch] = useState(searchText);
   const [filteredLength, setFilteredLength] = useState(0);
   let showDropdowns = true;
-  console.log(paginationObj);
   // Utilities
 
   const setSearch = (searchText) => {
@@ -48,7 +49,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   };
 
   const contractTypeRegex = /type:"[^"]+"/gi;
-  const orderRegex = /order:(\w+)/gi;
   const handleSortBounties = (toggleTo) => {
     let newOrdering = {};
     switch (toggleTo) {
@@ -58,10 +58,10 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       case 'oldest':
         newOrdering = { field: 'createdAt', sortOrder: 'asc' };
         break;
-      case 'highest':
+      case 'highest tvl':
         newOrdering = { field: 'tvl', sortOrder: 'desc' };
         break;
-      case 'lowest':
+      case 'lowest tvl':
         newOrdering = { field: 'tvl', sortOrder: 'asc' };
         break;
       case 'highest budget':
@@ -82,9 +82,23 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       cursor: null,
       complete: false,
     });
+    setSortOrder(toggleTo);
   };
   const handleSearchInput = (e) => {
+    console.log(e.target.value);
     setSearch(e.target.value);
+  };
+  const enter = () => {
+    setPaginationStateObj({
+      ...paginationStateObj,
+      items: [],
+      fetchFilters: {
+        ...paginationStateObj.fetchFilters,
+        title: searchText,
+      },
+      cursor: null,
+      complete: false,
+    });
   };
 
   const setContractType = (type) => {
@@ -113,7 +127,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
 
   const contractType = searchText.match(contractTypeRegex)?.[0]?.slice(6) || '';
 
-  const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
   const getKey = () => {
     return null;
   };
@@ -122,6 +135,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
       <div className='flex flex-wrap gap-4 w-full items-center'>
         <SearchBar
+          enter={enter}
           onKeyUp={handleSearchInput}
           placeholder={'Search Issue...'}
           searchText={renderedSearch}
@@ -133,11 +147,13 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       </div>
       <div className='w-full rounded-sm'>
         <div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
-          <SmallToggle
-            names={[READY_TEXT, 'All issues']}
-            toggleVal={paginationStateObj.filters.isReady === READY_TEXT ? READY_TEXT : 'All issues'}
-            toggleFunc={showUnready}
-          />
+          {false && (
+            <SmallToggle
+              names={[READY_TEXT, 'All issues']}
+              toggleVal={paginationStateObj.filters.isReady === READY_TEXT ? READY_TEXT : 'All issues'}
+              toggleFunc={showUnready}
+            />
+          )}
 
           {showDropdowns ? (
             <>

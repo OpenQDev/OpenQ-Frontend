@@ -286,14 +286,13 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
 
 export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
   let { sortOrder, field } = ordering;
-  console.log(ordering);
   if (!sortOrder) {
     sortOrder = 'desc';
   }
   if (!field) {
     field = 'createdAt';
   }
-  const { types, organizationId, repositoryId } = filters;
+  const { types, organizationId, repositoryId, title } = filters;
 
   try {
     let [fullBounties, cursor, complete] = await appState.utils.fetchBounties(
@@ -306,7 +305,8 @@ export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, or
       organizationId,
       null,
       null,
-      repositoryId
+      repositoryId,
+      title
     );
     return {
       nodes: fullBounties,
