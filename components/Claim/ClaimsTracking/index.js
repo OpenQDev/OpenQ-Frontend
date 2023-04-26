@@ -23,6 +23,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const [issueText, setIssueText] = useState('');
   const [filters, setFilters] = useState({});
   const [initialItems, setInitialItems] = useState([]);
+  const [winners, setWinners] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
@@ -107,6 +108,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     setLoading(true);
     //let newPrizeObj = {};
     if (initialItems?.length > 0) {
+      // stats
       newNbPayouts = initialItems.reduce((acc, item) => {
         newCountAll += item.payoutSchedule?.length || 0;
         return acc + (item.payouts?.length || 0);
@@ -115,7 +117,23 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setLoading(false);
-      // prizeObj = newPrizeObj;
+      // get all github info from winners in one query
+      let winnerIds = [];
+      initialItems.map((item) => (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
+      let allWinners = [];
+      const getWinners = async (githubIdsArray) => {
+        let loopArray = githubIdsArray.filter((id) => id !== '');
+        while (loopArray.length > 0) {
+          const winnersGithubInfo = await appState.githubRepository.fetchUsersByIds(loopArray.splice(0, 100));
+          if (winnersGithubInfo) allWinners = [...allWinners, ...winnersGithubInfo];
+        }
+        setWinners(allWinners);
+      };
+      try {
+        getWinners(winnerIds);
+      } catch (err) {
+        appState[0].logger.error(err, 'ClaimsTracking.js1');
+      }
     }
   }, [initialItems]);
 
@@ -306,6 +324,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               </div>
             </div>
             {filteredItems.map((item) => {
+              const bountyWinners = winners.filter((winner) => item.tierWinners.includes(winner.id));
               return (
                 <div key={item.bountyId}>
                   <ClaimsPerBounty
@@ -313,6 +332,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     setFilteredInfo={setFilteredInfo}
                     filteredInfo={filteredInfo}
                     filters={filters}
+                    winnersInfo={bountyWinners}
                   />
                 </div>
               );
