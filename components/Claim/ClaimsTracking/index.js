@@ -8,10 +8,16 @@ import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
 import useWeb3 from '../../../hooks/useWeb3';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 
 const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
-  const { account } = useWeb3(true);
+  const { account, chainId, error } = useWeb3(true);
   const [appState] = useContext(StoreContext);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+    chainId: chainId,
+    error: error,
+    account: account,
+  });
 
   // Hooks
   const [issueText, setIssueText] = useState('');
@@ -189,9 +195,9 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
         <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
           <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
-          {!account && (
+          {!isOnCorrectNetwork && (
             <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
-              * You need to connect your wallet to see whether a winner has KYC'd or not.
+              * You need to connect your wallet & be on the right network to see whether a winner has KYC'd or not.
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
@@ -267,7 +273,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                   <option value='pending'>PENDING</option>
                   <option value='not sent'>NOT SENT</option>
                 </select>
-                {account ? (
+                {isOnCorrectNetwork ? (
                   <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
                     <option value='all'></option>
                     <option value='true'>TRUE</option>

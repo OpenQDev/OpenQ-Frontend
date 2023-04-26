@@ -3,6 +3,7 @@ import StoreContext from '../../../../../store/Store/StoreContext';
 import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
+import useIsOnCorrectNetwork from '../../../../../hooks/useIsOnCorrectNetwork';
 
 const IndividualClaim = ({
   payout,
@@ -19,7 +20,13 @@ const IndividualClaim = ({
   const modalRef = useRef();
   const buttonRef = useRef();
   const [showAccountModal, setShowAccountModal] = useState();
-  const { chainId, library, account } = useWeb3(true);
+  const { chainId, library, account, error } = useWeb3(true);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+    chainId: chainId,
+    error: error,
+    account: account,
+  });
+
   const token = appState[0].tokenClient.getToken(bounty?.payoutTokenAddress);
   const formattedToken = ethers.utils.formatUnits(
     ethers.BigNumber.from(payout.toString()),
@@ -230,7 +237,7 @@ const IndividualClaim = ({
         )}
       </div>
       <div className={`flex justify-center ${KYC && 'font-bold text-green'}`}>
-        {account ? KYC.toString().toUpperCase() : 'n.a.*'}
+        {isOnCorrectNetwork ? KYC.toString().toUpperCase() : 'n.a.*'}
       </div>
       <div className={`flex justify-center`}>
         {associatedAddress ? (
