@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
-const ClaimsPerBounty = ({ item, filters, setFilteredInfo, filteredInfo }) => {
+const ClaimsPerBounty = ({ item, filters, setFilteredInfo, filteredInfo, winnersInfo }) => {
   const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
   const [filteredTiers, setFilteredTiers] = useState(Array(item.payoutSchedule?.length).fill(true));
   return (
@@ -48,6 +48,7 @@ const ClaimsPerBounty = ({ item, filters, setFilteredInfo, filteredInfo }) => {
               filteredTiers={filteredTiers}
               setFilteredInfo={setFilteredInfo}
               filteredInfo={filteredInfo}
+              winnersInfo={winnersInfo}
             />
           </div>
         );

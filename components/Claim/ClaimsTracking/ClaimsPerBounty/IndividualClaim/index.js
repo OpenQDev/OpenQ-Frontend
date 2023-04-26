@@ -15,6 +15,7 @@ const IndividualClaim = ({
   setFilteredInfo,
   filteredInfo,
   filters,
+  winnersInfo,
 }) => {
   const appState = useContext(StoreContext);
   const modalRef = useRef();
@@ -32,7 +33,7 @@ const IndividualClaim = ({
     ethers.BigNumber.from(payout.toString()),
     parseInt(token.decimals) || 18
   );
-  const [githubUser, setGithubUser] = useState('');
+  const githubUser = winnersInfo?.find((winner) => winner.id === bounty.tierWinners?.[index]);
   const [associatedAddress, setAssociatedAddress] = useState('');
   const [requested, setRequested] = useState(false);
   const [message, setMessage] = useState('');
@@ -67,19 +68,6 @@ const IndividualClaim = ({
 
   useEffect(() => {
     tierClaimed();
-    if (bounty.tierWinners?.[index]) {
-      const getGithubUser = async () => {
-        const githubUser = await appState[0].githubRepository.fetchUserById(bounty.tierWinners?.[index]);
-        if (githubUser) {
-          setGithubUser(githubUser);
-        }
-      };
-      try {
-        getGithubUser();
-      } catch (err) {
-        appState.logger.error(err, 'IndividualClaim.js1');
-      }
-    }
   }, [bounty]);
   useEffect(() => {
     const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
@@ -87,7 +75,7 @@ const IndividualClaim = ({
   }, [claimFilter, claimed]);
   useEffect(() => {
     const checkRequested = async () => {
-      if (githubUser.id) {
+      if (githubUser?.id) {
         try {
           const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
           if (user) {
@@ -104,10 +92,10 @@ const IndividualClaim = ({
       }
     };
     const checkAssociatedAddress = async () => {
-      if (githubUser.id) {
+      if (githubUser?.id) {
         try {
           const associatedAddressSubgraph = await appState[0].openQSubgraphClient.getUserByGithubId(githubUser.id);
-          const associatedAddress = associatedAddressSubgraph.id;
+          const associatedAddress = associatedAddressSubgraph?.id;
           if (associatedAddress !== zeroAddress) {
             setAssociatedAddress(associatedAddress);
           }
