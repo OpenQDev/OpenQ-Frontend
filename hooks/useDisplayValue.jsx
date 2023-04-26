@@ -1,4 +1,8 @@
+import { useState, useEffect } from 'react';
 import { formatCurrency } from '../services/utils/lib';
+import useGetTokenValues from './useGetTokenValues';
+import { ethers } from 'ethers';
+import useGetValueFromComposite from './useGetValueFromComposite';
 
 const useDisplayValue = (bounty) => {
   //takes in bounty and returns correct value object
@@ -13,6 +17,25 @@ const useDisplayValue = (bounty) => {
 	}
 	*/
 
+  //takes in bounty and returns correct value object
+  const [valueObj, setValueObj] = useState();
+  const [payoutPrice] = useGetTokenValues(bounty?.payouts);
+  const [tokenValues] = useGetTokenValues(bounty.bountyTokenBalances);
+  const getPayoutScheduleBalance = (bounty) => {
+    const totalPayoutsScheduled = bounty.payoutSchedule?.reduce((acc, payout) => {
+      return ethers.BigNumber.from(acc).add(ethers.BigNumber.from(payout));
+    });
+    return {
+      volume: totalPayoutsScheduled?.toLocaleString('fullwide', { useGrouping: false }),
+      tokenAddress: bounty.payoutTokenAddress,
+    };
+  };
+  const payoutScheduledBalance = getPayoutScheduleBalance(bounty);
+  const [payoutScheduledValue] = useGetValueFromComposite(
+    payoutScheduledBalance.tokenAddress,
+    payoutScheduledBalance.volume
+  );
+  const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const setDisplayValues = (budget = 0, tvc = 0, tvl = 0) => {
     const baseValueObj = {
       budget: formatCurrency(budget),
@@ -38,9 +61,22 @@ const useDisplayValue = (bounty) => {
     }
     return baseValueObj;
   };
-  const tvc = bounty.tvc;
-  const tvl = bounty.tvl;
-  const budget = bounty.budgetValue;
-  return setDisplayValues(budget, tvc, tvl);
+  let budget;
+  const tvc = payoutPrice?.total || bounty.tvc || 0;
+  const tvl = tokenValues?.total || bounty.tvl || 0;
+  const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
+  if (isFixedContest) {
+    if (payoutScheduledValue) {
+      budget = payoutScheduledValue.total;
+    }
+  } else {
+    budget = budgetValue?.total;
+  }
+  useEffect(() => {
+    if (bounty) {
+      setValueObj(setDisplayValues(budget, tvc, tvl));
+    }
+  }, [bounty, budget, tvc, tvl]);
+  return valueObj;
 };
 export default useDisplayValue;
