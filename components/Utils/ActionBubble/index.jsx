@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import Jazzicon from '../Jazzicon';
 import useWeb3 from '../../../hooks/useWeb3';
 import ToolTipNew from '../ToolTipNew';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const ActionBubble = ({ bounty, action }) => {
   const [appState] = useContext(StoreContext);
@@ -29,7 +30,7 @@ const ActionBubble = ({ bounty, action }) => {
   };
   const payoutObj = useMemo(() => getPayout(bounty), [bounty]);
   const [payoutValues] = useGetTokenValues(payoutObj);
-  const payoutTotal = appState.utils.formatter.format(payoutValues?.total || 0);
+  const payoutTotal = formatCurrency(payoutValues?.total || 0);
 
   useEffect(() => {
     const justMinted = sessionStorage.getItem('justMinted');
@@ -133,7 +134,7 @@ const ActionBubble = ({ bounty, action }) => {
     let bigNumberVolume = ethers.BigNumber.from(volume.toString());
     let decimals = parseInt(tokenMetadata.decimals) || 18;
     let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals) || '';
-    const usdValue = appState.utils.formatter.format(tokenValues?.total);
+    const usdValue = formatCurrency(tokenValues?.total);
 
     if (action.receiveTime) {
       if (action.isNft) {
@@ -152,7 +153,7 @@ const ActionBubble = ({ bounty, action }) => {
       address = refunder;
       titlePartOne = isNaN(tokenValues?.total)
         ? ''
-        : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${appState.utils.formatter.format(
+        : `${name} refunded a deposit of ${formattedVolume} ${tokenMetadata.symbol} (${formatCurrency(
             tokenValues?.total
           )}) on ${appState.utils.formatUnixDate(action.refundTime)}.`;
     }

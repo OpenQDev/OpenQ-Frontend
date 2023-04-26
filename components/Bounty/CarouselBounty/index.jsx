@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import StoreContext from '../../../store/Store/StoreContext';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import Image from 'next/image';
 import ToolTipNew from '../../Utils/ToolTipNew';
@@ -8,12 +7,13 @@ import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import LabelsList from '../LabelsList';
 import useWeb3 from '../../../hooks/useWeb3';
 import useDisplayValue from '../../../hooks/useDisplayValue';
+import valueMetadataMap from '../../../constants/displayValueMetadata';
 
 const CarouselBounty = ({ bounty }) => {
-  const [appState] = useContext(StoreContext);
   const { safe } = useWeb3();
-  const displayValue = useDisplayValue(bounty, appState.utils.formatter.format);
-
+  const bountyValues = useDisplayValue(bounty);
+  const displayValue = bountyValues && bountyValues[bountyValues.priorityValue];
+  const displayMetadata = valueMetadataMap && valueMetadataMap[bountyValues?.priorityValue];
   return (
     <div className='border-web-gray bg-dark-mode p-4 gap-2 border rounded-sm flex mb-1'>
       <Link
@@ -92,20 +92,20 @@ const CarouselBounty = ({ bounty }) => {
                 </span>
               </div>
               <div className=''>
-                {displayValue ? (
+                {bountyValues && displayMetadata ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>
                     <div className='pr-2 pt-1 w-4'>
                       <Image
-                        src={displayValue?.imgSrc || '/crypto-logos/ETH.svg'}
+                        src={displayMetadata.src || '/crypto-logos/ETH.svg'}
                         alt='avatarUrl'
                         width='12'
                         height='20'
                       />
                     </div>
-                    {displayValue.displayValue ? (
+                    {displayValue ? (
                       <>
-                        <div className='font-semibold '>{displayValue?.valueType}</div>
-                        <div className=''>{displayValue?.displayValue}</div>
+                        <div className='font-semibold '>{displayMetadata.valueType}</div>
+                        <div className=''>{displayValue}</div>
                       </>
                     ) : (
                       <>

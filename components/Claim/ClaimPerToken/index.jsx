@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useEffect } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import { ethers } from 'ethers';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
   const [appState] = useContext(StoreContext);
@@ -124,9 +125,7 @@ const ClaimPerToken = ({ bounty, tokenAddress, claimant, type, changeObj }) => {
     <div className='grid grid-cols-[1fr_1fr_1fr]'>
       <div className='self-center text-right whitespace-nowrap w-20'>{volumeDisplay}</div>
       <div className='self-center text-center mx-2 whitespace-nowrap w-14'>{(percentDisplay * 100).toFixed(0)} %</div>
-      <div className='self-center text-left whitespace-nowrap w-20'>
-        {appState.utils.formatter.format(valueDisplay)}
-      </div>
+      <div className='self-center text-left whitespace-nowrap w-20'>{formatCurrency(valueDisplay)}</div>
     </div>
   );
 };

@@ -552,8 +552,8 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category, repositoryId) {
-    const variables = { after, orderBy, limit, sortOrder, organizationId, repositoryId };
+  async getContractPage(after, limit, sortOrder, orderBy, types, organizationId, category, repositoryId, title) {
+    const variables = { after, orderBy, limit, sortOrder, organizationId, repositoryId, title };
     if (types) {
       variables.types = types;
     }

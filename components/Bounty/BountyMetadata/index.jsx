@@ -7,7 +7,7 @@ import CopyBountyAddress from '../CopyBountyAddress';
 import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
-import { getBountyTypeName, rounder } from '../../../services/utils/lib';
+import { getBountyTypeName, rounder, formatCurrency } from '../../../services/utils/lib';
 
 const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
@@ -115,7 +115,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Total Value Locked 🔒</div>
           <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {appState.utils.formatter.format(bounty.tvl)}
+            {formatCurrency(bounty.tvl)}
           </button>
         </li>
       ) : null}
@@ -123,7 +123,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Total Value Claimed 🔓</div>
           <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {appState.utils.formatter.format(bounty.tvc)}
+            {formatCurrency(bounty.tvc)}
           </button>
         </li>
       ) : null}
@@ -131,7 +131,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
-            {appState.utils.formatter.format(rounder(budgetValues?.total)) || '$0.00'}
+            {formatCurrency(rounder(budgetValues?.total)) || '$0.00'}
           </div>
         </li>
       ) : null}

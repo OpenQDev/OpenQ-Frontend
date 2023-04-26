@@ -3,7 +3,6 @@ import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import Skeleton from 'react-loading-skeleton';
 import BountyCardDetailsModal from '../BountyCardDetailsModal';
-import ToolTipNew from '../../Utils/ToolTipNew';
 import { PersonAddIcon, PersonIcon, PeopleIcon } from '@primer/octicons-react';
 import ReactGA from 'react-ga4';
 
@@ -13,6 +12,8 @@ import LabelsList from '../../Bounty/LabelsList';
 import useDisplayValue from '../../../hooks/useDisplayValue';
 import NoSSR from '../../Utils/NoSSR';
 import { getBountyMarker, getBountyTypeName } from '../../../services/utils/lib';
+import displayValueMap from '../../../constants/displayValueMetadata';
+import ToolTipNew from '../../Utils/ToolTipNew';
 
 const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatched }) => {
   // State
@@ -20,7 +21,10 @@ const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatc
   const [appState] = useContext(StoreContext);
   const [isModal, setIsModal] = useState();
   const [hovered, setHovered] = useState();
-  const displayValue = useDisplayValue(item, appState.utils.formatter.format);
+  const bountyValues = useDisplayValue(item);
+  const displayValue = bountyValues && bountyValues[bountyValues.priorityValue];
+  const displayValueMetadata = displayValueMap && displayValueMap[bountyValues?.priorityValue];
+
   const currentDate = Date.now();
   const relativeDeployDay = parseInt((currentDate - item?.bountyMintTime * 1000) / 86400000);
   const [imageError, setImageError] = useState(false);
@@ -184,20 +188,20 @@ const BountyCardLean = ({ item, loading, index, length, noModal, setStatefulWatc
                   <div className='whitespace-nowrap'>{bountyTypeName}</div>
                 </span>
 
-                {displayValue ? (
+                {bountyValues && displayValueMetadata ? (
                   <div className='flex flex-row space-x-1 w-min items-center'>
                     <div className='pr-2 pt-1 w-4'>
                       <Image
-                        src={displayValue?.imgSrc || '/crypto-logos/ETH.svg'}
+                        src={displayValueMetadata.src || '/crypto-logos/ETH.svg'}
                         alt='avatarUrl'
                         width='12'
                         height='20'
                       />
-                    </div>
-                    {displayValue.displayValue ? (
+                    </div>{' '}
+                    {displayValue ? (
                       <>
-                        <div className='font-semibold '>{displayValue?.valueType}</div>
-                        <div className=''>{displayValue?.displayValue}</div>
+                        <div className='font-semibold '>{displayValueMetadata?.valueType}</div>
+                        <div className=''>{displayValue}</div>
                       </>
                     ) : (
                       <>

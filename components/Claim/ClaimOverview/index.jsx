@@ -4,6 +4,7 @@ import ClaimPerToken from '../ClaimPerToken';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import Claimants from '../Claimants';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const ClaimOverview = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
@@ -162,7 +163,7 @@ const ClaimOverview = ({ bounty, setInternalMenu }) => {
                             {totalDepositValue > 0 ? ((sum[type] / totalDepositValue) * 100).toFixed(0) : 'n.a.'} %
                           </div>
                           <div className='flex justify-start self-center px-1 whitespace-nowrap w-24'>
-                            {appState.utils.formatter.format(sum[type])}
+                            {formatCurrency(sum[type])}
                           </div>
                         </div>
                       )}

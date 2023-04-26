@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import StoreContext from '../../../../store/Store/StoreContext';
 import useGetTokenValues from '../../../../hooks/useGetTokenValues';
+import { formatCurrency } from '../../../../services/utils/lib';
 const MiniBountyCard = ({ payout }) => {
   // Context
   const [appState] = useContext(StoreContext);
@@ -34,9 +35,7 @@ const MiniBountyCard = ({ payout }) => {
       >
         <div className=''>{title}</div>
 
-        {tokenValues
-          ? `${appState.utils.formatter.format(tokenValues.total)}`
-          : `${appState.utils.formatter.format(0)}`}
+        {tokenValues ? `${formatCurrency(tokenValues.total)}` : `${formatCurrency(0)}`}
       </div>
     </Link>
   );
