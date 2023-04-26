@@ -253,7 +253,9 @@ const IndividualClaim = ({
           <span className='text-gray-500'>---</span>
         )}
       </div>
-      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>{claimed ? 'TRUE' : 'FALSE'}</div>
+      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>
+        {!isOnCorrectNetwork ? 'n.a.*' : claimed ? 'TRUE' : 'FALSE'}
+      </div>
     </div>
   );
 };
