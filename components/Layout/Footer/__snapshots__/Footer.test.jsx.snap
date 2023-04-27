@@ -108,7 +108,7 @@ exports[`Footer > should match DOM Snapshot 1`] = `
       </h1>
       <ForwardRef(LinkComponent)
         className=" lg:justify-self-center"
-        href="mailto:info@openq.dev"
+        href="https://discord.gg/uUUdywtBqh"
         rel="noopener noreferrer"
         target="_blank"
       >

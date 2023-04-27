@@ -22,7 +22,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     return true;
   };
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
-    console.log(filters, 'my filters');
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
   const paginationObjWithFunctions = { ...paginationObj, filterFunction: filterBounties, getItems };
@@ -85,7 +84,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     setSortOrder(toggleTo);
   };
   const handleSearchInput = (e) => {
-    console.log(e.target.value);
     setSearch(e.target.value);
   };
   const enter = () => {

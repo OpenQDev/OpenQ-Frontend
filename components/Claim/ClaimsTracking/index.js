@@ -119,21 +119,25 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       setLoading(false);
       // get all github info from winners in one query
       let winnerIds = [];
-      initialItems.map((item) => (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
+      initialItems.map((item) => item.tierWinners && (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
       let allWinners = [];
       const getWinners = async (githubIdsArray) => {
         let loopArray = githubIdsArray.filter((id) => id !== '');
         while (loopArray.length > 0) {
-          const winnersGithubInfo = await appState.githubRepository.fetchUsersByIds(loopArray.splice(0, 100));
-          if (winnersGithubInfo) allWinners = [...allWinners, ...winnersGithubInfo];
+          let result = null;
+          try {
+            result = await appState.githubRepository.fetchUsersByIds(loopArray.splice(0, 100));
+            if (result?.data?.nodes) {
+              const addArray = result.data.nodes.filter((item) => item !== null);
+              allWinners = [...allWinners, ...addArray];
+            }
+          } catch (err) {
+            appState[0].logger.error(err, 'ClaimsTracking.js1');
+          }
         }
         setWinners(allWinners);
       };
-      try {
-        getWinners(winnerIds);
-      } catch (err) {
-        appState[0].logger.error(err, 'ClaimsTracking.js1');
-      }
+      getWinners(winnerIds);
     }
   }, [initialItems]);
 
@@ -226,8 +230,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {formatCurrency(payout)}</div>
-            <div>Total TVL for the hackathon: {formatCurrency(TVL)}</div>
+            <div>Total Payout Volume: {formatCurrency(payout || 0)}</div>
+            <div>Total TVL for the hackathon: {formatCurrency(TVL || 0)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>
@@ -328,7 +332,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               </div>
             </div>
             {filteredItems.map((item) => {
-              const bountyWinners = winners.filter((winner) => item.tierWinners.includes(winner.id));
+              const bountyWinners =
+                winners?.length > 0 && winners.filter((winner) => item.tierWinners?.includes(winner.id));
               return (
                 <div key={item.bountyId}>
                   <ClaimsPerBounty

@@ -23,7 +23,7 @@ const ShowCasePage = ({ pr }) => {
     const result = await appState.openQPrismaClient.getPr(pr.id);
     if (result.pr) {
       const userResult = await appState.githubRepository.fetchUsersByIds(result.pr.contributorIds);
-      const contributors = userResult.map((githubData) => {
+      const contributors = userResult.data.nodes.map((githubData) => {
         const address = result.pr.contributors.find((contributor) => contributor.userId === githubData.id);
         return { ...githubData, address };
       });
