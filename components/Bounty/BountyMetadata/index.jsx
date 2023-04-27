@@ -8,6 +8,7 @@ import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useGetValueFromComposite from '../../../hooks/useGetValueFromComposite';
 import { getBountyTypeName, rounder, formatCurrency } from '../../../services/utils/lib';
+import useGetTokenValues from '../../../hooks/useGetTokenValues';
 
 const BountyMetadata = ({ bounty, setInternalMenu }) => {
   const [appState] = useContext(StoreContext);
@@ -26,6 +27,8 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
     payoutScheduledBalance.tokenAddress,
     payoutScheduledBalance.volume
   );
+  const [totalValue] = useGetTokenValues(bounty.bountyTokenBalances);
+  const totalTvl = totalValue?.total;
   const [fundingGoalValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
   const budgetValues = bounty.bountyType === '0' ? fundingGoalValue : payoutScheduledValue;
   // TODO refine fuzzy solvency
@@ -111,11 +114,11 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
           </li>
         </>
       )}
-      {bounty.tvl ? (
+      {totalTvl ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>Total Value Locked 🔒</div>
           <button className='text-xs font-semibold text-primary pt-2' onClick={() => setInternalMenu('Fund')}>
-            {formatCurrency(bounty.tvl)}
+            {formatCurrency(totalTvl)}
           </button>
         </li>
       ) : null}
@@ -127,7 +130,7 @@ const BountyMetadata = ({ bounty, setInternalMenu }) => {
           </button>
         </li>
       ) : null}
-      {bounty.tvl < budgetValues?.total && !bounty.claims?.length ? (
+      {totalTvl < budgetValues?.total && !bounty.claims?.length ? (
         <li className='border-b border-web-gray py-3'>
           <div className='text-xs font-semibold text-muted'>🎯 Current Target Budget</div>
           <div className='text-xs font-semibold text-primary pt-2'>
