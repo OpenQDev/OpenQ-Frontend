@@ -34,7 +34,8 @@ const IndividualClaim = ({
     ethers.BigNumber.from(payout.toString()),
     parseInt(token.decimals) || 18
   );
-  const githubUser = winnersInfo?.find((winner) => winner.id === bounty.tierWinners?.[index]);
+  const githubUserId = bounty.tierWinners?.[index];
+  const githubUser = winnersInfo?.find((winner) => winner.id === githubUserId);
   const [associatedAddress, setAssociatedAddress] = useState('');
   const [requested, setRequested] = useState(false);
   const [message, setMessage] = useState('');
@@ -47,7 +48,7 @@ const IndividualClaim = ({
   const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
-  const githubCondition = githubIdFilter && bounty.tierWinners?.[index] !== githubIdFilter;
+  const githubCondition = githubIdFilter && githubUserId !== githubIdFilter;
   const [claimed, setClaimed] = useState(false);
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
@@ -76,9 +77,9 @@ const IndividualClaim = ({
   }, [claimFilter, claimed]);
   useEffect(() => {
     const checkRequested = async () => {
-      if (githubUser?.id) {
+      if (githubUserId) {
         try {
-          const user = await appState[0].openQPrismaClient.getPublicUser(githubUser.id);
+          const user = await appState[0].openQPrismaClient.getPublicUser(githubUserId);
           if (user) {
             const request = bounty.requests?.nodes?.find((node) => node.requestingUser.id === user.id);
             setRequested(request);
@@ -93,9 +94,9 @@ const IndividualClaim = ({
       }
     };
     const checkAssociatedAddress = async () => {
-      if (githubUser?.id) {
+      if (githubUserId) {
         try {
-          const associatedAddressSubgraph = await appState[0].openQSubgraphClient.getUserByGithubId(githubUser.id);
+          const associatedAddressSubgraph = await appState[0].openQSubgraphClient.getUserByGithubId(githubUserId);
           const associatedAddress = associatedAddressSubgraph?.id;
           if (associatedAddress !== zeroAddress) {
             setAssociatedAddress(associatedAddress);
@@ -107,7 +108,7 @@ const IndividualClaim = ({
     };
     checkRequested();
     checkAssociatedAddress();
-  }, [githubUser]);
+  }, [githubUserId]);
   useEffect(() => {
     const currentW8Status = bounty.supportingDocumentsCompleted?.[index]
       ? 'APPROVED'
@@ -168,7 +169,7 @@ const IndividualClaim = ({
   };
   return (
     <div className={`${hide} text-sm items-center gap-4 ${gridFormat}`}>
-      {bounty.tierWinners?.[index] ? (
+      {githubUserId ? (
         <div className='flex gap-2 '>
           {githubUser?.url ? (
             <Link href={githubUser?.url} target='_blank' className=' text-link-colour hover:underline '>
@@ -177,7 +178,7 @@ const IndividualClaim = ({
           ) : (
             'Loading...'
           )}{' '}
-          ({bounty.tierWinners?.[index]})
+          ({githubUserId})
         </div>
       ) : (
         <div className='text-gray-500'> Not Yet Assigned</div>
