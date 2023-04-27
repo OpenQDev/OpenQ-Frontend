@@ -43,7 +43,7 @@ const BountyClosed = ({ bounty, showTweetLink }) => {
               rel='noopener noreferrer'
             >
               <>
-                <Twitter />
+                <Twitter className={'fill-white'} />
               </>
             </Link>
           </div>

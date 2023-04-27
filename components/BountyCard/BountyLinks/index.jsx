@@ -74,7 +74,7 @@ const BountyLinks = ({ bounty, hideBountyLink }) => {
           rel='noopener noreferrer'
         >
           <div data-testid='link' id={'bounty-link'} className='cursor-pointer hover:opacity-70'>
-            <Twitter />
+            <Twitter className={'fill-white'} />
           </div>
         </Link>
       ) : (

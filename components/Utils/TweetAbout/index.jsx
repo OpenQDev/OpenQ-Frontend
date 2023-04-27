@@ -15,7 +15,7 @@ const TweetAbout = ({ tweetText, bounty }) => {
             Tweet about it
           </div>
 
-          <Twitter className='w-4 inline' />
+          <Twitter className='w-4 inline fill-white' />
         </div>
       </div>
     </Link>
