@@ -34,7 +34,7 @@ const IndividualClaim = ({
     parseInt(token.decimals) || 18
   );
   const githubUserId = bounty.tierWinners?.[index];
-  const githubUser = winnersInfo?.find((winner) => winner.id === githubUserId);
+  const githubUser = winnersInfo && winnersInfo?.find((winner) => winner.id === githubUserId);
   const [associatedAddress, setAssociatedAddress] = useState('');
   const [requested, setRequested] = useState(false);
   const [message, setMessage] = useState('');

@@ -328,9 +328,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               </div>
             </div>
             {filteredItems.map((item) => {
-              console.log(winners);
-              const bountyWinners = winners.filter((winner) => item.tierWinners?.includes(winner.id));
-              console.log('bountyWinners', bountyWinners);
+              const bountyWinners =
+                winners?.lentgh > 0 && winners.filter((winner) => item.tierWinners?.includes(winner.id));
               return (
                 <div key={item.bountyId}>
                   <ClaimsPerBounty
