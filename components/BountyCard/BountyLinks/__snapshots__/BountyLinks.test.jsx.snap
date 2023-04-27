@@ -72,7 +72,9 @@ exports[`BountyLinks > should match DOM Snapshot 1`] = `
       data-testid="link"
       id="bounty-link"
     >
-      <Twitter />
+      <Twitter
+        className="fill-white"
+      />
     </div>
   </ForwardRef(LinkComponent)>
 </div>

@@ -73,7 +73,7 @@ const EditableSocial = ({ isOwner, social }) => {
             </div>
           ) : (
             <div className=' flex gap-4'>
-              <Icon className='inline' />
+              <Icon className='inline fill-primary' />
               <>
                 {hasSocial && isDiscord && (
                   <CopyAddressToClipboard

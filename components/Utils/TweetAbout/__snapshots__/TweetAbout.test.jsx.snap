@@ -22,7 +22,7 @@ exports[`TweetAbout > should match DOM Snapshot 1`] = `
         Tweet about it
       </div>
       <svg
-        className="fill-white w-4 inline"
+        className="w-4 inline fill-white"
         height="24"
         viewBox="0 0 128 128"
         width="24"

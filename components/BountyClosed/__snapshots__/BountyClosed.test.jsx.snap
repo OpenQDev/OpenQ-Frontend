@@ -85,7 +85,7 @@ exports[`BountyClosed > should match DOM Snapshot 1`] = `
         target="_blank"
       >
         <svg
-          className="fill-white undefined"
+          className="fill-white"
           height="24"
           viewBox="0 0 128 128"
           width="24"
@@ -185,7 +185,7 @@ exports[`BountyClosed > should match DOM Snapshot 2`] = `
         target="_blank"
       >
         <svg
-          className="fill-white undefined"
+          className="fill-white"
           height="24"
           viewBox="0 0 128 128"
           width="24"
@@ -285,7 +285,7 @@ exports[`BountyClosed > should match DOM Snapshot 3`] = `
         target="_blank"
       >
         <svg
-          className="fill-white undefined"
+          className="fill-white"
           height="24"
           viewBox="0 0 128 128"
           width="24"
@@ -385,7 +385,7 @@ exports[`BountyClosed > should match DOM Snapshot 4`] = `
         target="_blank"
       >
         <svg
-          className="fill-white undefined"
+          className="fill-white"
           height="24"
           viewBox="0 0 128 128"
           width="24"

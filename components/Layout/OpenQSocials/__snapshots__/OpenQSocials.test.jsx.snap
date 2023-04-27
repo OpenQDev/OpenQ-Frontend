@@ -10,7 +10,7 @@ exports[`OpenQSocials > should match DOM Snapshot 1`] = `
     target="_blank"
   >
     <svg
-      className="fill-white stroke-primary fill-primary"
+      className="stroke-primary fill-primary"
       height="24"
       viewBox="0 0 128 128"
       width="24"
