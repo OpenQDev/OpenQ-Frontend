@@ -84,7 +84,6 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     setSortOrder(toggleTo);
   };
   const handleSearchInput = (e) => {
-    console.log(e.target.value);
     setSearch(e.target.value);
   };
   const enter = () => {
