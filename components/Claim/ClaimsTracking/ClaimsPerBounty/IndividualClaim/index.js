@@ -17,7 +17,6 @@ const IndividualClaim = ({
   filters,
   winnersInfo,
 }) => {
-  console.log('winnersInfo', winnersInfo);
   const appState = useContext(StoreContext);
   const modalRef = useRef();
   const buttonRef = useRef();
@@ -70,7 +69,7 @@ const IndividualClaim = ({
 
   useEffect(() => {
     if (isOnCorrectNetwork) tierClaimed();
-  }, [bounty]);
+  }, [bounty, isOnCorrectNetwork]);
   useEffect(() => {
     const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
     setClaimCondition(claimCondition);
