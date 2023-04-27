@@ -17,6 +17,7 @@ const IndividualClaim = ({
   filters,
   winnersInfo,
 }) => {
+  console.log('winnersInfo', winnersInfo);
   const appState = useContext(StoreContext);
   const modalRef = useRef();
   const buttonRef = useRef();
