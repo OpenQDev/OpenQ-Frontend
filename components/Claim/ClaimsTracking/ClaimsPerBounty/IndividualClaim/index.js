@@ -69,7 +69,7 @@ const IndividualClaim = ({
   });
 
   useEffect(() => {
-    tierClaimed();
+    if (isOnCorrectNetwork) tierClaimed();
   }, [bounty]);
   useEffect(() => {
     const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
@@ -89,7 +89,7 @@ const IndividualClaim = ({
             }
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js3');
+          appState[0].logger.error(err, 'IndividualClaim.js1');
         }
       }
     };
@@ -102,7 +102,7 @@ const IndividualClaim = ({
             setAssociatedAddress(associatedAddress);
           }
         } catch (err) {
-          appState[0].logger.error(err, 'IndividualClaim.js4');
+          appState[0].logger.error(err, 'IndividualClaim.js2');
         }
       }
     };
@@ -154,7 +154,7 @@ const IndividualClaim = ({
         setKYC(true);
       }
     } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js4');
+      appState[0].logger.error(err, 'IndividualClaim.js3');
     }
   };
   const tierClaimed = async () => {
@@ -164,7 +164,7 @@ const IndividualClaim = ({
         setClaimed(true);
       }
     } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js5');
+      appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
   return (
