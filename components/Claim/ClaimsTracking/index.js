@@ -119,7 +119,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       setLoading(false);
       // get all github info from winners in one query
       let winnerIds = [];
-      initialItems.map((item) => (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
+      initialItems.map((item) => item.tierWinners && (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
       let allWinners = [];
       const getWinners = async (githubIdsArray) => {
         let loopArray = githubIdsArray.filter((id) => id !== '');
@@ -226,8 +226,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {formatCurrency(payout)}</div>
-            <div>Total TVL for the hackathon: {formatCurrency(TVL)}</div>
+            <div>Total Payout Volume: {formatCurrency(payout || 0)}</div>
+            <div>Total TVL for the hackathon: {formatCurrency(TVL || 0)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>
