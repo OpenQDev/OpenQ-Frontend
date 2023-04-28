@@ -513,8 +513,9 @@ class GithubRepository {
           variables: {
             ids,
           },
+          errorPolicy: 'all',
         });
-        resolve(result.data.nodes);
+        resolve(result);
       } catch (e) {
         reject(e);
       }

@@ -62,7 +62,6 @@ const W8Requirement = ({ bounty }) => {
     setLoading(false);
   };
   const handleSend = async (e) => {
-    console.log('I send');
     e.preventDefault();
     setLoading(true);
     setW8FormResponse('LOADING');

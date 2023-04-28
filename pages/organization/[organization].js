@@ -169,7 +169,7 @@ export const getServerSideProps = async (context) => {
 
   const paginationObj = {
     items: nodes,
-    ordering: { direction: 'desc', field: 'createdAt' },
+    ordering: { sortOrder: 'desc', field: 'createdAt' },
     fetchFilters,
     filters: {
       searchText: ``,

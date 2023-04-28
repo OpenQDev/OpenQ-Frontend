@@ -7,6 +7,7 @@ import ModalDefault from '../../Utils/ModalDefault';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import TweetAbout from '../../Utils/TweetAbout';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
   const [token, setToken] = useState();
@@ -136,7 +137,7 @@ const AdminModal = ({ setModal, modal, bounty, tokenAddress }) => {
                     </span>
                   </div>
                   <div>Value: </div>
-                  <div>{appState.utils.formatter.format(modal.type === 'Budget' ? budget : split)}</div>
+                  <div>{formatCurrency(modal.type === 'Budget' ? budget : split)}</div>
                   <div className='flex-1' href={modal.transaction.transactionHash}>
                     Transaction:
                   </div>

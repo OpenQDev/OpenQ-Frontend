@@ -292,7 +292,7 @@ export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, or
   if (!field) {
     field = 'createdAt';
   }
-  const { types, organizationId, repositoryId } = filters;
+  const { types, organizationId, repositoryId, title } = filters;
 
   try {
     let [fullBounties, cursor, complete] = await appState.utils.fetchBounties(
@@ -305,7 +305,8 @@ export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, or
       organizationId,
       null,
       null,
-      repositoryId
+      repositoryId,
+      title
     );
     return {
       nodes: fullBounties,
@@ -404,4 +405,12 @@ export const needsFreelancerData = (accountData) => {
     return !accountData[key] || accountData[key] == 0;
   });
   return neededAccountData.length > 0;
+};
+
+export const formatCurrency = (input) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  return formatter.format(input);
 };

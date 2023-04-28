@@ -1,10 +1,22 @@
-import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { formatCurrency } from '../services/utils/lib';
 import useGetTokenValues from './useGetTokenValues';
+import { ethers } from 'ethers';
 import useGetValueFromComposite from './useGetValueFromComposite';
-import { rounder } from '../services/utils/lib';
 
-const useDisplayValue = (bounty, formatter, type) => {
+const useDisplayValue = (bounty) => {
+  //takes in bounty and returns correct value object
+  /*
+	@type
+	{
+		'budget' : budget,
+		"tvc" : "total value claimed",
+		"tvl" : "total value locked",
+		"budget": "budget",
+		"priorityValue":"highest value",
+	}
+	*/
+
   //takes in bounty and returns correct value object
   const [valueObj, setValueObj] = useState();
   const [payoutPrice] = useGetTokenValues(bounty?.payouts);
@@ -24,67 +36,47 @@ const useDisplayValue = (bounty, formatter, type) => {
     payoutScheduledBalance.volume
   );
   const [budgetValue] = useGetValueFromComposite(bounty.fundingGoalTokenAddress, bounty.fundingGoalVolume);
-  const setDisplayValues = (budget = 0, tvc, tvl) => {
+  const setDisplayValues = (budget = 0, tvc = 0, tvl = 0) => {
+    const baseValueObj = {
+      budget: formatCurrency(budget),
+      tvc: formatCurrency(tvc),
+      tvl: formatCurrency(tvl),
+      priorityValue: tvl,
+    };
     // TODO ensure fuzzy solvency is correct
     const smallerBudget = budget - 1;
-    const hasTvl = (tvl >= smallerBudget && type !== 'budget') || type === 'actual';
+    const tvlPrimary = tvl >= smallerBudget && true;
     if (bounty.status !== '0') {
       if (tvl - tvc > tvc / 50) {
-        setValueObj({
-          value: tvl,
-          valueType: 'TVL',
-          valueTypeFull: 'Total Value Locked',
-          displayValue: formatter(tvl),
-          imgSrc: '/crypto-logos/ETH-COLORED.png',
-        });
+        baseValueObj.priorityValue = 'tvl';
       } else {
-        setValueObj({
-          value: tvc,
-          valueType: 'TVC',
-          valueTypeFull: 'Total Value Claimed',
-          displayValue: formatter(tvc),
-          imgSrc: '/crypto-logos/ETH-COLORED.png',
-        });
+        baseValueObj.priorityValue = 'tvc';
       }
-    } else if (hasTvl) {
-      setValueObj({
-        value: tvl,
-        valueType: 'TVL',
-        valueTypeFull: 'Total Value Locked',
-        displayValue: formatter(tvl),
-        imgSrc: '/crypto-logos/ETH-COLORED.png',
-      });
+    } else if (tvlPrimary) {
+      baseValueObj.priorityValue = 'tvl';
     } else if (budget) {
-      setValueObj({
-        value: budget,
-        valueType: 'Budget',
-        valueTypeFull: 'Budget',
-        displayValue: formatter(rounder(budget)),
-      });
+      baseValueObj.priorityValue = 'budget';
     } else if (budget === 0) {
-      setValueObj({
-        value: null,
-        valueType: 'Budget',
-        valueTypeFull: 'Budget',
-        displayValue: null,
-      });
+      baseValueObj.priorityValue = 'budget';
     }
+    return baseValueObj;
   };
-  useEffect(() => {
-    let budget;
-    const tvc = bounty.tvc || payoutPrice?.total || 0;
-    const tvl = bounty.tvl || tokenValues?.total || 0;
-    const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
-    if (isFixedContest) {
-      if (payoutScheduledValue) {
-        budget = payoutScheduledValue.total;
-      }
-    } else {
-      budget = budgetValue?.total;
+  let budget;
+  const tvc = payoutPrice?.total || bounty.tvc || 0;
+  const tvl = tokenValues?.total || bounty.tvl || 0;
+  const isFixedContest = bounty.bountyType === '3' && bounty.payoutSchedule;
+  if (isFixedContest) {
+    if (payoutScheduledValue) {
+      budget = payoutScheduledValue.total;
     }
-    setDisplayValues(budget, tvc, tvl);
-  }, [payoutPrice, tokenValues, payoutScheduledValue, budgetValue]);
-
+  } else {
+    budget = budgetValue?.total;
+  }
+  useEffect(() => {
+    if (bounty) {
+      setValueObj(setDisplayValues(budget, tvc, tvl));
+    }
+  }, [bounty, budget, tvc, tvl]);
   return valueObj;
 };
 export default useDisplayValue;

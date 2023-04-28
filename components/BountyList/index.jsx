@@ -1,5 +1,5 @@
 // Third party
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 //Custom
 import BountyCardLean from '../BountyCard/BountyCardLean';
@@ -12,11 +12,15 @@ import SmallToggle from '../Utils/SmallToggle';
 import StoreContext from '../../store/Store/StoreContext';
 import PaginatedList from '../Utils/PaginatedList';
 import { fetchBountiesWithServiceArg, getReadyText, isOnlyContest } from '../../services/utils/lib';
-import filterBounties from './searchHelpers/filterBounties/index.js';
+
 import LoadingIcon from '../Loading/ButtonLoadingIcon';
 
 const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, paginationObj }) => {
   const READY_TEXT = getReadyText(isOnlyContest(types));
+  const [sortOrder, setSortOrder] = useState('newest');
+  const filterBounties = () => {
+    return true;
+  };
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
     return await fetchBountiesWithServiceArg(appState, oldCursor, batch, ordering, filters);
   };
@@ -24,31 +28,13 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
 
   // Hooks
   const [appState] = useContext(StoreContext);
-  const [labels, setLabels] = useState([]);
   const paginationState = useState(paginationObjWithFunctions);
   const [paginationStateObj, setPaginationStateObj] = paginationState;
   const { searchText } = paginationStateObj.filters;
   const [renderedSearch, setRenderedSearch] = useState(searchText);
   const [filteredLength, setFilteredLength] = useState(0);
-  let showDropdowns;
-
+  let showDropdowns = true;
   // Utilities
-
-  useEffect(() => {
-    const labels =
-      paginationState[0].items
-        ?.reduce((accum, bounty) => {
-          const bountyLabels = bounty.labels.filter((label) => {
-            const accumFilter = accum.some((accumLabel) => {
-              return label.name.toLowerCase() === accumLabel.name.toLowerCase();
-            });
-            return !accumFilter;
-          });
-          return [...accum, ...bountyLabels];
-        }, [])
-        .map((label) => label.name) || [];
-    setLabels(labels);
-  }, [paginationStateObj.items.length]);
 
   const setSearch = (searchText) => {
     setRenderedSearch(searchText);
@@ -62,11 +48,27 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   };
 
   const contractTypeRegex = /type:"[^"]+"/gi;
-  const orderRegex = /order:(\w+)/gi;
   const handleSortBounties = (toggleTo) => {
-    let newSearch = `${searchText.replace(orderRegex, `order:${toggleTo}`)}`.replace(/\s+/g, ' ');
-    if (!orderRegex.test(newSearch)) {
-      newSearch = `${searchText} ${`order:${toggleTo}`}`;
+    let newOrdering = {};
+    switch (toggleTo) {
+      case 'newest':
+        newOrdering = { field: 'createdAt', sortOrder: 'desc' };
+        break;
+      case 'oldest':
+        newOrdering = { field: 'createdAt', sortOrder: 'asc' };
+        break;
+      case 'highest tvl':
+        newOrdering = { field: 'tvl', sortOrder: 'desc' };
+        break;
+      case 'lowest tvl':
+        newOrdering = { field: 'tvl', sortOrder: 'asc' };
+        break;
+      case 'highest budget':
+        newOrdering = { field: 'budgetValue', sortOrder: 'desc' };
+        break;
+      case 'lowest budget':
+        newOrdering = { field: 'budgetValue', sortOrder: 'asc' };
+        break;
     }
 
     setPaginationStateObj({
@@ -74,24 +76,27 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       items: [],
       filters: {
         ...paginationStateObj.filters,
-        searchText: newSearch,
       },
+      ordering: newOrdering,
       cursor: null,
       complete: false,
     });
+    setSortOrder(toggleTo);
   };
   const handleSearchInput = (e) => {
     setSearch(e.target.value);
   };
-  const addLabel = (label) => {
-    if (!searchText.includes(`label:"${label}"`)) {
-      setSearch(`${searchText.trimEnd()} label:"${label}"`);
-    } else {
-      setSearch(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
-    }
-  };
-  const handleRemoveLabel = (label) => {
-    setSearch(`${searchText.replace(`label:"${label}"`, '').trimEnd()} `);
+  const enter = () => {
+    setPaginationStateObj({
+      ...paginationStateObj,
+      items: [],
+      fetchFilters: {
+        ...paginationStateObj.fetchFilters,
+        title: searchText,
+      },
+      cursor: null,
+      complete: false,
+    });
   };
 
   const setContractType = (type) => {
@@ -119,11 +124,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
   };
 
   const contractType = searchText.match(contractTypeRegex)?.[0]?.slice(6) || '';
-  const searchedLabelsUnparsed = searchText.match(/label:"[^"]+"/gi) || [];
-  const searchedLabels = searchedLabelsUnparsed.map((label) => {
-    return label.slice(7, label.length - 1);
-  });
-  const sortOrder = searchText.match(orderRegex)?.[0]?.slice(6) || '';
+
   const getKey = () => {
     return null;
   };
@@ -132,6 +133,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
     <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
       <div className='flex flex-wrap gap-4 w-full items-center'>
         <SearchBar
+          enter={enter}
           onKeyUp={handleSearchInput}
           placeholder={'Search Issue...'}
           searchText={renderedSearch}
@@ -143,11 +145,13 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
       </div>
       <div className='w-full rounded-sm'>
         <div className='flex flex-wrap gap-4 p-2 sm:p-4 border-web-gray border rounded-sm bg-subtle'>
-          <SmallToggle
-            names={[READY_TEXT, 'All issues']}
-            toggleVal={paginationStateObj.filters.isReady === READY_TEXT ? READY_TEXT : 'All issues'}
-            toggleFunc={showUnready}
-          />
+          {false && (
+            <SmallToggle
+              names={[READY_TEXT, 'All issues']}
+              toggleVal={paginationStateObj.filters.isReady === READY_TEXT ? READY_TEXT : 'All issues'}
+              toggleFunc={showUnready}
+            />
+          )}
 
           {showDropdowns ? (
             <>
@@ -159,18 +163,7 @@ const BountyList = ({ watchedBounties, addCarousel, contractToggle, types, pagin
                 styles='whitespace-nowrap'
                 width='w-32'
                 title={'Sort Order'}
-                names={['newest', 'oldest', 'highest', 'lowest']}
-                borderShape={'rounded-r-lg'}
-              />
-              <Dropdown
-                dropdownWidth='w-52'
-                toggleFunc={addLabel}
-                removeFunc={handleRemoveLabel}
-                toggleVal={searchedLabels}
-                styles='whitespace-nowrap w-56 md:w-24'
-                width='w-24'
-                title='Labels'
-                names={labels}
+                names={['newest', 'oldest', 'highest budget', 'lowest budget', 'highest tvl', 'lowest tvl']}
                 borderShape={'rounded-r-lg'}
               />
               {contractToggle && (

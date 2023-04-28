@@ -7,7 +7,7 @@ import ToolTip from '../../Utils/ToolTipNew';
 import ModalDefault from '../../Utils/ModalDefault';
 import { ethers } from 'ethers';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
-import { formatVolume } from '../../../services/utils/lib';
+import { formatCurrency, formatVolume } from '../../../services/utils/lib';
 import GnosisWarning from '../../Utils/GnosisWarning';
 
 const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove, tierClaimed }) => {
@@ -212,8 +212,8 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
                     : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
                   (
                   {bounty.bountyType === '2'
-                    ? appState.utils.formatter.format((price * prize.payout) / 100 || 0)
-                    : appState.utils.formatter.format(fixedPayoutValue?.total || 0)}
+                    ? formatCurrency((price * prize.payout) / 100 || 0)
+                    : formatCurrency(fixedPayoutValue?.total || 0)}
                   )
                   {claimReady ? (
                     ` to ${pr.author.login}, to be claimed at their leisure.`

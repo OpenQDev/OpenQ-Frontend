@@ -137,12 +137,6 @@ class Utils {
 
   numberFormatter = new Intl.NumberFormat('en-US');
 
-  // TODO: rename to formatCurrency
-  formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-
   handleSuffix(t) {
     const s = ['th', 'st', 'nd', 'rd'];
     const v = t % 100;
@@ -219,7 +213,8 @@ class Utils {
     organization,
     address,
     category,
-    repositoryId
+    repositoryId,
+    title
   ) => {
     const promise = new Promise(async (resolve, reject) => {
       let newCursor;
@@ -233,7 +228,8 @@ class Utils {
           types,
           organization,
           category,
-          repositoryId
+          repositoryId,
+          title
         );
         prismaContracts =
           prismaContractsResult.nodes.filter(
@@ -280,6 +276,7 @@ class Utils {
     }
     try {
       const prismaResult = await openQPrismaClient.getUser(accountData, types, category, { fetchPolicy: 'no-cache' });
+
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaContracts?.map((contract) => contract.address.toLowerCase());
       const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);

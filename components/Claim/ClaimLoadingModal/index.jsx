@@ -17,6 +17,7 @@ import TweetAbout from '../../Utils/TweetAbout';
 import ModalDefault from '../../Utils/ModalDefault';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import { ethers } from 'ethers';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const ClaimLoadingModal = ({
   confirmMethod,
@@ -45,9 +46,9 @@ const ClaimLoadingModal = ({
   const payoutToken = claimValueTier?.tokenAddress ? appState.tokenClient.getToken(claimValueTier?.tokenAddress) : {};
   const valueText =
     bounty.bountyType === '0'
-      ? appState.utils.formatter.format(price)
+      ? formatCurrency(price)
       : `${ethers.utils.formatUnits(claimValueTier.volume, payoutToken.decimals)} ${payoutToken.name}`;
-  const valueClaimed = appState.utils.formatter.format(bounty.bountyType == 0 ? price : split);
+  const valueClaimed = formatCurrency(bounty.bountyType == 0 ? price : split);
   let title = {
     [CONFIRM_CLAIM]: 'Claim Rewards',
     [CHECKING_WITHDRAWAL_ELIGIBILITY]: 'Validating Claim...',

@@ -2,7 +2,6 @@
  * @vi-environment jsdom
  */
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { getReadyText, isOnlyContest } from '../../../services/utils/lib';
 
 import { render, screen } from '../../../test-utils';
@@ -112,7 +111,6 @@ describe('OrganizationContent', () => {
 
   it('should render Org content card for yoheikikuta', async () => {
     // ARRANGE
-    const user = userEvent.setup();
     const types = ['1', '2', '3', '4'];
     render(
       <OrganizationContent
@@ -129,7 +127,6 @@ describe('OrganizationContent', () => {
     const name = 'opensea';
     // ASSERT
 
-    await user.click(screen.getByText(/all Issues/i));
     const nameRegex = new RegExp(name.slice(0, 3), 'i');
     const title = await screen.findAllByText(nameRegex);
     expect(title[0]).toBeInTheDocument();

@@ -3,20 +3,27 @@ import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 //Custom
 import StoreContext from '../../../store/Store/StoreContext';
-import { fetchBountiesWithServiceArg } from '../../../services/utils/lib';
+import { fetchBountiesWithServiceArg, formatCurrency } from '../../../services/utils/lib';
 import LoadingIcon from '../../Loading/ButtonLoadingIcon';
 import ClaimsPerBounty from './ClaimsPerBounty';
 import useWeb3 from '../../../hooks/useWeb3';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 
 const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
-  const { account } = useWeb3(true);
+  const { account, chainId, error } = useWeb3(true);
   const [appState] = useContext(StoreContext);
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
+    chainId: chainId,
+    error: error,
+    account: account,
+  });
 
   // Hooks
   const [issueText, setIssueText] = useState('');
   const [filters, setFilters] = useState({});
   const [initialItems, setInitialItems] = useState([]);
+  const [winners, setWinners] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [githubId, setGithubId] = useState('');
   const [githubLogin, setGithubLogin] = useState('');
@@ -101,6 +108,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     setLoading(true);
     //let newPrizeObj = {};
     if (initialItems?.length > 0) {
+      // stats
       newNbPayouts = initialItems.reduce((acc, item) => {
         newCountAll += item.payoutSchedule?.length || 0;
         return acc + (item.payouts?.length || 0);
@@ -109,7 +117,27 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       setNbPayouts(newNbPayouts);
       setCountAll(newCountAll);
       setLoading(false);
-      // prizeObj = newPrizeObj;
+      // get all github info from winners in one query
+      let winnerIds = [];
+      initialItems.map((item) => item.tierWinners && (winnerIds = [...new Set([...winnerIds, ...item.tierWinners])]));
+      let allWinners = [];
+      const getWinners = async (githubIdsArray) => {
+        let loopArray = githubIdsArray.filter((id) => id !== '');
+        while (loopArray.length > 0) {
+          let result = null;
+          try {
+            result = await appState.githubRepository.fetchUsersByIds(loopArray.splice(0, 100));
+            if (result?.data?.nodes) {
+              const addArray = result.data.nodes.filter((item) => item !== null);
+              allWinners = [...allWinners, ...addArray];
+            }
+          } catch (err) {
+            appState[0].logger.error(err, 'ClaimsTracking.js1');
+          }
+        }
+        setWinners(allWinners);
+      };
+      getWinners(winnerIds);
     }
   }, [initialItems]);
 
@@ -189,9 +217,9 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
       <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
         <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
           <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
-          {!account && (
+          {!isOnCorrectNetwork && (
             <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
-              * You need to connect your wallet to see whether a winner has KYC'd or not.
+              * You need to connect your wallet & be on the right network to see whether a winner has KYC'd or not.
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
@@ -202,8 +230,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
           </div>
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {appState.utils.formatter.format(payout)}</div>
-            <div>Total TVL for the hackathon: {appState.utils.formatter.format(TVL)}</div>
+            <div>Total Payout Volume: {formatCurrency(payout || 0)}</div>
+            <div>Total TVL for the hackathon: {formatCurrency(TVL || 0)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-wrap gap-4 w-full items-center'>
@@ -267,7 +295,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                   <option value='pending'>PENDING</option>
                   <option value='not sent'>NOT SENT</option>
                 </select>
-                {account ? (
+                {isOnCorrectNetwork ? (
                   <select id='kyc' name='kyc' className='input-field px-1' defaultValue={'all'} onChange={handleSelect}>
                     <option value='all'></option>
                     <option value='true'>TRUE</option>
@@ -286,20 +314,26 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </div>
-                <select
-                  id='claimed'
-                  name='claimed'
-                  className='input-field px-1'
-                  defaultValue={'all'}
-                  onChange={handleSelect}
-                >
-                  <option value='all'></option>
-                  <option value='true'>TRUE</option>
-                  <option value='false'>FALSE</option>
-                </select>
+                {isOnCorrectNetwork ? (
+                  <select
+                    id='claimed'
+                    name='claimed'
+                    className='input-field px-1'
+                    defaultValue={'all'}
+                    onChange={handleSelect}
+                  >
+                    <option value='all'></option>
+                    <option value='true'>TRUE</option>
+                    <option value='false'>FALSE</option>
+                  </select>
+                ) : (
+                  <div className='flex justify-center'>n.a.*</div>
+                )}
               </div>
             </div>
             {filteredItems.map((item) => {
+              const bountyWinners =
+                winners?.length > 0 && winners.filter((winner) => item.tierWinners?.includes(winner.id));
               return (
                 <div key={item.bountyId}>
                   <ClaimsPerBounty
@@ -307,6 +341,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     setFilteredInfo={setFilteredInfo}
                     filteredInfo={filteredInfo}
                     filters={filters}
+                    winnersInfo={bountyWinners}
                   />
                 </div>
               );

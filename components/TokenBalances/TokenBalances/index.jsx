@@ -4,6 +4,7 @@ import Image from 'next/image';
 import StoreContext from '../../../store/Store/StoreContext';
 import { ethers } from 'ethers';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
+import { formatCurrency } from '../../../services/utils/lib';
 
 const TokenBalances = ({ tokenBalances }) => {
   const [appState] = useContext(StoreContext);
@@ -27,7 +28,7 @@ const TokenBalances = ({ tokenBalances }) => {
         ? Number(formattedVolume).toFixed(2)
         : parseFloat(Number(formattedVolume).toFixed(10));
 
-      let usdValue = appState.utils.formatter.format(totalValue);
+      let usdValue = formatCurrency(totalValue);
       const path = tokenMetadata.path || tokenMetadata.logoURI;
       if (tokenValues) {
         return {

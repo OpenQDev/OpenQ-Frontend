@@ -11,6 +11,7 @@ import { getBountyMarker } from '../../../services/utils/lib';
 import ClaimButton from '../../Claim/ClaimPage/ClaimButton';
 import { checkClaimable } from '../../../services/utils/lib';
 import useWeb3 from '../../../hooks/useWeb3';
+import displayValueMap from '../../../constants/displayValueMetadata';
 
 const BountyHeading = ({
   bounty,
@@ -25,7 +26,10 @@ const BountyHeading = ({
   const { account } = useWeb3();
   const githubId = appState.accountData.github;
   const marker = getBountyMarker(bounty, appState.openQClient, githubId);
-  const totalPrice = useDisplayValue(bounty, appState.utils.formatter.format);
+  const bountyValues = useDisplayValue(bounty);
+  const displayValue = bountyValues && bountyValues[bountyValues.priorityValue];
+  const displayValueMetadata = displayValueMap && displayValueMap[bountyValues?.priorityValue];
+
   const { status } = checkClaimable(bounty, appState.accountData?.github, appState.openQClient);
   const claimable = status === 'Claimable';
 
@@ -74,17 +78,17 @@ const BountyHeading = ({
           <span className='leading-none'>{marker.status}</span>
         </div>
         <>
-          {totalPrice?.displayValue ? (
+          {bountyValues ? (
             <div className='flex items-center gap-2'>
               <span className='leading-loose text-lg font-semibold text-primary'>
-                {totalPrice.valueTypeFull} {totalPrice.displayValue}
+                {displayValueMetadata.valueTypeFull} {displayValue}
               </span>
-              {totalPrice.valueType == 'TVL' && totalPrice.value > 0 && (
+              {displayValueMetadata.valueType == 'TVL' && displayValue > 0 && (
                 <div className={'border-green bg-green-inside text-sm px-2 border rounded-full h-min'}>
                   Fully Funded
                 </div>
               )}
-              {totalPrice.valueType == 'Budget' && (
+              {displayValueMetadata.valueType == 'Budget' && (
                 <div className={'bg-info border-2 border-info-strong text-sm px-2 rounded-full h-6'}>Insolvent</div>
               )}
             </div>
