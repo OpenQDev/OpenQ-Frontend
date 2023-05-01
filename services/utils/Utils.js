@@ -217,7 +217,7 @@ class Utils {
     }
     try {
       const prismaResult = await openQPrismaClient.getUser(accountData, types, category, { fetchPolicy: 'no-cache' });
-      console.log(prismaResult, 'my result');
+
       prismaContracts = prismaResult?.watchedBounties.nodes || [];
       const watchedBountyAddresses = prismaContracts?.map((contract) => contract.address.toLowerCase());
       const watchedBountyIds = prismaContracts?.map((contract) => contract.bountyId);

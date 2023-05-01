@@ -142,7 +142,7 @@ const Footer = () => {
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>HELP ME</h1>
           <Link
-            href={'mailto:info@openq.dev'}
+            href={'https://discord.gg/uUUdywtBqh'}
             className=' lg:justify-self-center'
             target='_blank'
             rel='noopener noreferrer'
