@@ -24,6 +24,7 @@ class ErrorBoundary extends React.Component {
     // You can use your own error logging service here
     logger.error({ message: error }, null, 'globalErrorBoundary');
   }
+	
   error = {
     title: 'Error',
     message: 'A client side error occured, please try again later ',
@@ -43,7 +44,7 @@ class ErrorBoundary extends React.Component {
         <div>
           <UnexpectedError
             footerLeft={this.linkHome}
-            error={'A Client side error occured, please return to homepage.'}
+            error={this.error}
             btn={this.btn}
           />
         </div>
