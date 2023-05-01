@@ -24,7 +24,6 @@ class ErrorBoundary extends React.Component {
     // You can use your own error logging service here
     logger.error({ message: error }, null, 'globalErrorBoundary');
   }
-	
   error = {
     title: 'Error',
     message: 'A client side error occured, please try again later ',
