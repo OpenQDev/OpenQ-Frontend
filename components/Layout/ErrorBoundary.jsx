@@ -41,11 +41,7 @@ class ErrorBoundary extends React.Component {
       // You can render any custom fallback UI
       return (
         <div>
-          <UnexpectedError
-            footerLeft={this.linkHome}
-            error={this.error}
-            btn={this.btn}
-          />
+          <UnexpectedError footerLeft={this.linkHome} error={this.error} btn={this.btn} />
         </div>
       );
     }
