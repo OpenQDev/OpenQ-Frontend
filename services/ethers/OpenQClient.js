@@ -482,6 +482,7 @@ class OpenQClient {
     });
   };
   claimTieredPermissioned = async (library, bounty, externalUserId, closerAddress, prUrl, tier) => {
+    console.log(externalUserId, closerAddress, prUrl, tier);
     const { bountyAddress } = bounty;
     return new Promise(async (resolve, reject) => {
       const abiCoder = new ethers.utils.AbiCoder();
