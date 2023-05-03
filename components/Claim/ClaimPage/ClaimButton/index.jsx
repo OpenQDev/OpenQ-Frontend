@@ -41,9 +41,9 @@ const ClaimButton = ({
   const { accountData } = appState;
   const [showClaimLoadingModal, setShowClaimLoadingModal] = useState(false);
   const bountyValues = useDisplayValue(bounty);
-  const budget = bountyValues && bountyValues.budget;
+  const budget = bountyValues && bountyValues.budgetRaw;
 
-  const price = bountyValues && bountyValues.tvl;
+  const price = bountyValues && bountyValues.tvlRaw;
   // TODO refine fuzzy solvency
   const isSolvent = price >= budget - 1 && price > 0;
   const canClaim = isEveryValueNotNull(claimable);
