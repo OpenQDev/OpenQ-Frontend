@@ -39,8 +39,11 @@ const useDisplayValue = (bounty) => {
   const setDisplayValues = (budget = 0, tvc = 0, tvl = 0) => {
     const baseValueObj = {
       budget: formatCurrency(budget),
+      budgetRaw: budget,
       tvc: formatCurrency(tvc),
+      tvcRaw: tvc,
       tvl: formatCurrency(tvl),
+      tvlRaw: tvl,
       priorityValue: tvl,
     };
     // TODO ensure fuzzy solvency is correct
