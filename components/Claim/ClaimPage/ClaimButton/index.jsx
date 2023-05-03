@@ -45,7 +45,7 @@ const ClaimButton = ({
 
   const price = bountyValues && bountyValues.tvl;
   // TODO refine fuzzy solvency
-  const isSolvent = price >= budget - 1 && price > 0;
+  const isSolvent = price?.substring(1) >= budget?.substring(1) - 1 && price?.substring(1) > 0;
   const canClaim = isEveryValueNotNull(claimable);
 
   const getRequiredText = (claimable) => {
