@@ -16,6 +16,7 @@ import {
 } from '../../ClaimStates';
 import useDisplayValue from '../../../../hooks/useDisplayValue';
 import { isContest, isEveryValueNotNull } from '../../../../services/utils/lib';
+import useGetValueFromComposite from '../../../../hooks/useGetValueFromComposite';
 
 const ClaimButton = ({
   bounty,
@@ -45,7 +46,6 @@ const ClaimButton = ({
 
   const price = bountyValues && bountyValues.tvlRaw;
   // TODO refine fuzzy solvency
-  const isSolvent = price >= budget - 1 && price > 0;
   const canClaim = isEveryValueNotNull(claimable);
 
   const getRequiredText = (claimable) => {
@@ -74,6 +74,10 @@ const ClaimButton = ({
     bounty.bountyType !== '0'
       ? { tokenAddress: bounty.payoutTokenAddress, volume: bounty.payoutSchedule?.[targetTier] }
       : {};
+  const [claimValues] = useGetValueFromComposite(bounty?.payoutTokenAddress, bounty?.payoutSchedule?.[targetTier]);
+  const claimValue = claimValues?.total ?? 0;
+
+  const isSolvent = bounty.status == 0 ? price >= budget - 1 && price > 0 : price > 0 && price >= claimValue - 1;
 
   const canvas = useRef();
 
@@ -188,14 +192,10 @@ const ClaimButton = ({
           <button
             type='submit'
             className={`h-8 ${
-              isSolvent && canClaim
-                ? 'btn-primary bg-green cursor-pointer w-fit'
-                : internalMenu == 'Claim' || !bountyHeading
-                ? 'btn-default cursor-not-allowed'
-                : 'btn-default'
+              isSolvent && canClaim ? 'btn-primary bg-green cursor-pointer w-fit' : 'btn-default cursor-not-allowed'
             }
                 `}
-            disabled={!(isSolvent && canClaim) && !bountyHeading}
+            disabled={!(isSolvent && canClaim)}
             onClick={handleChangeInternalMenuOrOpenModal}
           >
             <div className='flex gap-2 items-center'>
