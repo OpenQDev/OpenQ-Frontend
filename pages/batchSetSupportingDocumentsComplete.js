@@ -62,7 +62,7 @@ function BatchSetSupportingDocumentsComplete() {
       // Convert CSV data to JSON
       const jsonData = convertCsvToJson(csvData);
 
-			console.log('jsonData', jsonData)
+      console.log('jsonData', jsonData);
 
       // Populate the transaction template
       let transactions = [];
