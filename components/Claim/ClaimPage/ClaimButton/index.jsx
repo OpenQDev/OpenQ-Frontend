@@ -54,14 +54,14 @@ const ClaimButton = ({
     w8Form = claimable?.w8Form ?? null;
     githubHasWallet = claimable?.githubHasWallet ?? null;
     invoice = claimable?.invoice ?? null;
-    switch (null) {
-      case githubHasWallet:
+    switch (null || false || true) {
+      case !githubHasWallet:
         return 'You must first associate a wallet to your GitHub account to claim this bounty.';
-      case kyc:
+      case !kyc:
         return 'You must complete KYC to claim this bounty.';
-      case w8Form:
+      case !w8Form:
         return 'You must complete a W8/W9 form to claim this bounty.';
-      case invoice:
+      case !invoice:
         return 'You must complete an invoice to claim this bounty.';
       default:
         return '';
