@@ -84,6 +84,11 @@ const RequestPage = ({ states }) => {
         )}
         <SearchBar placeholder='github-user' styles='w-full' value={searchText} onKeyUp={handleSearch} />
         <ul className='flex flex-col gap-4'>
+          {!authState?.isAuthenticated && (
+            <div className='my-4 bg-info border-info-strong border-2 p-3 rounded-sm'>
+              Please login to accept or decline this request.
+            </div>
+          )}
           {isOwner && (
             <PaginatedList getKey={getKey} paginationState={paginationState} PaginationCard={RequestIndividual} />
           )}

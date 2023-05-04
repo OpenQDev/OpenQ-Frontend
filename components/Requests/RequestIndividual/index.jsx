@@ -9,6 +9,8 @@ import UnexpectedErrorModal from '../../Utils/UnexpectedErrorModal';
 import { RESTING, CONFIRM, TRANSFERRING, SUCCESS, ERROR } from './RequestIndividualState';
 import ModalLarge from '../../Utils/ModalLarge';
 import AuthContext from '../../../store/AuthStore/AuthContext';
+import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
+import ConnectButton from '../../WalletConnect/ConnectButton';
 
 const RequestIndividual = ({ item }) => {
   const CALLER_NOT_ISSUER_OR_ORACLE = 'CALLER_NOT_ISSUER_OR_ORACLE';
@@ -16,12 +18,13 @@ const RequestIndividual = ({ item }) => {
   const [appState] = useContext(StoreContext);
   const [subgraphBounty, setSubgraphBounty] = useState();
   const { accountData } = appState;
+  const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
 
   const requestingUser = request?.requestingUser;
   const { githubUser } = requestingUser;
   const issueId = bounty.bountyId;
   const [issue, setIssue] = useState({});
-  const { library } = useWeb3();
+  const { library, account } = useWeb3();
   const [message, setMessage] = useState('');
   const [accepted, setAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -148,11 +151,6 @@ const RequestIndividual = ({ item }) => {
   if (!githubUser) return null;
   return (
     <>
-      {!authState?.isAuthenticated && (
-        <div className='my-4 bg-info border-info-strong border-2 p-3 rounded-sm'>
-          Please login to accept or decline this request.
-        </div>
-      )}
       <li className='border gap-4 grid content-center items-center border-web-gray rounded-md p-4 my-4 grid-cols-[80px_1fr_160px]'>
         {githubUser.avatarUrl && (
           <Image
@@ -187,16 +185,26 @@ const RequestIndividual = ({ item }) => {
         <div>
           {authState?.isAuthenticated && (
             <>
-              <button
-                onClick={acceptRequest}
-                disabled={accepted || loading}
-                className={`flex w-fit gap-2 ${
-                  accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
-                } py-0.5 mb-2 w-full text-lg self-center flex content-center items-center justify-center`}
-              >
-                Accept{accepted ? 'ed' : loading ? 'ing' : ''}
-                {loading && <LoadingIcon />}
-              </button>
+              <div className='py-0.5 mb-2 w-full text-lg self-center flex content-center items-center justify-center'>
+                <ConnectButton
+                  nav={false}
+                  needsGithub={false}
+                  centerStyles={true}
+                  tooltipAction={'be able to accept the request.'}
+                />
+              </div>
+              {isOnCorrectNetwork && account && (
+                <button
+                  onClick={acceptRequest}
+                  disabled={accepted || loading}
+                  className={`flex w-fit gap-2 ${
+                    accepted || loading ? 'btn-default cursor-not-allowed' : 'btn-primary'
+                  } py-0.5 mb-2 w-full text-lg self-center flex content-center items-center justify-center`}
+                >
+                  Accept{accepted ? 'ed' : loading ? 'ing' : ''}
+                  {loading && <LoadingIcon />}
+                </button>
+              )}
               {!accepted && (
                 <button
                   disabled={accepted || loading}
