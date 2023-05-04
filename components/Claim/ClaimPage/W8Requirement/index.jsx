@@ -252,6 +252,13 @@ const W8Requirement = ({ bounty }) => {
       ) : (
         <>
           <div>
+            {sent && (
+              <div className='bg-blue-200 text-blue-900 border-blue-500 border p-4 px-4 my-2 rounded-sm'>
+                Thank you for submitting your tax form. Kindly note that OpenQ is not involved in the reviewing process,
+                which may take up to 19 days. We appreciate your patience and will notify you as soon as the process is
+                complete.
+              </div>
+            )}
             {!w8Approved && currentRequest && (
               <div className='bg-info border-info-strong rounded-sm border p-4 my-4'>
                 The organization has requested changes on the tax form you submitted. Please review the requested change
