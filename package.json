@@ -34,7 +34,7 @@
     "@ethersproject/providers": "5.1.2",
     "@ethersproject/units": "5.7.0",
     "@knocklabs/react-notification-feed": "^0.8.4",
-    "@kycdao/widget": "0.5.10",
+    "@kycdao/widget": "^0.6.12",
     "@magic-ext/oauth": "7.6.0",
     "@metamask/jazzicon": "2.0.0",
     "@primer/octicons-react": "18.2.0",
