@@ -209,7 +209,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     }
   };
 
-  const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const gridFormat = 'grid grid-cols-[2fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
   // Render
   return (
@@ -270,7 +270,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
                   <input
-                    className='input-field'
+                    className='input-field w-32'
                     id='githubId'
                     placeholder='Github ID'
                     value={githubId}
@@ -279,7 +279,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                   />
                   {' OR '}
                   <input
-                    className='input-field'
+                    className='input-field w-32'
                     id='githubLogin'
                     placeholder='Github Login'
                     value={githubLogin}

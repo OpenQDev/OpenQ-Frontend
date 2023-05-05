@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../../../hooks/useIsOnCorrectNetwork';
+import CopyAddressToClipboard from '../../../../CopyAddressToClipboard';
+import { LinkIcon } from '@primer/octicons-react';
 
 const IndividualClaim = ({
   payout,
@@ -217,14 +219,17 @@ const IndividualClaim = ({
       </div>
       <div className={`flex justify-center`}>
         {associatedAddress ? (
-          <Link
-            href={`https://polygonscan.com/address/${associatedAddress}`}
-            rel='noopener norefferer'
-            target='_blank'
-            className='text-link-colour hover:underline'
-          >
-            {appState[0].utils.shortenAddress(associatedAddress)}
-          </Link>
+          <div className='flex items-center gap-1'>
+            <CopyAddressToClipboard clipping={[3, 39]} data={associatedAddress} styles={''} />
+            <Link
+              href={`https://polygonscan.com/address/${associatedAddress}`}
+              rel='noopener norefferer'
+              target='_blank'
+              className='text-link-colour hover:underline'
+            >
+              <LinkIcon />
+            </Link>
+          </div>
         ) : (
           <span className='text-gray-500'>---</span>
         )}
