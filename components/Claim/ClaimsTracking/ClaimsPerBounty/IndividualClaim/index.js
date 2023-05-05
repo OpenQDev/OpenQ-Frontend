@@ -138,7 +138,7 @@ const IndividualClaim = ({
   }, [chainId, associatedAddress]);
   const checkWallet = () => {
     if (walletFilter?.length > 0) {
-      setWalletCondition(walletFilter.toLowerCase() == associatedAddress.toLowerCase());
+      setWalletCondition(walletFilter.toLowerCase() == associatedAddress?.toLowerCase());
     } else {
       setWalletCondition(true);
     }
