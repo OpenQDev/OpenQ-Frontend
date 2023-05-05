@@ -48,7 +48,7 @@ const IndividualClaim = ({
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
   const githubCondition = githubIdFilter && githubUserId !== githubIdFilter;
-  const [claimed, setClaimed] = useState(false);
+  const [claimed, setClaimed] = useState(bounty?.claims?.some((claim) => claim.tier == index));
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
@@ -66,10 +66,6 @@ const IndividualClaim = ({
       window.removeEventListener('mousedown', handler);
     };
   });
-
-  useEffect(() => {
-    if (isOnCorrectNetwork) tierClaimed();
-  }, [bounty, isOnCorrectNetwork]);
   useEffect(() => {
     const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
     setClaimCondition(claimCondition);
@@ -109,6 +105,7 @@ const IndividualClaim = ({
     checkAssociatedAddress();
   }, [githubUserId]);
   useEffect(() => {
+    setClaimed(bounty?.claims?.some((claim) => claim.tier == index));
     const currentW8Status = bounty.supportingDocumentsCompleted?.[index]
       ? 'APPROVED'
       : requested
@@ -154,16 +151,6 @@ const IndividualClaim = ({
       }
     } catch (err) {
       appState[0].logger.error(err, 'IndividualClaim.js3');
-    }
-  };
-  const tierClaimed = async () => {
-    try {
-      const transaction = await appState[0].openQClient.tierClaimed(library, bounty.bountyId, index);
-      if (transaction) {
-        setClaimed(true);
-      }
-    } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
   return (
