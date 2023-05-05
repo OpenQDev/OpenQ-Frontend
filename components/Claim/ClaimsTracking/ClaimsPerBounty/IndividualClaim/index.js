@@ -49,7 +49,7 @@ const IndividualClaim = ({
   const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
-  const githubCondition = githubIdFilter && githubUserId !== githubIdFilter;
+  const githubCondition = githubIdFilter && !githubUserId?.includes(githubIdFilter);
   const [claimed, setClaimed] = useState(bounty?.claims?.some((claim) => claim.tier == index));
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
@@ -140,7 +140,7 @@ const IndividualClaim = ({
   }, [chainId, associatedAddress]);
   const checkWallet = () => {
     if (walletFilter?.length > 0) {
-      setWalletCondition(walletFilter.toLowerCase() == associatedAddress?.toLowerCase());
+      setWalletCondition(associatedAddress?.toLowerCase().includes(walletFilter.toLowerCase()));
     } else {
       setWalletCondition(true);
     }

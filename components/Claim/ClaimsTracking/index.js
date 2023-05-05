@@ -257,7 +257,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
               <div className='mb-2'>Filter by:</div>
               <div className='mb-2 text-sm text-mute italic'>
-                Note that all search input must be an exact match for the search fields below.
+                Note that your search input for github logins must be an exact match.
               </div>
               <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
                 <div className=''>TierWinner</div>
