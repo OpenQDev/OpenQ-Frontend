@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ethers } from 'ethers';
 import useWeb3 from '../../../../../hooks/useWeb3';
 import useIsOnCorrectNetwork from '../../../../../hooks/useIsOnCorrectNetwork';
+import CopyAddressToClipboard from '../../../../CopyAddressToClipboard';
+import { LinkIcon } from '@primer/octicons-react';
 
 const IndividualClaim = ({
   payout,
@@ -47,8 +49,8 @@ const IndividualClaim = ({
   const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
-  const githubCondition = githubIdFilter && githubUserId !== githubIdFilter;
-  const [claimed, setClaimed] = useState(false);
+  const githubCondition = githubIdFilter && !githubUserId?.includes(githubIdFilter);
+  const [claimed, setClaimed] = useState(bounty?.claims?.some((claim) => claim.tier == index));
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
   const kycCondition = (kycFilter == 'true' && !KYC) || (kycFilter == 'false' && KYC);
@@ -66,10 +68,6 @@ const IndividualClaim = ({
       window.removeEventListener('mousedown', handler);
     };
   });
-
-  useEffect(() => {
-    if (isOnCorrectNetwork) tierClaimed();
-  }, [bounty, isOnCorrectNetwork]);
   useEffect(() => {
     const claimCondition = (claimFilter == 'true' && !claimed) || (claimFilter == 'false' && claimed);
     setClaimCondition(claimCondition);
@@ -109,6 +107,7 @@ const IndividualClaim = ({
     checkAssociatedAddress();
   }, [githubUserId]);
   useEffect(() => {
+    setClaimed(bounty?.claims?.some((claim) => claim.tier == index));
     const currentW8Status = bounty.supportingDocumentsCompleted?.[index]
       ? 'APPROVED'
       : requested
@@ -141,7 +140,7 @@ const IndividualClaim = ({
   }, [chainId, associatedAddress]);
   const checkWallet = () => {
     if (walletFilter?.length > 0) {
-      setWalletCondition(walletFilter.toLowerCase() == associatedAddress.toLowerCase());
+      setWalletCondition(associatedAddress?.toLowerCase().includes(walletFilter.toLowerCase()));
     } else {
       setWalletCondition(true);
     }
@@ -154,16 +153,6 @@ const IndividualClaim = ({
       }
     } catch (err) {
       appState[0].logger.error(err, 'IndividualClaim.js3');
-    }
-  };
-  const tierClaimed = async () => {
-    try {
-      const transaction = await appState[0].openQClient.tierClaimed(library, bounty.bountyId, index);
-      if (transaction) {
-        setClaimed(true);
-      }
-    } catch (err) {
-      appState[0].logger.error(err, 'IndividualClaim.js4');
     }
   };
   return (
@@ -230,14 +219,17 @@ const IndividualClaim = ({
       </div>
       <div className={`flex justify-center`}>
         {associatedAddress ? (
-          <Link
-            href={`https://polygonscan.com/address/${associatedAddress}`}
-            rel='noopener norefferer'
-            target='_blank'
-            className='text-link-colour hover:underline'
-          >
-            {appState[0].utils.shortenAddress(associatedAddress)}
-          </Link>
+          <div className='flex items-center gap-1'>
+            <CopyAddressToClipboard clipping={[3, 39]} data={associatedAddress} styles={''} />
+            <Link
+              href={`https://polygonscan.com/address/${associatedAddress}`}
+              rel='noopener norefferer'
+              target='_blank'
+              className='text-link-colour hover:underline'
+            >
+              <LinkIcon />
+            </Link>
+          </div>
         ) : (
           <span className='text-gray-500'>---</span>
         )}

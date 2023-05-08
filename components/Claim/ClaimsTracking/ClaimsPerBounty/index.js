@@ -4,7 +4,7 @@ import Github from '../../../svg/github';
 import IndividualClaim from './IndividualClaim';
 
 const ClaimsPerBounty = ({ item, filters, setFilteredInfo, filteredInfo, winnersInfo }) => {
-  const gridFormat = 'grid grid-cols-[2.5fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const gridFormat = 'grid grid-cols-[2fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
   const [filteredTiers, setFilteredTiers] = useState(Array(item.payoutSchedule?.length).fill(true));
   return (
     <div
@@ -31,7 +31,7 @@ const ClaimsPerBounty = ({ item, filters, setFilteredInfo, filteredInfo, winners
         <div className='flex justify-center'>W8/W9?</div>
         <div className='flex justify-center'>KYC'd?</div>
         <div className='flex justify-center'>Wallet</div>
-        <div className='flex justify-center'>Paid out</div>
+        <div className='flex justify-center'>Claimed</div>
       </div>
       {item.payoutSchedule?.map((payout, index) => {
         const key = item.bountyId + index;
