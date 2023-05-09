@@ -40,6 +40,7 @@ export default class Constants {
       },
       merged: true,
       mergedAt: '2022-03-28T17:57:44Z',
+      createdAt: '2022-03-28T17:57:44Z',
       title: 'Update README.md',
       url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
     };
@@ -498,6 +499,7 @@ export default class Constants {
       source: {
         __typename: 'PullRequest',
         mergedAt: '2022-03-28T17:57:44Z',
+        createdAt: '2022-03-28T17:57:44Z',
         url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
         id: 'PR_kwDOGWnnz841LGsK',
         merged: true,
@@ -949,6 +951,7 @@ export default class Constants {
           source: {
             __typename: 'PullRequest',
             mergedAt: '2023-01-03T02:53:55Z',
+            createdAt: '2022-03-28T17:57:44Z',
             url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/793',
             id: 'PR_kwDOGWnnz85GJi_U',
             merged: true,

@@ -36,7 +36,7 @@ const filterBounties = (item, filters, fetchFilters) => {
     .replace(orderRegex, '')
     .replace(contractTypeRegex, '')
     .trim();
-  const isFoundInText = searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
+  const isFoundInText = searchFoundInText(bounty.title, lowerCaseSearch);
   const isFoundInLabels = searchFoundInLabels(bounty, lowerCaseSearch);
   const emptySearchText = searchText.length === 0;
 
@@ -61,7 +61,14 @@ const filterBounties = (item, filters, fetchFilters) => {
     });
   // Criteria: Must still be open:
   // => Bounty must still be open on OpenQ, unassigned and the issue must still be open on Github
-  const isStillOpen = bounty.status === '0' && bounty.assignees?.length == 0 && !bounty.closed;
+  const isClaimedOrTotallyClaimed = (bounty) => {
+    if (bounty.type === '0') {
+      return bounty.status !== '0';
+    } else if (bounty.type === '3') {
+      return bounty.payoutSchedule?.length === bounty.payouts?.length;
+    }
+  };
+  const isStillOpen = !isClaimedOrTotallyClaimed(bounty) && bounty.assignees?.length == 0;
 
   // Criteria: 'All Issues' or 'Ready For Work' selection:
   // => show all issues when selected 'All issues' or else, if 'Ready for work', meet the funds criteria and be still open.

@@ -1,19 +1,18 @@
 /**
- * @jest-environment jsdom
+ * @vi-environment jsdom
  */
-import searchFoundInText from '../../../components/BountyList/searchHelpers/searchFoundInText.js';
+import searchFoundInText from './searchFoundInText.js';
 
 //searchFoundInText(bounty.title, bounty.body, lowerCaseSearch);
 
 const bounty = {
-  body: 'javascript typescript javascript',
-  title: 'priceless ming vase',
+  title: 'priceless ming vase javascript typescript javascript',
 };
 
 describe('searchFoundInText', () => {
   it('should render Bounty Status', () => {
     const test = (searchText, result) => {
-      const isFoundInLabels = searchFoundInText(bounty.title, bounty.body, searchText);
+      const isFoundInLabels = searchFoundInText(bounty.title, searchText);
       expect(isFoundInLabels).toEqual(result);
     };
 

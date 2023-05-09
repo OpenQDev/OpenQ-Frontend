@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Carousel > should match DOM Snapshot 1`] = `
+<div
+  className="relative undefined justify-center self-center w-full flex undefined"
+  onMouseUp={[Function]}
+>
+  <div
+    className="flex gap-2 xl:max-w-[100%] xl:w-[980px] undefined overflow-x-auto justify-items-center"
+    data-testid="carousel"
+  />
+</div>
+`;

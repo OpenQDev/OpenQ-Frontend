@@ -123,11 +123,14 @@ export const checkTiered = (bounty, currentUser) => {
   if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
     return { status: 'Claimed' };
   }
-
   if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
     return { status: 'Claimable' };
   }
-  return { status: null };
+  if (bounty?.payoutSchedule?.length !== bounty?.payouts?.length) {
+    return { status: 'Open' };
+  } else {
+    return { status: null };
+  }
 };
 
 export const checkClaimable = (bounty, currentUser) => {
@@ -165,6 +168,13 @@ export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImp
       status: 'Claimed',
       colour: 'bg-closed',
       fill: 'fill-closed',
+    };
+  }
+  if (status === 'Open') {
+    return {
+      status: 'Open',
+      colour: 'bg-green',
+      fill: 'fill-green',
     };
   }
   if (bounty.bountyType === '0') {
@@ -229,7 +239,7 @@ export const isEveryValueNotNull = (obj) => {
   return kyc && w8Form && githubHasWallet && invoice;
 };
 export const formatVolume = (tierVolume, token) => {
-  let bigNumberVolume = ethers.BigNumber.from(tierVolume.toLocaleString('fullwide', { useGrouping: false }));
+  let bigNumberVolume = ethers.BigNumber.from(tierVolume?.toString() || '0');
   let decimals = parseInt(token?.decimals) || 18;
   let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
   return formattedVolume;
@@ -255,21 +265,16 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
   const processedRequests = [];
   for (let bounty of createdBounties) {
     for (let request of bounty.requests.nodes) {
-      const user = processedRequests.find(
-        (earlierRequest) => earlierRequest.request.requestingUser.id === request.requestingUser.id
-      );
-      if (!user) {
-        const requestGithubId = request.requestingUser.github;
-        const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
-        const requestWithGithubUser = {
-          ...request,
-          requestingUser: {
-            ...request.requestingUser,
-            githubUser,
-          },
-        };
-        processedRequests.push({ request: requestWithGithubUser, bounty });
-      }
+      const requestGithubId = request.requestingUser.github;
+      const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+      const requestWithGithubUser = {
+        ...request,
+        requestingUser: {
+          ...request.requestingUser,
+          githubUser,
+        },
+      };
+      processedRequests.push({ request: requestWithGithubUser, bounty });
     }
   }
 
@@ -280,33 +285,76 @@ export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor,
     complete: createdBounties.length !== batch,
   };
 };
-
+export const combineBounties = (subgraphBounties, githubIssues, metadata) => {
+  const fullBounties = [];
+  metadata.forEach((contract) => {
+    const relatedIssue = githubIssues.find((issue) => issue?.id == contract.bountyId);
+    const subgraphBounty = subgraphBounties.find((bounty) => {
+      return contract.address?.toLowerCase() === bounty.bountyAddress;
+    });
+    if (relatedIssue && subgraphBounty && !contract.blacklisted) {
+      let mergedBounty = {
+        alternativeName: '',
+        alternativeLogo: '',
+        ...relatedIssue,
+        ...subgraphBounty,
+        ...contract,
+      };
+      fullBounties.push(mergedBounty);
+    }
+  });
+  return fullBounties;
+};
 export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
-  let { sortOrder, field } = ordering;
-  if (!sortOrder) {
-    sortOrder = 'desc';
-  }
-  if (!field) {
-    field = 'createdAt';
-  }
-  const { types, organizationId, repositoryId } = filters;
-
   try {
-    let [fullBounties, cursor, complete] = await appState.utils.fetchBounties(
-      appState,
+    let { sortOrder, field } = ordering;
+    if (!sortOrder) {
+      sortOrder = 'desc';
+    }
+    if (!field) {
+      field = 'createdAt';
+    }
+    const { types, organizationId, repositoryId, title } = filters;
+    const { openQSubgraphClient, githubRepository, openQPrismaClient } = appState;
+    let newCursor;
+    let prismaContracts;
+
+    const prismaContractsResult = await openQPrismaClient.getContractPage(
+      oldCursor,
       batch,
-      types,
       sortOrder,
       field,
-      oldCursor,
+      types,
       organizationId,
       null,
-      null,
-      repositoryId
+      repositoryId,
+      title
     );
+    prismaContracts =
+      prismaContractsResult.nodes.filter((contract) => !contract.blacklisted && !contract.organization.blacklisted) ||
+      [];
+    newCursor = prismaContractsResult.cursor;
+
+    const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
+    const bountyIds = prismaContracts.map((contract) => contract.bountyId);
+
+    let subgraphContracts = [];
+    try {
+      subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+    } catch (err) {
+      throw err;
+    }
+    let githubIssues = [];
+    try {
+      githubIssues = await githubRepository.getIssueData(bountyIds);
+    } catch (err) {
+      githubIssues = [];
+    }
+    const complete = prismaContracts.length === 0;
+    const fullBounties = combineBounties(subgraphContracts, githubIssues, prismaContracts);
     return {
       nodes: fullBounties,
-      cursor,
+      cursor: newCursor,
       complete,
     };
   } catch (err) {
@@ -401,4 +449,12 @@ export const needsFreelancerData = (accountData) => {
     return !accountData[key] || accountData[key] == 0;
   });
   return neededAccountData.length > 0;
+};
+
+export const formatCurrency = (input) => {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  return formatter.format(input);
 };

@@ -63,10 +63,8 @@ class OpenQClient {
   signMessage = async (library, account) => {
     const date = new Date().toISOString().slice(0, 10);
     const message = 'OpenQ ' + date;
-    const signature = await library.provider.request({
-      method: 'personal_sign',
-      params: [message, account],
-    });
+    const signer = library.getSigner(account);
+    const signature = signer.signMessage(message);
     return signature;
   };
 
@@ -552,6 +550,19 @@ class OpenQClient {
       try {
         const hasKYC = await contract.hasKYC(_address);
         resolve(hasKYC);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+  tierClaimed = async (library, _bountyId, _tier) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        const tierClaimed = await contract.tierClaimed(_bountyId, _tier);
+        resolve(tierClaimed);
       } catch (error) {
         reject(error);
       }

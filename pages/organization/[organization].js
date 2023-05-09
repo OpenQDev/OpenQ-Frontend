@@ -116,7 +116,7 @@ export const getServerSideProps = async (context) => {
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
 
-  const batch = 10;
+  const batch = 20;
   let renderError = '';
   const { organization } = context.params;
   const utils = new Utils();
@@ -169,7 +169,7 @@ export const getServerSideProps = async (context) => {
 
   const paginationObj = {
     items: nodes,
-    ordering: { direction: 'desc', field: 'createdAt' },
+    ordering: { sortOrder: 'desc', field: 'createdAt' },
     fetchFilters,
     filters: {
       searchText: ``,

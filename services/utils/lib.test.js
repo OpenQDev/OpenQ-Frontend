@@ -23,8 +23,8 @@ import Constants from '../../test-utils/constant';
 describe('getNonBlacklisted', () => {
   it('should return an  of non-blacklisted repos', async () => {
     const repoName = Constants.repoName;
-    const getPrs = jest.fn().mockReturnValue({ repoPrs: [{ id: 'a' }, { id: 'b' }], totalCount: 0 });
-    const getSubmissions = jest.fn().mockReturnValue([{ id: 'a', blacklisted: true }]);
+    const getPrs = vi.fn().mockReturnValue({ repoPrs: [{ id: 'a' }, { id: 'b' }], totalCount: 0 });
+    const getSubmissions = vi.fn().mockReturnValue([{ id: 'a', blacklisted: true }]);
     const githubRepository = { getPrs };
     const openQPrismaClient = { getSubmissions };
     const mockAppState = { githubRepository, openQPrismaClient };
@@ -413,10 +413,10 @@ describe('fetchRequestsWithServiceArg', () => {
         nodes: [Constants.request0, Constants.request1],
       },
     };
-    const getUserRequests = jest.fn().mockReturnValueOnce({
+    const getUserRequests = vi.fn().mockReturnValueOnce({
       createdBounties: { bountyConnection: { nodes: [bountyWithRequest, bountyWithRequest] } },
     });
-    const fetchUserById = jest.fn().mockReturnValueOnce({
+    const fetchUserById = vi.fn().mockReturnValueOnce({
       user: {
         github: 'test',
         id: '0x123',
@@ -436,148 +436,81 @@ describe('fetchRequestsWithServiceArg', () => {
     };
     const oldCursor = '0x123';
     const result = await fetchRequestsWithServiceArg(appState, identity, oldCursor, batch);
-    expect(result).toEqual({
-      complete: true,
-      cursor: undefined,
+
+    expect({
       nodes: [
         {
-          bounty: {
-            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
-            assignees: [],
-            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
-            body: 'body of test2',
-            bodyHTML: '<p dir="auto">body of test2</p>',
-            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
-            bountyId: 'I_kwDOGWnnz85I9Agl',
-            bountyMintTime: '1662545344',
-            bountyTokenBalances: [
-              {
-                __typename: 'BountyFundedTokenBalance',
-                tokenAddress: '0x0000000000000000000000000000000000000000',
-                volume: '2000000000000000000',
-              },
-              {
-                __typename: 'BountyFundedTokenBalance',
-                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
-                volume: '2000000000000000000',
-              },
-              {
-                __typename: 'BountyFundedTokenBalance',
-                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-                volume: '2000000000000000000',
-              },
-            ],
-            bountyType: '0',
-            claims: [],
-            closed: true,
-            closedAt: '2022-03-28T17:57:44Z',
-            closedEvents: [
-              {
-                __typename: 'ClosedEvent',
-                actor: {
-                  __typename: 'User',
-                  avatarUrl:
-                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
-                  login: 'FlacoJones',
-                  name: null,
-                  url: 'https://github.com/FlacoJones',
+          request: {
+            requestingUser: {
+              email: 'abc123@gmail.com',
+              username: 'Christopher',
+              githubUser: {
+                user: {
+                  github: 'test',
+                  id: '0x123',
                 },
-                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
               },
-            ],
-            closerData: null,
-            createdAt: '1661767948472',
-            deposits: [
-              {
-                __typename: 'Deposit',
-                expiration: '1296000',
-                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
-                receiveTime: '1662545374',
-                refundTime: null,
-                refunded: false,
-                sender: {
-                  __typename: 'User',
-                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-                },
-                tokenAddress: '0x0000000000000000000000000000000000000000',
-                volume: '1000000000000000000',
-              },
-              {
-                __typename: 'Deposit',
-                expiration: '30',
-                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
-                receiveTime: '1662545373',
-                refundTime: '1662559726',
-                refunded: true,
-                sender: {
-                  __typename: 'User',
-                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-                },
-                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
-                volume: '2000000000000000000',
-              },
-              {
-                __typename: 'Deposit',
-                expiration: '1296000',
-                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
-                receiveTime: '1662545372',
-                refundTime: null,
-                refunded: false,
-                sender: {
-                  __typename: 'User',
-                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
-                },
-                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-                volume: '1000000000000000000',
-              },
-            ],
-            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
-            id: undefined,
-            issuer: {
-              __typename: 'User',
-              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
             },
+          },
+          bounty: {
+            title: 'Properly Referenced and Merged by FlacoJones',
+            assignees: [],
+            body: 'body of test2',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
+            repoName: 'OpenQ-Frontend',
+            closedAt: '2022-03-28T17:57:44Z',
+            owner: 'OpenQDev',
+            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
             labels: [
               {
                 __typename: 'Label',
-                color: '0075ca',
                 name: 'documentation',
+                color: '0075ca',
               },
               {
                 __typename: 'Label',
-                color: 'cfd3d7',
                 name: 'duplicate',
+                color: 'cfd3d7',
               },
             ],
+            createdAt: '1661767948472',
+            closed: true,
+            bodyHTML: '<p dir="auto">body of test2</p>',
+            titleHTML: 'Properly Referenced and Merged by FlacoJones',
+            twitterUsername: 'openqlabs',
             number: 8,
-            owner: 'OpenQDev',
             prs: [
               {
                 __typename: 'CrossReferencedEvent',
-                assignees: [],
                 id: 'CRE_kwDOGWnnz85GHUw1',
+                assignees: [],
                 referencedAt: '2022-03-28T17:47:26Z',
                 source: {
                   __typename: 'PullRequest',
+                  mergedAt: '2022-03-28T17:57:44Z',
+                  createdAt: '2022-03-28T17:57:44Z',
+                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+                  id: 'PR_kwDOGWnnz841LGsK',
+                  merged: true,
+                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  bodyHTML:
+                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+                  title: 'Update README.md',
                   author: {
                     __typename: 'User',
-                    avatarUrl:
-                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
-                    email: '',
-                    id: 'U_kgDOBZIDuA',
                     login: 'FlacoJones',
-                    url: 'https://github.com/FlacoJones',
                     user: {
                       __typename: 'User',
                       login: 'FlacoJones',
                       url: 'https://github.com/FlacoJones',
                     },
+                    avatarUrl:
+                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                    url: 'https://github.com/FlacoJones',
+                    id: 'U_kgDOBZIDuA',
+                    email: '',
                   },
-                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
-                  bodyHTML:
-                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
-                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
-                  id: 'PR_kwDOGWnnz841LGsK',
                   mergeCommit: {
                     __typename: 'Commit',
                     author: {
@@ -591,62 +524,717 @@ describe('fetchRequestsWithServiceArg', () => {
                       },
                     },
                   },
-                  merged: true,
-                  mergedAt: '2022-03-28T17:57:44Z',
-                  title: 'Update README.md',
-                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
                 },
+              },
+            ],
+            closedEvents: [
+              {
+                __typename: 'ClosedEvent',
+                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
+                actor: {
+                  __typename: 'User',
+                  avatarUrl:
+                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                  login: 'FlacoJones',
+                  url: 'https://github.com/FlacoJones',
+                  name: null,
+                },
+              },
+            ],
+            tvl: '9.51848',
+            bountyId: 'I_kwDOGWnnz85I9Agl',
+            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            closerData: null,
+            bountyMintTime: '1662545344',
+            deposits: [
+              {
+                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
+                refunded: false,
+                receiveTime: '1662545374',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                refunded: true,
+                receiveTime: '1662545373',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                expiration: '30',
+                volume: '2000000000000000000',
+                refundTime: '1662559726',
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
+                refunded: false,
+                receiveTime: '1662545372',
+                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
               },
             ],
             refunds: [
               {
-                __typename: 'Refund',
-                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
                 refundTime: '1662559726',
                 tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
                 volume: '2000000000000000000',
+                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                __typename: 'Refund',
               },
             ],
-            repoName: 'OpenQ-Frontend',
+            bountyTokenBalances: [
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+              },
+            ],
+            issuer: {
+              __typename: 'User',
+              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+            },
+            bountyType: '0',
+            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+            claims: [],
+            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
             requests: {
               nodes: [
                 {
                   requestingUser: {
                     email: 'abc123@gmail.com',
                     username: 'Christopher',
-                    watchedBounties: undefined,
                   },
                 },
                 {
                   requestingUser: {
                     email: 'abc123@gmail.com',
                     username: 'Christopher',
-                    watchedBounties: undefined,
                   },
                 },
               ],
             },
-            title: 'Properly Referenced and Merged by FlacoJones',
-            titleHTML: 'Properly Referenced and Merged by FlacoJones',
-            tvl: '9.51848',
-            twitterUsername: 'openqlabs',
-            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
           },
+        },
+        {
           request: {
             requestingUser: {
               email: 'abc123@gmail.com',
-              githubUser: {
-                user: {
-                  github: 'test',
-                  id: '0x123',
+              username: 'Christopher',
+            },
+          },
+          bounty: {
+            title: 'Properly Referenced and Merged by FlacoJones',
+            assignees: [],
+            body: 'body of test2',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
+            repoName: 'OpenQ-Frontend',
+            closedAt: '2022-03-28T17:57:44Z',
+            owner: 'OpenQDev',
+            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+            labels: [
+              {
+                __typename: 'Label',
+                name: 'documentation',
+                color: '0075ca',
+              },
+              {
+                __typename: 'Label',
+                name: 'duplicate',
+                color: 'cfd3d7',
+              },
+            ],
+            createdAt: '1661767948472',
+            closed: true,
+            bodyHTML: '<p dir="auto">body of test2</p>',
+            titleHTML: 'Properly Referenced and Merged by FlacoJones',
+            twitterUsername: 'openqlabs',
+            number: 8,
+            prs: [
+              {
+                __typename: 'CrossReferencedEvent',
+                id: 'CRE_kwDOGWnnz85GHUw1',
+                assignees: [],
+                referencedAt: '2022-03-28T17:47:26Z',
+                source: {
+                  __typename: 'PullRequest',
+                  mergedAt: '2022-03-28T17:57:44Z',
+                  createdAt: '2022-03-28T17:57:44Z',
+                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+                  id: 'PR_kwDOGWnnz841LGsK',
+                  merged: true,
+                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  bodyHTML:
+                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+                  title: 'Update README.md',
+                  author: {
+                    __typename: 'User',
+                    login: 'FlacoJones',
+                    user: {
+                      __typename: 'User',
+                      login: 'FlacoJones',
+                      url: 'https://github.com/FlacoJones',
+                    },
+                    avatarUrl:
+                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                    url: 'https://github.com/FlacoJones',
+                    id: 'U_kgDOBZIDuA',
+                    email: '',
+                  },
+                  mergeCommit: {
+                    __typename: 'Commit',
+                    author: {
+                      __typename: 'GitActor',
+                      avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
+                      name: 'FlacoJones',
+                      user: {
+                        __typename: 'User',
+                        login: 'FlacoJones',
+                        url: 'https://github.com/FlacoJones',
+                      },
+                    },
+                  },
                 },
               },
+            ],
+            closedEvents: [
+              {
+                __typename: 'ClosedEvent',
+                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
+                actor: {
+                  __typename: 'User',
+                  avatarUrl:
+                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                  login: 'FlacoJones',
+                  url: 'https://github.com/FlacoJones',
+                  name: null,
+                },
+              },
+            ],
+            tvl: '9.51848',
+            bountyId: 'I_kwDOGWnnz85I9Agl',
+            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            closerData: null,
+            bountyMintTime: '1662545344',
+            deposits: [
+              {
+                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
+                refunded: false,
+                receiveTime: '1662545374',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                refunded: true,
+                receiveTime: '1662545373',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                expiration: '30',
+                volume: '2000000000000000000',
+                refundTime: '1662559726',
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
+                refunded: false,
+                receiveTime: '1662545372',
+                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+            ],
+            refunds: [
+              {
+                refundTime: '1662559726',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                __typename: 'Refund',
+              },
+            ],
+            bountyTokenBalances: [
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+              },
+            ],
+            issuer: {
+              __typename: 'User',
+              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+            },
+            bountyType: '0',
+            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+            claims: [],
+            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            requests: {
+              nodes: [
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+              ],
+            },
+          },
+        },
+        {
+          request: {
+            requestingUser: {
+              email: 'abc123@gmail.com',
               username: 'Christopher',
-              watchedBounties: undefined,
+            },
+          },
+          bounty: {
+            title: 'Properly Referenced and Merged by FlacoJones',
+            assignees: [],
+            body: 'body of test2',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
+            repoName: 'OpenQ-Frontend',
+            closedAt: '2022-03-28T17:57:44Z',
+            owner: 'OpenQDev',
+            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+            labels: [
+              {
+                __typename: 'Label',
+                name: 'documentation',
+                color: '0075ca',
+              },
+              {
+                __typename: 'Label',
+                name: 'duplicate',
+                color: 'cfd3d7',
+              },
+            ],
+            createdAt: '1661767948472',
+            closed: true,
+            bodyHTML: '<p dir="auto">body of test2</p>',
+            titleHTML: 'Properly Referenced and Merged by FlacoJones',
+            twitterUsername: 'openqlabs',
+            number: 8,
+            prs: [
+              {
+                __typename: 'CrossReferencedEvent',
+                id: 'CRE_kwDOGWnnz85GHUw1',
+                assignees: [],
+                referencedAt: '2022-03-28T17:47:26Z',
+                source: {
+                  __typename: 'PullRequest',
+                  mergedAt: '2022-03-28T17:57:44Z',
+                  createdAt: '2022-03-28T17:57:44Z',
+                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+                  id: 'PR_kwDOGWnnz841LGsK',
+                  merged: true,
+                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  bodyHTML:
+                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+                  title: 'Update README.md',
+                  author: {
+                    __typename: 'User',
+                    login: 'FlacoJones',
+                    user: {
+                      __typename: 'User',
+                      login: 'FlacoJones',
+                      url: 'https://github.com/FlacoJones',
+                    },
+                    avatarUrl:
+                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                    url: 'https://github.com/FlacoJones',
+                    id: 'U_kgDOBZIDuA',
+                    email: '',
+                  },
+                  mergeCommit: {
+                    __typename: 'Commit',
+                    author: {
+                      __typename: 'GitActor',
+                      avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
+                      name: 'FlacoJones',
+                      user: {
+                        __typename: 'User',
+                        login: 'FlacoJones',
+                        url: 'https://github.com/FlacoJones',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+            closedEvents: [
+              {
+                __typename: 'ClosedEvent',
+                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
+                actor: {
+                  __typename: 'User',
+                  avatarUrl:
+                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                  login: 'FlacoJones',
+                  url: 'https://github.com/FlacoJones',
+                  name: null,
+                },
+              },
+            ],
+            tvl: '9.51848',
+            bountyId: 'I_kwDOGWnnz85I9Agl',
+            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            closerData: null,
+            bountyMintTime: '1662545344',
+            deposits: [
+              {
+                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
+                refunded: false,
+                receiveTime: '1662545374',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                refunded: true,
+                receiveTime: '1662545373',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                expiration: '30',
+                volume: '2000000000000000000',
+                refundTime: '1662559726',
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
+                refunded: false,
+                receiveTime: '1662545372',
+                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+            ],
+            refunds: [
+              {
+                refundTime: '1662559726',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                __typename: 'Refund',
+              },
+            ],
+            bountyTokenBalances: [
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+              },
+            ],
+            issuer: {
+              __typename: 'User',
+              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+            },
+            bountyType: '0',
+            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+            claims: [],
+            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            requests: {
+              nodes: [
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+              ],
+            },
+          },
+        },
+        {
+          request: {
+            requestingUser: {
+              email: 'abc123@gmail.com',
+              username: 'Christopher',
+            },
+          },
+          bounty: {
+            title: 'Properly Referenced and Merged by FlacoJones',
+            assignees: [],
+            body: 'body of test2',
+            url: 'https://github.com/OpenQDev/OpenQ-TestRepo/issues/8',
+            repoName: 'OpenQ-Frontend',
+            closedAt: '2022-03-28T17:57:44Z',
+            owner: 'OpenQDev',
+            avatarUrl: 'https://avatars.githubusercontent.com/u/77402538?v=4',
+            labels: [
+              {
+                __typename: 'Label',
+                name: 'documentation',
+                color: '0075ca',
+              },
+              {
+                __typename: 'Label',
+                name: 'duplicate',
+                color: 'cfd3d7',
+              },
+            ],
+            createdAt: '1661767948472',
+            closed: true,
+            bodyHTML: '<p dir="auto">body of test2</p>',
+            titleHTML: 'Properly Referenced and Merged by FlacoJones',
+            twitterUsername: 'openqlabs',
+            number: 8,
+            prs: [
+              {
+                __typename: 'CrossReferencedEvent',
+                id: 'CRE_kwDOGWnnz85GHUw1',
+                assignees: [],
+                referencedAt: '2022-03-28T17:47:26Z',
+                source: {
+                  __typename: 'PullRequest',
+                  mergedAt: '2022-03-28T17:57:44Z',
+                  createdAt: '2022-03-28T17:57:44Z',
+                  url: 'https://github.com/OpenQDev/OpenQ-TestRepo/pull/138',
+                  id: 'PR_kwDOGWnnz841LGsK',
+                  merged: true,
+                  bodyText: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  body: 'This Closes #136 and also unrelated thing of Fixes #137',
+                  bodyHTML:
+                    '<p dir="auto">This <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #136.">Closes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183776821" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/136/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/136">#136</a> and also unrelated thing of <span class="issue-keyword tooltipped tooltipped-se" aria-label="This pull request closes issue #137.">Fixes</span> <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1183777365" data-permission-text="Title is private" data-url="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137" data-hovercard-type="issue" data-hovercard-url="/OpenQDev/OpenQ-TestRepo/issues/137/hovercard" href="https://github.com/OpenQDev/OpenQ-TestRepo/issues/137">#137</a></p>',
+                  title: 'Update README.md',
+                  author: {
+                    __typename: 'User',
+                    login: 'FlacoJones',
+                    user: {
+                      __typename: 'User',
+                      login: 'FlacoJones',
+                      url: 'https://github.com/FlacoJones',
+                    },
+                    avatarUrl:
+                      'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                    url: 'https://github.com/FlacoJones',
+                    id: 'U_kgDOBZIDuA',
+                    email: '',
+                  },
+                  mergeCommit: {
+                    __typename: 'Commit',
+                    author: {
+                      __typename: 'GitActor',
+                      avatarUrl: 'https://avatars.githubusercontent.com/u/93455288?v=4',
+                      name: 'FlacoJones',
+                      user: {
+                        __typename: 'User',
+                        login: 'FlacoJones',
+                        url: 'https://github.com/FlacoJones',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+            closedEvents: [
+              {
+                __typename: 'ClosedEvent',
+                id: 'CE_lADOGWnnz85GjwA1zwAAAAF4vHFc',
+                actor: {
+                  __typename: 'User',
+                  avatarUrl:
+                    'https://avatars.githubusercontent.com/u/93455288?u=fd1fb04b6ff2bf397f8353eafffc3bfb4bd66e84&v=4',
+                  login: 'FlacoJones',
+                  url: 'https://github.com/FlacoJones',
+                  name: null,
+                },
+              },
+            ],
+            tvl: '9.51848',
+            bountyId: 'I_kwDOGWnnz85I9Agl',
+            bountyAddress: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            closerData: null,
+            bountyMintTime: '1662545344',
+            deposits: [
+              {
+                id: '0xe5551a3fa87d93a0c6c084d572b9e282114befc43dc68f08be6d53d13830e356',
+                refunded: false,
+                receiveTime: '1662545374',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                refunded: true,
+                receiveTime: '1662545373',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                expiration: '30',
+                volume: '2000000000000000000',
+                refundTime: '1662559726',
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+              {
+                id: '0x7db2691e573b9c19e90f391cd3eda9ce9246666a1502f2bf87b9d47d13679bc0',
+                refunded: false,
+                receiveTime: '1662545372',
+                tokenAddress: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
+                expiration: '1296000',
+                volume: '1000000000000000000',
+                refundTime: null,
+                sender: {
+                  id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+                  __typename: 'User',
+                },
+                __typename: 'Deposit',
+              },
+            ],
+            refunds: [
+              {
+                refundTime: '1662559726',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+                volume: '2000000000000000000',
+                depositId: '0xb4f31aab8a1c4bfe26236729e8cd8e4abf81d63283e006b4ec677a7ce6b2871a',
+                __typename: 'Refund',
+              },
+            ],
+            bountyTokenBalances: [
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x0000000000000000000000000000000000000000',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0',
+              },
+              {
+                __typename: 'BountyFundedTokenBalance',
+                volume: '2000000000000000000',
+                tokenAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+              },
+            ],
+            issuer: {
+              __typename: 'User',
+              id: '0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266',
+            },
+            bountyType: '0',
+            fundingGoalTokenAddress: '0x0000000000000000000000000000000000000000',
+            claims: [],
+            address: '0x066efd87027a4cc4a21c57467f224ef98241d774',
+            requests: {
+              nodes: [
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+                {
+                  requestingUser: {
+                    email: 'abc123@gmail.com',
+                    username: 'Christopher',
+                  },
+                },
+              ],
             },
           },
         },
       ],
-    });
+      complete: true,
+    }).toEqual(result);
   });
 });

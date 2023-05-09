@@ -2,7 +2,6 @@ import React from 'react';
 import WrappedGithubClient from '../services/github/WrappedGithubClient';
 import WrappedOpenQSubgraphClient from '../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../services/openq-api/WrappedOpenQPrismaClient';
-import Utils from '../services/utils/Utils';
 import Logger from '../services/logger/Logger';
 import UnexpectedErrorModal from '../components/Utils/UnexpectedErrorModal';
 import ExploreHeader from '../components/Explore/Header';
@@ -11,7 +10,7 @@ import ExploreMarketplace from '../components/Explore/Marketplace';
 import ExploreGoodFirstIssues from '../components/Explore/GoodFirstIssues';
 import ExploreNewsletter from '../components/Explore/Newsletter';
 import ExploreBlog from '../components/Explore/Blog';
-import { fetchRepositories } from '../services/utils/lib';
+import { fetchRepositories, fetchBountiesWithServiceArg } from '../services/utils/lib';
 import { GoodFirstIssuesProvider } from '../store/Store/GoodFirstIssuesProvider';
 
 export default function Index({ nonContestBounties, contestRepositories, renderError }) {
@@ -42,7 +41,6 @@ export const getServerSideProps = async () => {
   const openQSubgraphClient = new WrappedOpenQSubgraphClient();
   const openQPrismaClient = new WrappedOpenQPrismaClient();
 
-  const utils = new Utils();
   const logger = new Logger();
   const batch = 10;
   let nonContestBounties = [];
@@ -55,9 +53,10 @@ export const getServerSideProps = async () => {
   };
 
   const contestRepositories = await fetchRepositories(appState, { contestOnly: true });
-
+  const ordering = { field: 'createdAt', sortOrder: 'desc' };
   try {
-    [nonContestBounties] = await utils.fetchBounties(appState, batch, ['0', '1']);
+    const { nodes } = await fetchBountiesWithServiceArg(appState, null, batch, ordering, { types: ['0', '1'] });
+    nonContestBounties = nodes;
   } catch (err) {
     logger.error(err, null, '[index]3.js');
     renderError = JSON.stringify(err);

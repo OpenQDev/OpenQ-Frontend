@@ -1,5 +1,5 @@
 // Third party
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
@@ -7,6 +7,7 @@ import OrganizationHeader from '../../../components/Organization/OrganizationHea
 import SubMenu from '../../../components/Utils/SubMenu';
 import Home from '../../../components/svg/home';
 import Trophy from '../../../components/svg/trophy';
+import Telescope from '../../../components/svg/telescope';
 import BountyList from '../../../components/BountyList';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import Logger from '../../../services/logger/Logger';
@@ -21,13 +22,42 @@ import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import ClaimsTracking from '../../../components/Claim/ClaimsTracking';
 
-const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) => {
+const showcase = ({ org, name, renderError, orgData, repoData, paginationObj, fetchFilters }) => {
   // Context
   const [appState] = useContext(StoreContext);
   const [toggleVal, setToggleVal] = useState('Overview');
   const [searchValue, setSearchValue] = useState('');
+  const [TVLBalances, setTVLBalances] = useState([]);
+  const [payoutBalances, setPayoutBalances] = useState([]);
   const [singleSubmission, setSingleSubmission] = useState(null);
+  const [showOverview, setShowOverview] = useState();
+  const githubId = appState.accountData.github;
+
+  useEffect(() => {
+    const fetchTotals = async (orgId) => {
+      try {
+        const fetchedData = await appState.openQSubgraphClient.getTotalFundedPerOrganizationId(orgId);
+        const fetchedTotalPayouts = await appState.openQSubgraphClient.getTotalPayoutPerOrganizationId(orgId);
+        setPayoutBalances(fetchedTotalPayouts);
+        setTVLBalances(fetchedData);
+      } catch (err) {
+        appState.logger.error(err, '[name].js1');
+      }
+    };
+    fetchTotals(orgData.id);
+  }, []);
+
+  useEffect(() => {
+    const updateIsAdmin = async () => {
+      const team = 'developers';
+      const login = 'OpenQDev';
+      const isAdmin = await appState.githubRepository.getIsAdmin(login, team, githubId);
+      setShowOverview(isAdmin);
+    };
+    if (githubId) updateIsAdmin();
+  }, [githubId]);
   // Render
 
   const handleToggle = (toggleVal) => {
@@ -84,7 +114,9 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
       filters: { ...githubPaginationObj.filters, searchText: val },
     });
   };
-
+  const getKey = () => {
+    return null;
+  };
   return (
     <>
       {renderError ? (
@@ -96,6 +128,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
             items={[
               { name: 'Overview', Svg: Home },
               { name: 'Hackathon Submissions', Svg: Trophy },
+              ...[showOverview ? { name: 'Claim Progress', Svg: Telescope } : {}],
             ]}
             internalMenu={toggleVal}
             updatePage={handleToggle}
@@ -145,6 +178,7 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
                       styles={'flex max-w-[960px] mb-8'}
                     />
                     <PaginatedList
+                      getKey={getKey}
                       paginationState={githubPaginationState}
                       PaginationCard={ShowCaseCard}
                       className='flex flex-wrap gap-8 w-full items-start'
@@ -205,6 +239,9 @@ const showcase = ({ org, name, renderError, orgData, repoData, paginationObj }) 
               </div>
             </>
           )}
+          {showOverview && toggleVal === 'Claim Progress' && (
+            <ClaimsTracking fetchFilters={fetchFilters} TVLBalances={TVLBalances} payoutBalances={payoutBalances} />
+          )}
         </div>
       )}
     </>
@@ -220,7 +257,7 @@ export async function getServerSideProps(context) {
   const { org, name } = context.query;
   const utils = new Utils();
   const logger = new Logger();
-  const batch = 2;
+  const batch = 20;
   const types = ['0', '1', '2', '3'];
   const appState = {
     githubRepository: githubRepository.instance,
@@ -257,10 +294,9 @@ export async function getServerSideProps(context) {
   const ordering = { sortOrder: 'desc', field: 'createdAt' };
   const fetchFilters = { types, organizationId: orgData.id, repositoryId: repoData.id };
   const { nodes, cursor, complete } = await getItems(null, batch, ordering, fetchFilters);
-
   const paginationObj = {
     items: nodes,
-    ordering: { direction: 'desc', field: 'createdAt' },
+    ordering: { sortOrder: 'desc', field: 'createdAt' },
     fetchFilters,
     filters: {
       searchText: ``,
@@ -279,6 +315,7 @@ export async function getServerSideProps(context) {
       paginationObj,
       org,
       name,
+      fetchFilters,
     },
   };
 }

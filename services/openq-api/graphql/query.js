@@ -224,6 +224,7 @@ export const GET_PRIVATE_USER = gql`
         nodes {
           tvl
           tvc
+          budgetValue
           address
           bountyId
           watchingCount
@@ -525,6 +526,7 @@ export const GET_CONTRACT_PAGE = gql`
     $limit: PaginationInt!
     $category: String
     $repositoryId: String
+    $title: String
   ) {
     bounties(
       after: $after
@@ -535,15 +537,25 @@ export const GET_CONTRACT_PAGE = gql`
       types: $types
       category: $category
       repositoryId: $repositoryId
+      title: $title
     ) {
       bountyConnection {
         nodes {
           tvl
           tvc
+          requests(limit: 100) {
+            nodes {
+              id
+              requestingUser {
+                id
+              }
+            }
+          }
           address
           organizationId
           repositoryId
           bountyId
+          budgetValue
           type
           category
           watchingCount
