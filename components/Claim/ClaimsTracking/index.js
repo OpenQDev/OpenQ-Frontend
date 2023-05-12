@@ -25,8 +25,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const [initialItems, setInitialItems] = useState([]);
   const [winners, setWinners] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [githubId, setGithubId] = useState('');
-  const [githubLogin, setGithubLogin] = useState('');
+  const [github, setGithub] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [countAll, setCountAll] = useState('');
   const [bountyCount, setBountyCount] = useState(0);
@@ -167,8 +166,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
 
   const handleSearchInput = (e) => {
     if (e.target.id === 'issueText') setIssueText(e.target.value);
-    if (e.target.id === 'githubId') setGithubId(e.target.value);
-    if (e.target.id === 'githubLogin') setGithubLogin(e.target.value);
+    if (e.target.id === 'github') setGithub(e.target.value);
     if (e.target.id === 'walletAddress') setWalletAddress(e.target.value);
   };
 
@@ -230,19 +228,10 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
                   <input
-                    className='input-field w-32'
-                    id='githubId'
-                    placeholder='Github ID'
-                    value={githubId}
-                    onChange={handleSearchInput}
-                    onKeyDown={handleKeyPress}
-                  />
-                  {' OR '}
-                  <input
-                    className='input-field w-32'
-                    id='githubLogin'
-                    placeholder='Github Login'
-                    value={githubLogin}
+                    className='input-field'
+                    id='github'
+                    placeholder='Github ID or Login'
+                    value={github}
                     onChange={handleSearchInput}
                     onKeyDown={handleKeyPress}
                   />

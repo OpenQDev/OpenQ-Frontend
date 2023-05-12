@@ -42,16 +42,15 @@ const IndividualClaim = ({
   const [message, setMessage] = useState('');
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const githubIdFilter = filters?.githubId;
-  const githubLoginFilter = filters?.githubLogin;
+  const githubFilter = filters?.github;
   const claimFilter = filters?.claimed;
   const w8Filter = filters?.w8 || 'all';
   const kycFilter = filters?.kyc || 'all';
   const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
-  const githubCondition = githubIdFilter && !githubUserId?.includes(githubIdFilter);
-  const githubLoginCondition = githubLoginFilter && !githubUser?.login.includes(githubLoginFilter);
+  const githubCondition =
+    githubFilter && !githubUserId?.includes(githubFilter) && !githubUser?.login.includes(githubFilter);
   const [claimed, setClaimed] = useState(bounty?.claims?.some((claim) => claim.tier == index));
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
@@ -124,7 +123,7 @@ const IndividualClaim = ({
     let newFilteredTiers = filteredTiers;
     let newCount = 0;
     let newFilteredInfo = filteredInfo;
-    if (githubCondition || githubLoginCondition || claimCondition || w8Condition || kycCondition || !walletCondition) {
+    if (githubCondition || claimCondition || w8Condition || kycCondition || !walletCondition) {
       newFilteredTiers[index] = false;
       newCount = newFilteredTiers?.filter((value) => value == true)?.length || 0;
       setHide('hidden');
@@ -136,7 +135,7 @@ const IndividualClaim = ({
     setFilteredTiers(newFilteredTiers);
     newFilteredInfo[bounty.id] = { filteredCount: newCount };
     setFilteredInfo({ ...filteredInfo, ...newFilteredInfo });
-  }, [filters, githubCondition, githubLoginCondition, claimCondition, w8Condition, kycCondition, walletCondition]);
+  }, [filters, githubCondition, claimCondition, w8Condition, kycCondition, walletCondition]);
   useEffect(() => {
     if (associatedAddress && chainId == 137) hasKYC();
   }, [chainId, associatedAddress]);
