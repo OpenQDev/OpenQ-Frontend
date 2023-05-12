@@ -181,30 +181,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       setSearch(e.target.id, e.target.value);
-      if (e.target.id === 'githubId') setGithubLogin('');
-    }
-  };
-
-  const handleKeyPressLogin = (e) => {
-    //it triggers by pressing the enter key
-    if (e.key === 'Enter') {
-      setGithubId('');
-      const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserByLogin(e.target.value);
-        if (githubUser) {
-          setSearch('githubId', githubUser.id);
-          setGithubId('');
-        }
-      };
-      try {
-        if (e.target.value) {
-          getGithubUser();
-        } else {
-          setSearch('githubId', '');
-        }
-      } catch (err) {
-        appState.logger.error(err, 'ClaimsTracking.js1');
-      }
     }
   };
 
@@ -243,10 +219,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                   onKeyDown={handleKeyPress}
                 />
               </div>
-
-              <div className='mb-2 text-sm text-mute italic'>
-                Note that your search input for github logins must be an exact match.
-              </div>
               <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
                 <div className=''>TierWinner</div>
                 <div className='flex justify-center'>Planned</div>
@@ -272,7 +244,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     placeholder='Github Login'
                     value={githubLogin}
                     onChange={handleSearchInput}
-                    onKeyDown={handleKeyPressLogin}
+                    onKeyDown={handleKeyPress}
                   />
                 </div>
 
