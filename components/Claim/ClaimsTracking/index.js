@@ -106,7 +106,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     let newCountAll = 0;
     let newNbPayouts = 0;
     setLoading(true);
-    //let newPrizeObj = {};
     if (initialItems?.length > 0) {
       // stats
       newNbPayouts = initialItems.reduce((acc, item) => {
@@ -216,46 +215,35 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     <>
       <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
         <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
-          <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
           {!isOnCorrectNetwork && (
             <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
               * You need to connect your wallet & be on the right network to see whether a winner has KYC'd or not.
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total # of Bounties: {loading ? 'Loading...' : bountyCount}</div>
-            <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
-            <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
-            <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
-            <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
+            <div>Bounties: {loading ? 'Loading...' : bountyCount}</div>
+            <div>Tiers: {loading ? 'Loading...' : countAll}</div>
+            <div>Payouts: {loading ? 'Loading...' : nbPayouts} </div>
+            <div>Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
           </div>
-          <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {formatCurrency(payout || 0)}</div>
-            <div>Total TVL for the hackathon: {formatCurrency(TVL || 0)}</div>
+          <div className='flex flex-wrap gap-4 w-full items-center mb-4'>
+            <div>Total Payout: {formatCurrency(payout || 0)}</div>
+            <div>Hackathon TVL: {formatCurrency(TVL || 0)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
-            <div className='flex flex-wrap gap-4 w-full items-center'>
-              <input
-                className='input-field'
-                id='issueText'
-                placeholder='Search Issue...'
-                value={issueText}
-                onChange={handleSearchInput}
-                onKeyDown={handleKeyPress}
-              />
-            </div>
-            {!loadingBounties && filteredItems?.length == 0 && (
-              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
-                No Bounties Found
-              </div>
-            )}
-            {loadingBounties && filteredItems?.length == 0 && (
-              <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
-                Loading... <LoadingIcon />
-              </div>
-            )}
             <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
               <div className='mb-2'>Filter by:</div>
+              <div className='flex flex-wrap gap-4 w-full items-center mb-4'>
+                <input
+                  className='input-field'
+                  id='issueText'
+                  placeholder='Issue...'
+                  value={issueText}
+                  onChange={handleSearchInput}
+                  onKeyDown={handleKeyPress}
+                />
+              </div>
+
               <div className='mb-2 text-sm text-mute italic'>
                 Note that your search input for github logins must be an exact match.
               </div>
@@ -331,6 +319,16 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                 )}
               </div>
             </div>
+            {!loadingBounties && filteredItems?.length == 0 && (
+              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
+                No Bounties Found
+              </div>
+            )}
+            {loadingBounties && filteredItems?.length == 0 && (
+              <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                Loading... <LoadingIcon />
+              </div>
+            )}
             {filteredItems.map((item) => {
               const bountyWinners =
                 winners?.length > 0 && winners.filter((winner) => item.tierWinners?.includes(winner.id));
