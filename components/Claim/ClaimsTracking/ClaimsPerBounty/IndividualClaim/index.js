@@ -42,14 +42,15 @@ const IndividualClaim = ({
   const [message, setMessage] = useState('');
   const [KYC, setKYC] = useState(false);
   const zeroAddress = '0x0000000000000000000000000000000000000000';
-  const githubIdFilter = filters?.githubId;
+  const githubFilter = filters?.github;
   const claimFilter = filters?.claimed;
   const w8Filter = filters?.w8 || 'all';
   const kycFilter = filters?.kyc || 'all';
   const walletFilter = filters?.walletAddress;
   const [w8Status, setW8Status] = useState('NOT SENT');
   const [walletCondition, setWalletCondition] = useState(true);
-  const githubCondition = githubIdFilter && !githubUserId?.includes(githubIdFilter);
+  const githubCondition =
+    githubFilter && !githubUserId?.includes(githubFilter) && !githubUser?.login.includes(githubFilter);
   const [claimed, setClaimed] = useState(bounty?.claims?.some((claim) => claim.tier == index));
   const [claimCondition, setClaimCondition] = useState(true);
   const w8Condition = w8Filter !== 'all' && w8Filter !== w8Status.toLowerCase();
@@ -234,9 +235,7 @@ const IndividualClaim = ({
           <span className='text-gray-500'>---</span>
         )}
       </div>
-      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>
-        {!isOnCorrectNetwork ? 'n.a.*' : claimed ? 'TRUE' : 'FALSE'}
-      </div>
+      <div className={`flex justify-center ${claimed && 'font-bold text-green'}`}>{claimed ? 'TRUE' : 'FALSE'}</div>
     </div>
   );
 };
