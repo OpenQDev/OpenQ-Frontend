@@ -274,21 +274,17 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </div>
-                {isOnCorrectNetwork ? (
-                  <select
-                    id='claimed'
-                    name='claimed'
-                    className='input-field px-1'
-                    defaultValue={'all'}
-                    onChange={handleSelect}
-                  >
-                    <option value='all'></option>
-                    <option value='true'>TRUE</option>
-                    <option value='false'>FALSE</option>
-                  </select>
-                ) : (
-                  <div className='flex justify-center'>n.a.*</div>
-                )}
+                <select
+                  id='claimed'
+                  name='claimed'
+                  className='input-field px-1'
+                  defaultValue={'all'}
+                  onChange={handleSelect}
+                >
+                  <option value='all'></option>
+                  <option value='true'>TRUE</option>
+                  <option value='false'>FALSE</option>
+                </select>
               </div>
             </div>
             {!loadingBounties && filteredItems?.length == 0 && (
