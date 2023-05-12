@@ -182,7 +182,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     }
   };
 
-  const gridFormat = 'grid grid-cols-[2fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const gridFormat = 'grid grid-cols-[1fr_1fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
   // Render
   return (
@@ -207,17 +207,8 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
             <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
               <div className='mb-2'>Filter by:</div>
-              <div className='flex flex-wrap gap-4 w-full items-center mb-4'>
-                <input
-                  className='input-field'
-                  id='issueText'
-                  placeholder='Issue...'
-                  value={issueText}
-                  onChange={handleSearchInput}
-                  onKeyDown={handleKeyPress}
-                />
-              </div>
               <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
+                <div className=''>Bounty</div>
                 <div className=''>TierWinner</div>
                 <div className='flex justify-center'>Planned</div>
                 <div className='flex justify-center'>W8/W9?</div>
@@ -228,9 +219,19 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
                   <input
-                    className='input-field'
+                    className='input-field w-36'
+                    id='issueText'
+                    placeholder='Issue...'
+                    value={issueText}
+                    onChange={handleSearchInput}
+                    onKeyDown={handleKeyPress}
+                  />
+                </div>
+                <div className='flex items-center gap-4'>
+                  <input
+                    className='input-field w-36'
                     id='github'
-                    placeholder='Github ID or Login'
+                    placeholder='Github id or login...'
                     value={github}
                     onChange={handleSearchInput}
                     onKeyDown={handleKeyPress}
@@ -276,12 +277,12 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                 </select>
               </div>
             </div>
-            {!loadingBounties && filteredItems?.length == 0 && (
+            {!loadingBounties && tierAmount == 0 && (
               <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
                 No Bounties Found
               </div>
             )}
-            {loadingBounties && filteredItems?.length == 0 && (
+            {loadingBounties && tierAmount == 0 && (
               <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
                 Loading... <LoadingIcon />
               </div>
