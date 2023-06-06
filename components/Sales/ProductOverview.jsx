@@ -73,9 +73,9 @@ const ProductOverview = () => {
           </div>
         </div>
       </div>
-      <div className='flex flex-row space-x-2 items-centers'>
-        <p className='pt-24 text-center text-black text-xl lg:text-3xl font-medium'>
-          Unearth more of our ungoing or future concepts.
+      <div className='flex flex-row space-x-2 justify-center pt-12 pb-24 items-center hover:scale-105'>
+        <p className='text-center text-black text-xl lg:text-2xl font-medium'>
+          Unearth more of our ungoing or future concepts
         </p>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -83,7 +83,7 @@ const ProductOverview = () => {
           viewBox='0 0 24 24'
           strokeWidth='2.5'
           stroke='black'
-          className='w-4 h-4'
+          className='w-5 h-5'
         >
           <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
         </svg>

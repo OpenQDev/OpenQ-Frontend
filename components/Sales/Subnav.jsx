@@ -5,8 +5,8 @@ const Subnav = () => {
 
   return (
     <div className='relative'>
-      <div className={`flex flex-row justify-between md:justify-start relative z-20 items-center py-5`}>
-        <div className='text-2xl px-6 text-black font-extrabold pb-1'>Products</div>
+      <div className={`flex flex-row justify-between md:justify-start relative z-20 items-center py-4`}>
+        <div className='text-2xl px-6 text-black font-bold pb-1'>Products</div>
         <div className='hidden md:block'>
           <a href='#' className='text-gray-900 px-3 text-md font-normal'>
             Marketplace

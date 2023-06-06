@@ -5,7 +5,9 @@ import ProductOverview from '../components/Sales/ProductOverview';
 const Home = () => {
   return (
     <main className='explore pb-64'>
-      <Subnav />
+      <div className='sticky top-0 z-50'>
+        <Subnav />
+      </div>
       <ProductOverview />
     </main>
   );
