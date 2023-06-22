@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "chainId": "137",
+  "createdAt": 1687467410647,
+  "meta": {
+    "name": "Transactions Batch",
+    "description": "",
+    "txBuilderVersion": "1.16.0",
+    "createdFromSafeAddress": "0x8A6668f45E0CFF1233bd178F265D89Abc93b11a7",
+    "createdFromOwnerAddress": "",
+    "checksum": "0x919220e6c1e7a35ce2203eb0a0b4d77a6d88e172aefe637b6ff4567e076202d1"
+  },
+  "transactions": []
+}

@@ -1,0 +1,21 @@
+{
+  "to": "0x964aEcdFE3d35B6c57Fb4ea02A7A149c5688516C",
+  "value": "0",
+  "data": null,
+  "contractMethod": {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_bountyAddress",
+        "type": "address"
+      },
+      { "internalType": "bytes32", "name": "_depositId", "type": "bytes32" }
+    ],
+    "name": "refundDeposit",
+    "payable": false
+  },
+  "contractInputsValues": {
+    "_bountyAddress": "",
+    "_depositId": ""
+  }
+}
