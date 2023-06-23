@@ -207,7 +207,7 @@ const Footer = () => {
           >
             <span>Batch Tax Form Approval</span>
           </Link>
-					<Link href={'/batchRefund'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
+          <Link href={'/batchRefund'} className=' lg:justify-self-center' target='_blank' rel='noopener noreferrer'>
             <span>Batch Bounty Refund</span>
           </Link>
         </div>
