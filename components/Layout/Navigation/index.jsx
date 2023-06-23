@@ -5,7 +5,9 @@ import Link from 'next/link';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import Image from 'next/image';
-import { QuestionIcon, ThreeBarsIcon } from '@primer/octicons-react';
+/* 
+
+ */
 import LinkDropdown from '../../Utils/LinkDropdown';
 import NavLinks from '../NavLinks/index';
 import LoadingThread from '../../Loading/LoadingThread';
@@ -175,9 +177,9 @@ const Navigation = () => {
                   </div>
                 )}
                 <NavLinks appState={appState} setOpenMenu={setOpenMenu} />
-                <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
+                {/* <button onClick={() => setShowModal(true)} className='pl-4 flex items-center'>
                   <QuestionIcon size={16} className='fill-muted hover:fill-primary' />
-                </button>
+                </button> */}
               </div>
             </div>
             <div className='md:hidden font-inter text-xl self-center font-bold'>OpenQ</div>
@@ -196,7 +198,7 @@ const Navigation = () => {
                 />
               </div>
               <button className='flex md:hidden pr-4' onClick={() => setOpenMenu(!openMenu)}>
-                <ThreeBarsIcon size={24} />
+                {/* <ThreeBarsIcon size={24} /> */}
               </button>
             </div>
           </div>

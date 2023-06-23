@@ -76,8 +76,10 @@ export const valueToDisplay = (value) => {
 };
 
 export const getBigNumberVol = (volume, token) => {
-  const volumeFloat = parseFloat(volume) || 0;
-  const volumeInWei = volumeFloat * 10 ** token.decimals;
+  const volumeInWei =
+    isNaN(volume) || volume === ''
+      ? 0
+      : ethers.utils.parseUnits(volume.toLocaleString('fullwide', { useGrouping: false }), token.decimals);
 
   return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 };

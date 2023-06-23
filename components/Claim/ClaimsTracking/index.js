@@ -25,8 +25,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
   const [initialItems, setInitialItems] = useState([]);
   const [winners, setWinners] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
-  const [githubId, setGithubId] = useState('');
-  const [githubLogin, setGithubLogin] = useState('');
+  const [github, setGithub] = useState('');
   const [walletAddress, setWalletAddress] = useState('');
   const [countAll, setCountAll] = useState('');
   const [bountyCount, setBountyCount] = useState(0);
@@ -106,7 +105,6 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     let newCountAll = 0;
     let newNbPayouts = 0;
     setLoading(true);
-    //let newPrizeObj = {};
     if (initialItems?.length > 0) {
       // stats
       newNbPayouts = initialItems.reduce((acc, item) => {
@@ -168,8 +166,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
 
   const handleSearchInput = (e) => {
     if (e.target.id === 'issueText') setIssueText(e.target.value);
-    if (e.target.id === 'githubId') setGithubId(e.target.value);
-    if (e.target.id === 'githubLogin') setGithubLogin(e.target.value);
+    if (e.target.id === 'github') setGithub(e.target.value);
     if (e.target.id === 'walletAddress') setWalletAddress(e.target.value);
   };
 
@@ -182,84 +179,36 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
     //it triggers by pressing the enter key
     if (e.key === 'Enter') {
       setSearch(e.target.id, e.target.value);
-      if (e.target.id === 'githubId') setGithubLogin('');
     }
   };
 
-  const handleKeyPressLogin = (e) => {
-    //it triggers by pressing the enter key
-    if (e.key === 'Enter') {
-      setGithubId('');
-      const getGithubUser = async () => {
-        const githubUser = await appState.githubRepository.fetchUserByLogin(e.target.value);
-        if (githubUser) {
-          setSearch('githubId', githubUser.id);
-          setGithubId('');
-        }
-      };
-      try {
-        if (e.target.value) {
-          getGithubUser();
-        } else {
-          setSearch('githubId', '');
-        }
-      } catch (err) {
-        appState.logger.error(err, 'ClaimsTracking.js1');
-      }
-    }
-  };
-
-  const gridFormat = 'grid grid-cols-[2fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
+  const gridFormat = 'grid grid-cols-[1fr_1fr_1fr_0.75fr_0.5fr_0.75fr_0.5fr]';
 
   // Render
   return (
     <>
       <div className='px-4 py-3 gap-6 w-full flex flex-wrap md:flex-nowrap'>
         <div className='max-w-[960px] w-full md:basis-3/4 md:shrink'>
-          <h2 className='text-primary w-full mb-2'>Claims Overview</h2>
           {!isOnCorrectNetwork && (
             <div className='border-info-strong bg-info border-2 p-2 rounded-sm mb-4'>
               * You need to connect your wallet & be on the right network to see whether a winner has KYC'd or not.
             </div>
           )}
           <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total # of Bounties: {loading ? 'Loading...' : bountyCount}</div>
-            <div>Total # of Tiers: {loading ? 'Loading...' : countAll}</div>
-            <div>Total # of Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
-            <div>Total # of Unselected Tiers: {loading ? 'Loading...' : countAll - tierAmount} </div>
-            <div>Total # of Payouts: {loading ? 'Loading...' : nbPayouts} </div>
+            <div>Bounties: {loading ? 'Loading...' : bountyCount}</div>
+            <div>Tiers: {loading ? 'Loading...' : countAll}</div>
+            <div>Payouts: {loading ? 'Loading...' : nbPayouts} </div>
+            <div>Selected Tiers: {loading ? 'Loading...' : tierAmount} </div>
           </div>
-          <div className='flex flex-wrap gap-4 w-full items-center mb-2'>
-            <div>Total Payout Volume: {formatCurrency(payout || 0)}</div>
-            <div>Total TVL for the hackathon: {formatCurrency(TVL || 0)}</div>
+          <div className='flex flex-wrap gap-4 w-full items-center mb-4'>
+            <div>Total Payout: {formatCurrency(payout || 0)}</div>
+            <div>Hackathon TVL: {formatCurrency(TVL || 0)}</div>
           </div>
           <div className='lg:col-start-2 justify-between justify-self-center space-y-4 w-full pb-8 max-w-[960px] mx-auto'>
-            <div className='flex flex-wrap gap-4 w-full items-center'>
-              <input
-                className='input-field'
-                id='issueText'
-                placeholder='Search Issue...'
-                value={issueText}
-                onChange={handleSearchInput}
-                onKeyDown={handleKeyPress}
-              />
-            </div>
-            {!loadingBounties && filteredItems?.length == 0 && (
-              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
-                No Bounties Found
-              </div>
-            )}
-            {loadingBounties && filteredItems?.length == 0 && (
-              <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
-                Loading... <LoadingIcon />
-              </div>
-            )}
             <div className='flex flex-col mb-4 lg:min-w-[1000px] overflow-x-auto border border-web-gray rounded-sm p-4'>
               <div className='mb-2'>Filter by:</div>
-              <div className='mb-2 text-sm text-mute italic'>
-                Note that your search input for github logins must be an exact match.
-              </div>
               <div className={`items-center gap-4 ${gridFormat} border-b border-web-gray pb-2 mb-2 font-bold`}>
+                <div className=''>Bounty</div>
                 <div className=''>TierWinner</div>
                 <div className='flex justify-center'>Planned</div>
                 <div className='flex justify-center'>W8/W9?</div>
@@ -270,21 +219,22 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
               <div className={`items-center gap-4 ${gridFormat} pb-2 mb-2 text-sm`}>
                 <div className='flex items-center gap-4'>
                   <input
-                    className='input-field w-32'
-                    id='githubId'
-                    placeholder='Github ID'
-                    value={githubId}
+                    className='input-field w-36'
+                    id='issueText'
+                    placeholder='Issue...'
+                    value={issueText}
                     onChange={handleSearchInput}
                     onKeyDown={handleKeyPress}
                   />
-                  {' OR '}
+                </div>
+                <div className='flex items-center gap-4'>
                   <input
-                    className='input-field w-32'
-                    id='githubLogin'
-                    placeholder='Github Login'
-                    value={githubLogin}
+                    className='input-field w-36'
+                    id='github'
+                    placeholder='Github id or login...'
+                    value={github}
                     onChange={handleSearchInput}
-                    onKeyDown={handleKeyPressLogin}
+                    onKeyDown={handleKeyPress}
                   />
                 </div>
 
@@ -314,23 +264,29 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
                     onKeyDown={handleKeyPress}
                   />
                 </div>
-                {isOnCorrectNetwork ? (
-                  <select
-                    id='claimed'
-                    name='claimed'
-                    className='input-field px-1'
-                    defaultValue={'all'}
-                    onChange={handleSelect}
-                  >
-                    <option value='all'></option>
-                    <option value='true'>TRUE</option>
-                    <option value='false'>FALSE</option>
-                  </select>
-                ) : (
-                  <div className='flex justify-center'>n.a.*</div>
-                )}
+                <select
+                  id='claimed'
+                  name='claimed'
+                  className='input-field px-1'
+                  defaultValue={'all'}
+                  onChange={handleSelect}
+                >
+                  <option value='all'></option>
+                  <option value='true'>TRUE</option>
+                  <option value='false'>FALSE</option>
+                </select>
               </div>
             </div>
+            {!loadingBounties && tierAmount == 0 && (
+              <div className='bg-info border-info-strong border-2 p-3 rounded-sm mb-4 text-center'>
+                No Bounties Found
+              </div>
+            )}
+            {loadingBounties && tierAmount == 0 && (
+              <div className='flex justify-center items-center bg-info border-info-strong border-2 p-3 rounded-sm mb-4'>
+                Loading... <LoadingIcon />
+              </div>
+            )}
             {filteredItems.map((item) => {
               const bountyWinners =
                 winners?.length > 0 && winners.filter((winner) => item.tierWinners?.includes(winner.id));

@@ -112,7 +112,9 @@ const FundPage = () => {
   // Methods
   const hasEnoughAllowance = async () => {
     const allowanceBigNumber = await openQClient.allowance(library, account, token.address, bounty.bountyAddress);
-    const volumeInWei = volume * 10 ** token.decimals;
+    const volumeInWei = volume
+      ? ethers.utils.parseUnits(volume.toLocaleString('fullwide', { useGrouping: false }), token.decimals)
+      : 0;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
     const allowanceValue =
       allowanceBigNumber > 0

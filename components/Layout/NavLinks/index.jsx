@@ -1,23 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+/* import { useRouter } from 'next/router'; */
 const NavLinks = ({ setOpenMenu, appState }) => {
-  const router = useRouter();
+  /* const router = useRouter(); */
   const { accountData } = appState;
   return (
     <>
-      <Link
-        onClick={() => setOpenMenu(false)}
-        href={'/'}
-        className={`nav-link ml-1 $ ${router.asPath === '/' && 'text-white'}`}
-      >
+      <Link onClick={() => setOpenMenu(false)} href={'/'} className={`nav-link ml-1 text-white hover:text-gray-300 `}>
         <span> Explore</span>
       </Link>
 
       <Link
         onClick={() => setOpenMenu(false)}
         href={'/marketplace'}
-        className={`nav-link $ ${router.asPath === '/marketplace' && 'text-white'}`}
+        className={`nav-link text-white hover:text-gray-300`}
       >
         <span>Marketplace</span>
       </Link>
@@ -25,16 +21,19 @@ const NavLinks = ({ setOpenMenu, appState }) => {
       <Link
         onClick={() => setOpenMenu(false)}
         href={'/hackathons'}
-        className={`nav-link $ ${router.asPath === '/hackathons' && 'text-white'}`}
+        className={`nav-link text-white hover:text-gray-300`}
       >
         <span> Hackathons</span>
       </Link>
       <Link
         onClick={() => setOpenMenu(false)}
         href={'/good-first-issues'}
-        className={`nav-link $ ${router.asPath === '/good-first-issues' && 'text-white'}`}
+        className={`nav-link text-white hover:text-gray-300`}
       >
         <span> Good First Issues</span>
+      </Link>
+      <Link onClick={() => setOpenMenu(false)} href={'/product'} className={`nav-link text-white hover:text-gray-300`}>
+        <span> Product</span>
       </Link>
       {!accountData.id && (
         <>

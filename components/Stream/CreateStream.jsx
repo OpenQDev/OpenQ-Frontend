@@ -45,7 +45,9 @@ const CreateStream = () => {
     }
   }
   async function approveToken(volume, recipient, flowRate, type, token) {
-    const volumeInWei = volume * 10 ** token.decimals;
+    const volumeInWei = volume
+      ? ethers.utils.parseUnits(volume.toLocaleString('fullwide', { useGrouping: false }), token.decimals)
+      : 0;
     const bigNumberVolumeInWei = ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
     const callerBalance = await openQClient.balanceOf(library, account, ethers.utils.getAddress(token.address));
     if (callerBalance.lt(bigNumberVolumeInWei)) {
