@@ -1,18 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Papa from 'papaparse';
 import StoreContext from '../store/Store/StoreContext';
 import _ from 'lodash';
-import mintBountyTemplate from '../constants/mintBountyTemplate.json';
+import refundBountyTemplate from '../constants/refundBountyTemplate.json';
 import refundBountyTransactionTemplate from '../constants/refundBountyTransactionTemplate.json';
 import md4 from 'js-md4';
 import Link from 'next/link';
 import Image from 'next/image';
-import BountyCardLean from '../components/BountyCard/BountyCardLean';
 import { convertCsvToJson } from '../lib/batchUtils';
 
 function BatchRefund() {
   const [refundBountyBatchData, setRefundBountyBatchData] = useState(null);
-  const [bounties, setBounties] = useState([]);
   const [appState] = useContext(StoreContext);
   const [file, setFile] = useState(null);
 
@@ -29,7 +27,7 @@ function BatchRefund() {
     const textEncoder = new TextEncoder();
     const md4Digest = md4(textEncoder.encode(stringifiedJsonData));
 
-    element.download = `mintBountyBatchTransactions-${md4Digest.substring(0, 5)}.json`;
+    element.download = `refundBountyBatchTransactions-${md4Digest.substring(0, 5)}.json`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -69,7 +67,7 @@ function BatchRefund() {
 
           const { bountyAddress, deposits } = await loadOnChainBounty(bountyId);
 
-          // Overwrite contractInputsValues on mintBountyTransactionTemplate
+          // Overwrite contractInputsValues on refundBountyTransactionTemplateCopy
           const refundBountyTransactionTemplateCopy = _.cloneDeep(refundBountyTransactionTemplate);
 
           console.log('deposits[0].id', deposits[0].id);
@@ -79,50 +77,21 @@ function BatchRefund() {
           refundBountyTransactionTemplateCopy.contractInputsValues._depositId = deposits[0].id;
 
           transactions.push(refundBountyTransactionTemplateCopy);
+
+          console.log('refundBountyTransactionTemplateCopy', refundBountyTransactionTemplateCopy);
         } catch (err) {
           appState.logger.error(err, 'refundBatch.js1');
         }
       }
 
-      const mintBountyTemplateCopy = _.cloneDeep(mintBountyTemplate);
-      mintBountyTemplateCopy.transactions = transactions;
+      const refundBountyTemplateCopy = _.cloneDeep(refundBountyTemplate);
+      refundBountyTemplateCopy.transactions = transactions;
 
-      setRefundBountyBatchData(mintBountyTemplateCopy);
+      setRefundBountyBatchData(refundBountyTemplateCopy);
     };
 
     reader.readAsText(file);
   };
-
-  const parseTransaction = async (transaction) => {
-    const { contractInputsValues } = transaction;
-    const githubData = await appState.githubRepository.fetchIssueById(contractInputsValues._bountyId);
-
-    return {
-      ...githubData,
-    };
-  };
-
-  useEffect(() => {
-    const getBountyData = async () => {
-      if (refundBountyBatchData) {
-        const bounties = refundBountyBatchData.transactions.map(async (transaction) => {
-          const bountyData = await parseTransaction(transaction);
-          const currentTimestamp = Date.now();
-
-          return {
-            ...bountyData,
-            deposits: [],
-            payouts: [],
-            bountyType: '3',
-            bountyMintTime: currentTimestamp / 1000,
-            status: '0',
-          };
-        });
-        setBounties(await Promise.all(bounties));
-      }
-    };
-    getBountyData();
-  }, [refundBountyBatchData]);
 
   return (
     <div className='flex flex-col items-center py-14'>
@@ -196,20 +165,6 @@ function BatchRefund() {
         <h2 className='text-xl pt-8 font-bold'>Step 5: Download the generated JSON file</h2>
         {refundBountyBatchData && (
           <div className='flex flex-col'>
-            <h2>
-              You will use the Gnosis Safe Transaction Builder JSON to refund the{' '}
-              {refundBountyBatchData.transactions.length} bounties show below.
-              <br />
-              <div className='my-4'>
-                {bounties.map((bounty, index) => {
-                  return (
-                    <BountyCardLean noModal={true} length={bounties.length} index={index} key={index} item={bounty} />
-                  );
-                })}
-              </div>
-              <br />
-              If this is correct, then download the JSON file and follow the next steps.
-            </h2>
             <div className='pt-4 flex items-center space-x-4'>
               <button className='btn-primary' onClick={handleDownload}>
                 Download JSON
