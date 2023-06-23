@@ -32,9 +32,6 @@ const NavLinks = ({ setOpenMenu, appState }) => {
       >
         <span> Good First Issues</span>
       </Link>
-      <Link onClick={() => setOpenMenu(false)} href={'/product'} className={`nav-link text-white hover:text-gray-300`}>
-        <span> Product</span>
-      </Link>
       {!accountData.id && (
         <>
           <Link onClick={() => setOpenMenu(false)} href={'/login'} className={`nav-link md:hidden`}>
