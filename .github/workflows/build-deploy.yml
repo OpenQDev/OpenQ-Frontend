@@ -84,7 +84,7 @@ jobs:
           sudo chmod +x /usr/local/bin/yq
           git config --global user.email "${{ env.email }}"
           git config --global user.name "CICD_Pipeline"
-          git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
+          git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/openqdev/OpenQ-Helm.git
           cd OpenQ-Helm/
           if [ "$${{ env.environment }}" = staging ]; then
             yq -i '.frontend.image.tag = env(version)' values-staging.yaml
