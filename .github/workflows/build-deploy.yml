@@ -4,8 +4,8 @@ name: Build + Push Frontend
 on:
   push:
     tags:
-      - 'staging-*.*.*'
-      - 'production-*.*.*'
+      - 'staging-*'
+      - 'production-*'
 
 jobs:
   build:
