@@ -9,26 +9,17 @@ on:
 
 jobs:
   build:
+    if: false
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Extract tag name
-        id: extract_tag
-        run: |
-          TAG_REF=${GITHUB_REF#refs/tags/}
-          echo "tag_name=${TAG_REF}" >> $GITHUB_ENV
-      - name: Display tag name
-        run: |
-          echo "Extracted tag name: ${{ env.tag_name }}"
       - name: Extract environment from tag
         id: extract_environment
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          ENVIRONMENT=${TAG_NAME%%-*}
-          echo "environment=${ENVIRONMENT}" >> "$GITHUB_ENV"
-          echo "Environment: $ENVIRONMENT"
+          ENVIRONMENT=$(echo "${{ github.ref_name }}" | sed 's/-.*//')
+          echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
       - name: Load proper env from secret
         run: |
           if [ "${{ env.environment }}" = "staging" ]; then
@@ -38,7 +29,7 @@ jobs:
           fi
           if [ "${{ env.environment }}" = "production" ]; then
             echo "${{ secrets.PRODUCTION_ENV }}" | base64 --decode > $(pwd)/.env
-            echo "BUILD_NUMBER=${{ env.tag_name }}" >> $(pwd)/.env
+            echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
             echo "" >> $(pwd)/.env
           fi
       - name: Set up Docker Buildx
@@ -54,7 +45,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: openq/openq-frontend:${{ env.tag_name }}
+          tags: openq/openq-frontend:${{ github.ref_name }}
           build-args: |
             "deploy_env=${{ env.environment }}"
   pushHelm:
@@ -62,21 +53,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Extract tag name
-        id: extract_tag
-        run: |
-          TAG_REF=${GITHUB_REF#refs/tags/}
-          echo "tag_name=${TAG_REF}" >> $GITHUB_ENV
-      - name: Display tag name
-        run: |
-          echo "Extracted tag name: ${{ env.tag_name }}"
       - name: Extract environment from tag
         id: extract_environment
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          ENVIRONMENT=${TAG_NAME%%-*}
-          echo "environment=${ENVIRONMENT}" >> "$GITHUB_ENV"
-          echo "Environment: $ENVIRONMENT"
+          ENVIRONMENT=$(echo "${{ github.ref_name }}" | sed 's/-.*//')
+          echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
       - name: Update Helm Chart and Push Tag
         run: |
           wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
@@ -87,14 +68,14 @@ jobs:
           git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           cd OpenQ-Helm/
           if [ "$${{ env.environment }}" = staging ]; then
-            yq -i '.frontend.image.tag = env(tag_name)' values-staging.yaml
+            yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-staging.yaml
           fi
           if [ "$${{ env.environment }}" = production ]; then
-            yq -i '.frontend.image.tag = env(tag_name)' values-production.yaml
+            yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-production.yaml
           fi
           git add .
-          git commit -m "[CIRCLE CI] ${{ env.tag_name }}"
+          git commit -m "[CIRCLE CI] ${{ github.ref_name }}"
           git remote set-url origin https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           git push
-          git tag -f ${{ env.tag_name }}
-          git push -f origin ${{ env.tag_name }} --tags
+          git tag -f ${{ github.ref_name }}
+          git push -f origin ${{ github.ref_name }} --tags
