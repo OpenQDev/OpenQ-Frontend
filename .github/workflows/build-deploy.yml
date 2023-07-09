@@ -1,9 +1,11 @@
-name: Build + Push Frontend # git add . && git commit -m "updates" && git tag -f frontend-development-1.0.0 && git push origin -f frontend-development-1.0.0
+#git add . && git commit -m "updates" && git tag -f staging-1.0.0 && git push origin -f staging-1.0.0
+name: Build + Push Frontend
 
 on:
   push:
     tags:
-      - 'frontend-*-*.*.*'
+      - 'staging-*.*.*'
+      - 'production-*.*.*'
 
 jobs:
   build:
