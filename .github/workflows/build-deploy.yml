@@ -57,6 +57,9 @@ jobs:
         run: |
           ENVIRONMENT=$(echo "${{ github.ref_name }}" | sed 's/-.*//')
           echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
+      - name: Echo
+        run: |
+          echo ${{ env.ENVIRONMENT }}
       - name: Update Helm Chart and Push Tag
         run: |
           wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
