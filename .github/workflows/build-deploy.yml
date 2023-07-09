@@ -56,7 +56,7 @@ jobs:
           push: true
           tags: openq/openq-frontend:${{ env.tag_name }}
           build-args: |
-            DEPLOY_ENV=${{ env.environment }}
+            "DEPLOY_ENV=${{ env.environment }}"
   pushHelm:
     name: Update Helm Chart and Commit New Tag
     needs: build
