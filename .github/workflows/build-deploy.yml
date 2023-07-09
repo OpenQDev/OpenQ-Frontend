@@ -69,10 +69,10 @@ jobs:
           git config --global user.name "CICD_Pipeline"
           git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           cd OpenQ-Helm/
-          if [ "$${{ env.ENVIRONMENT }}" = staging ]; then
+          if [ "${{ env.ENVIRONMENT }}" = staging ]; then
             yq -i '.frontend.image.tag = env(ENVIRONMENT)' values-staging.yaml
           fi
-          if [ "$${{ env.ENVIRONMENT }}" = production ]; then
+          if [ "${{ env.ENVIRONMENT }}" = production ]; then
             yq -i '.frontend.image.tag = env(ENVIRONMENT)' values-production.yaml
           fi
           git add .
