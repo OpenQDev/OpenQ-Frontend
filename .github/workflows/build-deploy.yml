@@ -1,0 +1,100 @@
+name: Build + Push Frontend # git add . && git commit -m "updates" && git tag -f frontend-development-1.0.0 && git push origin -f frontend-development-1.0.0
+
+on:
+  push:
+    tags:
+      - 'frontend-*-*.*.*'
+
+jobs:
+  build:
+    name: Build frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Extract tag name
+        id: extract_tag
+        run: |
+          TAG_REF=${GITHUB_REF#refs/tags/}
+          echo "tag_name=${TAG_REF}" >> $GITHUB_ENV
+      - name: Display tag name
+        run: |
+          echo "Extracted tag name: ${{ env.tag_name }}"
+      - name: Extract environment from tag
+        id: extract_environment
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          ENVIRONMENT=${TAG_NAME%%-*}
+          echo "environment=${ENVIRONMENT}" >> "$GITHUB_ENV"
+          echo "Environment: $ENVIRONMENT"
+      - name: Load proper env from secret
+        run: |
+          if [ "${{ env.environment }}" = "staging" ]; then
+            echo "${{ secrets.STAGING_ENV }}" | base64 --decode > $(pwd)/.env
+            echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
+            echo "" >> $(pwd)/.env
+          fi
+          if [ "${{ env.environment }}" = "production" ]; then
+            echo "${{ secrets.PRODUCTION_ENV }}" | base64 --decode > $(pwd)/.env
+            echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
+            echo "" >> $(pwd)/.env
+          fi
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Docker build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: openq/openq-frontend:${{ env.tag_name }}
+  pushHelm:
+    name: Update Helm Chart and Commit New Tag
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract tag info
+        id: extract_tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/} 
+          echo "tag_name=${TAG_NAME}" >> "$GITHUB_ENV"
+          echo ${TAG_NAME} # frontend-staging-1.0.0
+          APP_ENVIRONMENT=${TAG_NAME%-*} 
+          echo "app_environment=${APP_ENVIRONMENT}" >> "$GITHUB_ENV" 
+          echo ${APP_ENVIRONMENT} # frontend-staging
+          APP=${APP_ENVIRONMENT%-*} 
+          echo "app=${APP}" >> "$GITHUB_ENV" 
+          echo ${APP} # frontend
+          ENVIRONMENT=${APP_ENVIRONMENT#*-} 
+          echo "environment=${ENVIRONMENT}" >> "$GITHUB_ENV"
+          echo ${ENVIRONMENT} # staging
+          VERSION=${TAG_NAME#*-}
+          echo "version=${VERSION}" >> "$GITHUB_ENV"
+          echo ${VERSION} # staging-1.0.0
+          echo "email=abc123@gmail.com" >> "$GITHUB_ENV"
+      - name: Update Helm Chart and Push Tag
+        run: |
+          wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
+          sudo mv yq_linux_386 /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+          git config --global user.email "${{ env.email }}"
+          git config --global user.name "CICD_Pipeline"
+          git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
+          cd OpenQ-Helm/
+          if [ "$${{ env.environment }}" = staging ]; then
+            yq -i '.frontend.image.tag = env(version)' values-staging.yaml
+          fi
+          if [ "$${{ env.environment }}" = production ]; then
+            yq -i '.frontend.image.tag = env(version)' values-production.yaml
+          fi
+          git add .
+          git commit -m "[CIRCLE CI] ${{ env.version }}"
+          git remote set-url origin https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
+          git push
+          git tag -f ${{ env.version }}
+          git push -f origin ${{ env.version }} --tags
