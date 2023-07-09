@@ -38,7 +38,7 @@ jobs:
           fi
           if [ "${{ env.environment }}" = "production" ]; then
             echo "${{ secrets.PRODUCTION_ENV }}" | base64 --decode > $(pwd)/.env
-            echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
+            echo "BUILD_NUMBER=${{ env.tag_name }}" >> $(pwd)/.env
             echo "" >> $(pwd)/.env
           fi
       - name: Set up Docker Buildx
