@@ -60,25 +60,21 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Extract tag info
+      - name: Extract tag name
         id: extract_tag
         run: |
-          TAG_NAME=${GITHUB_REF#refs/tags/} 
-          echo "tag_name=${TAG_NAME}" >> "$GITHUB_ENV"
-          echo ${TAG_NAME} # frontend-staging-1.0.0
-          APP_ENVIRONMENT=${TAG_NAME%-*} 
-          echo "app_environment=${APP_ENVIRONMENT}" >> "$GITHUB_ENV" 
-          echo ${APP_ENVIRONMENT} # frontend-staging
-          APP=${APP_ENVIRONMENT%-*} 
-          echo "app=${APP}" >> "$GITHUB_ENV" 
-          echo ${APP} # frontend
-          ENVIRONMENT=${APP_ENVIRONMENT#*-} 
+          TAG_REF=${GITHUB_REF#refs/tags/}
+          echo "tag_name=${TAG_REF}" >> $GITHUB_ENV
+      - name: Display tag name
+        run: |
+          echo "Extracted tag name: ${{ env.tag_name }}"
+      - name: Extract environment from tag
+        id: extract_environment
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          ENVIRONMENT=${TAG_NAME%%-*}
           echo "environment=${ENVIRONMENT}" >> "$GITHUB_ENV"
-          echo ${ENVIRONMENT} # staging
-          VERSION=${TAG_NAME#*-}
-          echo "version=${VERSION}" >> "$GITHUB_ENV"
-          echo ${VERSION} # staging-1.0.0
-          echo "email=abc123@gmail.com" >> "$GITHUB_ENV"
+          echo "Environment: $ENVIRONMENT"
       - name: Update Helm Chart and Push Tag
         run: |
           wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
@@ -95,8 +91,8 @@ jobs:
             yq -i '.frontend.image.tag = env(version)' values-production.yaml
           fi
           git add .
-          git commit -m "[CIRCLE CI] ${{ env.version }}"
+          git commit -m "[CIRCLE CI] ${{ env.tag_name }}"
           git remote set-url origin https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           git push
-          git tag -f ${{ env.version }}
-          git push -f origin ${{ env.version }} --tags
+          git tag -f ${{ env.tag_name }}
+          git push -f origin ${{ env.tag_name }} --tags
