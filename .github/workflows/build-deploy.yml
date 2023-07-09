@@ -67,10 +67,10 @@ jobs:
           git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           cd OpenQ-Helm/
           if [ "$${{ env.ENVIRONMENT }}" = staging ]; then
-            yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-staging.yaml
+            yq -i '.frontend.image.tag = env(ENVIRONMENT)' values-staging.yaml
           fi
           if [ "$${{ env.ENVIRONMENT }}" = production ]; then
-            yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-production.yaml
+            yq -i '.frontend.image.tag = env(ENVIRONMENT)' values-production.yaml
           fi
           git add .
           git commit -m "[CIRCLE CI] ${{ github.ref_name }}"
