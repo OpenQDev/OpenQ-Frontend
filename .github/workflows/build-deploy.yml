@@ -21,12 +21,12 @@ jobs:
           echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
       - name: Load proper env from secret
         run: |
-          if [ "${{ env.environment }}" = "staging" ]; then
+          if [ "${{ env.ENVIRONMENT }}" = "staging" ]; then
             echo "${{ secrets.STAGING_ENV }}" | base64 --decode > $(pwd)/.env
             echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
             echo "" >> $(pwd)/.env
           fi
-          if [ "${{ env.environment }}" = "production" ]; then
+          if [ "${{ env.ENVIRONMENT }}" = "production" ]; then
             echo "${{ secrets.PRODUCTION_ENV }}" | base64 --decode > $(pwd)/.env
             echo "BUILD_NUMBER=${{ github.ref_name }}" >> $(pwd)/.env
             echo "" >> $(pwd)/.env
@@ -46,7 +46,7 @@ jobs:
           push: true
           tags: openq/openq-frontend:${{ github.ref_name }}
           build-args: |
-            "deploy_env=${{ env.environment }}"
+            "deploy_env=${{ env.ENVIRONMENT }}"
   pushHelm:
     name: Update Helm Chart and Commit New Tag
     needs: build
@@ -66,10 +66,10 @@ jobs:
           git config --global user.name "CICD_Pipeline"
           git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
           cd OpenQ-Helm/
-          if [ "$${{ env.environment }}" = staging ]; then
+          if [ "$${{ env.ENVIRONMENT }}" = staging ]; then
             yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-staging.yaml
           fi
-          if [ "$${{ env.environment }}" = production ]; then
+          if [ "$${{ env.ENVIRONMENT }}" = production ]; then
             yq -i '.frontend.image.tag = ${{ github.ref_name }}' values-production.yaml
           fi
           git add .
