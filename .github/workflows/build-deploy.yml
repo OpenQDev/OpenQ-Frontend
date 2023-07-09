@@ -1,4 +1,4 @@
-#git add . && git commit -m "updates" && git push && git tag -f staging-1.0.0 && git push origin -f staging-1.0.1
+#git add . && git commit -m "updates" && git push && git tag -f staging-1.0.0 && git push origin -f staging-1.0.0
 name: Build + Push Frontend
 
 on:
@@ -9,7 +9,6 @@ on:
 
 jobs:
   build:
-    if: false
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
