@@ -11,7 +11,7 @@ import NoSSR from '../../Utils/NoSSR';
 import CopyAddressToClipboard from '../../CopyAddressToClipboard';
 import Image from 'next/image';
 
-const Footer = () => {
+const Footer = ({ isWhite }) => {
   const [toggle, setToggle] = useState(1);
   const [open, setOpen] = useState();
   const modal = useRef();
@@ -35,9 +35,13 @@ const Footer = () => {
     };
   }, [open]);
   return (
-    <div className='p-8 lg:p-24'>
-      <div className='flex flex-col lg:flex-row lg:p-4 justify-between lg:items-center border-b border-web-gray text-muted'>
-        <OpenQSocials />
+    <div className={`p-8 lg:px-24 lg:pb-2 ${isWhite ? 'bg-white' : ''}`}>
+      <div
+        className={`flex flex-col lg:flex-row lg:p-4 justify-between lg:items-center border-b border-web-gray ${
+          isWhite ? 'text-gray-900 ' : 'text-muted'
+        }`}
+      >
+        <OpenQSocials isWhite={isWhite} />
         <div className='flex flex-col lg:flex-row space-y-2 lg:space-y-0 py-4 lg:py-0'>
           <div className='flex gap-2 items-center'>
             <div onClick={() => setOpen(!open)} className='flex gap-2 cursor-pointer'>
@@ -138,7 +142,7 @@ const Footer = () => {
           </NoSSR>
         </div>
       </div>
-      <div className='mt-6 lg:grid lg:grid-cols-[1fr_1fr_1fr_3fr]'>
+      <div className={`mt-6 lg:grid lg:grid-cols-[1fr_1fr_1fr_3fr] ${isWhite ? 'text-gray-900' : ''}`}>
         <div className='flex flex-col pb-8'>
           <h1 className='font-bold pb-2'>HELP ME</h1>
           <Link
@@ -211,7 +215,7 @@ const Footer = () => {
         <div className='flex flex-col lg:flex-row lg:justify-end gap-4'>
           <Image
             className='flex lg:items-start max-h-[24px]'
-            src='/openq-logo-with-text.png'
+            src={!isWhite ? '/openq-logo-with-text.png' : '/openq-logo-with-text-black.png'}
             alt='OpenQ'
             width='90'
             height='90'

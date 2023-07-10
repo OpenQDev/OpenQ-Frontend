@@ -12,7 +12,7 @@ const DevRelHero = () => {
         <div className='text-black text-4xl font-extrabold pt-3 w-[40rem]'>
           Supercharge developer relations without manual work.
         </div>
-        <div className='text-gray-800 pt-5 w-[29rem]'>
+        <div className='text-gray-800 text-lg pt-5 w-[32rem]'>
           OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and
           enhances interactions for efficient and informed collaborations. It's time to calculate and validate ROI.
         </div>
