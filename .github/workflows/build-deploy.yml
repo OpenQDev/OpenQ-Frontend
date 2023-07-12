@@ -47,37 +47,12 @@ jobs:
           tags: openq/openq-frontend:${{ github.ref_name }}
           build-args: |
             "deploy_env=${{ env.ENVIRONMENT }}"
-  pushHelm:
-    name: Update Helm Chart and Commit New Tag
-    runs-on: ubuntu-latest
+  tagHelm:
     needs: build
-    steps:
-      - name: Extract environment from tag
-        id: extract_environment
-        run: |
-          ENVIRONMENT=$(echo "${{ github.ref_name }}" | sed 's/-.*//')
-          echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
-      - name: Echo
-        run: |
-          echo ${{ env.ENVIRONMENT }}
-      - name: Update Helm Chart and Push Tag
-        run: |
-          wget https://github.com/mikefarah/yq/releases/download/v4.27.5/yq_linux_386
-          sudo mv yq_linux_386 /usr/local/bin/yq
-          sudo chmod +x /usr/local/bin/yq
-          git config --global user.email "${{ env.email }}"
-          git config --global user.name "CICD_Pipeline"
-          git clone https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
-          cd OpenQ-Helm/
-          if [ "${{ env.ENVIRONMENT }}" = staging ]; then
-            yq -i '.frontend.image.tag = "${{ github.ref_name }}"' values-staging.yaml
-          fi
-          if [ "${{ env.ENVIRONMENT }}" = production ]; then
-            yq -i '.frontend.image.tag = "${{ github.ref_name }}"' values-production.yaml
-          fi
-          git add .
-          git commit -m "[CIRCLE CI] ${{ github.ref_name }}"
-          git remote set-url origin https://${{ secrets.PAT }}@github.com/openqdev/OpenQ-Helm.git
-          git push
-          git tag -f ${{ github.ref_name }}
-          git push -f origin ${{ github.ref_name }} --tags
+    uses: OpenQDev/OpenQ-Workflows/.github/workflows/tag.yml@main
+    with:
+      APP: frontend
+      VERSION: ${{ github.ref_name }}
+      ENVIRONMENT: development
+    secrets:
+      PAT: ${{ secrets.PAT }}
