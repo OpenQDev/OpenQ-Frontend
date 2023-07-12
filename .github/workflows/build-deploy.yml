@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    outputs:
+      ENVIRONMENT: ${{ steps.extract_environment.outputs.ENVIRONMENT }}
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
@@ -19,6 +21,7 @@ jobs:
         run: |
           ENVIRONMENT=$(echo "${{ github.ref_name }}" | sed 's/-.*//')
           echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_ENV
+          echo "ENVIRONMENT=$ENVIRONMENT" >> $GITHUB_OUTPUT
       - name: Load proper env from secret
         run: |
           if [ "${{ env.ENVIRONMENT }}" = "staging" ]; then
@@ -53,6 +56,6 @@ jobs:
     with:
       APP: frontend
       VERSION: ${{ github.ref_name }}
-      ENVIRONMENT: development
+      ENVIRONMENT: ${{ needs.build.outputs.ENVIRONMENT }}
     secrets:
       PAT: ${{ secrets.PAT }}
