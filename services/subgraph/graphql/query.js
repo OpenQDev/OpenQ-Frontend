@@ -179,7 +179,6 @@ export const GET_BOUNTIES_BY_CONTRACT_ADDRESSES = gql`
       payouts {
         id
       }
-
       deposits {
         id
         refunded

@@ -222,6 +222,16 @@ exports[`Footer > should match DOM Snapshot 1`] = `
           Batch Tax Form Approval
         </span>
       </ForwardRef(LinkComponent)>
+      <ForwardRef(LinkComponent)
+        className=" lg:justify-self-center"
+        href="/batchRefund"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span>
+          Batch Bounty Refund
+        </span>
+      </ForwardRef(LinkComponent)>
     </div>
     <div
       className="flex flex-col lg:flex-row lg:justify-end gap-4"
