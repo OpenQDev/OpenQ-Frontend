@@ -1,25 +1,18 @@
 import React from 'react';
-import Image from 'next/image';
+import StepTwoContent from './elements/step-two-content';
 
-const StepTwo = () => {
+const StepOne = () => {
   return (
     <div>
-      <div className='flex flex-row bg-white text-left items-center pt-44'>
-        <div className='relative pr-44 w-full'>
-          <Image
-            className='top-0 right-0 w-full h-full object-cover'
-            src='/landingpage/drm/devrel/devrel-landingpage-image-4-2.png'
-            alt='Centered Image'
-            width={879}
-            height={693}
-          />
-        </div>
-        <div className='pr-52'>
-          <div className='text-black text-4xl font-extrabold pt-3 w-[44rem]'>
-            Summarize activies from hundreds of projects and quickly grasp what they are working on
+      <div className='flex flex-row space-x-44 justify-center bg-white text-left items-center pt-44'>
+        <StepTwoContent />
+        <div className=''>
+          <div className='text-black text-4xl font-extrabold pt-3 w-[35rem]'>
+            Automating GitHub data retrieval, transforming manual processes into automated tasks
           </div>
           <div className='text-gray-800 text-lg pt-5 w-[35rem]'>
-            What they are doing with it and when they are about to leave. lorem ipsum{' '}
+            Our strategies are aiding you to compare projects - manage your time effectively and pinpoint which projects
+            need immediate attention.
           </div>
         </div>
       </div>
@@ -27,4 +20,4 @@ const StepTwo = () => {
   );
 };
 
-export default StepTwo;
+export default StepOne;

@@ -1,5 +1,7 @@
 import React from 'react';
 import Limitations from './limitations';
+import TableRow from './elements/table-row.jsx';
+import CRMContext from './elements/crm-context';
 
 const DevRelProblems = () => {
   return (
@@ -13,7 +15,21 @@ const DevRelProblems = () => {
         </div>
         <div className='flex flex-row space-x-32 pt-12'>
           <div className='flex flex-col text-left space-y-10'>
-            <div className='p-48 border border-gray-500'></div>
+            <div className='flex flex-row h-[18.4rem]'>
+              <TableRow name={'Name'} cols={['lea', 'Jane', 'Alex', 'Mark', 'Anna']} type={'problem'} />
+
+              <TableRow
+                name={'Status'}
+                cols={['No priority', 'No priority', 'No priority', 'No priority', 'No priority']}
+                type={'problem'}
+              />
+
+              <TableRow
+                name={'Status'}
+                cols={['No status', 'No status', 'No status', 'No status', 'No status']}
+                type={'problem'}
+              />
+            </div>
             <div className='text-xl font-semibold text-black'>Spreadsheet Limitations</div>
             <div className='flex flex-col space-y-3 pt-7'>
               <Limitations text='Time-consuming and labor-intensive' />
@@ -24,7 +40,9 @@ const DevRelProblems = () => {
             </div>
           </div>
           <div className='flex flex-col text-left space-y-10'>
-            <div className='p-48 border border-gray-500'></div>
+            <div>
+              <CRMContext />
+            </div>
             <div className='text-xl font-semibold text-black w-[28rem]'>
               Off-the-shelf CRMs often present challenges in usability and have little use to dev rels.
             </div>

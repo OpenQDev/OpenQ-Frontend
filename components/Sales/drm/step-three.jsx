@@ -7,10 +7,11 @@ const StepThree = () => {
       <div className='flex flex-row bg-white text-left items-center pt-44'>
         <div className='pl-52'>
           <div className='text-black text-4xl font-extrabold pt-3 w-[35rem]'>
-            Not just analytics but also relationship management
+            Centralize and streamline communications with essential projects in a unified interface
           </div>
           <div className='text-gray-800 text-lg pt-5 w-[35rem]'>
-            What they are doing with it and when they are about to leave. lorem ipsum
+            Using AI to immediately comprehend the activities undertaken by the project in the recent months and
+            generate message templates that yield high response rates
           </div>
         </div>
         <div className='relative pl-64 w-full'>
