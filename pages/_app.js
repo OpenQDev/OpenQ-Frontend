@@ -1,10 +1,10 @@
 // Third party Libraries
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { UserContext } from '../lib/UserContext';
 import { Web3ReactProvider } from '@web3-react/core';
 import 'tailwindcss/tailwind.css';
 import 'github-markdown-css/github-markdown-dark.css';
-import { useRouter } from 'next/router';
 import ReactGA from 'react-ga4';
 import { hotjar } from 'react-hotjar';
 import ErrorBoundary from '../components/Layout/ErrorBoundary';
@@ -60,7 +60,12 @@ function OpenQ({ Component, pageProps }) {
       hotjar.identify('USER_ID', { userProperty: 'value' });
     }
   }, []);
+
   const router = useRouter();
+  const route = router.pathname;
+  const whiteBgRoutes = ['/drm', '/marketplace', '/hackathon-launchpad'];
+  const isWhiteBgRoute = whiteBgRoutes.includes(route);
+
   return (
     <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
@@ -110,8 +115,7 @@ function OpenQ({ Component, pageProps }) {
                         <FirstTimeBanner />
                         <Component key={router.asPath} {...pageProps} />
                       </div>
-
-                      <Footer />
+                      <Footer isWhite={isWhiteBgRoute} />
                     </div>
                   </ErrorBoundary>
                 </SetContextState>

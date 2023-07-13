@@ -7,11 +7,11 @@ import GithubRepository from '../../services/github/GithubRepository';
 import TokenClient from '../../services/coins/TokenClient';
 import Logger from '../../services/logger/Logger';
 import OpenQPrismaClient from '../../services/openq-api/OpenQPrismaClient';
-import SuperfluidClient from '../../services/SuperfluidClient/SuperfluidClient';
+/* import SuperfluidClient from '../../services/SuperfluidClient/SuperfluidClient'; */
 
 import MockGithubRepository from '../../services/github/MockGithubRepository';
 import MockOpenQClient from '../../services/ethers/MockOpenQClient';
-import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient';
+/* import MockOpenQSubgraphClient from '../../services/subgraph/MockOpenQSubgraphClient'; */
 import MockTokenClient from '../../services/coins/MockTokenClient';
 import MockOpenQPrismaClient from '../../services/openq-api/MockOpenQPrismaClient';
 import MockAuthService from '../../services/auth/MockAuthService.js';
@@ -24,12 +24,12 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       openQClient: new MockOpenQClient(),
       authService: new MockAuthService(),
       githubRepository: new MockGithubRepository(),
-      openQSubgraphClient: new MockOpenQSubgraphClient(),
+      /*  openQSubgraphClient: new MockOpenQSubgraphClient(), */
       tokenClient: new MockTokenClient(),
       logger: new Logger('DEV'),
       utils: new Utils(),
       openQPrismaClient: new MockOpenQPrismaClient(),
-      superfluidClient: new SuperfluidClient(),
+      /*  superfluidClient: new SuperfluidClient(), */
     };
     break;
   case 'docker':
@@ -43,7 +43,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       logger: new Logger('DEV'),
       utils: new Utils(),
       openQPrismaClient: new OpenQPrismaClient(),
-      superfluidClient: new SuperfluidClient(),
+      /*  superfluidClient: new SuperfluidClient(), */
     };
     break;
   case 'development':
@@ -57,7 +57,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       logger: new Logger('DEV'),
       utils: new Utils(),
       openQPrismaClient: new OpenQPrismaClient(),
-      superfluidClient: new SuperfluidClient(),
+      /*  superfluidClient: new SuperfluidClient(), */
     };
     break;
   case 'staging':
@@ -71,7 +71,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       logger: new Logger('DEV'),
       utils: new Utils(),
       openQPrismaClient: new OpenQPrismaClient(),
-      superfluidClient: new SuperfluidClient(),
+      /*  superfluidClient: new SuperfluidClient(), */
     };
     break;
   case 'production':
@@ -85,7 +85,7 @@ switch (process.env.NEXT_PUBLIC_DEPLOY_ENV) {
       logger: new Logger('PROD'),
       utils: new Utils(),
       openQPrismaClient: new OpenQPrismaClient(),
-      superfluidClient: new SuperfluidClient(),
+      /*  superfluidClient: new SuperfluidClient(), */
     };
     break;
   default:

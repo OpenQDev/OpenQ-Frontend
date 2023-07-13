@@ -39,12 +39,7 @@ pre {
   height: 100%;
   width: 25%;
   background-repeat: no-repeat;
-  background-image: linear-gradient(
-    90deg,
-    var(--base-color),
-    #58585833,
-    var(--base-color)
-  );
+  background-image: linear-gradient(90deg, var(--base-color), #58585833, var(--base-color));
   transform: translateX(-50%);
   animation-name: react-loading-skeleton;
   animation-direction: left;
@@ -81,54 +76,53 @@ pre {
 @layer base {
   body {
     @apply w-screen overflow-x-hidden bg-dark-mode;
-  }, 
-	@font-face {
-		font-family: Collegiate;
-		src: url(/fonts/Collegiate.ttf) format("​truetype​") or ttf;
-	}
-  
+  }
+  ,
+  @font-face {
+    font-family: Collegiate;
+    src: url(/fonts/Collegiate.ttf) format('​truetype​') or ttf;
+  }
 }
 
 @layer components {
+  /* GitHub Styles */
 
-	/* GitHub Styles */
-
-	.input-field {
-		@apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder:text-muted outline-none rounded-sm border border-border-gray bg-input-bg focus-within:border-blue-400
-	}
-  .note{
-    @apply text-[0.75rem] text-muted mt-0.5 leading-4
+  .input-field {
+    @apply py-[4px] px-3 text-[0.75rem] tracking-wider placeholder:text-muted outline-none rounded-sm border border-border-gray bg-input-bg focus-within:border-blue-400;
   }
-	.input-field-big {
-		@apply py-[5px] sm:pl-8 pl-2  pr-2 sm:pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder:text-muted rounded-sm outline-none border border-border-gray bg-input-bg focus-within:border-blue-400
-	}
-	.nav-link{
-	@apply flex text-[0.8rem] md:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pb-2 md:pb-0 md:pt-0 md:border-none border-b border-web-gray
-	}
-  .btn-requirements{
-		@apply bg-claim border border-claim rounded-sm px-3 py-0.5 hover:bg-blue-600 text-white
-	}
-  .btn-processing{
-		@apply bg-[#A095EB] border border-[#A095EB] rounded-sm px-3 py-0.5 text-white
-	}
-	.btn-primary{
-		@apply bg-green border border-green rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white
-	}
-  .btn-primary-disabled{
-		@apply bg-green border border-green rounded-sm px-3 py-1 text-white
-	}
-	.btn-default{
-		@apply rounded-sm px-3 py-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e]
-	}
-	.btn-default-disabled{
-		@apply rounded-sm px-3 py-1 bg-[#21262d] border border-gray-700 
-	}
-	.btn-danger{
-		@apply text-[#f85149] hover:text-white rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#da3633] active:bg-[#b62324] border border-[rgba(240,246,252,0.1)] hover:border-[#f85149] active:border-[#ff7b72]
-	}
-	.btn-card{
-		@apply bg-inactive-gray py-1 px-2 border-web-gray border rounded-sm text-xs text-primary
-	}
+  .note {
+    @apply text-[0.75rem] text-muted mt-0.5 leading-4;
+  }
+  .input-field-big {
+    @apply py-[5px] sm:pl-8 pl-2  pr-2 sm:pr-3 text-[0.75rem] tracking-wider leading-[20px] h-min placeholder:text-muted rounded-sm outline-none border border-border-gray bg-input-bg focus-within:border-blue-400;
+  }
+  .nav-link {
+    @apply flex text-[0.8rem] md:mx-2 hover:text-primary text-muted font-bold hover:cursor-pointer pb-2 md:pb-0 md:pt-0 md:border-none border-b border-web-gray;
+  }
+  .btn-requirements {
+    @apply bg-claim border border-claim rounded-sm px-3 py-0.5 hover:bg-blue-600 text-white;
+  }
+  .btn-processing {
+    @apply bg-[#A095EB] border border-[#A095EB] rounded-sm px-3 py-0.5 text-white;
+  }
+  .btn-primary {
+    @apply bg-green border border-green rounded-sm px-3 py-1 hover:bg-[#2ea043] text-white;
+  }
+  .btn-primary-disabled {
+    @apply bg-green border border-green rounded-sm px-3 py-1 text-white;
+  }
+  .btn-default {
+    @apply rounded-sm px-3 py-1 bg-[#21262d] hover:bg-[#30363d] border border-gray-700 hover:border-[#8b949e];
+  }
+  .btn-default-disabled {
+    @apply rounded-sm px-3 py-1 bg-[#21262d] border border-gray-700;
+  }
+  .btn-danger {
+    @apply text-[#f85149] hover:text-white rounded-sm px-3 p-1 bg-[#21262d] hover:bg-[#da3633] active:bg-[#b62324] border border-[rgba(240,246,252,0.1)] hover:border-[#f85149] active:border-[#ff7b72];
+  }
+  .btn-card {
+    @apply bg-inactive-gray py-1 px-2 border-web-gray border rounded-sm text-xs text-primary;
+  }
   .layer-button {
     @apply rounded-lg border-2 border-gray-300 py-2 px-3 text-base font-bold cursor-pointer border-blue-400 text-gray-800 hover:bg-blue-400 hover:text-white;
   }
@@ -153,15 +147,15 @@ pre {
   .checkbox {
     @apply h-6 bg-zinc-700 appearance-none w-4 h-4 checked:bg-blue-300 checked:bg-[url('/checkbox.svg')] checked:hover:bg-blue-200 focus:outline-none border border-zinc-400 hover:border-zinc-300 checked:border-none rounded m-1;
   }
-	.tooltip {
-		@apply text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm
-	}
-	.tooltip-triangle {
-		@apply content-none block w-0 h-0 absolute border-x-[18px] border-x-transparent border-b-[18px] border-b-[#6e7781] 
-	}	
-	.break-word{
-		word-break: break-word;
-	}
+  .tooltip {
+    @apply text-xs font-semibold whitespace-nowrap m-2 px-0.5 py-0.5 bg-[#6e7781] border border-solid border-4 border-transparent text-center rounded-sm;
+  }
+  .tooltip-triangle {
+    @apply content-none block w-0 h-0 absolute border-x-[18px] border-x-transparent border-b-[18px] border-b-[#6e7781];
+  }
+  .break-word {
+    word-break: break-word;
+  }
 }
 
 .size-9 * {
@@ -298,7 +292,7 @@ pre {
 }
 
 body::-webkit-scrollbar {
-  width:12px;
+  width: 12px;
   height: 12px;
 }
 ::-webkit-scrollbar {
@@ -369,4 +363,19 @@ body::-webkit-scrollbar {
 
 .explore .custom-scrollbar-vertical::-webkit-scrollbar-thumb {
   border-right: none;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter-text {
+  animation: typing 3s steps(30) forwards;
+  overflow: hidden;
+  white-space: nowrap;
 }
