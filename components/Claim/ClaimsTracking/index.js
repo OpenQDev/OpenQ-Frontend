@@ -128,7 +128,7 @@ const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
             if (result?.data?.nodes) {
               const addArray = result.data.nodes.filter((item) => item !== null);
               allWinners = [...allWinners, ...addArray];
-							console.log('allWinners', allWinners)
+              console.log('allWinners', allWinners);
             }
           } catch (err) {
             appState[0].logger.error(err, 'ClaimsTracking.js1');
