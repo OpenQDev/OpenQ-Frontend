@@ -5,16 +5,16 @@ import RightAnim from '../../animations/rightAnim';
 
 const DevRelHero = () => {
   return (
-    <div className=' bg-white pt-16'>
-      <div className='flex flex-row items-center justify-between'>
-        <div className='mt-48 ml-44'>
+    <div className='bg-white'>
+      <div className='flex justify-center pt-12 mr-[24rem]'>
+        <UpperAnim />
+      </div>
+      <div className='flex flex-row items-center justify-center -ml-[26rem]'>
+        <div className=''>
           <LeftAnim />
         </div>
-        <div className='flex flex-col justify-content-center items-center '>
-          <div className=''>
-            <UpperAnim />
-          </div>
-          <div className='flex flex-col justify-center items-center text-center'>
+        <div className='flex flex-col justify-content-center items-center -ml-[7rem]'>
+          <div className='flex flex-col justify-center items-center text-center '>
             <div className='text-gray-400 text-sm font-normal'>Developer Relationship Management Platform</div>
             <div className='text-black text-4xl font-extrabold pt-3 w-[40rem]'>
               Supercharge developer relations without manual work.
@@ -25,9 +25,9 @@ const DevRelHero = () => {
             </div>
           </div>
         </div>
-        <div className='mt-48 mr-44'>
-          <RightAnim />
-        </div>
+      </div>
+      <div className='flex justify-center ml-[30rem] -mt-6'>
+        <RightAnim />
       </div>
     </div>
   );
