@@ -1,10 +1,10 @@
-# OpenQ-Frontend 
- 
+# OpenQ-Frontend
+
 ## Boot Locally
 
 If the work you are engaged in doesn't require the Fullstack, you can boot just the OpenQ-Frontend by following these instructions. We normally work on the 'staging' branch, so make sure have all latest changes from it and do your Pull Requests to 'staging' unless instructed otherwise.
 
-Note: the instructions should work if you are using Mac OS, Linux, but if you are on Windows, make sure to be using (Windows Sublinux System (WSL))[https://learn.microsoft.com/en-us/windows/wsl/install]. 
+Note: the instructions should work if you are using Mac OS, Linux, but if you are on Windows, make sure to be using (Windows Sublinux System (WSL))[https://learn.microsoft.com/en-us/windows/wsl/install].
 
 ### 1 Get the right .env variables
 
@@ -26,6 +26,13 @@ yarn json-server
 ### 3 Boot the App
 
 ```bash
+For Powershell Users:
+$env:DEPLOY_ENV = "staging"
+
+yarn next dev
+
+OR
+
 yarn boot:local-targeting-staging
 ```
 
