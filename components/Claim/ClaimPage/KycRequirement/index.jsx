@@ -57,12 +57,12 @@ const KycRequirement = ({ setKycVerified }) => {
       try {
         if (!window?.ethereum) {
           try {
-						const kycLibrary = await getWalletConnectProvider();
-						await kycLibrary.enable();
-						provider = kycLibrary;
-					} catch (error) {
-						console.error('KycRequirement.1 error: ', error);
-					}
+            const kycLibrary = await getWalletConnectProvider();
+            await kycLibrary.enable();
+            provider = kycLibrary;
+          } catch (error) {
+            console.error('KycRequirement.1 error: ', error);
+          }
         } else {
           provider = window.ethereum;
         }

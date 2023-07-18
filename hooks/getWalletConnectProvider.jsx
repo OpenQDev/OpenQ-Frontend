@@ -6,6 +6,7 @@ const getWalletConnectProvider = () => {
 			const wcProvider = await EthereumProvider.init({
 				projectId: 'a6cc11517a10f6f12953fd67b1eb67e7',
 				chains: [137],
+				showQrModal: false
 			});
 		
 			return resolve(wcProvider);
