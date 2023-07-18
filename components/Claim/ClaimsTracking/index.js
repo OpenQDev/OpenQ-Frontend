@@ -11,7 +11,7 @@ import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import useIsOnCorrectNetwork from '../../../hooks/useIsOnCorrectNetwork';
 
 const ClaimsTracking = ({ fetchFilters, TVLBalances, payoutBalances }) => {
-  const { account, chainId, error } = useWeb3(true);
+  const { account, chainId, error } = useWeb3();
   const [appState] = useContext(StoreContext);
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
     chainId: chainId,

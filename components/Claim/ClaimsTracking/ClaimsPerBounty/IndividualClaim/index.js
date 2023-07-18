@@ -23,7 +23,7 @@ const IndividualClaim = ({
   const modalRef = useRef();
   const buttonRef = useRef();
   const [showAccountModal, setShowAccountModal] = useState();
-  const { chainId, library, account, error } = useWeb3(true);
+  const { chainId, library, account, error } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork({
     chainId: chainId,
     error: error,
