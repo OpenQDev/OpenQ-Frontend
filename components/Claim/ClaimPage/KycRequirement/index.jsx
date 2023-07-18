@@ -56,7 +56,7 @@ const KycRequirement = ({ setKycVerified }) => {
       let provider;
       try {
         if (!window?.ethereum) {
-					const kycLibrary = await getWalletConnectProvider();
+          const kycLibrary = await getWalletConnectProvider();
           await kycLibrary.enable();
           provider = kycLibrary;
         } else {
