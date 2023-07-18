@@ -5,6 +5,7 @@ import TableRow from './table-row.jsx';
 const StepTwoContent = () => {
   const [tableData, setTableData] = useState(null);
   const [, setIsVisibleStates] = useState([false, false, false, false, false, false, false]);
+
   const parentRef = useRef(null);
 
   useEffect(() => {
