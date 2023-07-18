@@ -1,6 +1,7 @@
 import React from 'react';
 import UpperAnim from '../../animations/UpperAnim';
 import LeftAnim from '../../animations/LeftAnim';
+import RightAnim from '../../animations/rightAnim';
 
 const DevRelHero = () => {
   return (
@@ -25,7 +26,7 @@ const DevRelHero = () => {
           </div>
         </div>
         <div className='mt-48 mr-44'>
-          <LeftAnim />
+          <RightAnim />
         </div>
       </div>
     </div>
