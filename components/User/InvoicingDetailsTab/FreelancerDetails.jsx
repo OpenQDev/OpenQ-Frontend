@@ -133,7 +133,7 @@ const FreelancerDetails = ({ slim, emailOnly }) => {
               )}
             </h2>
           </div>
-          {!emailOnly && <div className='note'>Not needed for EthDenver.</div>}
+          {!emailOnly && <div className='note'>May not be needed for your hackathon!</div>}
         </>
       )}
       {showPreview ? (
