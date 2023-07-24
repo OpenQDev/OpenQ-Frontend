@@ -102,7 +102,7 @@ exports[`FirstSignupModal > should match initial DOM Snapshot 1`] = `
                 <p
                   class="py-2"
                 >
-                  If you're coming here as an EthDenver Buidlathon winner, congratulations!
+                  If you're coming here as a hackathon winner, congratulations!
                 </p>
                 <p
                   class="py-2"
@@ -117,7 +117,7 @@ exports[`FirstSignupModal > should match initial DOM Snapshot 1`] = `
                 <p
                   class="py-2"
                 >
-                  OpenQ and EthDenver will use this email to tell you when you uploaded forms have been approved, after which you can claim right away.
+                  OpenQ and the hackathon organizer will use this email to tell you when you uploaded forms have been approved, after which you can claim right away.
                 </p>
               </div>
               <section
