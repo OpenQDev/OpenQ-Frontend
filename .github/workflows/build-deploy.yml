@@ -48,6 +48,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: openq/openq-frontend:${{ github.ref_name }}
+          cache-from: type=registry,ref=user/app:latest
+          cache-to: type=inline
           build-args: |
             "deploy_env=${{ env.ENVIRONMENT }}"
   tagHelm:
