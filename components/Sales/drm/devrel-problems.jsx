@@ -1,7 +1,7 @@
 import React from 'react';
 import Limitations from './limitations';
 import TableRow from './elements/table-row.jsx';
-import CRMContext from './elements/crm-context';
+import CRMContextTwo from './elements/crm-context-2';
 
 const DevRelProblems = () => {
   return (
@@ -41,7 +41,7 @@ const DevRelProblems = () => {
           </div>
           <div className='flex flex-col text-left space-y-10'>
             <div>
-              <CRMContext />
+              <CRMContextTwo />
             </div>
             <div className='text-xl font-semibold text-black w-[28rem]'>
               Off-the-shelf CRMs often present challenges in usability and have little use to dev rels.

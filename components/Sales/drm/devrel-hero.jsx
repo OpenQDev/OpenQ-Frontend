@@ -1,7 +1,7 @@
 import React from 'react';
 import UpperAnim from '../../animations/UpperAnim';
 import LeftAnim from '../../animations/LeftAnim';
-import RightAnim from '../../animations/rightAnim';
+import RightAnim from '../../animations/RightAnim';
 
 const DevRelHero = () => {
   return (

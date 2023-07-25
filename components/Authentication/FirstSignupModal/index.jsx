@@ -102,12 +102,12 @@ const FirstSignupModal = ({ closeModal, setShowModal, user }) => {
       <div className='mx-4 p-4'>
         <div>
           <p className='text-2xl font-semibold  py-2'>Hello {authState.login}</p>
-          <p className='py-2'>If you're coming here as an EthDenver Buidlathon winner, congratulations!</p>
+          <p className='py-2'>If you're coming here as a hackathon winner, congratulations!</p>
           <p className='py-2'>Let's get you paid.</p>
           <p className='py-2'>Enter your email to stay up to date with next steps in claiming your award.</p>
           <p className='py-2'>
-            OpenQ and EthDenver will use this email to tell you when you uploaded forms have been approved, after which
-            you can claim right away.
+            OpenQ and the hackathon organizer will use this email to tell you when you uploaded forms have been
+            approved, after which you can claim right away.
           </p>
         </div>
         <section className='flex flex-col gap-3 pb-6'>

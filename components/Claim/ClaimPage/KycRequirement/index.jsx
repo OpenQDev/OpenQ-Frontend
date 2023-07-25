@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import useIsOnCorrectNetwork from '../../../../hooks/useIsOnCorrectNetwork';
+import getWalletConnectProvider from '../../../../hooks/getWalletConnectProvider';
 import useWeb3 from '../../../../hooks/useWeb3';
 import StoreContext from '../../../../store/Store/StoreContext';
 import LoadingIcon from '../../../Loading/ButtonLoadingIcon';
@@ -14,7 +15,7 @@ const KycRequirement = ({ setKycVerified }) => {
   const [successResponse, setSuccessResponse] = useState(null);
   const [error, setError] = useState('');
   const [appState] = useContext(StoreContext);
-  const { chainId, account, library, kycLibrary } = useWeb3(true);
+  const { chainId, account, library } = useWeb3();
   const [isOnCorrectNetwork] = useIsOnCorrectNetwork();
   const disabled = stage == 'processing' || stage == 'verified';
 
@@ -55,8 +56,13 @@ const KycRequirement = ({ setKycVerified }) => {
       let provider;
       try {
         if (!window?.ethereum) {
-          await kycLibrary.enable();
-          provider = kycLibrary;
+          try {
+            const kycLibrary = await getWalletConnectProvider();
+            await kycLibrary.enable();
+            provider = kycLibrary;
+          } catch (error) {
+            console.error('KycRequirement.1 error: ', error);
+          }
         } else {
           provider = window.ethereum;
         }
