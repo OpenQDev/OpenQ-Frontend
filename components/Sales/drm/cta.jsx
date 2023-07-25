@@ -9,7 +9,7 @@ const Cta = () => {
           Shaped by valuable feedback from over a hundred companies. Join the closed beta waitlist and embrace the
           future of dev rel
         </div>
-        <div className='text-gray-800 text-lg pt-5 w-[35rem]'>
+        <div className='text-gray-800 text-lg pt-5 max-w-[35rem]'>
           OpenQ is already helping teams just like yours to manage their developer community. Let us help you next.
         </div>
         <div className='flex flex-row justify-center items center space-x-10 pt-10'>

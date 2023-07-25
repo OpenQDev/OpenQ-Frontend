@@ -6,7 +6,7 @@ import RightAnim from '../../animations/RightAnim';
 const DevRelHero = () => {
   return (
     <div className='bg-white'>
-      <div className='flex justify-center pt-12 lg:mr-[24rem]'>
+      <div className='flex justify-center pt-12 lg:mr-[24rem] overflow-hidden'>
         <UpperAnim />
       </div>
       <div className='grid xl:grid-cols-[1fr_1fr_1fr] justify-center justify-items-center w-full '>
@@ -26,7 +26,7 @@ const DevRelHero = () => {
           </div>
         </div>
       </div>
-      <div className='flex justify-center lg:ml-[30rem] lg:-mt-6'>
+      <div className='flex justify-center lg:ml-[30rem] lg:-mt-6 overflow-hidden'>
         <RightAnim />
       </div>
     </div>

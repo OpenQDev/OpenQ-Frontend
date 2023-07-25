@@ -9,10 +9,10 @@ const DevRelCore = () => {
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.
       </div>
-      <div className='relative container mx-auto lg:px-4 pb-64 pt-10'>
-        <div className='flex justify-center items-center border border-gray-300 rounded-lg shadow-custom my-4'>
+      <div className='relative container overflow-hidden mx-auto lg:px-4 pb-64 pt-10'>
+        <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4'>
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-2.png'
             alt='Centered Image'
             width={1707}
@@ -23,11 +23,11 @@ const DevRelCore = () => {
           />
         </div>
         <div
-          className='absolute md:top-1/2 top-40 right-0 border border-gray-300 rounded-lg opacity-80'
+          className='absolute md:top-1/2 top-40 right-0 border border-gray-300 rounded-sm md:rounded-lg opacity-80'
           style={{ transform: 'translateX(30%) translateY(-25%)' }}
         >
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-1.png'
             alt='Right Float Image'
             width={853}
@@ -35,11 +35,11 @@ const DevRelCore = () => {
           />
         </div>
         <div
-          className='absolute md:top-1/2 top-40 right-0 rounded-lg'
+          className='absolute md:top-1/2 top-40 right-0 rounded-sm md:rounded-lg'
           style={{ transform: 'translateX(30%) translateY(-25%)' }}
         >
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-1-2.png'
             alt='Right Float Image'
             width={853}
