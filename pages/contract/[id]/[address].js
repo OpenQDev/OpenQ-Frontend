@@ -53,9 +53,9 @@ const Address = ({ address, mergedBounty, renderError }) => {
   const createRewardSplit = (bounty) => {
     return bounty.payoutTokenVolume
       ? {
-        tokenAddress: bounty.payoutTokenAddress,
-        volume: bounty.payoutTokenVolume,
-      }
+          tokenAddress: bounty.payoutTokenAddress,
+          volume: bounty.payoutTokenVolume,
+        }
       : null;
   };
   const splitObj = useMemo(() => createRewardSplit(bounty), [bounty]);
@@ -287,10 +287,10 @@ const Address = ({ address, mergedBounty, renderError }) => {
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}
                 {internalMenu == 'Admin' &&
-                  // eslint-disable-next-line prettier/prettier
+                // eslint-disable-next-line prettier/prettier
                   bounty &&
-                  bounty?.issuer?.id &&
-                  ethers.utils.getAddress(bounty.issuer.id) == account ? (
+                bounty?.issuer?.id &&
+                ethers.utils.getAddress(bounty.issuer.id) == account ? (
                   <AdminPage bounty={bounty} refreshBounty={refreshBounty} />
                 ) : null}
                 {internalMenu == 'Submissions' && bounty?.payoutSchedule ? (
