@@ -5,7 +5,7 @@ const Cta = () => {
   return (
     <div>
       <div className='flex flex-col bg-white justify-center items-center text-center pt-44'>
-        <div className='text-black text-4xl font-extrabold pt-3 w-[60rem]'>
+        <div className='text-black text-4xl font-extrabold pt-3 max-w-[60rem]'>
           Shaped by valuable feedback from over a hundred companies. Join the closed beta waitlist and embrace the
           future of dev rel
         </div>

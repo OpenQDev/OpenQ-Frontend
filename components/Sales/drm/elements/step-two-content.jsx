@@ -123,7 +123,7 @@ const StepTwoContent = () => {
   }
 
   return (
-    <div ref={parentRef} className='h-[45rem] w-[60rem] border border-gray-300 rounded-md'>
+    <div ref={parentRef} className='h-[45rem] max-w-[60rem]  sm:w-full sm:border border-gray-300 sm:rounded-md'>
       <div className='p-10'>
         <SubMenu />
         <div className='border-b border-gray-300 pt-2'></div>
@@ -178,11 +178,15 @@ const StepTwoContent = () => {
               <TableRow name={'Name'} cols={tableData.name} type={'name'} />
               <TableRow name={'Status'} cols={tableData.status} type={'status'} />
               <TableRow name={'Priority'} cols={tableData.priority} type={'priority'} />
-              <TableRow name={'Owner'} cols={tableData.owner} type={'owner'} />
-              <TableRow name={'Description'} cols={tableData.description} type={'description'} />
-              <TableRow name={'Activity'} cols={tableData.activity} type={'activity'} />
-              <TableRow name={'Skill'} cols={tableData.skill} type={'skill'} />
-              <TableRow name={'empty'} cols={tableData.empty} type={'empty'} />
+              <TableRow className='hidden 2xl:block' name={'Owner'} cols={tableData.owner} type={'owner'} />
+              <TableRow
+                className='hidden 2xl:block'
+                name={'Description'}
+                cols={tableData.description}
+                type={'description'}
+              />
+              <TableRow className='hidden 2xl:block' name={'Activity'} cols={tableData.activity} type={'activity'} />
+              <TableRow className='hidden 3xl:block' name={'Skill'} cols={tableData.skill} type={'skill'} />
             </div>
             <div className='bg-[#F2F2F2]  border-l border-b border-gray-300 py-[4.75rem]'></div>
           </div>

@@ -6,24 +6,22 @@ import CRMContextTwo from './elements/crm-context-2';
 const DevRelProblems = () => {
   return (
     <div>
-      <div className='flex flex-col bg-white justify-center items-center text-center pt-10'>
-        <div className='text-black text-4xl font-extrabold pt-3 w-[59rem]'>
+      <div className='flex flex-col bg-white justify-center items-center text-center pt-10 px-2'>
+        <div className='text-black text-4xl font-extrabold pt-3 max-w-[59rem]'>
           Companies are investing significant resources in developer communities without gaining insights into their ROI
         </div>
-        <div className='text-gray-800 text-lg pt-5 w-[29rem]'>
+        <div className='text-gray-800 text-lg pt-5 max-w-[29rem]'>
           Manual methods or systems aren’t fit for this purpose.
         </div>
-        <div className='flex flex-row space-x-32 pt-12'>
+        <div className='flex flex-col md:flex-row  gap-32 pt-12'>
           <div className='flex flex-col text-left space-y-10'>
             <div className='flex flex-row h-[18.4rem]'>
               <TableRow name={'Name'} cols={['lea', 'Jane', 'Alex', 'Mark', 'Anna']} type={'problem'} />
-
               <TableRow
                 name={'Status'}
                 cols={['No priority', 'No priority', 'No priority', 'No priority', 'No priority']}
                 type={'problem'}
               />
-
               <TableRow
                 name={'Status'}
                 cols={['No status', 'No status', 'No status', 'No status', 'No status']}
@@ -43,7 +41,7 @@ const DevRelProblems = () => {
             <div>
               <CRMContextTwo />
             </div>
-            <div className='text-xl font-semibold text-black w-[28rem]'>
+            <div className='text-xl font-semibold text-black max-w-[24rem]'>
               Off-the-shelf CRMs often present challenges in usability and have little use to dev rels.
             </div>
             <div className='flex flex-col space-y-3'>

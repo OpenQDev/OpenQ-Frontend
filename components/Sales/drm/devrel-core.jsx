@@ -23,7 +23,7 @@ const DevRelCore = () => {
           />
         </div>
         <div
-          className='absolute lg:top-1/2 right-0 border border-gray-300 rounded-lg opacity-80'
+          className='absolute md:top-1/2 top-40 right-0 border border-gray-300 rounded-lg opacity-80'
           style={{ transform: 'translateX(30%) translateY(-25%)' }}
         >
           <Image
@@ -34,7 +34,10 @@ const DevRelCore = () => {
             height={512}
           />
         </div>
-        <div className='absolute top-1/2 right-0 rounded-lg' style={{ transform: 'translateX(30%) translateY(-25%)' }}>
+        <div
+          className='absolute md:top-1/2 top-40 right-0 rounded-lg'
+          style={{ transform: 'translateX(30%) translateY(-25%)' }}
+        >
           <Image
             className='rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-1-2.png'

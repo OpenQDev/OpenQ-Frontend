@@ -9,9 +9,6 @@
     background: #f3f3f3;
   }
 }
-*{
-border: red solid 1px
-}
 .markdown-body ol {
   list-style-type: auto;
 }
@@ -60,7 +57,6 @@ pre {
     transform: translateX(-100%);
   }
 }
-
 .react-loading-skeleton {
   background-color: var(--base-color);
   width: 100%;
