@@ -4,9 +4,9 @@ import Image from 'next/image';
 const StepThree = () => {
   return (
     <div>
-      <div className='flex flex-col px-4 md:px-16  lg:flex-row bg-white text-left items-center pt-44 2xl:gap-64 xl:gap-48 gap-16'>
+      <div className='flex flex-col px-4 md:px-16  lg:flex-row bg-white text-center lg:text-left items-center 2xl:gap-64 xl:gap-48 lg:gap-16 gap-8'>
         <div className='2xl:pl-52'>
-          <div className='text-black text-4xl font-extrabold pt-3 max-[35rem]'>
+          <div className='text-black text-4xl font-extrabold max-w-[35rem]'>
             Centralize and streamline communications with essential projects in a unified interface
           </div>
           <div className='text-gray-800 text-lg pt-5 max-w-[35rem]'>

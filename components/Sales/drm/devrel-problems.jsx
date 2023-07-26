@@ -5,17 +5,17 @@ import CRMContextTwo from './elements/crm-context-2';
 
 const DevRelProblems = () => {
   return (
-    <div>
-      <div className='flex flex-col bg-white justify-center items-center text-center pt-10 px-2'>
-        <div className='text-black text-4xl font-extrabold pt-3 max-w-[59rem]'>
+    <div className=''>
+      <div className='flex flex-col  justify-center items-center text-center  gap-8 px-8'>
+        <div className='text-black text-4xl font-extrabold max-w-[59rem]'>
           Companies are investing significant resources in developer communities without gaining insights into their ROI
         </div>
-        <div className='text-gray-800 text-lg pt-5 max-w-[29rem]'>
+        <div className='text-gray-800 text-lg max-w-[29rem]'>
           Manual methods or systems aren’t fit for this purpose.
         </div>
-        <div className='flex flex-col md:flex-row  gap-32 pt-12'>
-          <div className='flex flex-col text-left space-y-10'>
-            <div className='flex flex-row h-[18.4rem]'>
+        <div className='flex flex-col md:flex-row gap-16  md:gap-32'>
+          <div className='flex flex-col text-left gap-y-4'>
+            <div className='flex flex-row h-[17.2rem]'>
               <TableRow name={'Name'} cols={['lea', 'Jane', 'Alex', 'Mark', 'Anna']} type={'problem'} />
               <TableRow
                 name={'Status'}
@@ -29,7 +29,7 @@ const DevRelProblems = () => {
               />
             </div>
             <div className='text-xl font-semibold text-black'>Spreadsheet Limitations</div>
-            <div className='flex flex-col space-y-3 pt-7'>
+            <div className='flex flex-col space-y-3 '>
               <Limitations text='Time-consuming and labor-intensive' />
               <Limitations text='Challenging to manage effectively' />
               <Limitations text='Provides static, outdated information' />
@@ -37,7 +37,7 @@ const DevRelProblems = () => {
               <Limitations text='Does not offer built-in real-time communication ' />
             </div>
           </div>
-          <div className='flex flex-col text-left space-y-10'>
+          <div className='flex flex-col text-left gap-y-8 '>
             <div>
               <CRMContextTwo />
             </div>

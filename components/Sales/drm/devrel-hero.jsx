@@ -5,7 +5,7 @@ import RightAnim from '../../animations/RightAnim';
 
 const DevRelHero = () => {
   return (
-    <div className='bg-white'>
+    <div className=''>
       <div className='flex justify-center pt-12 lg:mr-[24rem] overflow-hidden'>
         <UpperAnim />
       </div>
@@ -14,7 +14,7 @@ const DevRelHero = () => {
           <LeftAnim />
         </div>
         <div className='flex flex-col justify-content-center items-center '>
-          <div className='flex flex-col justify-center items-center text-center '>
+          <div className='flex flex-col justify-center items-center text-center px-8'>
             <div className='text-gray-400 text-sm font-normal'>Developer Relationship Management Platform</div>
             <div className='text-black text-4xl font-extrabold pt-3 md:w-[40rem]'>
               Supercharge developer relations without manual work.

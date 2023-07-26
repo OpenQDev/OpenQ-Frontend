@@ -39,7 +39,7 @@ const StepOne = () => {
   }, [isSticky, showAlternateText]);
 
   return (
-    <div className={`flex flex-row bg-white text-left items-start pt-44 ${isSticky ? 'sticky' : ''}`} ref={sectionRef}>
+    <div className={`flex flex-row bg-white text-left items-start  ${isSticky ? 'sticky' : ''}`} ref={sectionRef}>
       <div className={`pl-52 text-transition ${showAlternateText ? 'fade-in' : ''}`}>
         <div className='text-black text-4xl font-extrabold pt-3 w-[35rem]'>
           {showAlternateText

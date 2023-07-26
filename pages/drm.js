@@ -17,7 +17,7 @@ const DRM = () => {
       <div className='sticky top-0 z-50'>
         <Subnav />
       </div>
-      <div className='flex-col flex md:gap-48 gap-24 bg-white '>
+      <div className='flex-col flex md:gap-48 gap-12 bg-white overflow-hidden'>
         <DevRelHero />
         <DevRelCore />
         <DevRelProblems />

@@ -123,11 +123,11 @@ const StepTwoContent = () => {
   }
 
   return (
-    <div ref={parentRef} className='h-[45rem] max-w-[60rem]  sm:w-full sm:border border-gray-300 sm:rounded-md'>
-      <div className='p-10'>
+    <div ref={parentRef} className='sm:h-[45rem]  max-w-[60rem] w-full sm:border pt-3 border-gray-300 sm:rounded-md'>
+      <div className='sm:p-10'>
         <SubMenu />
         <div className='border-b border-gray-300 pt-2'></div>
-        <div className='pt-5'>
+        <div className=''>
           <div className=''>
             <div className='flex flex-row justify-between items-center'>
               <div className='flex flex-col'>

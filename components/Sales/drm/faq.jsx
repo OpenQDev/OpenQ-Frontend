@@ -4,7 +4,7 @@ import FaqQuestion from './faq-questions';
 const Faq = () => {
   return (
     <div className=''>
-      <div className='flex flex-col px-4 bg-white justify-center items-center text-center pb-20 pt-44'>
+      <div className='flex flex-col px-8 bg-white justify-center items-center text-center pb-20'>
         <div className='text-black text-4xl font-extrabold pt-3'>Frequently</div>
         <div className='text-black text-4xl font-extrabold pt-3 pb-12'>asked questions</div>
         <div>
