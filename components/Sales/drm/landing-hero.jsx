@@ -29,15 +29,16 @@ export default function Header() {
           businesses thrive
         </h1>
         <p className='text-center max-w-md mx-auto md:mx-0 text-zinc-400 mb-5 text-xl md:text-3xl md:max-w-xl md:text-left mt-5'>
-          Join the ultimate hub for builders and turn your ideas into reality.
+          Engineered for efficiency. Constructed for partnership. Renowned for data-driven insights. Igniting the new
+          phase of tech.
         </p>
       </div>
       <Image
-        className='opacity-10 md:opacity-30 xl:opacity-100 absolute xl:static -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 max-w-[350px] sm:max-w-none sm:min-w-[450px]'
-        src='/explore/planet.png'
+        className='opacity-10 -mx-32 md:opacity-30 my-10 xl:opacity-100 absolute xl:static -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 max-w-[350px] sm:max-w-none sm:min-w-[450px]'
+        src='/landingpage/hero-image.png'
         alt='explore planet'
-        width={571}
-        height={587}
+        width={800}
+        height={510}
         priority={true}
       />
     </header>
