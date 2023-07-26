@@ -127,6 +127,91 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
 
   // trigger smart contracts
 
+	async function disableKYC() {
+		setModal({ type: 'Loading', inProgress: 'Disabling KYC...' });
+		try {
+			setIsLoading(true);
+
+			let transaction;
+
+			transaction = await openQClient.setKycRequired(library, bounty.bountyId, false);
+			refreshBounty();
+			setModal({
+				transaction,
+				type: 'KYC',
+			});
+		} catch (error) {
+			logger.error(error, accountData.id, 'adminPage3');
+			const { message, title } = openQClient.handleError(error, {
+				bounty,
+			});
+
+			setModal({
+				type: 'Error',
+				message,
+				title,
+			});
+		}
+		setIsLoading(false);
+	}
+
+	async function disableInvoice() {
+		setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
+		try {
+			setIsLoading(true);
+
+			let transaction;
+
+			transaction = await openQClient.setInvoiceRequired(library, bounty.bountyId, false);
+			refreshBounty();
+			setModal({
+				transaction,
+				type: 'KYC',
+			});
+		} catch (error) {
+			logger.error(error, accountData.id, 'adminPage4');
+			const { message, title } = openQClient.handleError(error, {
+				bounty,
+			});
+
+			setModal({
+				type: 'Error',
+				message,
+				title,
+			});
+		}
+		setIsLoading(false);
+	}
+
+	async function disableSupportingDocumentsRequired() {
+		setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
+		try {
+			setIsLoading(true);
+
+			let transaction;
+
+			transaction = await openQClient.setSupportingDocumentsRequired(library, bounty.bountyId, false);
+			refreshBounty();
+			setModal({
+				transaction,
+				type: 'KYC',
+			});
+		} catch (error) {
+			logger.error(error, accountData.id, 'adminPage5');
+			const { message, title } = openQClient.handleError(error, {
+				bounty,
+			});
+
+			setModal({
+				type: 'Error',
+				message,
+				title,
+			});
+		}
+		setIsLoading(false);
+	}
+
+
   async function setPayoutSchedule() {
     setModal({ type: 'Loading', inProgress: 'Updating Payout Schedule...' });
     try {
@@ -236,6 +321,42 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
                 disabled={isLoading}
               >
                 Set New Payout Schedule
+              </button>
+            </div>
+          )}
+          {isOnCorrectNetwork && account && (
+            <div className='px-4'>
+              <button
+                className={`w-full btn-default cursor-pointer`}
+                type='button'
+                onClick={disableKYC}
+                disabled={isLoading}
+              >
+                Disable KYC
+              </button>
+            </div>
+          )}
+          {isOnCorrectNetwork && account && (
+            <div className='px-4'>
+              <button
+                className={`w-full btn-default cursor-pointer`}
+                type='button'
+                onClick={disableInvoice}
+                disabled={isLoading}
+              >
+                Disable Invoice
+              </button>
+            </div>
+          )}
+          {isOnCorrectNetwork && account && (
+            <div className='px-4'>
+              <button
+                className={`w-full btn-default cursor-pointer`}
+                type='button'
+                onClick={disableSupportingDocumentsRequired}
+                disabled={isLoading}
+              >
+                Disable Supporting Documents Required
               </button>
             </div>
           )}
