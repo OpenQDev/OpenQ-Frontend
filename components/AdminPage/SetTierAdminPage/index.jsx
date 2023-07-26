@@ -127,90 +127,89 @@ const SetTierAdminPage = ({ bounty, refreshBounty }) => {
 
   // trigger smart contracts
 
-	async function disableKYC() {
-		setModal({ type: 'Loading', inProgress: 'Disabling KYC...' });
-		try {
-			setIsLoading(true);
+  async function disableKYC() {
+    setModal({ type: 'Loading', inProgress: 'Disabling KYC...' });
+    try {
+      setIsLoading(true);
 
-			let transaction;
+      let transaction;
 
-			transaction = await openQClient.setKycRequired(library, bounty.bountyId, false);
-			refreshBounty();
-			setModal({
-				transaction,
-				type: 'KYC',
-			});
-		} catch (error) {
-			logger.error(error, accountData.id, 'adminPage3');
-			const { message, title } = openQClient.handleError(error, {
-				bounty,
-			});
+      transaction = await openQClient.setKycRequired(library, bounty.bountyId, false);
+      refreshBounty();
+      setModal({
+        transaction,
+        type: 'KYC',
+      });
+    } catch (error) {
+      logger.error(error, accountData.id, 'adminPage3');
+      const { message, title } = openQClient.handleError(error, {
+        bounty,
+      });
 
-			setModal({
-				type: 'Error',
-				message,
-				title,
-			});
-		}
-		setIsLoading(false);
-	}
+      setModal({
+        type: 'Error',
+        message,
+        title,
+      });
+    }
+    setIsLoading(false);
+  }
 
-	async function disableInvoice() {
-		setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
-		try {
-			setIsLoading(true);
+  async function disableInvoice() {
+    setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
+    try {
+      setIsLoading(true);
 
-			let transaction;
+      let transaction;
 
-			transaction = await openQClient.setInvoiceRequired(library, bounty.bountyId, false);
-			refreshBounty();
-			setModal({
-				transaction,
-				type: 'KYC',
-			});
-		} catch (error) {
-			logger.error(error, accountData.id, 'adminPage4');
-			const { message, title } = openQClient.handleError(error, {
-				bounty,
-			});
+      transaction = await openQClient.setInvoiceRequired(library, bounty.bountyId, false);
+      refreshBounty();
+      setModal({
+        transaction,
+        type: 'KYC',
+      });
+    } catch (error) {
+      logger.error(error, accountData.id, 'adminPage4');
+      const { message, title } = openQClient.handleError(error, {
+        bounty,
+      });
 
-			setModal({
-				type: 'Error',
-				message,
-				title,
-			});
-		}
-		setIsLoading(false);
-	}
+      setModal({
+        type: 'Error',
+        message,
+        title,
+      });
+    }
+    setIsLoading(false);
+  }
 
-	async function disableSupportingDocumentsRequired() {
-		setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
-		try {
-			setIsLoading(true);
+  async function disableSupportingDocumentsRequired() {
+    setModal({ type: 'Loading', inProgress: 'Disabling Invoice...' });
+    try {
+      setIsLoading(true);
 
-			let transaction;
+      let transaction;
 
-			transaction = await openQClient.setSupportingDocumentsRequired(library, bounty.bountyId, false);
-			refreshBounty();
-			setModal({
-				transaction,
-				type: 'KYC',
-			});
-		} catch (error) {
-			logger.error(error, accountData.id, 'adminPage5');
-			const { message, title } = openQClient.handleError(error, {
-				bounty,
-			});
+      transaction = await openQClient.setSupportingDocumentsRequired(library, bounty.bountyId, false);
+      refreshBounty();
+      setModal({
+        transaction,
+        type: 'KYC',
+      });
+    } catch (error) {
+      logger.error(error, accountData.id, 'adminPage5');
+      const { message, title } = openQClient.handleError(error, {
+        bounty,
+      });
 
-			setModal({
-				type: 'Error',
-				message,
-				title,
-			});
-		}
-		setIsLoading(false);
-	}
-
+      setModal({
+        type: 'Error',
+        message,
+        title,
+      });
+    }
+    setIsLoading(false);
+  }
 
   async function setPayoutSchedule() {
     setModal({ type: 'Loading', inProgress: 'Updating Payout Schedule...' });
