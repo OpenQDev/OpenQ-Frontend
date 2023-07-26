@@ -123,11 +123,14 @@ const StepTwoContent = () => {
   }
 
   return (
-    <div ref={parentRef} className='h-[45rem] w-[60rem] border border-gray-300 rounded-md'>
-      <div className='p-10'>
+    <div
+      ref={parentRef}
+      className='sm:h-[45rem] lg:order-1 max-w-[60rem] w-full sm:border pt-3 border-gray-300 sm:rounded-md'
+    >
+      <div className='sm:p-10'>
         <SubMenu />
         <div className='border-b border-gray-300 pt-2'></div>
-        <div className='pt-5'>
+        <div className=''>
           <div className=''>
             <div className='flex flex-row justify-between items-center'>
               <div className='flex flex-col'>
@@ -178,11 +181,15 @@ const StepTwoContent = () => {
               <TableRow name={'Name'} cols={tableData.name} type={'name'} />
               <TableRow name={'Status'} cols={tableData.status} type={'status'} />
               <TableRow name={'Priority'} cols={tableData.priority} type={'priority'} />
-              <TableRow name={'Owner'} cols={tableData.owner} type={'owner'} />
-              <TableRow name={'Description'} cols={tableData.description} type={'description'} />
-              <TableRow name={'Activity'} cols={tableData.activity} type={'activity'} />
-              <TableRow name={'Skill'} cols={tableData.skill} type={'skill'} />
-              <TableRow name={'empty'} cols={tableData.empty} type={'empty'} />
+              <TableRow className='hidden 2xl:block' name={'Owner'} cols={tableData.owner} type={'owner'} />
+              <TableRow
+                className='hidden 2xl:block'
+                name={'Description'}
+                cols={tableData.description}
+                type={'description'}
+              />
+              <TableRow className='hidden 2xl:block' name={'Activity'} cols={tableData.activity} type={'activity'} />
+              <TableRow className='hidden 3xl:block' name={'Skill'} cols={tableData.skill} type={'skill'} />
             </div>
             <div className='bg-[#F2F2F2]  border-l border-b border-gray-300 py-[4.75rem]'></div>
           </div>

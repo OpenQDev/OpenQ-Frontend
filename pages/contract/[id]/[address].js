@@ -37,7 +37,7 @@ import FundProvider from '../../../components/FundBounty/FundStore/FundProvider'
 import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
 import { useRouter } from 'next/router';
 
-const address = ({ address, mergedBounty, renderError }) => {
+const Address = ({ address, mergedBounty, renderError }) => {
   // Context
   const [appState, dispatch] = useContext(StoreContext);
 
@@ -187,18 +187,17 @@ const address = ({ address, mergedBounty, renderError }) => {
     }
     // set route and populate
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-  useEffect(() => {
-    const route = sessionStorage.getItem(address);
-    const tab = router?.query?.tab;
-    const newTab = tab || route || 'View';
-    if (newTab !== internalMenu) {
-      if (Object.keys(accountData).length === 0 || (newTab === 'Claim' && !claimable)) {
-        setInternalMenu('View');
+    if (address) {
+      const route = sessionStorage.getItem(address);
+      const tab = router?.query?.tab;
+      const newTab = tab || route;
+      if (newTab !== internalMenu) {
+        setInternalMenu(newTab || 'View');
       }
     }
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
+
   const claimOverView = bounty?.claims?.length > 0 ? [{ name: 'Claims Overview', Svg: Log }] : [];
   const submissions = bounty.bountyType === '3' ? [{ name: 'Submissions', Svg: Log }] : [];
   const fund = bounty.issuer?.id === account?.toLowerCase() ? [{ name: 'Fund', Svg: Add }] : [];
@@ -279,7 +278,7 @@ const address = ({ address, mergedBounty, renderError }) => {
                   />
                 ) : null}
                 {!claimable && internalMenu == 'Claim' && (
-                  <div className='w-full h-min bg-info border-info-strong border rounded-sm p-3  w-full  lg:max-w-[800px]'>
+                  <div className='w-full h-min bg-info border-info-strong border rounded-sm p-3   lg:max-w-[800px]'>
                     Looking to claim your prize? The bounty administrator has not selected your PR yet. Please wait
                     until they have awarded your prize in order to continue.
                   </div>
@@ -288,7 +287,8 @@ const address = ({ address, mergedBounty, renderError }) => {
                   <ClaimOverview bounty={bounty} setInternalMenu={setInternalMenu} />
                 ) : null}
                 {internalMenu == 'Admin' &&
-                bounty &&
+                // eslint-disable-next-line prettier/prettier
+                  bounty &&
                 bounty?.issuer?.id &&
                 ethers.utils.getAddress(bounty.issuer.id) == account ? (
                   <AdminPage bounty={bounty} refreshBounty={refreshBounty} />
@@ -356,4 +356,4 @@ export const getServerSideProps = async (context) => {
   return { props: { id, address, mergedBounty, renderError } };
 };
 
-export default address;
+export default Address;

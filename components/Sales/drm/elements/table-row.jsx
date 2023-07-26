@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import LoadingSpinner from './loading-spinner';
 
-const TableRow = ({ name, cols, type }) => {
+const TableRow = ({ name, cols, type, className }) => {
   const [showColumns, setShowColumns] = useState([]);
   const firstElementRef = useRef(null);
 
@@ -78,7 +78,7 @@ const TableRow = ({ name, cols, type }) => {
   };
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className={`flex flex-col w-full ${className}`}>
       <div
         ref={firstElementRef}
         className={`flex flex-row items-center justify-between px-3 w-full bg-[#EEEEEE] border-t border-l border-b p-2 border-gray-300 ${

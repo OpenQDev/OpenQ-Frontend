@@ -4,15 +4,15 @@ import Link from 'next/link';
 const Cta = () => {
   return (
     <div>
-      <div className='flex flex-col bg-white justify-center items-center text-center pt-44'>
-        <div className='text-black text-4xl font-extrabold pt-3 w-[60rem]'>
+      <div className='flex flex-col bg-white justify-center items-center text-center  px-8'>
+        <div className='text-black text-4xl font-extrabold pt-3 max-w-[60rem]'>
           Shaped by valuable feedback from over a hundred companies. Join the closed beta waitlist and embrace the
           future of dev rel
         </div>
-        <div className='text-gray-800 text-lg pt-5 w-[35rem]'>
+        <div className='text-gray-800 text-lg pt-8 max-w-[35rem]'>
           OpenQ is already helping teams just like yours to manage their developer community. Let us help you next.
         </div>
-        <div className='flex flex-row justify-center items center space-x-10 pt-10'>
+        <div className='flex flex-row justify-center items center space-x-10 pt-16'>
           <Link href='/waitlist'>
             <div className='bg-[#533AED] rounded-lg text-white text-xl font-semibold p-2 px-5'>Join waitlist</div>
           </Link>

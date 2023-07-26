@@ -3,13 +3,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   body {
     background: #f3f3f3;
   }
 }
-
 .markdown-body ol {
   list-style-type: auto;
 }
@@ -58,7 +56,6 @@ pre {
     transform: translateX(-100%);
   }
 }
-
 .react-loading-skeleton {
   background-color: var(--base-color);
   width: 100%;

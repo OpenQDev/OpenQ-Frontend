@@ -1,23 +1,23 @@
 import React from 'react';
 import StepTwoContent from './elements/step-two-content';
 
-const StepOne = () => {
+const StepTwo = () => {
   return (
     <div>
-      <div className='flex flex-row space-x-44 justify-center bg-white text-left items-center pt-44'>
-        <StepTwoContent />
-        <div className=''>
-          <div className='text-black text-4xl font-extrabold pt-3 w-[35rem]'>
+      <div className='flex lg:flex-row flex-col  gap-8 xl:gap-x-44 justify-center bg-white items-center text-center px-8 lg:text-left '>
+        <div className='lg:order-2'>
+          <div className='text-black text-4xl font-extrabold max-w-[35rem]'>
             Automating GitHub data retrieval, transforming manual processes into automated tasks
           </div>
-          <div className='text-gray-800 text-lg pt-5 w-[35rem]'>
+          <div className='text-gray-800 text-lg pt-8 max-w-[35rem]'>
             Our strategies are aiding you to compare projects - manage your time effectively and pinpoint which projects
             need immediate attention.
           </div>
         </div>
+        <StepTwoContent />
       </div>
     </div>
   );
 };
 
-export default StepOne;
+export default StepTwo;

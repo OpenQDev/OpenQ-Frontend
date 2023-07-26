@@ -3,16 +3,16 @@ import Image from 'next/image';
 
 const DevRelCore = () => {
   return (
-    <div className='flex flex-col bg-white justify-center items-center text-center pt-48'>
-      <div className='text-black text-4xl font-extrabold pt-3 w-[40rem]'>Real-time insights, for everything.</div>
-      <div className='text-gray-800 text-lg pt-5 w-[29rem]'>
+    <div className='flex flex-col justify-center items-center text-center lg:px-20 px-8'>
+      <div className='text-black text-4xl font-extrabold pt-3 max-w-[40rem]'>Real-time insights, for everything.</div>
+      <div className='text-gray-800 text-lg pt-5 max-w-[29rem]'>
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.
       </div>
-      <div className='relative container mx-auto px-4 pb-64 pt-10'>
-        <div className='flex justify-center items-center border border-gray-300 rounded-lg shadow-custom my-4'>
+      <div className='relative containermx-auto lg:px-4 pb-16 pt-10'>
+        <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4 '>
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-2.png'
             alt='Centered Image'
             width={1707}
@@ -23,20 +23,23 @@ const DevRelCore = () => {
           />
         </div>
         <div
-          className='absolute top-1/2 right-0 border border-gray-300 rounded-lg opacity-80'
+          className='absolute md:top-2/3 top-40 right-0 border border-gray-300 rounded-sm md:rounded-lg opacity-80'
           style={{ transform: 'translateX(30%) translateY(-25%)' }}
         >
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-1.png'
             alt='Right Float Image'
             width={853}
             height={512}
           />
         </div>
-        <div className='absolute top-1/2 right-0 rounded-lg' style={{ transform: 'translateX(30%) translateY(-25%)' }}>
+        <div
+          className='absolute md:top-2/3 top-40 right-0 rounded-sm md:rounded-lg'
+          style={{ transform: 'translateX(30%) translateY(-25%)' }}
+        >
           <Image
-            className='rounded-lg'
+            className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-1-2.png'
             alt='Right Float Image'
             width={853}
