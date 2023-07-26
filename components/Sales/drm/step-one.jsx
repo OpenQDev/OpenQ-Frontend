@@ -4,8 +4,8 @@ import StepOneContent from './elements/step-one-content';
 const StepOne = () => {
   return (
     <div>
-      <div className='flex md:flex-row flex-col gap-x-44 justify-center bg-white text-center md:text-left items-center '>
-        <div className=' px-8 pb-8 md:pb-0'>
+      <div className='flex px-8 md:flex-row flex-col xl:gap-x-44 gap-24 justify-center bg-white text-center md:text-left items-center '>
+        <div className=' pb-8 md:pb-0'>
           <div className='text-black text-4xl font-extrabold pt-3 max-w-[35rem]'>
             Add GitHub repositories, organizations and users using your technology
           </div>

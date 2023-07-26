@@ -123,7 +123,10 @@ const StepTwoContent = () => {
   }
 
   return (
-    <div ref={parentRef} className='sm:h-[45rem]  max-w-[60rem] w-full sm:border pt-3 border-gray-300 sm:rounded-md'>
+    <div
+      ref={parentRef}
+      className='sm:h-[45rem] lg:order-1 max-w-[60rem] w-full sm:border pt-3 border-gray-300 sm:rounded-md'
+    >
       <div className='sm:p-10'>
         <SubMenu />
         <div className='border-b border-gray-300 pt-2'></div>

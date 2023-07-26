@@ -19,10 +19,10 @@ const ProductCard = ({ imgSrc, productName, productDescription, productTarget })
 };
 const BenefitsCard = ({ src, forText, benefitsArray, children }) => {
   return (
-    <div className='max-w-[400px] flex flex-col gap-8'>
+    <div className='max-w-[400px] flex items-center lg:items-start flex-col gap-8'>
       <Image src={src} width={500} height={500} alt={`illustration with name ${src}`} />
-      <h2>{forText}</h2>
-      <ul className='list-disc space-y-2 text-muted text-xl'>
+      <h3 className='font-bold text-2xl'>{forText}</h3>
+      <ul className='list-disc justify-center lg:justify-start space-y-2 text-muted text-xl'>
         {benefitsArray.map((benefit) => (
           <li className='relative left-4' key={benefit}>
             <span> {benefit}</span>
@@ -35,11 +35,11 @@ const BenefitsCard = ({ src, forText, benefitsArray, children }) => {
 };
 export default function Index() {
   return (
-    <main className='bg-dark-mode flex-col explore'>
-      <div className='pb-48'>
+    <main className=' flex-col explore'>
+      <div className='pb-48 px-8'>
         <ExploreHeader />
         <div className='w-full flex flex-col items-center content-center '>
-          <div className='pt-60 pb-20 text-center max-w-[900px] font-bold text-[42px] leading-tight'>
+          <div className='md:pt-60 pt-20 pb-20 text-center max-w-[900px] font-bold text-[42px] leading-tight  text-4xl  md:leading-tight md:text-[42px]'>
             <span className='text-[#533AED] '>Supercharge collaboration</span>{' '}
             <span>Empowering innovators, builders and visionaries with our trio of vital collaboration tools.</span>
           </div>
@@ -73,7 +73,7 @@ export default function Index() {
             building a vibrant developer ecosystems that will shape the world.
           </p>
         </div>
-        <div className=' flex justify-center gap-24 pt-20'>
+        <div className=' flex flex-col lg:flex-row justify-center items-center gap-24 pt-20'>
           <BenefitsCard
             src='/landingpage/home/forDevs.png'
             forText='For developers'
@@ -86,7 +86,7 @@ export default function Index() {
               href='/'
               className='text-xl flex text-black bg-white rounded-sm px-6 py-4 w-fit font-bold items-center gap-2'
             >
-              <span> Sign up for the Builder Hub</span>
+              <span className='whitespace-nowrap'> Sign up for the Builder Hub</span>
               <ChevronRightIcon className='stroke-[1px] h-4 w-4 stroke-black' />
             </Link>
           </BenefitsCard>

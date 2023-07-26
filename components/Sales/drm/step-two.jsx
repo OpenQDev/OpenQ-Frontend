@@ -5,7 +5,7 @@ const StepTwo = () => {
   return (
     <div>
       <div className='flex lg:flex-row flex-col  gap-8 xl:gap-x-44 justify-center bg-white items-center text-center px-8 lg:text-left '>
-        <div className=''>
+        <div className='lg:order-2'>
           <div className='text-black text-4xl font-extrabold max-w-[35rem]'>
             Automating GitHub data retrieval, transforming manual processes into automated tasks
           </div>
