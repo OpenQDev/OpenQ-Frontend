@@ -3,14 +3,14 @@ import Image from 'next/image';
 
 const DevRelCore = () => {
   return (
-    <div className='flex flex-col bg-white justify-center items-center text-center pt-48 lg:px-20 md:px-10 px-4'>
+    <div className='flex flex-col justify-center items-center text-center lg:px-20 md:px-10 px-4'>
       <div className='text-black text-4xl font-extrabold pt-3 max-w-[40rem]'>Real-time insights, for everything.</div>
       <div className='text-gray-800 text-lg pt-5 max-w-[29rem]'>
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.
       </div>
-      <div className='relative container overflow-hidden mx-auto lg:px-4 pb-64 pt-10'>
-        <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4'>
+      <div className='relative containermx-auto lg:px-4 pb-16 pt-10'>
+        <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4 '>
           <Image
             className='rounded-sm md:rounded-lg'
             src='/landingpage/drm/devrel/devrel-landingpage-image-2.png'
