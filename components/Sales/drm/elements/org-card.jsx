@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const OrgCard = ({ name, link, rounded }) => {
   return (
-    <div>
+    <div className='lg:w-60'>
       <div className='p-2 w-full border border-gray-300 bg-[#FBFBFB] rounded-sm'>
         <div className='flex flex-row justify-between items-center'>
           <div className='flex items-center space-x-3'>
