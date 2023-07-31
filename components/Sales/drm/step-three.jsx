@@ -6,9 +6,9 @@ import Paragraph from './base/paragraph';
 const StepThree = () => {
   return (
     <div>
-      <div className='flex flex-col px-4 md:px-16  lg:flex-row bg-white text-center lg:text-left items-center 2xl:gap-48  lg:gap-16 gap-8'>
-        <div className='pl-12'>
-          <Heading className='max-w-[120rem]'>
+      <div className='flex flex-col px-16 md:px-28  lg:flex-row bg-white text-center lg:text-left items-center 2xl:gap-10  lg:gap-16 gap-8'>
+        <div className=''>
+          <Heading className='max-w-[100rem]'>
             Centralize and streamline communications with essential projects in a unified interface
           </Heading>
           <Paragraph className='text-gray-800  text-lg lg:text-xl pt-5 max-w-[35rem]'>

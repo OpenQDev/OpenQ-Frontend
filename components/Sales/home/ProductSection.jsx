@@ -18,14 +18,14 @@ const ProductSection = () => {
           productTarget='For organizations'
         />
         <ProductCard
-          href='/hackathons'
+          href='/explore'
           imgSrc={'/landingpage/home/cafe.png'}
           productName='Hackathon Launchpad'
           productDescription='A comprehensive platform for organizing and managing hackathons with ease.'
           productTarget='For organizations & developers'
         />
         <ProductCard
-          href='/marketplace'
+          href='/explore'
           imgSrc={'/landingpage/home/iceHouse.png'}
           productName='Developer Marketplace'
           productDescription='A developer bounty marketplace built on top of web3.'
