@@ -323,6 +323,36 @@ body::-webkit-scrollbar {
   @apply text-[30px] font-bold text-xl lg:text-3xl;
 }
 
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.8s ease-in-out;
+  opacity:1
+}
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s ease-in-out;
+  opacity:1
+}
+
 .explore button {
   @apply flex justify-center items-center border border-gray-400 bg-gray-400 text-white rounded-sm px-4 py-2 whitespace-nowrap;
 }

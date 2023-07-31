@@ -10,6 +10,7 @@ import StepTwo from '../components/Sales/drm/step-two';
 import StepThree from '../components/Sales/drm/step-three';
 import Cta from '../components/Sales/drm/cta';
 import Faq from '../components/Sales/drm/faq';
+import AnimateIn from '../components/Sales/drm/base/animateIn';
 
 const DRM = () => {
   return (
@@ -19,15 +20,31 @@ const DRM = () => {
       </div>
       <div className='flex-col flex md:gap-48 gap-12 bg-white overflow-hidden'>
         <DevRelHero />
-        <DevRelCore />
-        <DevRelProblems />
-        <ProductIntro />
-        {/*   <StepTest /> */}
-        <StepOne />
-        <StepTwo />
-        <StepThree />
-        <Cta />
-        <Faq />
+        <AnimateIn direction='left'>
+          <DevRelCore />
+        </AnimateIn>
+        <AnimateIn direction='right'>
+          <DevRelProblems />
+        </AnimateIn>
+        <AnimateIn direction='left'>
+          <ProductIntro />
+        </AnimateIn>
+        <AnimateIn direction='right'>
+          {/*   <StepTest /> */}
+          <StepOne />
+        </AnimateIn>
+        <AnimateIn direction='left'>
+          <StepTwo />
+        </AnimateIn>
+        <AnimateIn direction='right'>
+          <StepThree />
+        </AnimateIn>
+        <AnimateIn direction='left'>
+          <Cta />
+        </AnimateIn>
+        <AnimateIn direction='right'>
+          <Faq />
+        </AnimateIn>
       </div>
     </main>
   );

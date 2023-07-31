@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 const ProductSection = () => {
   return (
     <div className='w-full flex flex-col items-center content-center '>
-      <div className='md:pt-60 pt-20 pb-20 text-center max-w-[900px] font-bold text-[42px] leading-tight  text-4xl  md:leading-tight md:text-[42px]'>
+      <div className='pb-20 text-center max-w-[900px] font-bold text-[42px] leading-tight  text-4xl  md:leading-tight md:text-[42px]'>
         <span className='text-[#533AED] '>Supercharge collaboration</span>{' '}
         <span>Empowering innovators, builders and visionaries with our trio of vital collaboration tools.</span>
       </div>
