@@ -14,7 +14,7 @@ const DevRelProblems = () => {
         </Heading>
         <Paragraph className='max-w-[50rem]'>Manual methods or systems aren’t fit for this purpose.</Paragraph>
         <div className='flex flex-col md:flex-row gap-16  md:gap-32'>
-          <div className='flex flex-col text-left gap-y-4'>
+          <div className='flex flex-col text-left gap-y-8'>
             <div className='flex flex-row h-[17.2rem]'>
               <TableRow name={'Name'} cols={['lea', 'Jane', 'Alex', 'Mark', 'Anna']} type={'problem'} />
               <TableRow
@@ -29,6 +29,7 @@ const DevRelProblems = () => {
               />
             </div>
             <div className='text-xl font-semibold text-black'>Spreadsheet Limitations</div>
+
             <div className='flex flex-col space-y-3 '>
               <Limitations text='Time-consuming and labor-intensive' />
               <Limitations text='Challenging to manage effectively' />
