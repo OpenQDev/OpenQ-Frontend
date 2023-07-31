@@ -1,16 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
+import Heading from './base/heading';
+import Paragraph from './base/paragraph';
 
 const DevRelCore = () => {
   return (
     <div className='flex flex-col justify-center items-center text-center lg:px-20 px-8'>
-      <div className='text-black  text-4xl lg:text-5xl font-extrabold pt-3 max-w-[560rem]'>
-        Real-time insights, for everything.
-      </div>
-      <div className='text-gray-800 text-lg lg:text-xl pt-5 max-w-[50rem]'>
+      <Heading className='pt-3 max-w-[560rem]'>Real-time insights, for everything.</Heading>
+      <Paragraph className=' pt-5 max-w-[50rem]'>
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.
-      </div>
+      </Paragraph>
       <div className='relative containermx-auto lg:px-4 pb-16 pt-10'>
         <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4 '>
           <Image

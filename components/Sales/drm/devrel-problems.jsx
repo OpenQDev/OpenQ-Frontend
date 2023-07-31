@@ -2,17 +2,17 @@ import React from 'react';
 import Limitations from './limitations';
 import TableRow from './elements/table-row.jsx';
 import CRMContextTwo from './elements/crm-context-2';
+import Heading from './base/heading';
+import Paragraph from './base/paragraph';
 
 const DevRelProblems = () => {
   return (
     <div className=''>
       <div className='flex flex-col  justify-center items-center text-center  gap-8 px-8'>
-        <div className='text-black font-extrabold max-w-[80rem] text-4xl lg:text-5xl'>
+        <Heading className={'max-w-[80rem]'}>
           Companies are investing significant resources in developer communities without gaining insights into their ROI
-        </div>
-        <div className='text-gray-800 text-lg lg:text-xl max-w-[50rem]'>
-          Manual methods or systems aren’t fit for this purpose.
-        </div>
+        </Heading>
+        <Paragraph className='max-w-[50rem]'>Manual methods or systems aren’t fit for this purpose.</Paragraph>
         <div className='flex flex-col md:flex-row gap-16  md:gap-32'>
           <div className='flex flex-col text-left gap-y-4'>
             <div className='flex flex-row h-[17.2rem]'>

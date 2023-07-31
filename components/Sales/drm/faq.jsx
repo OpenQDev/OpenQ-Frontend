@@ -1,12 +1,13 @@
 import React from 'react';
 import FaqQuestion from './faq-questions';
+import Heading from './base/heading';
 
 const Faq = () => {
   return (
     <div className=''>
       <div className='flex flex-col px-8 bg-white justify-center items-center text-center pb-20'>
-        <div className='text-black  text-4xl lg:text-5xl font-extrabold pt-3'>Frequently</div>
-        <div className='text-black text-4xl lg:text-5xl font-extrabold pt-3 pb-12'>asked questions</div>
+        <Heading className='pt-3'>Frequently</Heading>
+        <Heading className='pt-3 pb-12'>asked questions</Heading>
         <div>
           <FaqQuestion question='How can the DRM help improve developer retention?' answer='Lorem ipsum' />
           <FaqQuestion
