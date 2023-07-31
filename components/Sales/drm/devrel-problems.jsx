@@ -7,10 +7,10 @@ const DevRelProblems = () => {
   return (
     <div className=''>
       <div className='flex flex-col  justify-center items-center text-center  gap-8 px-8'>
-        <div className='text-black text-4xl font-extrabold max-w-[59rem]'>
+        <div className='text-black font-extrabold max-w-[80rem] text-4xl lg:text-5xl'>
           Companies are investing significant resources in developer communities without gaining insights into their ROI
         </div>
-        <div className='text-gray-800 text-lg max-w-[29rem]'>
+        <div className='text-gray-800 text-lg lg:text-xl max-w-[50rem]'>
           Manual methods or systems aren’t fit for this purpose.
         </div>
         <div className='flex flex-col md:flex-row gap-16  md:gap-32'>

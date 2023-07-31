@@ -42,8 +42,8 @@ const StepOneContent = () => {
   };
 
   return (
-    <div ref={parentRef} className='h-[38rem] max-w-[60rem] sm:border border-gray-300 rounded-md'>
-      <div className='p-10'>
+    <div ref={parentRef} className='h-[38rem] min-w-[34rem] max-w-[48rem] sm:border border-gray-300 rounded-md'>
+      <div className='p-10 w-full'>
         <div className='text-gray-800 font-semibold text-lg pb-2'>Add targets</div>
         <div className='border border-gray-300 bg-[#F2F2F2] p-2 px-5 w-full rounded-sm'>
           <div className='text-gray-900 typewriter-text'>https://www.github.com/openqdev</div>
@@ -72,13 +72,13 @@ const StepOneContent = () => {
 
         <div className='flex flex-row w-full space-x-3 pt-2'>
           {isVisibleStates[0] ? (
-            <div className='w-1/2'>
+            <div className='flex-1'>
               <OrgCard name={'OpenQ Labs'} link={'/openq-logo.png'} />
             </div>
           ) : (
-            <div className='lg:w-60'></div>
+            <div className='lg:w-60 w-44'></div>
           )}
-          <div className='lg:w-60'></div>
+          <div className='lg:w-60 w-44 flex-1'></div>
           {/* <div className='flex-grow'>
             <OrgCard name={'OpenQ Labs'} link={'/openq-logo.png'} />
           </div> */}
@@ -106,10 +106,10 @@ const StepOneContent = () => {
         <div className='flex flex-row w-full gap-3 pt-2'>
           {isVisibleStates[3] && (
             <>
-              <div className='w-1/2 hidden lg:block'>
+              <div className='flex-1 hidden lg:block'>
                 <OrgCard name={'OpenQDev/OpenQ-Frontend'} link={'/openq-logo.png'} />
               </div>
-              <div className='w-1/2 lg:hidden'>
+              <div className='flex-1 lg:hidden'>
                 <OrgCard name={'OpenQ-Frontend'} link={'/openq-logo.png'} />
               </div>
             </>
@@ -117,10 +117,10 @@ const StepOneContent = () => {
 
           {isVisibleStates[4] && (
             <>
-              <div className='w-1/2 hidden lg:block'>
+              <div className='flex-1 hidden lg:block whitespace-nowrap'>
                 <OrgCard name={'OpenQDev/OpenQ-Contracts'} link={'/openq-logo.png'} />
               </div>
-              <div className='w-1/2 lg:hidden'>
+              <div className='flex-1 lg:hidden whitespace-nowrap'>
                 <OrgCard name={'OpenQ-Contracts'} link={'/openq-logo.png'} />
               </div>
             </>
@@ -129,14 +129,15 @@ const StepOneContent = () => {
         <div className='flex flex-row w-full gap-3 pt-2'>
           {isVisibleStates[5] && (
             <>
-              <div className='w-1/2 hidden lg:block'>
+              <div className='flex-1 hidden lg:block'>
                 <OrgCard name={'OpenQDev/OpenQ-Subgraph'} link={'/openq-logo.png'} />
               </div>
-              <div className='w-1/2 lg:hidden'>
+              <div className='flex-1 lg:hidden'>
                 <OrgCard name={'OpenQ-Subgraph'} link={'/openq-logo.png'} />
               </div>
             </>
           )}
+          <div className='flex-1'></div>
         </div>
 
         {isVisibleStates[6] && (
@@ -160,10 +161,10 @@ const StepOneContent = () => {
         <div>
           {isVisibleStates[6] && (
             <div className='flex flex-row w-full space-x-3 pt-2'>
-              <div className='w-1/2'>
+              <div className='flex-1'>
                 <OrgCard name={'FlacoJones'} link={'/landingpage/drm/devrel/icons/andrew.jpg'} rounded={true} />
               </div>
-              <div className='w-1/2'>
+              <div className='flex-1'>
                 <OrgCard name={'Rickkdev'} link={'/landingpage/drm/devrel/icons/rick.png'} rounded={true} />
               </div>
             </div>

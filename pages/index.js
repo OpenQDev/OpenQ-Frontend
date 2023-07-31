@@ -6,7 +6,7 @@ import ExploreHeader from '../components/Sales/drm/landing-hero';
 
 export default function Index() {
   return (
-    <main className=' relative flex-col overflow-y-hidden explore'>
+    <main className=' relative flex-col overflow-hidden explore'>
       <div className='pb-48 relative z-20 px-8'>
         <ExploreHeader />
         <ProductSection />

@@ -4,8 +4,10 @@ import Image from 'next/image';
 const DevRelCore = () => {
   return (
     <div className='flex flex-col justify-center items-center text-center lg:px-20 px-8'>
-      <div className='text-black text-4xl font-extrabold pt-3 max-w-[40rem]'>Real-time insights, for everything.</div>
-      <div className='text-gray-800 text-lg pt-5 max-w-[29rem]'>
+      <div className='text-black  text-4xl lg:text-5xl font-extrabold pt-3 max-w-[560rem]'>
+        Real-time insights, for everything.
+      </div>
+      <div className='text-gray-800 text-lg lg:text-xl pt-5 max-w-[50rem]'>
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.
       </div>
