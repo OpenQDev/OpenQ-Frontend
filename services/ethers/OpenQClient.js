@@ -508,6 +508,49 @@ class OpenQClient {
       }
     });
   };
+
+	setKycRequired = async (library, _bountyId, _kycRequired) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.setKycRequired(_bountyId, _kycRequired);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+	setInvoiceRequired = async (library, _bountyId, _invoiceRequired) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.setInvoiceRequired(_bountyId, _invoiceRequired);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
+	setSupportingDocumentsRequired = async (library, _bountyId, _supportingDocumentsRequired) => {
+    return new Promise(async (resolve, reject) => {
+      const signer = library.getSigner();
+      const contract = this.OpenQ(signer);
+      try {
+        let txnResponse = await contract.setSupportingDocumentsRequired(_bountyId, _supportingDocumentsRequired);
+        let txnReceipt = await txnResponse.wait();
+        resolve(txnReceipt);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   claimTieredPermissioned = async (library, bounty, externalUserId, closerAddress, prUrl, tier) => {
     const { bountyAddress } = bounty;
     return new Promise(async (resolve, reject) => {
