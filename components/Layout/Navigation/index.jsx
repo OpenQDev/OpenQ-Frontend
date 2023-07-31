@@ -5,9 +5,7 @@ import Link from 'next/link';
 import StoreContext from '../../../store/Store/StoreContext';
 import ConnectButton from '../../WalletConnect/ConnectButton';
 import Image from 'next/image';
-/* 
-
- */
+import { ThreeBarsIcon } from '@primer/octicons-react';
 import LinkDropdown from '../../Utils/LinkDropdown';
 import NavLinks from '../NavLinks/index';
 import LoadingThread from '../../Loading/LoadingThread';
@@ -134,8 +132,8 @@ const Navigation = () => {
   return (
     <>
       {openMenu ? (
-        <div className='absolute top-12 left-0 z-10 bg-nav-bg w-full md:hidden w-60'>
-          <div className='flex flex-col p-4 z-10 bg-nav-bg space-x-1 space-y-2 w-full'>
+        <div className='absolute top-12 left-0 z-50 bg-nav-bg w-full md:hidden w-60'>
+          <div className='flex flex-col p-4 bg-nav-bg space-x-1 space-y-2 w-full'>
             {includeSearch && (
               <div className='flex-col mr-2 h-7  group'>
                 <input
@@ -161,7 +159,7 @@ const Navigation = () => {
                 <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
               </Link>
 
-              <div className='md:flex hidden  content-center  items-center'>
+              <div className='md:flex hidden  content-center z-50  items-center'>
                 {includeSearch && (
                   <div className='flex-col justify-center mr-2 h-7 group '>
                     <input
@@ -198,7 +196,7 @@ const Navigation = () => {
                 />
               </div>
               <button className='flex md:hidden pr-4' onClick={() => setOpenMenu(!openMenu)}>
-                {/* <ThreeBarsIcon size={24} /> */}
+                <ThreeBarsIcon size={24} />
               </button>
             </div>
           </div>
