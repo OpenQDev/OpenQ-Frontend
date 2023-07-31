@@ -9,20 +9,23 @@ const ProductSection = () => {
         <span>Empowering innovators, builders and visionaries with our trio of vital collaboration tools.</span>
       </div>
 
-      <div className='grid xl:grid-cols-3 grid-cols gap-20 justify-center gap'>
+      <div className='grid xl:grid-cols-3 grid-cols gap-24 justify-center gap'>
         <ProductCard
+          href='/drm'
           imgSrc='/landingpage/home/laptopSunset.png'
           productName='DRM'
           productDescription='A platform tailored for managing and nurturing developer relationships.'
           productTarget='For organizations'
         />
         <ProductCard
+          href='/hackathons'
           imgSrc={'/landingpage/home/cafe.png'}
           productName='Hackathon Launchpad'
           productDescription='A comprehensive platform for organizing and managing hackathons with ease.'
           productTarget='For organizations & developers'
         />
         <ProductCard
+          href='/marketplace'
           imgSrc={'/landingpage/home/iceHouse.png'}
           productName='Developer Marketplace'
           productDescription='A developer bounty marketplace built on top of web3.'
