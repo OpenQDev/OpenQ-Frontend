@@ -129,7 +129,7 @@ const StepTwoContent = () => {
     >
       <div className='sm:p-10'>
         <SubMenu />
-        <div className='border-b border-gray-300 pt-2'></div>
+        <div className='border-b border-gray-300 pt-2 mb-2'></div>
         <div className=''>
           <div className=''>
             <div className='flex flex-row justify-between items-center'>
@@ -189,7 +189,6 @@ const StepTwoContent = () => {
                 type={'description'}
               />
               <TableRow className='hidden 2xl:block' name={'Activity'} cols={tableData.activity} type={'activity'} />
-              <TableRow className='hidden 3xl:block' name={'Skill'} cols={tableData.skill} type={'skill'} />
             </div>
             <div className='bg-[#F2F2F2]  border-l border-b border-gray-300 py-[4.75rem]'></div>
           </div>

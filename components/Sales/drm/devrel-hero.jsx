@@ -2,16 +2,17 @@ import React from 'react';
 import UpperAnim from '../../animations/UpperAnim';
 import LeftAnim from '../../animations/LeftAnim';
 import RightAnim from '../../animations/RightAnim';
+import MobileAnim from '../../animations/MobileAnim';
 import Heading from './base/heading';
 
 const DevRelHero = () => {
   return (
     <div className=''>
-      <div className='flex justify-center pt-12 lg:mr-[24rem] overflow-hidden'>
+      <div className='xl:flex relative hidden justify-center pt-12 lg:mr-[24rem] overflow-hidden'>
         <UpperAnim />
       </div>
-      <div className='grid xl:grid-cols-[1fr_1fr_1fr] justify-center justify-items-center w-full '>
-        <div className='hidden xl:block'>
+      <div className='grid xl:grid-cols-[30%_40%_30%] justify-center justify-items-center w-full '>
+        <div className='hidden xl:block flex-1'>
           <LeftAnim />
         </div>
         <div className='flex flex-col justify-content-center items-center '>
@@ -26,9 +27,13 @@ const DevRelHero = () => {
             </div>
           </div>
         </div>
+        <div className='flex-1'></div>
       </div>
-      <div className='flex justify-center lg:ml-[30rem] lg:-mt-6 overflow-hidden'>
+      <div className='xl:flex hidden justify-center lg:ml-[30rem] lg:-mt-6 overflow-hidden'>
         <RightAnim />
+      </div>
+      <div className='xl:hidden  w-full '>
+        <MobileAnim />
       </div>
     </div>
   );

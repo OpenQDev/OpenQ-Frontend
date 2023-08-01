@@ -41,6 +41,7 @@ const TableRow = ({ name, cols, type, className }) => {
     };
   }, [cols, firstElementRef]);
 
+  const hasPills = type === 'status' || type === 'priority' || type === 'owner' || type === 'activity';
   const getBackgroundColorClass = (col) => {
     if (type === 'status' || type === 'priority' || type === 'owner' || type === 'empty' || type === 'name') {
       if (col === 'lead') {
@@ -103,8 +104,8 @@ const TableRow = ({ name, cols, type, className }) => {
         <div
           key={index}
           className={`flex border-b border-l border-gray-300 space-x-5 items-center p-2 ${
-            showColumns.includes(index) ? '' : 'hidden'
-          }`}
+            hasPills && 'justify-center'
+          } ${showColumns.includes(index) ? '' : 'hidden'}`}
         >
           <div
             className={`text-gray-500 text-xs p-1 rounded-lg px-3 ${
