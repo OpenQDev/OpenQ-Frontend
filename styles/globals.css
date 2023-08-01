@@ -352,9 +352,8 @@ body::-webkit-scrollbar {
   animation: fadeInRight 0.8s ease-in-out;
   opacity:1 !important;
 }
-
 .explore button {
-  @apply flex justify-center items-center border border-gray-400 bg-gray-400 text-white rounded-sm px-4 py-2 whitespace-nowrap;
+  @apply flex justify-center items-center border   text-white rounded-sm px-4 py-2 whitespace-nowrap;
 }
 
 .explore .lead {

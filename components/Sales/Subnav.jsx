@@ -26,8 +26,8 @@ const Subnav = () => {
             <div className='bg-[#533AED] rounded-lg text-white text-xl font-semibold p-1 px-5'>Join waitlist</div>
           </Typeform>
         </div>
-        <div className='md:hidden flex-1 flex justify-end pr-6'>
-          <button onClick={() => setIsOpen(!isOpen)}>
+        <div className='md:hidden  flex-1 flex justify-end pr-6'>
+          <button className='bg-black' onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? (
               <svg
                 xmlns='http://www.w3.org/2000/svg'

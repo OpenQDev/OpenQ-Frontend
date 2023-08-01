@@ -7,7 +7,7 @@ import Heading from './base/heading';
 
 const DevRelHero = () => {
   return (
-    <div className=''>
+    <div className=' pt-16'>
       <div className='xl:flex relative hidden justify-center pt-12 lg:mr-[24rem] overflow-hidden'>
         <UpperAnim />
       </div>

@@ -8,7 +8,7 @@ import React from 'react';
 const BlogBody = ({ slice }) => {
   console.log(slice);
   return (
-    <div className='max-w-lg w-full py-4'>
+    <div className='max-w-lg rich-text w-full py-4'>
       <PrismicRichText field={slice.primary.richtext} />
     </div>
   );
