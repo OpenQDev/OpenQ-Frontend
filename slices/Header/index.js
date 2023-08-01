@@ -6,7 +6,6 @@ import Image from 'next/image';
  * @param {HeaderProps}
  */
 const Header = ({ slice }) => {
-  console.log(slice, 'header slice');
   return (
     <div
       className='w-full h-[540px] overflow-hidden flex content-center justify-center items-center  bg-black'

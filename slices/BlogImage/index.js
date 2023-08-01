@@ -6,7 +6,6 @@
 import React from 'react';
 import Image from 'next/image';
 const BlogImage = ({ slice }) => {
-  console.log(slice);
   return (
     <div className='py-4'>
       {slice?.primary?.blogimage?.url && (
