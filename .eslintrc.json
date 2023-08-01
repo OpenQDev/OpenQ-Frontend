@@ -39,6 +39,7 @@
 		"vi": true
 	  },
 	"rules": {
+		"react-in-jsx-scope": "off",
 		"no-async-promise-executor": "off",
 		"no-inner-declarations": "off",
 		"no-useless-catch": "off",

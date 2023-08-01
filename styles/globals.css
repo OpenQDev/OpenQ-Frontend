@@ -346,11 +346,11 @@ body::-webkit-scrollbar {
 
 .animate-fade-in-left {
   animation: fadeInLeft 0.8s ease-in-out;
-  opacity:1
+  opacity:1 !important;
 }
 .animate-fade-in-right {
   animation: fadeInRight 0.8s ease-in-out;
-  opacity:1
+  opacity:1 !important;
 }
 
 .explore button {
