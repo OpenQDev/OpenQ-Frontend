@@ -6,7 +6,7 @@ import { ChevronRightIcon } from '@primer/octicons-react';
 const ProductCard = ({ imgSrc, productName, productDescription, productTarget, href }) => {
   return (
     <Link href={href}>
-      <div className='border-muted bg-[#080403] w-[22rem] border rounded-lg overflow-hidden pt-6 h-min'>
+      <div className='border-muted bg-[#000710] w-[22rem] border rounded-lg overflow-hidden pt-6 h-min'>
         <div>
           <Image src={imgSrc} width={500} className='h-[320px]' height={0} alt={`illustration with name ${imgSrc}`} />
         </div>

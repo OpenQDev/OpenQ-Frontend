@@ -1,0 +1,20 @@
+{
+  "id": "blog_image",
+  "type": "SharedSlice",
+  "name": "BlogImage",
+  "description": "BlogImage",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "blogimage": { "type": "Image", "config": { "label": "BlogImage", "constraint": {}, "thumbnails": [] } }
+      },
+      "items": {}
+    }
+  ]
+}

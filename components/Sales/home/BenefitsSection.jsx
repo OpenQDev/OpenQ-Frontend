@@ -41,10 +41,10 @@ const BenefitsSection = () => {
           ]}
         >
           <Link
-            href='/'
+            href='https://calendly.com/ricketh/openqdemo'
             className='text-xl flex text-white bg-dark-mode border-white border rounded-sm px-6 py-4 w-fit font-bold items-center gap-2'
           >
-            <span> Contact Sales</span>
+            <span>Schedule a Demo</span>
             <ChevronRightIcon className='stroke-[1px] h-4 w-4 stroke-black' />
           </Link>
         </BenefitsCard>
