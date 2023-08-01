@@ -353,7 +353,7 @@ body::-webkit-scrollbar {
   opacity:1 !important;
 }
 .explore button {
-  @apply flex justify-center items-center border   text-white rounded-sm px-4 py-2 whitespace-nowrap;
+  @apply flex justify-center items-center   text-white rounded-sm px-4 py-2 whitespace-nowrap;
 }
 
 .explore .lead {
