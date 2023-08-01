@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronRightIcon } from '@primer/octicons-react';
+import Typeform from '../Sales/drm/base/typeform';
 
 const Subnav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +19,12 @@ const Subnav = () => {
           </Link>
         </div>
         <div className='hidden md:flex px-12 gap-8'>
-          <Link className='self-end' href='/demo'>
+          <Link className='self-end' href='https://calendly.com/ricketh/openqdemo'>
             <div className='underline rounded-sm text-black text-xl font-semibold py-1 px-3'>Schedule demo</div>
           </Link>
-          <Link className='self-end' href='/waitlist'>
+          <Typeform>
             <div className='bg-[#533AED] rounded-lg text-white text-xl font-semibold p-1 px-5'>Join waitlist</div>
-          </Link>
+          </Typeform>
         </div>
         <div className='md:hidden flex-1 flex justify-end pr-6'>
           <button onClick={() => setIsOpen(!isOpen)}>
@@ -61,9 +62,9 @@ const Subnav = () => {
           <a href='#' className='text-gray-900 px-3 text-md font-normal pl-6 pb-5'>
             Schedule a Demo
           </a>
-          <a href='#' className='text-gray-900 px-3 text-md font-normal pl-6'>
-            Join waitlist
-          </a>
+          <Typeform>
+            <div className='text-gray-900 justify-self-start px-3 text-md font-normal pl-6'>Join waitlist</div>
+          </Typeform>
         </div>
       )}
 

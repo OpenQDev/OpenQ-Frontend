@@ -6,8 +6,8 @@ const OrgCard = ({ name, link, rounded }) => {
     <div className='lg:w-60'>
       <div className='p-2 w-full border border-gray-300 bg-[#FBFBFB] rounded-sm'>
         <div className='flex flex-row justify-between items-center'>
-          <div className='flex items-center space-x-3'>
-            <div className='rounded-full' style={{ width: '20px', height: '20px', position: 'relative' }}>
+          <div className='flex items-center gap-x-3'>
+            <div className='rounded-full' style={{ aspectRatio: 1, height: '20px', position: 'relative' }}>
               <Image
                 className={`${rounded ? 'rounded-lg' : ''}`}
                 src={link}

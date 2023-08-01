@@ -3,7 +3,7 @@ import React from 'react';
 const MobileAnim = () => {
   return (
     <object
-      className='object-contain w-full pt-20'
+      className='object-contain w-full pt-4'
       data='/mobile-anim.svg'
       style={{
         width: '100%', // set the width

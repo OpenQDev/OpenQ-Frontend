@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Heading from './base/heading';
 import Paragraph from './base/paragraph';
+import Typeform from './base/typeform';
 
 const Cta = () => {
   return (
@@ -14,22 +15,22 @@ const Cta = () => {
         <Paragraph className='pt-8 max-w-[48rem]'>
           OpenQ is already helping teams just like yours to manage their developer community. Let us help you next.
         </Paragraph>
-        <div className='flex flex-row justify-center items center gap-4 md:gap-x-10 pt-16'>
-          <Link href='/waitlist'>
-            <div className='bg-[#533AED] rounded-lg text-white text-xl font-semibold p-2 px-5 whitespace-nowrap'>
+        <div className='flex flex-col sm:flex-row justify-center items center gap-4 md:gap-x-10 pt-16'>
+          <Typeform>
+            <div className='bg-[#533AED] self-start rounded-lg text-white text-lg font-semibold p-2 px-5 w-full whitespace-nowrap'>
               Join waitlist
             </div>
-          </Link>
+          </Typeform>
           <div className='flex flex-row space-x-1 items-center'>
             <div className='relative inline-block'>
-              <Link href='/demo'>
+              <Link href='https://calendly.com/ricketh/openqdemo'>
                 <div className='underline rounded-sm text-black text-xl font-semibold py-1 px-3 whitespace-nowrap'>
                   Schedule demo
                 </div>
               </Link>
               <span className='absolute bg-white bottom-0 left-0 h-px w-full'></span>
             </div>
-            <div>
+            <div className='sm:block hidden'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'

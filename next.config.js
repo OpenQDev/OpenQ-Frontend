@@ -50,6 +50,7 @@ module.exports = () => {
     },
     images: {
       domains: [
+        'images.prismic.io',
         'githubusercontent.com',
         'assets.coingecko.com',
         'avatars.githubusercontent.com',
