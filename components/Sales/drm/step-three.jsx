@@ -14,7 +14,7 @@ const StepThree = () => {
             syndrome
           </Paragraph>
         </div>
-        <div className='relative w-full sm:p-4 grow rounded-sm lg:rounded-lg border border-gray-300 overflow-hidden'>
+        <div className='relative w-full sm:p-4 grow max-w-[800px] rounded-sm lg:rounded-lg border border-gray-300 overflow-hidden'>
           <Image
             className='top-0 left-0  w-full h-full object-cover'
             src='/landingpage/drm/devrel/devrel-landingpage-image-5.png'
