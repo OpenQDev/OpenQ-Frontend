@@ -8,7 +8,7 @@ const FaqQuestion = ({ question, answer }) => {
   };
 
   return (
-    <div className='flex flex-col'>
+    <div onClick={toggleAnswer} className='flex flex-col cursor-pointer'>
       <div className='flex flex-row items-center justify-start border-b border-gray-300 pt-2 pb-5'>
         <div className='w-6 h-6 mt-2 mr-3'>
           <svg
@@ -18,7 +18,6 @@ const FaqQuestion = ({ question, answer }) => {
             strokeWidth='1.5'
             stroke='#533AED'
             className={`w-full h-full cursor-pointer ${isOpen ? 'transform rotate-180 -mt-4' : ''}`}
-            onClick={toggleAnswer}
           >
             {isOpen ? (
               <path strokeLinecap='round' strokeLinejoin='round' d='M18 12H6' />
