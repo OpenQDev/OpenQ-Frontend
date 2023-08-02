@@ -7,10 +7,10 @@ import React from 'react';
 import Image from 'next/image';
 const BlogImage = ({ slice }) => {
   return (
-    <div className='py-4'>
+    <div className='py-4 px-8 '>
       {slice?.primary?.blogimage?.url && (
         <Image
-          className='w-full max-w-lg'
+          className='w-full max-w-lg rounded-lg'
           src={slice?.primary?.blogimage?.url}
           width={slice?.primary?.blogimage?.dimensions?.width}
           height={slice?.primary?.blogimage?.dimensions?.height}

@@ -9,7 +9,7 @@ const Subnav = () => {
   return (
     <div className='relative'>
       <div className={`flex flex-row justify-between md:justify-start relative z-20 text-gray-900  items-center py-4`}>
-        <div className='hidden md:flex px-12 gap-2 content-center items-center flex-1'>
+        <div className='flex px-12 gap-2 content-center items-center flex-1'>
           <Link href='/' className='text-md font-extrabold'>
             Products
           </Link>

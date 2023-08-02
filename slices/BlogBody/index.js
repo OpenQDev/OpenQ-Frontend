@@ -7,7 +7,7 @@ import { PrismicRichText } from '@prismicio/react';
 import React from 'react';
 const BlogBody = ({ slice }) => {
   return (
-    <div className='max-w-lg rich-text w-full py-4'>
+    <div className='max-w-lg  px-8 rich-text w-full py-4'>
       <PrismicRichText field={slice.primary.richtext} />
     </div>
   );
