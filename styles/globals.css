@@ -306,6 +306,63 @@ body::-webkit-scrollbar {
   border-radius: 2px;
 }
 
+
+.explore-drm {
+  @apply  text-gray-100;
+  background-position: right top;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  font-family: 'Inter', sans-serif;
+}
+
+.explore-drm h1 {
+  @apply font-bold;
+}
+
+.explore-drm h2 {
+  @apply text-[30px] font-bold text-xl lg:text-3xl;
+}
+
+.explore-drm button {
+  @apply flex justify-center items-center   text-white rounded-sm px-4 py-2 whitespace-nowrap;
+}
+
+.explore-drm .lead {
+  @apply text-white text-opacity-60;
+}
+.custom-scrollbar {
+  scrollbar-color: rgb(52 52 52) rgb(22 27 34);
+  scrollbar-width: thin;
+}
+
+.explore-drm .custom-scrollbar {
+  scrollbar-color: rgb(52 52 52) rgb(22 27 34);
+}
+
+.explore-drm .custom-scrollbar::-webkit-scrollbar {
+  @apply w-[5px] h-[5px];
+}
+
+.explore-drm .custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+  margin-block: 1.25rem;
+  margin-inline: 1.25rem;
+}
+
+.explore-drm .custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-dark-2 rounded-full border border-dark-1;
+  border: 1px solid rgb(52 52 52);
+}
+
+.explore-drm .custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  border-bottom: none;
+}
+
+.explore-drm .custom-scrollbar-vertical::-webkit-scrollbar-thumb {
+  border-right: none;
+}
+
+
 .explore {
   @apply bg-dark-4 text-gray-100;
   background-image: url('/explore/header.png');

@@ -10,7 +10,7 @@ const FaqQuestion = ({ question, answer }) => {
   return (
     <div onClick={toggleAnswer} className='flex flex-col cursor-pointer'>
       <div className='flex flex-row items-center justify-start border-b border-gray-300 pt-2 pb-5'>
-        <div className='w-6 h-6 mt-2 mr-3'>
+        <div className='w-6 h-6 min-w-[24px] mt-2 mr-3  flex-initial'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

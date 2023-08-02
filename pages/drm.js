@@ -13,11 +13,11 @@ import AnimateIn from '../components/Sales/drm/base/animateIn';
 
 const DRM = () => {
   return (
-    <main className='explore'>
+    <main className='explore-drm bg-white '>
       <div className='sticky top-0 z-50'>
         <Subnav />
       </div>
-      <div className='flex-col gap-8 flex md:gap-16 bg-white overflow-hidden'>
+      <div className='flex-col gap-8 flex md:gap-16 bg-white overflow-hidden max-w-[1920px] mx-auto'>
         <DevRelHero />
         <AnimateIn direction='left'>
           <DevRelCore />
