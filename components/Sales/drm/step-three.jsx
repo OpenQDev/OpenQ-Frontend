@@ -6,7 +6,7 @@ import Paragraph from './base/paragraph';
 const StepThree = () => {
   return (
     <div>
-      <div className='flex flex-col px-16 md:px-28 md:justify-between lg:flex-row bg-white items-center 2xl:gap-10  lg:gap-16 gap-8'>
+      <div className='flex flex-col px-8 md:px-28 md:justify-between lg:flex-row bg-white items-center 2xl:gap-10  lg:gap-16 gap-8'>
         <div className=''>
           <Heading className='max-w-[100rem]'>All Your DevRel comms under one roof</Heading>
           <Paragraph className='text-gray-800  text-lg lg:text-xl pt-5 max-w-[35rem]'>
@@ -14,9 +14,9 @@ const StepThree = () => {
             syndrome
           </Paragraph>
         </div>
-        <div className='relative w-full grow rounded-lg border border-gray-300 overflow-hidden'>
+        <div className='relative w-full sm:p-4 grow max-w-[800px] rounded-sm lg:rounded-lg border border-gray-300 overflow-hidden'>
           <Image
-            className='top-0 left-0 w-full h-full object-cover -m-1'
+            className='top-0 left-0  w-full h-full object-cover'
             src='/landingpage/drm/devrel/devrel-landingpage-image-5.png'
             alt='Centered Image'
             width={879}

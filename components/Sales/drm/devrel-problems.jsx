@@ -8,7 +8,7 @@ import Paragraph from './base/paragraph';
 const DevRelProblems = () => {
   return (
     <div className=''>
-      <div className='flex flex-col  justify-center items-center lg:text-center  gap-8 px-8'>
+      <div className='flex flex-col  justify-center items-center lg:text-center md:pt-32 xl:pt-8  gap-8 px-8'>
         <Heading className={'max-w-[80rem]'}>
           Companies invest heavily in their developer communities - but how do they know what works?
         </Heading>

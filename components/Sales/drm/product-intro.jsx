@@ -5,7 +5,7 @@ import Paragraph from './base/paragraph';
 const ProductIntro = () => {
   return (
     <div>
-      <div className='lg:flex flex-col px-8 hidden  justify-center items-center text-center '>
+      <div className='flex flex-col px-8  justify-center items-center text-center '>
         <Heading className='max-w-[80rem]'>
           What if you could make informed decisions with real-time, AI-driven insights into developers' activities?
         </Heading>

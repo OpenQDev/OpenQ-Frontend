@@ -44,9 +44,9 @@ const StepOneContent = () => {
   return (
     <div
       ref={parentRef}
-      className='h-[38rem] w-full md:min-w-[34rem] md:max-w-[48rem] border border-gray-300 rounded-md'
+      className='sm:h-[38rem] w-full md:min-w-[34rem] md:max-w-[48rem] border border-gray-300 rounded-md'
     >
-      <div className='p-10 w-full'>
+      <div className='sm:px-10 p-4 py-8 w-full'>
         <div className='text-gray-800 font-semibold text-lg pb-2'>Add targets</div>
         <div className='border border-gray-300 bg-[#F2F2F2] p-2 px-5 w-full rounded-sm'>
           <div className='text-gray-900 typewriter-text'>https://www.github.com/openqdev</div>

@@ -6,8 +6,8 @@ const Faq = () => {
   return (
     <div className=''>
       <div className='flex flex-col px-8 bg-white justify-center items-center lg:text-center pb-20'>
-        <Heading className='pt-3'>Frequently</Heading>
-        <Heading className='pt-3 pb-12'>asked questions</Heading>
+        <Heading className='pt-3 self-left w-full'>Frequently</Heading>
+        <Heading className='pt-3 pb-12 w-full'>asked questions</Heading>
         <div>
           <FaqQuestion question='How can the DRM help improve developer retention?' answer='Lorem ipsum' />
           <FaqQuestion
