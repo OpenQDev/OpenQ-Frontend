@@ -11,26 +11,15 @@ type BlogPostDocumentDataSlicesSlice = HeaderSlice | BlogBodySlice | SubHeaderSl
  */
 interface BlogPostDocumentData {
   /**
-   * AuthorFullName field in *Blog Post*
+   * SocialImage field in *Blog Post*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: blog_post.authorfullname
+   * - **API ID Path**: blog_post.socialimage
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  authorfullname: prismic.RichTextField;
-
-  /**
-   * Date field in *Blog Post*
-   *
-   * - **Field Type**: Date
-   * - **Placeholder**: *None*
-   * - **API ID Path**: blog_post.date
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#date
-   */
-  date: prismic.DateField;
+  socialimage: prismic.ImageField<never>;
 
   /**
    * Slice Zone field in *Blog Post*

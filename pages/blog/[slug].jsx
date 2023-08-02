@@ -3,9 +3,15 @@ import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { components } from '../../slices';
 import { createClient } from '../../prismicio';
+import Head from 'next/head';
+import { data } from 'autoprefixer';
 export default function Home({ page }) {
+  console.log(page);
   return (
     <div className='flex flex-col items-center content-center'>
+      <Head>
+        <meta property='og:image' content={data?.socialimage?.url} />
+      </Head>
       {page?.data && <SliceZone slices={page.data.slices} components={components} />}
     </div>
   );
