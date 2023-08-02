@@ -6,7 +6,7 @@ import Paragraph from './base/paragraph';
 const StepThree = () => {
   return (
     <div>
-      <div className='flex flex-col px-16 md:px-28  lg:flex-row bg-white text-center lg:text-left items-center 2xl:gap-10  lg:gap-16 gap-8'>
+      <div className='flex flex-col px-16 md:px-28 md:justify-between lg:flex-row bg-white text-center lg:text-left items-center 2xl:gap-10  lg:gap-16 gap-8'>
         <div className=''>
           <Heading className='max-w-[100rem]'>
             Centralize and streamline communications with essential projects in a unified interface

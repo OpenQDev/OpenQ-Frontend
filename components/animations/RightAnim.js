@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 export default function RightAnim() {
   return (
     <object
-      data='/right-anim-4.svg'
+      data='/right_animation.svg'
       style={{
-        width: '528px', // set the width
-        height: '209px', // set the height
+        width: '680px', // set the width
+        height: '360px', // set the height
       }}
     />
   );

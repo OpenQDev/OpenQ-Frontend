@@ -27,14 +27,14 @@ const Subnav = () => {
           </Typeform>
         </div>
         <div className='md:hidden  flex-1 flex justify-end pr-6'>
-          <button className='bg-black' onClick={() => setIsOpen(!isOpen)}>
+          <button className='' onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? (
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth='1.5'
-                stroke='currentColor'
+                stroke='black'
                 className='w-6 h-6 '
               >
                 <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
@@ -45,7 +45,7 @@ const Subnav = () => {
                 fill='none'
                 viewBox='0 0 24 24'
                 strokeWidth='1.5'
-                stroke='currentColor'
+                stroke='black'
                 className='w-6 h-6 '
               >
                 <path strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5' />

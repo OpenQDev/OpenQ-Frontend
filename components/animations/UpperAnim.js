@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 export default function UpperAnim() {
   return (
     <object
-      data='/upper-anim-2.svg'
+      data='/upper_animation.svg'
       style={{
         width: '528px', // set the width
         height: '209px', // set the height
