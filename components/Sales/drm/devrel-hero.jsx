@@ -16,7 +16,7 @@ const DevRelHero = () => {
           <LeftAnim />
         </div>
         <div className='flex flex-col justify-content-center items-center '>
-          <div className='flex flex-col justify-center items-center text-center px-8'>
+          <div className='flex flex-col justify-center items-center lg:text-center px-8'>
             <div className='text-gray-400 text-sm font-normal'>Developer Relationship Management Platform</div>
             <Heading className='2xl:text-[48px]  pt-3 2xl:w-[50rem]'>
               Supercharge developer relations without manual work.

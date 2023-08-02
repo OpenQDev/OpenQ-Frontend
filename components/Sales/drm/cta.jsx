@@ -7,7 +7,7 @@ import Typeform from './base/typeform';
 const Cta = () => {
   return (
     <div>
-      <div className='flex flex-col bg-white justify-center items-center text-center  px-8'>
+      <div className='flex flex-col bg-white justify-center items-center lg:text-center  px-8'>
         <Heading className=' pt-3 max-w-[80rem]'>
           Shaped by valuable feedback from over a hundred companies. Join the closed beta waitlist and embrace the
           future of dev rel
@@ -15,16 +15,16 @@ const Cta = () => {
         <Paragraph className='pt-8 max-w-[48rem]'>
           OpenQ is already helping teams just like yours to manage their developer community. Let us help you next.
         </Paragraph>
-        <div className='flex flex-col sm:flex-row justify-center items center gap-4 md:gap-x-10 pt-16'>
+        <div className='flex flex-col sm:flex-row justify-center items center gap-8 md:gap-x-10 pt-16'>
           <Typeform>
-            <div className='bg-[#533AED] self-start rounded-lg text-white text-lg font-semibold p-2 px-5 w-full whitespace-nowrap'>
+            <div className='bg-[#533AED] self-start rounded-lg text-white text-xl font-semibold p-2 px-10 w-full whitespace-nowrap'>
               Join waitlist
             </div>
           </Typeform>
-          <div className='flex flex-row space-x-1 items-center'>
+          <div className='flex flex-row space-x-1 px-10 items-center'>
             <div className='relative inline-block'>
               <Link href='https://calendly.com/ricketh/openqdemo'>
-                <div className='underline rounded-sm text-black text-xl font-semibold py-1 px-3 whitespace-nowrap'>
+                <div className='underline rounded-sm text-black text-xl font-semibold py-1 pr-3 whitespace-nowrap'>
                   Schedule demo
                 </div>
               </Link>

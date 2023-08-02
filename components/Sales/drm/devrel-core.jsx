@@ -5,8 +5,8 @@ import Paragraph from './base/paragraph';
 
 const DevRelCore = () => {
   return (
-    <div className='flex flex-col justify-center items-center text-center lg:px-20 px-8'>
-      <Heading className='pt-3 max-w-[560rem]'>Real-time insights, for everything.</Heading>
+    <div className='flex flex-col justify-center items-center  lg:text-center lg:px-20 px-8'>
+      <Heading className='pt-3 max-w-[560rem] '>Real-time insights, for everything.</Heading>
       <Paragraph className=' pt-5 max-w-[50rem]'>
         OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and enhances
         lorem ipsum.

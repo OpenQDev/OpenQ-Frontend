@@ -5,7 +5,7 @@ import Heading from './base/heading';
 const Faq = () => {
   return (
     <div className=''>
-      <div className='flex flex-col px-8 bg-white justify-center items-center text-center pb-20'>
+      <div className='flex flex-col px-8 bg-white justify-center items-center lg:text-center pb-20'>
         <Heading className='pt-3'>Frequently</Heading>
         <Heading className='pt-3 pb-12'>asked questions</Heading>
         <div>
