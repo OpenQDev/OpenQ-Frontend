@@ -8,12 +8,9 @@ const StepOne = () => {
     <div>
       <div className='flex px-8 lg:px-28 lg:flex-row flex-col justify-between gap-4 bg-white lg:text-center items-center w-full '>
         <div className=' pb-8 md:pb-0'>
-          <Heading className=' lg:text-left  pt-3 max-w-[35rem]'>
-            Add GitHub repositories, organizations and users using your technology
-          </Heading>
+          <Heading className=' lg:text-left  pt-3 max-w-[35rem]'>OpenQ works where your developers work</Heading>
           <Paragraph className='pt-5 lg:text-left max-w-[35rem]'>
-            Even in the absence of pre-existing data, our target scout can scrape millions of repositories to discover
-            projects utilizing your technology
+            We scrape thousands of repositories to discover projects utilizing your technology
           </Paragraph>
         </div>
         {/*  <div className=''>
