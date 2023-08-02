@@ -18,7 +18,7 @@ const DRM = () => {
       <div className='sticky top-0 z-50'>
         <Subnav />
       </div>
-      <div className='flex-col flex md:gap-48 gap-12 bg-white overflow-hidden'>
+      <div className='flex-col flex md:gap-16 bg-white overflow-hidden'>
         <DevRelHero />
         <AnimateIn direction='left'>
           <DevRelCore />
@@ -26,9 +26,11 @@ const DRM = () => {
         <AnimateIn direction='right'>
           <DevRelProblems />
         </AnimateIn>
-        <AnimateIn direction='left'>
-          <ProductIntro />
-        </AnimateIn>
+        <div className='lg:block hidden'>
+          <AnimateIn direction='left'>
+            <ProductIntro />
+          </AnimateIn>
+        </div>
         <AnimateIn direction='right'>
           {/*   <StepTest /> */}
           <StepOne />
