@@ -51,7 +51,6 @@ const Blog = ({ latestBlogPosts }) => {
           <div className='px-6 grid md:grid-cols-[360px_360px] xl:grid-cols-[360px_360px_360px] grid-rows-[240px_240px_240px] md:justify-items-start  md:justify-between gap-4 p-8 lg:max-w-7xl '>
             {latestBlogPosts.map((data) => {
               const header = data.data.slices.find((slice) => slice.slice_type === 'header');
-              console.log(data, 'hero');
               return (
                 <Link
                   href={data.url}

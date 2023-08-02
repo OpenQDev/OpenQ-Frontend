@@ -5,8 +5,8 @@ import { ChevronRightIcon } from '@primer/octicons-react';
 
 export default function Header() {
   return (
-    <header className='flex md:pb-60 lg:pb-[284px] pb-20  justify-between items-center max-w-screen-2xl mx-auto lg:pt-8 px-4 md:px-12 lg:px-24 relative z-0 md:min-h-[590px]'>
-      <div className='lg:pr-10 z-10'>
+    <header className='flex flex-col sm:flex-row md:pb-60 lg:pb-[284px] pb-20  justify-between items-center max-w-screen-2xl mx-auto lg:pt-8 px-4 md:px-12 lg:px-24 relative z-0 md:min-h-[590px]'>
+      <div className='lg:pr-10 z-10 order-2'>
         <Link href='https://medium.com/openqdev/introducing-openq-on-polygon-1b096f74e949' target='_blank'>
           <div className='flex items-center bg-dark-4 bg-opacity-70 border border-gray-600 rounded-md sm:rounded-full px-3 md:px-6 py-2 mt-8 max-w-2xl'>
             <Image src='/explore/LOGO_colorful.png' width={35} height={34} alt='OpenQ Logo' className='mr-3 shrink-0' />
@@ -34,7 +34,7 @@ export default function Header() {
         </p>
       </div>
       <Image
-        className='opacity-10 -mx-32 md:opacity-30 my-10 xl:opacity-100 absolute xl:static -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 max-w-[400px] sm:max-w-none sm:min-w-[450px]'
+        className=' -mx-32 sm:opacity-30 mt-20 sm:mt-10 sm:mb-10 xl:opacity-100 order-1 sm:order-2 sm:absolute xl:static -right-50 top-0 sm:right-0 sm:-top-10 lg:right-20 lg:top-10 z-0 max-w-[400px] sm:max-w-none sm:min-w-[450px]'
         src='/landingpage/hero.png'
         alt='explore planet'
         width={800}
