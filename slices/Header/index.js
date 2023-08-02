@@ -25,7 +25,7 @@ const Header = ({ slice }) => {
   }, []);
 
   return (
-    <div className={`w-full ${isHidden && 'hidden'}`}>
+    <div className={`w-full ${isHidden && 'invisible'}`}>
       <div
         className='w-full px-8 fixed h-[540px]  overflow-hidden flex content-center justify-center items-center  bg-black'
         data-slice-type={slice.slice_type}
