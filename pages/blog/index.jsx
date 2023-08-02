@@ -47,7 +47,7 @@ const Blog = ({ latestBlogPosts }) => {
       </div>
       <div className='h-[540px] w-full'></div>
       <div className='flex w-full '>
-        <div className='h-screen bg-dark-mode z-10 w-full flex justify-center '>
+        <div className='min-h-[100vh]  bg-dark-mode z-10 w-full flex justify-center '>
           <div className='px-6 grid md:grid-cols-[360px_360px] xl:grid-cols-[360px_360px_360px] grid-rows-[240px_240px_240px] md:justify-items-start  md:justify-between gap-4 p-8 lg:max-w-7xl '>
             {latestBlogPosts.map((data) => {
               const header = data.data.slices.find((slice) => slice.slice_type === 'header');
