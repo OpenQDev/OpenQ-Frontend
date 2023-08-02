@@ -509,7 +509,7 @@ class OpenQClient {
     });
   };
 
-	setKycRequired = async (library, _bountyId, _kycRequired) => {
+  setKycRequired = async (library, _bountyId, _kycRequired) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
@@ -523,7 +523,7 @@ class OpenQClient {
     });
   };
 
-	setInvoiceRequired = async (library, _bountyId, _invoiceRequired) => {
+  setInvoiceRequired = async (library, _bountyId, _invoiceRequired) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
@@ -537,7 +537,7 @@ class OpenQClient {
     });
   };
 
-	setSupportingDocumentsRequired = async (library, _bountyId, _supportingDocumentsRequired) => {
+  setSupportingDocumentsRequired = async (library, _bountyId, _supportingDocumentsRequired) => {
     return new Promise(async (resolve, reject) => {
       const signer = library.getSigner();
       const contract = this.OpenQ(signer);
