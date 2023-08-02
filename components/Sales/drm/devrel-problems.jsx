@@ -10,9 +10,11 @@ const DevRelProblems = () => {
     <div className=''>
       <div className='flex flex-col  justify-center items-center lg:text-center  gap-8 px-8'>
         <Heading className={'max-w-[80rem]'}>
-				Companies invest heavily in their developer communities - but how do they know what works?
+          Companies invest heavily in their developer communities - but how do they know what works?
         </Heading>
-        <Paragraph className='max-w-[50rem]'>All CRMs lack the developer-specific insights necessary to determine ROI</Paragraph>
+        <Paragraph className='max-w-[50rem]'>
+          All CRMs lack the developer-specific insights necessary to determine ROI
+        </Paragraph>
         <div className='flex flex-col md:flex-row gap-16  md:gap-32'>
           <div className='flex flex-col text-left gap-y-8'>
             <div className='flex flex-row h-[17.2rem]'>

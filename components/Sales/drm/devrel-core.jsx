@@ -8,7 +8,7 @@ const DevRelCore = () => {
     <div className='flex flex-col justify-center items-center  lg:text-center lg:px-20 px-8'>
       <Heading className='pt-3 max-w-[560rem] '>Real-time insights, for everything</Heading>
       <Paragraph className=' pt-5 max-w-[50rem]'>
-			The OpenQ DRM enhances responsibility of a DevRel - from discovery to support to retention.
+        The OpenQ DRM enhances responsibility of a DevRel - from discovery to support to retention.
       </Paragraph>
       <div className='relative containermx-auto lg:px-4 pb-16 pt-10'>
         <div className='flex justify-center items-center border border-gray-300 rounded-sm md:rounded-lg shadow-custom my-4 '>
