@@ -8,7 +8,7 @@ const Cta = () => {
   return (
     <div>
       <div className='flex flex-col bg-white justify-center items-center lg:text-center  px-8'>
-        <Heading className=' pt-3 max-w-[80rem]'>👷 Built by DevRels for DevRels</Heading>
+        <Heading className=' pt-3 max-w-[80rem]'>Built by DevRels for DevRels</Heading>
         <Paragraph className='pt-8 max-w-[48rem]'>
           The OpenQ DRM was shaped by valuable feedback from over a hundred companies.
           <br />

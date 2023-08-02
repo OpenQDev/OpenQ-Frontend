@@ -8,7 +8,7 @@ const StepOne = () => {
     <div>
       <div className='flex px-8 lg:px-28 lg:flex-row flex-col justify-between gap-4 bg-white lg:text-center items-center w-full '>
         <div className=' pb-8 md:pb-0'>
-          <Heading className=' lg:text-left  pt-3 max-w-[35rem]'>🎯 OpenQ works where your developers work</Heading>
+          <Heading className=' lg:text-left  pt-3 max-w-[35rem]'>OpenQ works where your developers work</Heading>
           <Paragraph className='pt-5 lg:text-left max-w-[35rem]'>
             We scrape thousands of repositories to discover projects utilizing your technology
           </Paragraph>
