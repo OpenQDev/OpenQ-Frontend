@@ -9,7 +9,6 @@ import StepTwo from '../components/Sales/drm/step-two';
 import StepThree from '../components/Sales/drm/step-three';
 import Cta from '../components/Sales/drm/cta';
 import Faq from '../components/Sales/drm/faq';
-import ProductIntro from '../components/Sales/drm/product-intro';
 import AnimateIn from '../components/Sales/drm/base/animateIn';
 
 const DRM = () => {
@@ -26,11 +25,6 @@ const DRM = () => {
         <AnimateIn direction='right'>
           <DevRelProblems />
         </AnimateIn>
-        <div className='lg:block hidden'>
-          <AnimateIn direction='left'>
-            <ProductIntro />
-          </AnimateIn>
-        </div>
         <AnimateIn direction='right'>
           {/*   <StepTest /> */}
           <StepOne />
