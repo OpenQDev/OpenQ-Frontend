@@ -19,11 +19,10 @@ const DevRelHero = () => {
           <div className='flex flex-col justify-center items-center lg:text-center px-8'>
             <div className='text-gray-400 text-sm font-normal'>Developer Relationship Management Platform</div>
             <Heading className='2xl:text-[48px]  pt-3 2xl:w-[50rem]'>
-              Supercharge developer relations without manual work.
+              Supercharge developer relations without manual work
             </Heading>
             <div className='text-gray-800 text-2xl 2xl:text-2xl pt-5 2xl:w-[48rem]'>
-              OpenQ's DRM Platform offers real-time insights into developer activities, tracks project relevance, and
-              enhances interactions for efficient and informed collaborations. It's time to calculate and validate ROI.
+						OpenQ's DRM Platform gives your DevRel team direct access to every beat in the pulse of your developer ecosystem
             </div>
           </div>
         </div>
