@@ -12,7 +12,6 @@ export default function Home({ page }) {
 }
 
 export async function getStaticProps(props) {
-  console.log(props);
   // Client used to fetch CMS content.
   const client = createClient();
   const { slug } = props.params;
