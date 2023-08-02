@@ -8,7 +8,7 @@ import AnimateIn from '../components/Sales/drm/base/animateIn';
 export default function Index() {
   return (
     <main className=' relative flex-col overflow-hidden explore'>
-      <div className='pb-48 relative z-20 px-8'>
+      <div className='pb-24 md:pb-44  relative z-20 px-8'>
         <ExploreHeader />
         <AnimateIn direction='left'>
           <ProductSection />
@@ -19,7 +19,7 @@ export default function Index() {
       </div>
       <div className='absolute inset-0 z-10  '>
         <div className='h-[100vh]'></div>
-        <Image src='/landingpage/home/universeBg1.png' width='1903' height='1224' />
+        <Image className='opacity-40' src='/landingpage/home/universeBg1.png' width='1903' height='1224' />
         <div className='flex justify-between w-full'>
           <Image src='/landingpage/home/universeBg2.png' width='359' height='1254' />
           <Image src='/landingpage/home/universeBg3.png' width='1266' height='1269' />

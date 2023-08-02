@@ -4,12 +4,22 @@ import ProductCard from './ProductCard';
 const ProductSection = () => {
   return (
     <div className='w-full flex flex-col items-center content-center '>
-      <div className='pb-20 text-center max-w-[900px] font-bold text-[42px] leading-tight  text-4xl  md:leading-tight md:text-[42px]'>
-        <span className='text-[#533AED] '>Supercharge collaboration</span>{' '}
-        <span>Empowering innovators, builders and visionaries with our trio of vital collaboration tools.</span>
+      <div className=' text-xl md:text-2xl text-zinc-400'>Our products</div>
+      <div className='md:pb-20 pb-24 text-center max-w-[1500px] font-bold text-[42px] leading-tight  text-2xl  md:leading-tight md:text-[42px]'>
+        <span
+          style={{
+            background: 'linear-gradient(90deg, #EFCEFF, #A481FF, #4768FF)',
+            '-webkit-background-clip': 'text',
+            '-webkit-text-fill-color': 'transparent',
+          }}
+          className='md:text-[#533AED] md:block block '
+        >
+          Supercharge collaboration
+        </span>{' '}
+        <span className='hidden md:hidden'>Products</span>
       </div>
 
-      <div className='grid xl:grid-cols-3 grid-cols gap-24 justify-center gap'>
+      <div className='grid xl:grid-cols-3 grid-cols gap-8 justify-center gap'>
         <ProductCard
           href='/drm'
           imgSrc='/landingpage/home/laptopSunset.png'
