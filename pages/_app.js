@@ -65,7 +65,7 @@ function OpenQ({ Component, pageProps }) {
   const route = router.pathname;
   const whiteBgRoutes = ['/drm', '/marketplace', '/hackathon-launchpad'];
   const isWhiteBgRoute = whiteBgRoutes.includes(route);
-
+  const socialImage = pageProps?.page?.data?.socialimage.url;
   return (
     <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
@@ -75,6 +75,13 @@ function OpenQ({ Component, pageProps }) {
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
+
+        {socialImage && (
+          <>
+            <meta property='og:image' content={socialImage} />
+            <meta property='twitter:image' content={socialImage} />
+          </>
+        )}
       </Head>
       <Script id='live-session'>
         {`window['__ls_namespace'] = 'LiveSession';
