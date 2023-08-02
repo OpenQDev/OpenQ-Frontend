@@ -8,7 +8,7 @@ const StepThree = () => {
     <div>
       <div className='flex flex-col px-8 md:px-28 md:justify-between lg:flex-row bg-white items-center 2xl:gap-10  lg:gap-16 gap-8'>
         <div className=''>
-          <Heading className='max-w-[100rem]'>🏠 All Your DevRel comms under one roof</Heading>
+          <Heading className='max-w-[100rem]'>All Your DevRel comms under one roof</Heading>
           <Paragraph className='text-gray-800  text-lg lg:text-xl pt-5 max-w-[35rem]'>
             From email to Telegram to Slack - OpenQ’s messaging integrations puts an end to your “too many tabs”
             syndrome
