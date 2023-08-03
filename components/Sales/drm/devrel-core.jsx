@@ -5,7 +5,7 @@ import Paragraph from './base/paragraph';
 
 const DevRelCore = () => {
   return (
-    <div className='flex flex-col justify-center items-center  lg:text-center lg:px-20 px-8'>
+    <div className='flex flex-col justify-center items-center  lg:text-center lg:px-20 lg:pt-36 xl:pt-36 2xl:pt-10 px-8'>
       <Heading className='pt-3 max-w-[560rem] '>Real-time insights, for everything</Heading>
       <Paragraph className=' pt-5 max-w-[50rem]'>
         The OpenQ DRM enhances every interaction between DevRels and the ecosystems they support - from discovery to

@@ -7,19 +7,13 @@ import Typeform from './base/typeform';
 const Cta = () => {
   return (
     <div>
-      <div className='flex flex-col bg-white justify-center items-center lg:text-center  px-8'>
+      <div className='flex flex-col bg-white justify-center items-center lg:text-center py-10 px-8'>
         <Heading className=' pt-3 max-w-[80rem]'>Built by DevRels for DevRels</Heading>
         <Paragraph className='pt-8 max-w-[48rem]'>
-          The OpenQ DRM was shaped by valuable feedback from over a hundred companies.
-          <div className='hidden lg:block'>
-            <br />
-            <br />
-          </div>
-          <br />
-          <br />
-          Join our closed beta waitlist and embrace the future of dev rel.
+          The OpenQ DRM was shaped by valuable feedback from over a hundred companies. Join our closed beta waitlist and
+          embrace the future of dev rel.
         </Paragraph>
-        <div className='flex flex-col sm:flex-row justify-center items center gap-8 md:gap-x-10 pt-16'>
+        <div className='flex flex-col sm:flex-row justify-center items center gap-8 md:gap-x-10 pt-8'>
           <Typeform>
             <div className='bg-[#533AED] self-start rounded-lg text-white text-xl font-semibold p-2 px-10 w-full whitespace-nowrap'>
               Join waitlist
