@@ -19,16 +19,11 @@ export default function Header() {
             </div>
           </div>
         </Link>
-        <h1 className='text-left sm:text-center mt-10 text-4xl md:text-left md:leading-tight md:text-6xl'>
-          A platform where
-          <br />
-          developers and
-          <br />
-          businesses thrive
+        <h1 className='text-left sm:text-center mt-10 text-4xl md:text-left md:leading-tight md:text-5xl lg:w-[44rem]'>
+          Orchestrating the global symphony of developers, code and dev rel
         </h1>
         <p className='text-left sm:text-center max-w-md mx-auto md:mx-0 text-zinc-400 mb-5 text-xl md:text-3xl md:max-w-xl md:text-left mt-5'>
-          Engineered for efficiency. Constructed for partnership. Renowned for data-driven insights. Igniting the new
-          phase of tech.
+          Building powerful infrastructure around developers hubs for growth and innovation.
         </p>
       </div>
       <Image
