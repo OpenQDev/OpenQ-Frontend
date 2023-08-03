@@ -26,11 +26,14 @@ const Blog = ({ latestBlogPosts }) => {
   return (
     <>
       <Head>
-        <meta name='twitter:site' content='@openqlabs' />
-        <meta name='twitter:title' content='By DevRels for DevRels' />
-        <meta name='twitter:description' content="CRMs just aren't cutting it for developer ecosytems" />
+        <meta property='twitter:site' content='@openqlabs' />
+        <meta property='twitter:title' content='By DevRels for DevRels' />
+        <meta property='twitter:description' content="CRMs just aren't cutting it for developer ecosytems" />
         <meta property='twitter:card' content='summary_large_image' />
         <meta property='twitter:image' content={'/landingpage/home/blog-image.png'} />
+        <meta property='og:title' content='By DevRels for DevRels' />
+        <meta property='og:description' content="CRMs just aren't cutting it for developer ecosytems" />
+        <meta property='og:url' content='https://openq.dev/blog/drm-launch' />
         <meta property='og:image' content={'/landingpage/home/blog-image.png'} />
       </Head>
       <div className={`w-full`}>
