@@ -3,7 +3,7 @@
 /*CHECK DOC ABOUT extensio parameters vs theem*/
 module.exports = {
 	mode: 'jit',
-	content: ['./components/**/*.js', './slices/**/*.js', './slices/**/*.jsx', './pages/**/*.js', './components/**/*.jsx', './pages/**/*.jsx', "./services/utils/Utils.js", "./services/utils/lib.js"],
+	content: ['./components/**/*.js', './slices/**/*.js', './slices/**/*.jsx', './pages/**/*.js', './components/**/*.jsx', './pages/**/*.jsx', './services/utils/Utils.js', './services/utils/lib.js'],
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		extend: {
@@ -30,10 +30,10 @@ module.exports = {
 			},
 			colors: {
 				dark: {
-					1: "#343434",
-					2: "#161b22",
-					3: "#10141b",
-					4: "#0d1117",
+					1: '#343434',
+					2: '#161b22',
+					3: '#10141b',
+					4: '#0d1117',
 				},
 				'claim': '#3a4be9',
 				'info': '#4b422f',
@@ -56,11 +56,13 @@ module.exports = {
 				'secondary-button': 'rgb(31, 111, 235)',
 				'border-muted': '#252a31',
 				'important-button': 'rgb(35, 134, 54)',
-				'input-bg': "#010409",
-				'rust': "#f78166",
-				'closed': "rgb(137, 87, 229)",
-				'danger': "#da3633",
-				'dropdown': "rgb(48, 54, 61)",
+				'offblack': 'hsla(0, 0%, 16%, 1)',
+				'offwhite': 'hsla(0,0%,96%,1)',
+				'input-bg': '#010409',
+				'rust': '#f78166',
+				'closed': 'rgb(137, 87, 229)',
+				'danger': '#da3633',
+				'dropdown': 'rgb(48, 54, 61)',
 				'web-gray': '#30363d',
 				'inactive-gray': 'rgb(33, 38, 45)',
 				'active-gray': 'rgb(40, 46, 53)',
@@ -112,7 +114,7 @@ module.exports = {
 				// => @media (min-width: 1280px) { ... }
 
 				'2xl': '1536px',
-				"3xl": "1800px"
+				'3xl': '1800px'
 				// => @media (min-width: 1536px) { ... }
 			},
 			gridTemplateColumns: {
