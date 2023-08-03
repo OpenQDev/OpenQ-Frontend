@@ -409,9 +409,8 @@ body::-webkit-scrollbar {
   animation: fadeInRight 0.8s ease-in-out;
   opacity:1 !important;
 }
-.rich-text br {
-   display: block;
-   margin-bottom: 1.5rem;
+.rich-text a{
+  @apply text-blue-500 underline;
 }
 .explore button {
   @apply flex justify-center items-center   text-white rounded-sm px-4 py-2 whitespace-nowrap;
