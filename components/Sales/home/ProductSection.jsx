@@ -4,8 +4,8 @@ import ProductCard from './ProductCard';
 const ProductSection = () => {
   return (
     <div className='w-full flex flex-col items-center content-center '>
-      <div className=' text-xl md:text-2xl text-zinc-400'>Our products</div>
-      <div className='md:pb-20 pb-24 text-center max-w-[1500px] font-bold text-[42px] leading-tight  text-2xl  md:leading-tight md:text-[42px]'>
+      <div className=' text-xl text-left sm:text-center md:text-2xl sm:w-auto: w-full text-zinc-400'>Our products</div>
+      <div className='md:pb-20 pb-8 text-left sm:w-auto: w-full  sm:text-center max-w-[1500px] font-bold text-[42px] leading-tight  text-2xl  md:leading-tight md:text-[42px]'>
         <span
           style={{
             background: 'linear-gradient(90deg, #EFCEFF, #A481FF, #4768FF)',
@@ -15,8 +15,7 @@ const ProductSection = () => {
           className='md:text-[#533AED] md:block block '
         >
           Supercharge collaboration
-        </span>{' '}
-        <span className='hidden md:hidden'>Products</span>
+        </span>
       </div>
 
       <div className='grid xl:grid-cols-3 grid-cols gap-8 justify-center gap'>
