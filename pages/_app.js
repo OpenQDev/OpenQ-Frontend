@@ -78,6 +78,7 @@ function OpenQ({ Component, pageProps }) {
 
         {socialImage && (
           <>
+            <meta property='twitter:card' content='summary_large_image' />
             <meta property='og:image' content={socialImage} />
             <meta property='twitter:image' content={socialImage} />
           </>

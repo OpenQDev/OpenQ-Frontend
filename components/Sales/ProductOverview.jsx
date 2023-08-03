@@ -75,7 +75,7 @@ const ProductOverview = () => {
       </div>
       <div className='flex flex-row space-x-2 justify-center pt-12 pb-24 items-center hover:scale-105'>
         <p className='text-center text-black text-xl lg:text-2xl font-medium'>
-          Unearth more of our ungoing or future concepts
+          Unearth more of our ongoing or future concepts
         </p>
         <svg
           xmlns='http://www.w3.org/2000/svg'

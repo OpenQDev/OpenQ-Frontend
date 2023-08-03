@@ -6,7 +6,7 @@ import { ChevronRightIcon } from '@primer/octicons-react';
 const BenefitsSection = () => {
   return (
     <>
-      <div className='pt-32 md:pt-44 flex flex-col gap-8 items-center'>
+      <div className=' md:pt-44 pt-8 flex flex-col gap-8 items-center'>
         <div className='text-left lg:text-center max-w-[900px] font-bold text-[42px] leading-tight'>
           Unlock the power of OpenQ
         </div>
