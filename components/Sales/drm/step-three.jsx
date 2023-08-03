@@ -14,7 +14,7 @@ const StepThree = () => {
             syndrome
           </Paragraph>
         </div>
-        <div className='relative w-full p-4 grow max-w-[800px] rounded-sm lg:rounded-lg border border-gray-300 overflow-hidden'>
+        <div className='relative w-full p-4 pt-2 grow max-w-[800px] rounded-sm lg:rounded-lg border border-gray-300 overflow-hidden'>
           <StepThreeContent />
         </div>
       </div>
