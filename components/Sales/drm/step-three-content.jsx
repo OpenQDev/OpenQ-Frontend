@@ -103,13 +103,13 @@ const StepThreeContent = () => {
               <div>Logs</div>
             </div>
           </div>
-          <div className='w-full  px-8 py-6 focus:outline-none'>
+          <div className='w-full  px-8 py-6 focus:outline-none overflow-hidden'>
             <div className='flex flex-col gap-y-8'>
               August 2023
               <AnimateIn delay={750} direction={'left'}>
                 <div className='rounded-lg border border-divider bg-white p-6'>
-                  <div className=' items-start gap-2'>
-                    <div>
+                  <div className=' items-start'>
+                    <div className='flex gap-2 content-center items-center'>
                       <svg
                         aria-hidden='true'
                         focusable='false'
@@ -128,10 +128,9 @@ const StepThreeContent = () => {
                       >
                         <path d='M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z'></path>
                       </svg>
+                      <strong>Note</strong>
+                      <div>by Christopher</div>
                     </div>
-                    <h5>
-                      <strong>Note</strong> <div>by Christopher</div>
-                    </h5>
                     <div
                       style={{
                         position: 'fixed',
@@ -149,13 +148,15 @@ const StepThreeContent = () => {
                       }}
                     ></div>
                   </div>
-                  <div className='mt-4 whitespace-pre-wrap'>This a Note</div>
+                  <div className='mt-4 whitespace-pre-wrap'>
+                    Invite team to hackathon next month and send form to get feedback on documentation.
+                  </div>
                 </div>
               </AnimateIn>
               <AnimateIn margin='300px' delay={1500} direction={'left'}>
                 <div className='rounded-lg border border-divider bg-white p-6'>
                   <div className=' items-start gap-2'>
-                    <div>
+                    <div className='flex gap-2 content-center items-center'>
                       <svg
                         aria-hidden='true'
                         focusable='false'
@@ -174,17 +175,16 @@ const StepThreeContent = () => {
                       >
                         <path d='M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z'></path>
                       </svg>
-                    </div>
-                    <div>
                       <strong>Email</strong>
-                      <strong> - This is a Subject </strong>
-                      <div>from tom.morris@openq.dev</div>
+                      <div>from christopher@openq.dev</div>
                     </div>
                     <div className='flex justify-between'>
                       <div>
-                        <strong>Jane Doe</strong>
                         <div>to: janedoe@mydomain.com</div>
                       </div>
+                    </div>
+                    <div className='py-4'>
+                      <strong>Hackathon Followup</strong>
                     </div>
                     <div
                       style={{
@@ -203,7 +203,14 @@ const StepThreeContent = () => {
                       }}
                     ></div>
                   </div>
-                  <div className='mt-4 whitespace-pre-wrap'>This is the text</div>
+                  <div className=' whitespace-pre-wrap'>
+                    Hey Jane, thanks for participation at our last event we are very happy to see that you are
+                    continuing to develop your project. Feel free to join our next hackathon to further refine your idea
+                    and please take a look at these questions if you have some time to give us feedback 🙏
+                    <br />
+                    <br />
+                    All the best, Chris
+                  </div>
                 </div>
               </AnimateIn>
               <div className='flex'>
