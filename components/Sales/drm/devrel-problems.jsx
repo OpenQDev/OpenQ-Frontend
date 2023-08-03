@@ -43,6 +43,7 @@ const DevRelProblems = () => {
           <div className='flex flex-col text-left gap-y-8 '>
             <div>
               <CRMContextTwo />
+              <CRMContextTwo />
             </div>
             <div className='text-xl font-semibold text-black max-w-[24rem]'>
               Off-the-shelf CRMs often present challenges in usability and have little use to dev rels.

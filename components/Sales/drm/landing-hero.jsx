@@ -5,7 +5,7 @@ import { ChevronRightIcon } from '@primer/octicons-react';
 
 export default function Header() {
   return (
-    <header className='flex flex-col sm:flex-row md:pb-60 lg:pb-40  pb-20  justify-between items-center max-w-screen-2xl mx-auto lg:pt-36 px-4 md:px-12 lg:px-24 relative z-0 md:min-h-[590px]'>
+    <header className='flex flex-col sm:flex-row md:pb-60 lg:pb-28  pb-20  justify-between items-center max-w-screen-2xl mx-auto lg:pt-16 px-4 md:px-12 lg:px-24 relative z-0 md:min-h-[590px]'>
       <div className='lg:pr-10 z-10'>
         <Link href='https://medium.com/openqdev/introducing-openq-on-polygon-1b096f74e949' target='_blank'>
           <div className='flex items-center bg-dark-4 bg-opacity-70 border border-gray-600 rounded-full sm:rounded-full px-3 md:px-6 py-2 mt-10 w-fit'>

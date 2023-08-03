@@ -12,7 +12,7 @@ const DevRelHero = () => {
         <UpperAnim />
       </div>
       <div className='grid 2xl:grid-cols-[30%_40%_30%] justify-center justify-items-center w-full '>
-        <div className='hidden 2xl:block flex-1 relative top-[80px] left-8'>
+        <div className='hidden 2xl:block flex-1 relative top-[10px] left-8'>
           <LeftAnim />
         </div>
         <div className='flex flex-col justify-content-center items-center '>
@@ -26,7 +26,7 @@ const DevRelHero = () => {
         </div>
         <div className='flex-1'></div>
       </div>
-      <div className='2xl:flex hidden justify-center 2xl:ml-[48rem] relative 2xl:-top-[136px] overflow-hidden'>
+      <div className='2xl:flex hidden justify-center 2xl:ml-[37rem] relative 2xl:-top-[136px] overflow-hidden'>
         <RightAnim />
       </div>
       <div className='2xl:hidden w-full flex justify-center  '>

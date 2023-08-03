@@ -39,12 +39,12 @@ const BenefitsSection = () => {
           forText='For companies'
           benefitsArray={[
             'Elevate your developer relationships with our data-driven DRM solution.',
-            "Explore the builder hub's potential in fostering developer communities through hackathons and rewarding bounties that drive impactful advancements.",
+            "Explore the developers hub's potential through hackathons that drive impactful advancements.",
           ]}
         >
           <Link
             href='https://calendly.com/ricketh/openqdemo'
-            className='text-xl flex text-white lg:ml-0 w-80 bg-dark-mode border-transparent border rounded-sm px-6 pl-0 py-4  font-bold items-center gap-2'
+            className='text-xl flex text-white lg:-mt-4 lg:ml-0 w-80 bg-dark-mode border-transparent border rounded-sm px-6 pl-0 py-4  font-bold items-center gap-2'
           >
             <div className='pb-1 '>
               <div>Schedule a demo</div>
