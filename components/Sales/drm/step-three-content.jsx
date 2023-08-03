@@ -128,8 +128,10 @@ const StepThreeContent = () => {
                       >
                         <path d='M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z'></path>
                       </svg>
-                      <strong>Note</strong>
-                      <div>by Christopher</div>
+                      <div>
+                        <strong>Note</strong>
+                        <span> by Christopher</span>
+                      </div>
                     </div>
                     <div
                       style={{
@@ -175,8 +177,9 @@ const StepThreeContent = () => {
                       >
                         <path d='M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z'></path>
                       </svg>
-                      <strong>Email</strong>
-                      <div>from christopher@openq.dev</div>
+                      <div>
+                        <strong>Email</strong> <span className=''>from tim@openq.dev</span>
+                      </div>
                     </div>
                     <div className='flex justify-between'>
                       <div>
