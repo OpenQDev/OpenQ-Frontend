@@ -20,7 +20,7 @@ export default function Header() {
           </div>
         </Link>
         <h1 className='text-left sm:text-center mt-10 text-4xl md:text-left md:leading-tight md:text-5xl lg:w-[44rem]'>
-          Orchestrating the global symphony of developers, code and <span className='whitespace-nowrap'>dev rel</span>
+          Orchestrating the global symphony of developers, code and <span className='whitespace-nowrap'>dev rels</span>
         </h1>
         <p className='text-left sm:text-center max-w-md w-full  sm:mx-auto md:mx-0 text-zinc-400 mb-5 text-xl md:text-3xl md:max-w-xl md:text-left mt-5'>
           Building powerful infrastructure around developers hubs for growth and innovation.
