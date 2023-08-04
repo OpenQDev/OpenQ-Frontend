@@ -66,21 +66,41 @@ function OpenQ({ Component, pageProps }) {
   const whiteBgRoutes = ['/drm', '/marketplace', '/hackathon-launchpad'];
   const isWhiteBgRoute = whiteBgRoutes.includes(route);
   const socialImage = pageProps?.page?.data?.socialimage.url;
+  const title = pageProps?.page?.data?.slices[0]?.primary?.header[0]?.text;
   return (
     <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Head>
-        <title>OpenQ | New Universe For Builders</title>
+        <title>{title ?? 'OpenQ | Building powerful infrastructure around developers hubs'}</title>
         <meta name='OpenQ Bounties' content='width=device-width, initial-scale=1.0' />
         <link rel='icon' href='/openq-logo.png' />
         <link rel='manifest' href='/manifest.json' crossOrigin='use-credentials' />
 
         {socialImage && (
           <>
+            <meta name='title' content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'} />
+            <meta
+              name='description'
+              content='With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!'
+            />
+            <meta property='twitter:site' content='@openqlabs'></meta>{' '}
+            <meta
+              property='twitter:title'
+              content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'}
+            />
+            <meta property='twitter:description' content='A CRM by DevRels for DevRels' />
             <meta property='twitter:card' content='summary_large_image' />
-            <meta property='og:image' content={socialImage} />
             <meta property='twitter:image' content={socialImage} />
+            <meta property='twitter:url' content='https://openq.dev/blog/drm-launch' />
+            <meta
+              name='og:title'
+              content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'}
+            />
+            <meta property='og:description' content='A CRM by DevRels for DevRels' />
+            <meta property='og:type' content='website' />
+            <meta property='og:url' content='https://openq.dev/blog/drm-launch'></meta>
+            <meta property='og:image' content={socialImage} />
           </>
         )}
       </Head>

@@ -6,7 +6,6 @@
 import { PrismicRichText } from '@prismicio/react';
 import React from 'react';
 const BlogBody = ({ slice }) => {
-  console.log(slice);
   return (
     <div className='flex w-full justify-center bg-dark-mode z-10'>
       <div className='max-w-2xl text-xl px-8 rich-text w-full py-4'>

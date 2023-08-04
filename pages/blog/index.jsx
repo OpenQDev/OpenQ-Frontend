@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createClient } from '../../prismicio';
 import Image from 'next/image';
-import Head from 'next/head';
 import Link from 'next/link';
 const Blog = ({ latestBlogPosts }) => {
   console.log(latestBlogPosts[0].data.slices.find((slice) => slice.slice_type === 'header'));
@@ -25,17 +24,6 @@ const Blog = ({ latestBlogPosts }) => {
 
   return (
     <>
-      <Head>
-        <meta name='twitter:site' content='@openqlabs'></meta>
-        <meta name='twitter:title' content='By DevRels for DevRels'></meta>
-        <meta name='twitter:description' content="CRMs just aren't cutting it for developer ecosytems"></meta>
-        <meta name='twitter:card' content='summary_large_image'></meta>
-        <meta name='twitter:image' content='/landingpage/home/blog-image.png'></meta>
-        <meta name='og:title' content='By DevRels for DevRels'></meta>
-        <meta property='og:description' content="CRMs just aren't cutting it for developer ecosytems"></meta>
-        <meta property='og:url' content='https://openq.dev/blog/drm-launch'></meta>
-        <meta property='og:image' content='/landingpage/home/blog-image.png'></meta>
-      </Head>
       <div className={`w-full`}>
         <div
           className={`w-full px-8 fixed h-[540px]  overflow-hidden flex content-center justify-center items-center  ${
