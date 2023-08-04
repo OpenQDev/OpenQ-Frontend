@@ -67,6 +67,7 @@ function OpenQ({ Component, pageProps }) {
   const isWhiteBgRoute = whiteBgRoutes.includes(route);
   const socialImage = pageProps?.page?.data?.socialimage.url;
   const title = pageProps?.page?.data?.slices[0]?.primary?.header[0]?.text;
+  console.log(route);
   return (
     <>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
@@ -80,10 +81,7 @@ function OpenQ({ Component, pageProps }) {
         {socialImage && (
           <>
             <meta name='title' content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'} />
-            <meta
-              name='description'
-              content='With Meta Tags you can edit and experiment with your content then preview how your webpage will look on Google, Facebook, Twitter and more!'
-            />
+            <meta name='description' content='A CRM by DevRels for DevRels' />
             <meta property='twitter:site' content='@openqlabs'></meta>{' '}
             <meta
               property='twitter:title'
@@ -101,6 +99,55 @@ function OpenQ({ Component, pageProps }) {
             <meta property='og:type' content='website' />
             <meta property='og:url' content='https://openq.dev/blog/drm-launch'></meta>
             <meta property='og:image' content={socialImage} />
+          </>
+        )}
+        {!socialImage && route !== '/drm' && (
+          <>
+            <meta name='title' content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'} />
+            <meta name='description' content='Orchestrating the global symphony of developers, code and dev rels' />
+            <meta property='twitter:site' content='@openqlabs'></meta>
+            <meta
+              property='twitter:title'
+              content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'}
+            />
+            <meta
+              property='twitter:description'
+              content='Orchestrating the global symphony of developers, code and dev rels'
+            />
+            <meta property='twitter:card' content='summary_large_image' />
+            <meta property='twitter:url' content='https://openq.dev/blog/drm-launch' />
+            <meta
+              name='og:title'
+              content={title ?? 'OpenQ | Building powerful infrastructure around developers hubs'}
+            />
+            <meta
+              property='og:description'
+              content='Orchestrating the global symphony of developers, code and dev rels'
+            />
+            <meta property='og:type' content='website' />
+            <meta property='og:url' content='https://openq.dev/blog/drm-launch'></meta>
+          </>
+        )}
+        {!socialImage && route === '/drm' && (
+          <>
+            <meta name='title' content={'OpenQ DRM | Supercharge developer relations'} />
+            <meta
+              name='description'
+              content='The OpenQ DRM gives your DevRel team direct access to every beat in the pulse of your developer ecosystem'
+            />
+            <meta property='twitter:site' content='@openqlabs'></meta>{' '}
+            <meta property='twitter:title' content={'OpenQ DRM | Supercharge developer relations'} />
+            <meta
+              property='twitter:description'
+              content='The OpenQ DRM gives your DevRel team direct access to every beat in the pulse of your developer ecosystem'
+            />
+            <meta name='og:title' content={'OpenQ DRM | Supercharge developer relations'} />
+            <meta
+              property='og:description'
+              content='The OpenQ DRM gives your DevRel team direct access to every beat in the pulse of your developer ecosystem'
+            />
+            <meta property='og:type' content='website' />
+            <meta property='og:url' content='https://openq.dev/drm'></meta>
           </>
         )}
       </Head>

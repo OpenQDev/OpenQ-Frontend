@@ -8,10 +8,10 @@ import Image from 'next/image';
 const BlogImage = ({ slice }) => {
   return (
     <div className='flex w-full justify-center bg-dark-mode z-10'>
-      <div className='py-4 max-w-2xl px-8 bg-dark-mode z-10 '>
+      <div className='py-4 max-w-6xl px-8 bg-dark-mode z-10 '>
         {slice?.primary?.blogimage?.url && (
           <Image
-            className='w-full rounded-lg'
+            className='w-full rounded-md'
             src={slice?.primary?.blogimage?.url}
             width={slice?.primary?.blogimage?.dimensions?.width}
             height={slice?.primary?.blogimage?.dimensions?.height}

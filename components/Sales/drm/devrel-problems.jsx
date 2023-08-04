@@ -30,7 +30,7 @@ const DevRelProblems = () => {
                 type={'problem'}
               />
             </div>
-            <div className='text-xl font-semibold text-black'>Spreadsheet Limitations</div>
+            <div className='text-xl md:pb-14 lg:pb-7 font-semibold text-black'>Spreadsheet Limitations</div>
 
             <div className='flex flex-col space-y-3 '>
               <Limitations text='Time-consuming and labor-intensive' />
@@ -44,7 +44,7 @@ const DevRelProblems = () => {
             <div>
               <CRMContextTwo />
             </div>
-            <div className='text-xl font-semibold text-black max-w-[24rem]'>
+            <div className='text-xl font-semibold text-black pb-8 md:py-8 max-w-[30rem]'>
               Off-the-shelf CRMs often present challenges in usability and have little use to dev rels.
             </div>
             <div className='flex flex-col space-y-3'>
