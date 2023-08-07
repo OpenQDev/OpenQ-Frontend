@@ -56,10 +56,10 @@ const Subnav = () => {
       </div>
       {isOpen && (
         <div className='flex flex-col relative z-20 pb-7 md:hidden'>
-          <a href='#' className='text-gray-900 px-3 text-md font-normal pl-6 pb-5'>
+          <Link href='/' className='text-gray-900 px-3 text-md font-normal pl-6 pb-5'>
             Home
-          </a>
-          <a href='#' className='text-gray-900 px-3 text-md font-normal pl-6 pb-5'>
+          </Link>
+          <a href='https://calendly.com/ricketh/openqdemo' className='text-gray-900 px-3 text-md font-normal pl-6 pb-5'>
             Schedule a Demo
           </a>
           <Typeform>

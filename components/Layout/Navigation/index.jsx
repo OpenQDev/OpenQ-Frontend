@@ -155,7 +155,7 @@ const Navigation = () => {
         <div className='flex visible relative w-full'>
           <div className='flex w-full md:py-1 justify-between mx-4 md:mx-8'>
             <div className='flex space-x-5 items-center'>
-              <Link href={'/'} className='flex items-center md:hover:opacity-70 min-w-[31px]'>
+              <Link href={'/'} className='flex items-center md:hover:opacity-70 z-10 min-w-[31px]'>
                 <Image src='/openq-logo-white-2.png' alt='OpenQ' width='31' height='31' />
               </Link>
 
