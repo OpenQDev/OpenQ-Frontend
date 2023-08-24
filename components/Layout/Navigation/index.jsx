@@ -151,7 +151,7 @@ const Navigation = () => {
         </div>
       ) : null}
       <LoadingThread />
-      <div className='flex bg-nav-bg py-1 h-16 relative z-10'>
+      <div className='flex bg-nav-bg py-1 h-16 relative z-30'>
         <div className='flex visible relative w-full'>
           <div className='flex w-full md:py-1 justify-between mx-4 md:mx-8'>
             <div className='flex space-x-5 items-center'>
