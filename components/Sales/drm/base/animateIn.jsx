@@ -10,8 +10,6 @@ const AnimateIn = ({ children, direction, delay = 0, margin = '0px' }) => {
               setTimeout(() => {
                 entry.target.classList.add(`animate-fade-in-${direction}`);
               }, delay);
-            } else {
-              entry.target.classList.remove(`animate-fade-in-${direction}`);
             }
           });
         },

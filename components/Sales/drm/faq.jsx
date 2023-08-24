@@ -8,7 +8,7 @@ const Faq = () => {
       <div className='flex flex-col px-8 bg-white justify-center items-center lg:text-center pb-20'>
         <Heading className='pt-3 self-left w-full'>Frequently</Heading>
         <Heading className='pt-3 pb-12 w-full'>asked questions</Heading>
-        <div>
+        <div className='w-full max-w-[1000px] '>
           <FaqQuestion
             question='How can the DRM help improve developer retention?'
             answer='The DRM platform improves developer retention through comprehensive interaction records, allowing DevRels to maintain and manage communication effectively. With Git analytics and real-time tracking, organizations can stay updated on developer engagement and identify potential churn. Data-driven insights from the platform enable informed decision-making, correlating DevRel efforts to positive developer responses for better resource allocation. The platform empowers organizations to strategically plan and foster growth, increasing developer retention rates.'
