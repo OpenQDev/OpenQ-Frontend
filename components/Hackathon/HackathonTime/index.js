@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import InfoInToolTip from '../../../components/Utils/InfoInToolTip';
 import SmallToggle from '../../../components/Utils/SmallToggle';
-import ToolTipNew from '../../../components/Utils/ToolTipNew.js';
+import ToolTipNew from '../../../components/Utils/ToolTipNew';
 import HackathonContext from '../HackathonStore/HackathonContext';
 
 import TimezoneSelect from 'react-timezone-select';
@@ -12,8 +12,6 @@ const HackathonTime = () => {
   const [hackathonState, hackathonDispatch] = useContext(HackathonContext);
   const { endDate, startDate } = hackathonState;
   const classNames = 'text-black';
-  const inputRef = useRef();
-  useEffect(() => {}, [inputRef.current]);
   const handleStartDate = (e) => {
     // if (!e.target.value) return;
     const dispatch = {

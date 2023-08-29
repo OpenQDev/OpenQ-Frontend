@@ -110,6 +110,7 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
                     styles={'flex max-w-[1200px] text-xl py-3 mb-8  placeholder:text-nav-bg'}
                   />
                   <PaginatedList
+                    getKey={(item) => item.id}
                     paginationState={githubPaginationState}
                     PaginationCard={ShowCaseCard}
                     className='grid grid-cols-[_repeat(_auto-fit,_minmax(250px,_1fr))] flex-wrap gap-6 w-full items-start'

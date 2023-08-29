@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-
+/*
 import { KnockFeedProvider, NotificationIconButton, NotificationFeedPopover } from '@knocklabs/react-notification-feed';
 
 import '@knocklabs/react-notification-feed/dist/index.css';
-
+*/
 const notificationClicked = (item) => {
   const { bountyId, bountyAddress } = item.data;
   window.location.href = `${process.env.NEXT_PUBLIC_BASE_URL}/contract/${bountyId}/${bountyAddress}?tab=Claim`;
@@ -14,6 +14,8 @@ const NotificationBell = ({ userId, notificationToken }) => {
   const notifButtonRef = useRef(null);
 
   return (
+    <>
+      {/*
     <KnockFeedProvider
       colorMode='dark'
       apiKey={process.env.NEXT_PUBLIC_NOTIFICATIONS_PUBLIC_KEY}
@@ -31,7 +33,8 @@ const NotificationBell = ({ userId, notificationToken }) => {
           onClose={() => setIsVisible(false)}
         />
       </>
-    </KnockFeedProvider>
+    </KnockFeedProvider>*/}
+    </>
   );
 };
 
