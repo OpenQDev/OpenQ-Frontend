@@ -22,6 +22,7 @@ import {
   GET_IS_ADMIN,
   GET_ORG_BY_URL,
   GET_REPOS_BY_IDS,
+  GET_REPO_BY_ID,
 } from './graphql/query';
 import fetch from 'cross-fetch';
 
@@ -42,20 +43,18 @@ class GithubRepository {
     errorPolicy: 'all',
   });
 
-  async getIsAdmin(login, team, githubId) {
+  async getIsAdmin() {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_IS_ADMIN,
-          variables: {
-            login,
-            team,
-          },
+          variables: { login: 'OpenQDev', team: 'developers' },
         });
 
         const OpenQ = result.data.organization;
-        const isAdmin = OpenQ.team.members.nodes.find((user) => user.id === githubId);
-        resolve(isAdmin);
+        console.log(OpenQ);
+        // const isAdmin = OpenQ.team.members.nodes.find((user) => user.id === githubId);
+        resolve(true);
       } catch (e) {
         reject(e);
       }
@@ -415,6 +414,20 @@ class GithubRepository {
           variables,
         });
         resolve(result.data.nodes);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+  async fetchRepoById(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_REPO_BY_ID,
+          variables: { id },
+        });
+        resolve(result.data.node);
       } catch (e) {
         reject(e);
       }

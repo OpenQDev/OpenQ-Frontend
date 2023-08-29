@@ -7,7 +7,6 @@ const WatchButton = ({ setStatefulWatched, unWatchable, watchingState, bounty })
   const { accountData, logger } = appState;
   const [watchDisabled, setWatchDisabled] = useState();
   const [watchingDisplay, setWatchingDisplay] = useState();
-  const { github, email, id } = appState.accountData;
 
   useEffect(() => {
     const getWatched = async () => {
@@ -43,16 +42,7 @@ const WatchButton = ({ setStatefulWatched, unWatchable, watchingState, bounty })
     }
     setWatchDisabled(true);
     try {
-      await watchBounty(
-        [appState, dispatch],
-        github,
-        email,
-        id,
-        bounty,
-        watchingDisplay,
-        setWatchingDisplay,
-        watchDisabled
-      );
+      await watchBounty([appState, dispatch], bounty, watchingDisplay, setWatchingDisplay, watchDisabled);
     } catch (err) {
       logger.error(err, accountData.id, 'watch4');
     }

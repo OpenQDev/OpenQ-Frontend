@@ -249,6 +249,65 @@ class OpenQPrismaClient {
                 });
         });
     }
+
+      async getTeamAccounts() {
+    return new Promise(async (resolve, reject) => {
+           axios.get(`http://localhost:3030/proaccounts`)
+                .then(result => {
+                    const nodes = result.data.teamAccounts.teamAccountConnection.nodes
+                    resolve( nodes );
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+
+  async getProducts() {
+    return new Promise(async (resolve, reject) => {
+         axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve(result.data.productConnection.nodes );
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+  async createProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+         axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve({ createProduct: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+
+  updateProduct(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+           axios.get(`http://localhost:3030/products`)
+                .then(result => {
+                    resolve({ updateProduct: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
+  addProductToTeamAccount(secret, variables) {
+    return new Promise(async (resolve, reject) => {
+          axios.get(`http://localhost:3030/proaccount`)
+                .then(result => {
+                    resolve({ addProductToTeamAccount: result.data });
+                })
+                .catch(error => {
+                    reject(error);
+                });
+    });
+  }
 }
 
 export default OpenQPrismaClient;

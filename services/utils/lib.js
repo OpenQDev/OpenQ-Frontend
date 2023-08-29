@@ -1,460 +1,538 @@
 import { ethers } from 'ethers';
 
 export const getNonBlacklisted = async (appState, repoName, org, limit) => {
-  const { repoPrs, totalCount } = await appState.githubRepository.getPrs(org, repoName, limit || 3);
+	const { repoPrs, totalCount } = await appState.githubRepository.getPrs(org, repoName, limit || 3);
 
-  const prs = await appState.openQPrismaClient.getSubmissions();
-  const blacklistedPrIds = prs.filter((pr) => pr.blacklisted).map((pr) => pr.id);
+	const prs = await appState.openQPrismaClient.getSubmissions();
+	const blacklistedPrIds = prs.filter((pr) => pr.blacklisted).map((pr) => pr.id);
 
-  return { nonBlacklisted: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)), totalCount };
+	return { nonBlacklisted: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)), totalCount };
 };
 
 export const shortenAddress = (address) => {
-  if (!address) {
-    return '';
-  }
-  return `${address.slice(0, 4)}...${address.slice(38)}`;
+	if (!address) {
+		return '';
+	}
+	return `${address.slice(0, 4)}...${address.slice(38)}`;
 };
 
 export const parseVolume = (volume) => {
-  const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
-  if (numberRegex.test(volume) || volume === '' || volume === '.') {
-    return volume.match(numberRegex)[0];
-  } else {
-    return null;
-  }
+	const numberRegex = /^(\d+)?(\.)?(\d+)?$/;
+	if (numberRegex.test(volume) || volume === '' || volume === '.') {
+		return volume.match(numberRegex)[0];
+	} else {
+		return null;
+	}
 };
 
 export const rounder = (nb) => {
-  if (nb > 10 && Math.round(nb) - nb < 0.1) {
-    return Math.round(nb);
-  } else {
-    return nb;
-  }
+	if (nb > 10 && Math.round(nb) - nb < 0.1) {
+		return Math.round(nb);
+	} else {
+		return nb;
+	}
 };
 
 export const listWordsWithAnd = (words) => {
-  if (words.length === 0) return '';
-  if (words.length === 1) {
-    return words[0];
-  }
-  if (words.length === 2) {
-    return `${words[0]} and ${words[1]}`;
-  }
-  return `${words.slice(0, -1).join(', ')}, and ${words[words.length - 1]}`;
+	if (words.length === 0) return '';
+	if (words.length === 1) {
+		return words[0];
+	}
+	if (words.length === 2) {
+		return `${words[0]} and ${words[1]}`;
+	}
+	return `${words.slice(0, -1).join(', ')}, and ${words[words.length - 1]}`;
 };
 
 export const capitalize = (word) => {
-  if (!word) return '';
-  return word[0].toUpperCase() + word.substring(1);
+	if (!word) return '';
+	return word[0].toUpperCase() + word.substring(1);
 };
 export const valueToDisplay = (value) => {
-  switch (value) {
-    case 'invoicingName':
-      return 'Invoicing Name';
-    case 'invoicingEmail':
-      return 'Invoicing Email';
-    case 'streetAddress':
-      return 'Billing Address';
-    case 'postalCode':
-      return 'Postal Code';
-    case 'phoneNumber':
-      return 'Phone Number';
-    case 'invoiceNumber':
-      return 'Invoice Number';
-    case 'taxId':
-      return 'Tax ID';
-    case 'vatNumber':
-      return 'VAT Number';
-    case 'vatRate':
-      return 'VAT Rate';
-    case 'billingName':
-      return 'Billing Name';
-    default:
-      return capitalize(value);
-  }
+	switch (value) {
+		case 'invoicingName':
+			return 'Invoicing Name';
+		case 'invoicingEmail':
+			return 'Invoicing Email';
+		case 'streetAddress':
+			return 'Billing Address';
+		case 'postalCode':
+			return 'Postal Code';
+		case 'phoneNumber':
+			return 'Phone Number';
+		case 'invoiceNumber':
+			return 'Invoice Number';
+		case 'taxId':
+			return 'Tax ID';
+		case 'vatNumber':
+			return 'VAT Number';
+		case 'vatRate':
+			return 'VAT Rate';
+		case 'billingName':
+			return 'Billing Name';
+		default:
+			return capitalize(value);
+	}
 };
 
 export const getBigNumberVol = (volume, token) => {
-  const volumeInWei =
-    isNaN(volume) || volume === ''
-      ? 0
-      : ethers.utils.parseUnits(volume.toLocaleString('fullwide', { useGrouping: false }), token.decimals);
+	const volumeInWei =
+		isNaN(volume) || volume === ''
+			? 0
+			: ethers.utils.parseUnits(volume.toLocaleString('fullwide', { useGrouping: false }), token.decimals);
 
-  return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
+	return ethers.BigNumber.from(volumeInWei.toLocaleString('fullwide', { useGrouping: false }));
 };
 
 export const checkHackathonDates = (startDate, endDate, today) => {
-  const start = startDate && new Date(startDate);
-  const end = endDate && new Date(endDate);
-  if ((start && start < today) || (end && end < today) || (start && end && end < start)) {
-    return false;
-  }
-  return true;
+	const start = startDate && new Date(startDate);
+	const end = endDate && new Date(endDate);
+	if ((start && start < today) || (end && end < today) || (start && end && end < start)) {
+		return false;
+	}
+	return true;
 };
 const checkPrUsed = (pr, bounty) => {
-  return bounty.claims?.some((claim) => claim.claimantAsset === pr.source.url);
+	return bounty.claims?.some((claim) => claim.claimantAsset === pr.source.url);
 };
 const checkTierClaimed = (bounty, index) => {
-  return bounty.claims?.some((claim) => claim.tier === index.toString());
+	return bounty.claims?.some((claim) => claim.tier === index.toString());
 };
 
 export const checkFixedAndSplit = (bounty, currentUser) => {
-  if (
-    bounty.status == '0' &&
-    bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser && checkPrUsed(pr, bounty))
-  )
-    return { status: 'Claimed' };
-  if (bounty.status == '0' && bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser)) {
-    return { status: 'Claimable' };
-  }
-  return { status: null };
+	if (
+		bounty.status == '0' &&
+		bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser && checkPrUsed(pr, bounty))
+	)
+		return { status: 'Claimed' };
+	if (bounty.status == '0' && bounty?.prs?.some((pr) => pr.source.merged && pr.source.author.id === currentUser)) {
+		return { status: 'Claimable' };
+	}
+	return { status: null };
 };
 
 export const getWinningPrOfUser = (bounty, currentUser) => {
-  if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
-    const winningPr = bounty?.prs?.find((pr) => pr.source.author.id === currentUser);
+	if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
+		const winningPr = bounty?.prs?.find((pr) => pr.source.author.id === currentUser);
 
-    return winningPr.source;
-  }
+		return winningPr.source;
+	}
 };
 
 export const checkTiered = (bounty, currentUser) => {
-  if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
-    return { status: 'Claimed' };
-  }
-  if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
-    return { status: 'Claimable' };
-  }
-  if (bounty?.payoutSchedule?.length !== bounty?.payouts?.length) {
-    return { status: 'Open' };
-  } else {
-    return { status: null };
-  }
+	if (bounty?.tierWinners?.some((winner, index) => winner === currentUser && checkTierClaimed(bounty, index))) {
+		return { status: 'Claimed' };
+	}
+	if (bounty?.tierWinners?.some((winner) => winner === currentUser)) {
+		return { status: 'Claimable' };
+	}
+	if (bounty?.payoutSchedule?.length !== bounty?.payouts?.length) {
+		return { status: 'Open' };
+	} else {
+		return { status: null };
+	}
 };
 
 export const checkClaimable = (bounty, currentUser) => {
-  bounty.bountyType === '0';
-  switch (bounty.bountyType) {
-    case '0': {
-      return checkFixedAndSplit(bounty, currentUser);
-    }
-    case '1': {
-      return checkFixedAndSplit(bounty, currentUser);
-    }
-    case '2': {
-      return checkTiered(bounty, currentUser);
-    }
-    case '3': {
-      return checkTiered(bounty, currentUser);
-    }
-    default:
-      return { status: null };
-  }
+	bounty.bountyType === '0';
+	switch (bounty.bountyType) {
+		case '0': {
+			return checkFixedAndSplit(bounty, currentUser);
+		}
+		case '1': {
+			return checkFixedAndSplit(bounty, currentUser);
+		}
+		case '2': {
+			return checkTiered(bounty, currentUser);
+		}
+		case '3': {
+			return checkTiered(bounty, currentUser);
+		}
+		default:
+			return { status: null };
+	}
 };
 
 export const getBountyMarker = (bounty, openQClient, githubId, checkClaimableImpl = checkClaimable) => {
-  if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
-  const { status } = checkClaimableImpl(bounty, githubId, openQClient);
-  if (status === 'Claimable') {
-    return {
-      status: 'Claim Available',
-      colour: 'bg-closed',
-      fill: 'fill-closed',
-    };
-  }
-  if (status === 'Claimed') {
-    return {
-      status: 'Claimed',
-      colour: 'bg-closed',
-      fill: 'fill-closed',
-    };
-  }
-  if (status === 'Open') {
-    return {
-      status: 'Open',
-      colour: 'bg-green',
-      fill: 'fill-green',
-    };
-  }
-  if (bounty.bountyType === '0') {
-    if (bounty.assignees[0]) {
-      return {
-        status: 'In Progress',
-        colour: 'bg-yellow-500 text-black fill-black',
-        fill: 'fill-yellow-500',
-      };
-    }
-    return {
-      status: 'Ready for Work',
-      colour: 'bg-green',
-      fill: 'fill-green',
-    };
-  } else {
-    // for split price and contests, closed when status is 1
-    if (bounty.status == '1') {
-      return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
-    } else {
-      return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
-    }
-  }
+	if (bounty.closed) return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+	const { status } = checkClaimableImpl(bounty, githubId, openQClient);
+	if (status === 'Claimable') {
+		return {
+			status: 'Claim Available',
+			colour: 'bg-closed',
+			fill: 'fill-closed',
+		};
+	}
+	if (status === 'Claimed') {
+		return {
+			status: 'Claimed',
+			colour: 'bg-closed',
+			fill: 'fill-closed',
+		};
+	}
+	if (status === 'Open') {
+		return {
+			status: 'Open',
+			colour: 'bg-green',
+			fill: 'fill-green',
+		};
+	}
+	if (bounty.bountyType === '0') {
+		if (bounty.assignees[0]) {
+			return {
+				status: 'In Progress',
+				colour: 'bg-yellow-500 text-black fill-black',
+				fill: 'fill-yellow-500',
+			};
+		}
+		return {
+			status: 'Ready for Work',
+			colour: 'bg-green',
+			fill: 'fill-green',
+		};
+	} else {
+		// for split price and contests, closed when status is 1
+		if (bounty.status == '1') {
+			return { status: 'Closed', colour: 'bg-danger', fill: 'fill-danger' };
+		} else {
+			return { status: 'Open', colour: 'bg-green', fill: 'fill-green' };
+		}
+	}
 };
 
 export const getPlural = (count) => {
-  if (count > 1 || count === 0) {
-    return 's';
-  }
-  return '';
+	if (count > 1 || count === 0) {
+		return 's';
+	}
+	return '';
 };
 
 export const getBool = (value) => {
-  if (value === 'Yes') {
-    return true;
-  }
-  return false;
+	if (value === 'Yes') {
+		return true;
+	}
+	return false;
 };
 export const reverseBool = (value) => {
-  if (value === true) {
-    return 'Yes';
-  }
-  return 'No';
+	if (value === true) {
+		return 'Yes';
+	}
+	return 'No';
 };
 
 export const getW8Approved = (bounty, accountData) => {
-  if (!bounty.supportingDocumentsCompleted) return bounty.supportingDocumentsCompleted;
-  if (bounty.bountyType === '2' || bounty.bountyType === '3') {
-    return bounty.supportingDocumentsCompleted[bounty.tierWinners?.indexOf(accountData.github)];
-  } else {
-    return bounty.supportingDocumentsCompleted;
-  }
+	if (!bounty.supportingDocumentsCompleted) return bounty.supportingDocumentsCompleted;
+	if (bounty.bountyType === '2' || bounty.bountyType === '3') {
+		return bounty.supportingDocumentsCompleted[bounty.tierWinners?.indexOf(accountData.github)];
+	} else {
+		return bounty.supportingDocumentsCompleted;
+	}
 };
 
 export const isContest = (bounty) => {
-  return bounty.bountyType === '2' || bounty.bountyType === '3';
+	return bounty.bountyType === '2' || bounty.bountyType === '3';
 };
 
 export const isEveryValueNotNull = (obj) => {
-  if (!obj) return false;
-  const { kyc, w8Form, githubHasWallet, invoice } = obj;
-  return kyc && w8Form && githubHasWallet && invoice;
+	if (!obj) return false;
+	const { kyc, w8Form, githubHasWallet, invoice } = obj;
+	return kyc && w8Form && githubHasWallet && invoice;
 };
 export const formatVolume = (tierVolume, token) => {
-  let bigNumberVolume = ethers.BigNumber.from(tierVolume?.toString() || '0');
-  let decimals = parseInt(token?.decimals) || 18;
-  let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
-  return formattedVolume;
+	let bigNumberVolume = ethers.BigNumber.from(tierVolume?.toString() || '0');
+	let decimals = parseInt(token?.decimals) || 18;
+	let formattedVolume = ethers.utils.formatUnits(bigNumberVolume, decimals);
+	return formattedVolume;
 };
 
 export const fetchRequestsWithServiceArg = async (appState, identity, oldCursor, batch, ordering, fetchFilters) => {
-  const { userId, githubId, email } = identity;
-  const userOffChainData = await appState.openQPrismaClient.getUserRequests(
-    {
-      id: userId,
-      github: githubId,
-      email: email,
-    },
-    {
-      bountiesCursor: oldCursor,
-      bountiesLimit: batch,
-      states: fetchFilters?.states,
-    }
-  );
-  const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
-    return bounty.requests;
-  });
-  const processedRequests = [];
-  for (let bounty of createdBounties) {
-    for (let request of bounty.requests.nodes) {
-      const requestGithubId = request.requestingUser.github;
-      const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
-      const requestWithGithubUser = {
-        ...request,
-        requestingUser: {
-          ...request.requestingUser,
-          githubUser,
-        },
-      };
-      processedRequests.push({ request: requestWithGithubUser, bounty });
-    }
-  }
+	const { userId, githubId, email } = identity;
+	const userOffChainData = await appState.openQPrismaClient.getUserRequests(
+		{
+			id: userId,
+			github: githubId,
+			email: email,
+		},
+		{
+			bountiesCursor: oldCursor,
+			bountiesLimit: batch,
+			states: fetchFilters?.states,
+		}
+	);
+	const createdBounties = userOffChainData.createdBounties.bountyConnection.nodes.filter((bounty) => {
+		return bounty.requests;
+	});
+	const processedRequests = [];
+	for (let bounty of createdBounties) {
+		for (let request of bounty.requests.nodes) {
+			const requestGithubId = request.requestingUser.github;
+			const githubUser = await appState.githubRepository.fetchUserById(requestGithubId);
+			const requestWithGithubUser = {
+				...request,
+				requestingUser: {
+					...request.requestingUser,
+					githubUser,
+				},
+			};
+			processedRequests.push({ request: requestWithGithubUser, bounty });
+		}
+	}
 
-  // re write using for loop
-  return {
-    nodes: processedRequests,
-    cursor: userOffChainData.createdBounties.bountyConnection.cursor,
-    complete: createdBounties.length !== batch,
-  };
+	// re write using for loop
+	return {
+		nodes: processedRequests,
+		cursor: userOffChainData.createdBounties.bountyConnection.cursor,
+		complete: createdBounties.length !== batch,
+	};
 };
 export const combineBounties = (subgraphBounties, githubIssues, metadata) => {
-  const fullBounties = [];
-  metadata.forEach((contract) => {
-    const relatedIssue = githubIssues.find((issue) => issue?.id == contract.bountyId);
-    const subgraphBounty = subgraphBounties.find((bounty) => {
-      return contract.address?.toLowerCase() === bounty.bountyAddress;
-    });
-    if (relatedIssue && subgraphBounty && !contract.blacklisted) {
-      let mergedBounty = {
-        alternativeName: '',
-        alternativeLogo: '',
-        ...relatedIssue,
-        ...subgraphBounty,
-        ...contract,
-      };
-      fullBounties.push(mergedBounty);
-    }
-  });
-  return fullBounties;
+	const fullBounties = [];
+	metadata.forEach((contract) => {
+		const relatedIssue = githubIssues.find((issue) => issue?.id == contract.bountyId);
+		const subgraphBounty = subgraphBounties.find((bounty) => {
+			return contract.address?.toLowerCase() === bounty.bountyAddress;
+		});
+		if (relatedIssue && subgraphBounty && !contract.blacklisted) {
+			let mergedBounty = {
+				alternativeName: '',
+				alternativeLogo: '',
+				...relatedIssue,
+				...subgraphBounty,
+				...contract,
+			};
+			fullBounties.push(mergedBounty);
+		}
+	});
+	return fullBounties;
 };
 export const fetchBountiesWithServiceArg = async (appState, oldCursor, batch, ordering, filters) => {
-  try {
-    let { sortOrder, field } = ordering;
-    if (!sortOrder) {
-      sortOrder = 'desc';
-    }
-    if (!field) {
-      field = 'createdAt';
-    }
-    const { types, organizationId, repositoryId, title } = filters;
-    const { openQSubgraphClient, githubRepository, openQPrismaClient } = appState;
-    let newCursor;
-    let prismaContracts;
+	try {
+		let { sortOrder, field } = ordering;
+		if (!sortOrder) {
+			sortOrder = 'desc';
+		}
+		if (!field) {
+			field = 'createdAt';
+		}
+		const { types, organizationId, repositoryId, title } = filters;
+		const { openQSubgraphClient, githubRepository, openQPrismaClient } = appState;
+		let newCursor;
+		let prismaContracts;
 
-    const prismaContractsResult = await openQPrismaClient.getContractPage(
-      oldCursor,
-      batch,
-      sortOrder,
-      field,
-      types,
-      organizationId,
-      null,
-      repositoryId,
-      title
-    );
-    prismaContracts =
-      prismaContractsResult.nodes.filter((contract) => !contract.blacklisted && !contract.organization.blacklisted) ||
-      [];
-    newCursor = prismaContractsResult.cursor;
+		const prismaContractsResult = await openQPrismaClient.getContractPage(
+			oldCursor,
+			batch,
+			sortOrder,
+			field,
+			types,
+			organizationId,
+			null,
+			repositoryId,
+			title
+		);
+		prismaContracts =
+			prismaContractsResult.nodes.filter((contract) => !contract.blacklisted && !contract.organization.blacklisted) ||
+			[];
+		newCursor = prismaContractsResult.cursor;
 
-    const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
-    const bountyIds = prismaContracts.map((contract) => contract.bountyId);
+		const bountyAddresses = prismaContracts.map((bounty) => bounty.address.toLowerCase());
+		const bountyIds = prismaContracts.map((contract) => contract.bountyId);
 
-    let subgraphContracts = [];
-    try {
-      subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
-    } catch (err) {
-      throw err;
-    }
-    let githubIssues = [];
-    try {
-      githubIssues = await githubRepository.getIssueData(bountyIds);
-    } catch (err) {
-      githubIssues = [];
-    }
-    const complete = prismaContracts.length === 0;
-    const fullBounties = combineBounties(subgraphContracts, githubIssues, prismaContracts);
-    return {
-      nodes: fullBounties,
-      cursor: newCursor,
-      complete,
-    };
-  } catch (err) {
-    appState.logger.error(err);
-    return { nodes: [], cursor: null, complete: true };
-  }
+		let subgraphContracts = [];
+		try {
+			subgraphContracts = await openQSubgraphClient.getBountiesByContractAddresses(bountyAddresses);
+		} catch (err) {
+			throw err;
+		}
+		let githubIssues = [];
+		try {
+			githubIssues = await githubRepository.getIssueData(bountyIds);
+		} catch (err) {
+			githubIssues = [];
+		}
+		const complete = prismaContracts.length === 0;
+		const fullBounties = combineBounties(subgraphContracts, githubIssues, prismaContracts);
+		return {
+			nodes: fullBounties,
+			cursor: newCursor,
+			complete,
+		};
+	} catch (err) {
+		appState.logger.error(err);
+		return { nodes: [], cursor: null, complete: true };
+	}
 };
 
 export const getReadyText = (isContest) => {
-  if (isContest) {
-    return 'Ready to Hack';
-  } else return 'Ready for Work';
+	if (isContest) {
+		return 'Ready to Hack';
+	} else return 'Ready for Work';
 };
 export const isOnlyContest = (types) => {
-  const includesContest = types.includes('2') || types.includes('3');
-  const includesNonContest = types.includes('0') || types.includes('1');
-  return includesContest && !includesNonContest;
+	const includesContest = types.includes('2') || types.includes('3');
+	const includesNonContest = types.includes('0') || types.includes('1');
+	return includesContest && !includesNonContest;
 };
 
 export const fetchRepositories = async (appState, variables) => {
-  try {
-    const repositories = await appState.openQPrismaClient.getRepositories(variables);
+	try {
+		const repositories = await appState.openQPrismaClient.getRepositories(variables);
 
-    const checkBlacklisted = (repository) => {
-      const organizationBlacklisted = repository.organization.blacklisted;
-      const nonBlacklistedBounties = repository.bounties.nodes.filter((bounty) => !bounty.blacklisted);
-      const bountiesBlacklisted = nonBlacklistedBounties?.length === 0;
-      return !organizationBlacklisted && !bountiesBlacklisted;
-    };
-    const repositoryIds = repositories
-      .filter((repository) => checkBlacklisted(repository))
-      .map((repository) => repository.id);
-    const githubRepositories = await appState.githubRepository.fetchReposByIds([...repositoryIds]);
-    return githubRepositories;
-  } catch (err) {
-    appState.logger.error(err);
-    return [];
-  }
+		const checkBlacklisted = (repository) => {
+			const organizationBlacklisted = repository.organization.blacklisted;
+			const nonBlacklistedBounties = repository.bounties.nodes.filter((bounty) => !bounty.blacklisted);
+			const bountiesBlacklisted = nonBlacklistedBounties?.length === 0;
+			return !organizationBlacklisted && !bountiesBlacklisted;
+		};
+		const repositoryIds = repositories
+			.filter((repository) => checkBlacklisted(repository))
+			.map((repository) => repository.id);
+		const githubRepositories = await appState.githubRepository.fetchReposByIds([...repositoryIds]);
+		return githubRepositories;
+	} catch (err) {
+		appState.logger.error(err);
+		return [];
+	}
 };
 
 export const getBountyTypeName = (type) => {
-  const bountyType = type?.toString();
-  switch (bountyType) {
-    case '0':
-      return 'Fixed Price';
-    case '1':
-      return 'Split Price';
-    case '2':
-      return 'Contest';
-    case '3':
-      return 'Hackathon';
-    default:
-      return 'Unknown';
-  }
+	const bountyType = type?.toString();
+	switch (bountyType) {
+		case '0':
+			return 'Fixed Price';
+		case '1':
+			return 'Split Price';
+		case '2':
+			return 'Contest';
+		case '3':
+			return 'Hackathon';
+		default:
+			return 'Unknown';
+	}
 };
 export const getTypeFromCategory = (category) => {
-  switch (category) {
-    case 'Fixed Price':
-      return 0;
-    case 'Split Price':
-      return 1;
-    case 'Hackathon':
-      return 3;
-    default:
-      return null;
-  }
+	switch (category) {
+		case 'Fixed Price':
+			return 0;
+		case 'Split Price':
+			return 1;
+		case 'Hackathon':
+			return 3;
+		default:
+			return null;
+	}
 };
 export const needsOrgData = (accountData) => {
-  const orgAccountKeys = ['company', 'city', 'streetAddress', 'province', 'country', 'invoicingEmail'];
-  const neededAccountData = orgAccountKeys.filter((key) => {
-    return !accountData[key];
-  });
-  return neededAccountData.length > 0;
+	const orgAccountKeys = ['company', 'city', 'streetAddress', 'province', 'country', 'invoicingEmail'];
+	const neededAccountData = orgAccountKeys.filter((key) => {
+		return !accountData[key];
+	});
+	return neededAccountData.length > 0;
 };
 export const needsFreelancerData = (accountData) => {
-  const accountKeys = [
-    'company',
-    'billingName',
-    'city',
-    'streetAddress',
-    'postalCode',
-    'country',
-    'phoneNumber',
-    'province',
-    'invoicingEmail',
-    'invoiceNumber',
-    'taxId',
-    'vatNumber',
-    'vatRate',
-  ];
-  const neededAccountData = accountKeys.filter((key) => {
-    return !accountData[key] || accountData[key] == 0;
-  });
-  return neededAccountData.length > 0;
+	const accountKeys = [
+		'company',
+		'billingName',
+		'city',
+		'streetAddress',
+		'postalCode',
+		'country',
+		'phoneNumber',
+		'province',
+		'invoicingEmail',
+		'invoiceNumber',
+		'taxId',
+		'vatNumber',
+		'vatRate',
+	];
+	const neededAccountData = accountKeys.filter((key) => {
+		return !accountData[key] || accountData[key] == 0;
+	});
+	return neededAccountData.length > 0;
 };
 
 export const formatCurrency = (input) => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-  return formatter.format(input);
+	const formatter = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	});
+	return formatter.format(input);
+};
+export const handleDispatch = (e, type, dispatchFunc) => {
+	const dispatch = {
+		type,
+		payload: e.target.value,
+	};
+	dispatchFunc(dispatch);
+};
+export const updateHackathonState = async (hackathonState, appState, setCreateHackathonResponse, push) => {
+	const {
+		repositoryUrl,
+		startDate,
+		endDate,
+		city,
+		eventOrganizer,
+		isIrl,
+		timezone,
+		topic,
+		website,
+		contactEmail,
+		twitter,
+		discord,
+		telegram,
+		description,
+		slack,
+		registrationDeadline,
+		eventName,
+		hackathonProductInstanceId,
+		isDraft,
+	} = hackathonState;
+	const forwardedDraft = isDraft ? true : false;
+	const ownerRegex = /github.com\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)/;
+	const owner = ownerRegex.exec(repositoryUrl)?.[1];
+	const name = ownerRegex.exec(repositoryUrl)?.[2];
+	try {
+		setCreateHackathonResponse('PENDING');
+		const githubRepository = await appState.githubRepository.fetchRepoByName(owner, name, []).catch(() => {
+			return null;
+		});
+		const repositoryId = githubRepository.id;
+		const organizationId = githubRepository.owner?.id;
+		const variables = {
+			hackathonProductInstanceId,
+			repositoryId,
+			startDate,
+			endDate,
+			organizationId,
+			isContest: true,
+			isDraft: forwardedDraft,
+			city,
+			isIrl,
+			timezone,
+			eventOrganizer,
+			repositoryUrl,
+			topic,
+			website,
+			contactEmail,
+			twitter,
+			discord,
+			telegram,
+			slack,
+			registrationDeadline,
+			description,
+			eventName,
+		};
+		await appState.openQPrismaClient.updateRepositoryAsContest(variables);
+		setCreateHackathonResponse('SUCCESS');
+		push();
+	} catch (e) {
+		setCreateHackathonResponse('ERROR');
+		throw e;
+	}
+};
+export const shortenString = (str, maxLen) => {
+	if (str.length > maxLen) {
+		return str.substring(0, maxLen) + '...';
+	}
+	return str;
 };

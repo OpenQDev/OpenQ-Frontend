@@ -3,7 +3,6 @@
 import jsonRpcErrors from './JsonRPCErrors';
 import axios from 'axios';
 import { ethers } from 'ethers';
-import { reject } from 'lodash';
 
 class MockOpenQClient {
     shouldSleep = 1000;

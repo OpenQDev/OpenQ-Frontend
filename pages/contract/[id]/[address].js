@@ -16,14 +16,15 @@ import AdminPage from '../../../components/AdminPage';
 import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import UnexpectedErrorModal from '../../../components/Utils/UnexpectedErrorModal';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient';
-import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPrismaClient';
+import WrappedOpenQSubgraphClient from '../../../services/subgraph/WrappedOpenQSubgraphClient';
 import Logger from '../../../services/logger/Logger';
 import RepoTitle from '../../../components/Bounty/RepoTitle';
 import SubMenu from '../../../components/Utils/SubMenu';
 import BountyHeading from '../../../components/Bounty/BountyHeading';
 import BountyMetadata from '../../../components/Bounty/BountyMetadata';
 import Submissions from '../../../components/Submissions/Submissions';
+import PanelWithMetadata from '../../../components/Layout/PanelWithMetadata';
 
 import TokenProvider from '../../../components/TokenSelection/TokenStore/TokenProvider';
 import Add from '../../../components/svg/add';
@@ -43,6 +44,7 @@ const Address = ({ address, mergedBounty, renderError }) => {
 
   const { accountData, openQClient } = appState;
   const [bounty, setBounty] = useState(mergedBounty);
+  const repo = { owner: bounty.owner, name: bounty.repoName };
   const router = useRouter();
 
   const { status } = checkClaimable(bounty, accountData?.github, openQClient);
@@ -228,7 +230,7 @@ const Address = ({ address, mergedBounty, renderError }) => {
         ) : (
           <>
             <div className='flex flex-col justify-center items-center pt-4'>
-              <RepoTitle bounty={bounty} />
+              <RepoTitle repo={repo} />
               <SubMenu
                 colour='rust'
                 items={[
@@ -257,7 +259,7 @@ const Address = ({ address, mergedBounty, renderError }) => {
                 claimReqsCompleted={claimState[0]}
               />
 
-              <div className='flex justify-between  w-full px-2 sm:px-8 flex-wrap max-w-[1200px] pb-8 mx-auto'>
+              <PanelWithMetadata>
                 {internalMenu == 'View' && <BountyCardDetails bounty={bounty} />}
                 {internalMenu == 'Fund' && bounty ? (
                   <FundProvider bounty={bounty} refreshBounty={refreshBounty} setInternalMenu={setInternalMenu}>
@@ -300,7 +302,7 @@ const Address = ({ address, mergedBounty, renderError }) => {
                 {internalMenu && internalMenu !== 'Submissions' && (
                   <BountyMetadata split={split} bounty={bounty} setInternalMenu={setInternalMenu} />
                 )}
-              </div>
+              </PanelWithMetadata>
               <canvas className='absolute w-full top-0 z-40 bottom-0 pointer-events-none' ref={canvas}></canvas>
             </div>
           </>

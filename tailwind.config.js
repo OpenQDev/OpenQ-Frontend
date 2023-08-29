@@ -38,6 +38,7 @@ module.exports = {
 				'claim': '#3a4be9',
 				'info': '#4b422f',
 				'info-strong': '#7e5a18',
+				'heading-bg':'#161B22',
 				'dark-mode': '#0D1117',
 				'nav-bg': '#161B22',
 				'nav-text': '#f0f6fc',
@@ -97,6 +98,9 @@ module.exports = {
 				'5/7': '71.4285714%',
 				'6/7': '85.7142857%',
 			},
+			maxWidth: {
+     			 '60': '240px',
+		    },
 			screens: {
 				xs: '380px',
 				// => @media (min-width: 380px) { ... }
@@ -127,6 +131,7 @@ module.exports = {
 				'spin': 'spin 1s linear infinite'
 			}
 		},
+		},
 		keyframes: {
 			bump: {
 				'0%': {
@@ -149,11 +154,12 @@ module.exports = {
 				}
 			}
 		},
-	},
+	
 	variants: {
 		extend: {},
 	},
 	plugins: [
 		require('@tailwindcss/container-queries'),
 	],
-};
+}
+
