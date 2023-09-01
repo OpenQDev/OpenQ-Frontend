@@ -11,7 +11,7 @@ import WrappedOpenQPrismaClient from '../../../services/openq-api/WrappedOpenQPr
 
 const CreateHackathon = ({ githubRepository, hackathon }) => {
   const teamAccountId = hackathon.hackathonProductInstance.teamAccount.id;
-  const hackathonProductInstanceId = hackathon.hackathonProductInstance.id;
+  const hackathonProductInstanceId = hackathon.hackathonProductInstanceId;
   return (
     <HackathonProvider githubRepository={githubRepository} hackathon={hackathon}>
       <div className='lg:grid lg:grid-cols-extra-wide xl:grid-cols-wide justify-center md:pr-3 mx-4 sm:mx-8'>

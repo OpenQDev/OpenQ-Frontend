@@ -10,8 +10,6 @@ import {
   GET_CONTRACT_PAGE,
   GET_LEAN_ORGANIZATIONS,
   GET_ALL_CONTRACTS,
-  GET_SUBMISSION_BY_ID,
-  CREATE_PR,
   ADD_CONTRIBUTOR,
   REMOVE_CONTRIBUTOR,
   GET_ORGANIZATIONS,
@@ -42,6 +40,8 @@ import {
   GET_PRO_ACCOUNT_INFO_CURRENT,
   GET_USERS_PAGE,
   GET_REQUEST,
+  CREATE_SUBMISSION,
+  GET_SUBMISSION_BY_ID,
 } from './graphql/query';
 import { ethers } from 'ethers';
 
@@ -71,6 +71,22 @@ class OpenQPrismaClient {
 
     this.client.setLink(authLink.concat(this.httpLink));
   };
+
+  async createSubmission(variables) {
+    const promise = new Promise(async (resolve, reject) => {
+      console.log(variables);
+      try {
+        const result = await this.client.mutate({
+          mutation: CREATE_SUBMISSION,
+          variables,
+        });
+        resolve(result.data);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
 
   async watchBounty(bountyAddress) {
     const promise = new Promise(async (resolve, reject) => {
@@ -198,36 +214,6 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  async getPr(id) {
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.query({
-          query: GET_SUBMISSION_BY_ID,
-          variables: { id },
-          fetchPolicy: 'no-cache',
-        });
-        resolve(result.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-    return promise;
-  }
-  createPr(prId, bountyAddress, thumbnail) {
-    const promise = new Promise(async (resolve, reject) => {
-      try {
-        const result = await this.client.mutate({
-          mutation: CREATE_PR,
-          variables: { prId, bountyAddress, thumbnail },
-        });
-        resolve(result.data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-    return promise;
-  }
-
   getAllContracts() {
     const promise = new Promise(async (resolve, reject) => {
       try {
@@ -261,13 +247,30 @@ class OpenQPrismaClient {
     return promise;
   }
 
-  getSubmissions() {
+  getSubmissions(variables) {
     const promise = new Promise(async (resolve, reject) => {
       try {
         const result = await this.client.query({
           query: GET_ALL_SUBMISSIONS,
+          variables,
         });
         resolve(result.data.submissions);
+      } catch (e) {
+        reject(e);
+      }
+    });
+    return promise;
+  }
+
+  getSubmissionById(id) {
+    const promise = new Promise(async (resolve, reject) => {
+      try {
+        const result = await this.client.query({
+          query: GET_SUBMISSION_BY_ID,
+          variables: { id },
+          fetchPolicy: 'no-cache',
+        });
+        resolve(result.data.submission);
       } catch (e) {
         reject(e);
       }

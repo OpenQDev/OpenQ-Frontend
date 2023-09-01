@@ -10,18 +10,19 @@ import useGetTokenValues from '../../../hooks/useGetTokenValues';
 import { formatCurrency, formatVolume } from '../../../services/utils/lib';
 import GnosisWarning from '../../Utils/GnosisWarning';
 
-const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRemove, tierClaimed }) => {
+const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, submission, disabled, isRemove, tierClaimed }) => {
   const [showModal, setShowModal] = useState();
   const [selectionState, setSelectionState] = useState(RESTING);
   const tierIndex = parseInt(prize.index);
   const [appState] = useContext(StoreContext);
   const { accountData } = appState;
   const { library } = useWeb3();
-  const winnerId = pr.author.id;
+  const winnerId = submission?.users?.nodes?.[0]?.github;
   const [error, setError] = useState({});
   const [tokenValues] = useGetTokenValues(bounty?.bountyTokenBalances);
   const price = tokenValues?.total;
   const [targetWinner, setTargetWinner] = useState();
+  const primaryAuthorName = submission?.users?.nodes?.[0].username;
   const createFixedPayout = () => {
     return prize.payout && bounty.bountyType == 3
       ? {
@@ -195,8 +196,8 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
             <>
               <p className='my-2'>
                 {isRemove ? "You're about to remove the selection of " : 'You are about to select '}
-                <a href={pr.url} className='underline'>
-                  {pr.title}
+                <a href={submission.url} className='underline'>
+                  {submission.title}
                 </a>{' '}
                 as {suffixed} tier for the{' '}
                 <a className='underline' href={bounty.url}>
@@ -216,11 +217,11 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
                     : formatCurrency(fixedPayoutValue?.total || 0)}
                   )
                   {claimReady ? (
-                    ` to ${pr.author.login}, to be claimed at their leisure.`
+                    ` to ${primaryAuthorName}, to be claimed at their leisure.`
                   ) : (
                     <>
                       {', '}
-                      {pr.author.login} will have to complete:
+                      {primaryAuthorName} will have to complete:
                       <ul className='mt-2 ml-4 list-disc'>
                         {bounty.invoiceRequired && <li>Invoice</li>}
                         {bounty.supportingDocumentsRequired && <li>W8/W9 Form</li>}
@@ -252,7 +253,7 @@ const WinnerSelectAmounts = ({ prize, bounty, refreshBounty, pr, disabled, isRem
                   {bounty.bountyType === '2'
                     ? prize.payout + '% of funds'
                     : formatVolume(prize.payout, appState.tokenClient.getToken(bounty.payoutTokenAddress)) + unit}{' '}
-                  staked on this competition can now be claimed by {pr.author.name || pr.author.login}
+                  staked on this competition can now be claimed by {primaryAuthorName}
                   {claimReady && '.'}
                   {!claimReady && (
                     <>

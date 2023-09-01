@@ -40,6 +40,7 @@ const CreateHackathonButton = ({ teamAccountId, isEditing, hackathonProductInsta
       if (JSON.stringify(e).includes('auth')) {
         setError("You can't create a hackathon for a repository you don't have permissions for.");
       } else {
+        console.log(e);
         setError('You must specify a repository URL');
       }
     }

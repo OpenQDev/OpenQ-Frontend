@@ -1,7 +1,7 @@
 import React from 'react';
 import WinnerSelectAmounts from '../WinnerSelectAmounts';
 
-const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
+const SubmissionCardAdmin = ({ bounty, submission, refreshBounty }) => {
   const claimedArr = bounty.claims?.map((claim) => parseInt(claim.tier));
   const payoutAndIndex = bounty.payoutSchedule.map((payout, index) => {
     const claimed = claimedArr?.includes(index);
@@ -12,7 +12,7 @@ const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
     };
   });
 
-  const linkedPrize = bounty?.claims?.filter((claim) => claim.claimantAsset === pr.url)[0];
+  const linkedPrize = bounty?.claims?.filter((claim) => claim.claimantAsset === submission.id)[0];
   return (
     <div className='border-web-gray border-t px-2'>
       <h4 className='py-4 text-center w-full font-medium text-xl'>Select Winner</h4>
@@ -21,7 +21,7 @@ const SubmissionCardAdmin = ({ bounty, pr, refreshBounty }) => {
           {payoutAndIndex.map((payout, index) => {
             return (
               <WinnerSelectAmounts
-                pr={pr}
+                submission={submission}
                 disabled={linkedPrize}
                 bounty={bounty}
                 prize={payout}

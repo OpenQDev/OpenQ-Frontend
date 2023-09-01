@@ -18,6 +18,22 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
         id
         country
       }
+      submissions(limit: 100) {
+        nodes {
+          createdAt
+          users(limit: 10) {
+            nodes {
+              username
+              id
+              github
+            }
+          }
+          id
+          bodyHTML
+          title
+          thumbnail
+        }
+      }
     }
   }
 `;
@@ -26,17 +42,93 @@ export const GET_SUBMISSION_BY_ID = gql`
   query getSubmission($id: String!) {
     submission(id: $id) {
       id
-      bountyAddress
+      bountyAddresses
+      logo
+      coverImage
+      links
+      videoDemo
+      teamName
+      overviewHTML
+      problemHTML
+      challengesHTML
+      technologiesUsedHTML
+      bounties(limit: 100) {
+        nodes {
+          bountyId
+          address
+          title
+        }
+      }
+      title
+      blacklisted
+      repositoryId
     }
   }
 `;
 
 // TODO: "Cannot query field \"prs\" on type \"Query\". Did you mean \"pr\"?"
 export const GET_ALL_SUBMISSIONS = gql`
-  query getALlSubmissions {
-    submissions {
+  query getALlSubmissions(
+    $repositoryId: String!
+    $limit: PaginationInt!
+    $after: ID
+    $blacklisted: Boolean
+    $orderBy: String
+    $sortOrder: String
+  ) {
+    submissions(
+      repositoryId: $repositoryId
+      limit: $limit
+      after: $after
+      blacklisted: $blacklisted
+      orderBy: $orderBy
+      sortOrder: $sortOrder
+    ) {
+      submissionsConnection {
+        nodes {
+          id
+          blacklisted
+          repositoryId
+          bountyAddresses
+          logo
+          overviewHTML
+          title
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_SUBMISSION = gql`
+  mutation CreateSubmission(
+    $repositoryId: String!
+    $overviewHTML: String!
+    $title: String!
+    $problemHTML: String!
+    $challengesHTML: String!
+    $logo: String!
+    $technologiesUsedHTML: String!
+    $links: [String!]!
+    $videoDemo: String!
+    $coverImage: String!
+    $bountyAddresses: [String!]!
+    $teamName: String!
+  ) {
+    createSubmission(
+      repositoryId: $repositoryId
+      overviewHTML: $overviewHTML
+      title: $title
+      logo: $logo
+      bountyAddresses: $bountyAddresses
+      problemHTML: $problemHTML
+      challengesHTML: $challengesHTML
+      technologiesUsedHTML: $technologiesUsedHTML
+      links: $links
+      videoDemo: $videoDemo
+      coverImage: $coverImage
+      teamName: $teamName
+    ) {
       id
-      blacklisted
     }
   }
 `;
@@ -52,14 +144,6 @@ export const GET_ALL_CONTRACTS = gql`
           blacklisted
         }
       }
-    }
-  }
-`;
-
-export const CREATE_PR = gql`
-  mutation createPr($prId: String!, $bountyAddress: String!, $thumbnail: String) {
-    createPr(prId: $prId, bountyAddress: $bountyAddress, thumbnail: $thumbnail) {
-      prId
     }
   }
 `;

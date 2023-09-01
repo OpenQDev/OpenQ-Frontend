@@ -8,7 +8,6 @@ const HackathonHeading = ({ internalMenuState, githubRepository }) => {
   const repoInfo = { name: githubRepository.name, owner: githubRepository.owner.login };
   return (
     <>
-      {' '}
       <RepoTitle repo={repoInfo} />
       <SubMenu
         colour='rust'
@@ -20,6 +19,10 @@ const HackathonHeading = ({ internalMenuState, githubRepository }) => {
           },
           {
             name: 'Submissions',
+            Svg: SparkleFillIcon,
+          },
+          {
+            name: 'Create Submission',
             Svg: SparkleFillIcon,
           },
         ]}

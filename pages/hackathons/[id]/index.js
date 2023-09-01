@@ -18,9 +18,10 @@ import StoreContext from '../../../store/Store/StoreContext';
 import { fetchBountiesWithServiceArg, getReadyText, isOnlyContest } from '../../../services/utils/lib';
 import PaginatedList from '../../../components/Utils/PaginatedList';
 import SearchBar from '../../../components/SearchBar';
-import ShowCaseCard from '../../../components/ShowCase/NewShowCaseCard';
-import ShowCasePage from '../../../components/ShowCase/ShowCasePage';
+import ShowCaseCard from '../../../components/ShowCase/SubmissionCard';
+import ShowCasePage from '../../../components/ShowCase/SubmissionPage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
+import CreateSubmission from '../../../components/Submissions/CreateSubmission';
 
 const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   const internalMenuState = useState('View');
@@ -30,25 +31,34 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
 
-  const getNonBlacklisted = async (appState, oldCursor, batch, ordering, filters) => {
-    const { repoPrs, pageInfo } = await appState.githubRepository.getPrs(
-      filters.org,
-      filters.name,
-      batch,
-      oldCursor,
-      ordering
+  const getNonBlacklisted = async (appState, oldCursor, batch, ordering) => {
+    console.log(
+      {
+        repositoryId: githubRepository.id,
+        limit: batch,
+        after: oldCursor,
+        blacklisted: false,
+        orderBy: ordering.field,
+        sortOrder: ordering.direction,
+      },
+      'vars'
     );
-
-    const prs = await appState.openQPrismaClient.getSubmissions();
-    const blacklistedPrIds = prs.filter((pr) => pr.blacklisted).map((pr) => pr.id);
-
+    const submissions = await appState.openQPrismaClient.getSubmissions({
+      repositoryId: githubRepository.id,
+      limit: batch,
+      after: oldCursor,
+      blacklisted: false,
+      orderBy: ordering.field,
+      sortOrder: ordering.direction,
+    });
+    console.log(submissions, ' my prs');
+    const complete = submissions.submissionsConnection.nodes !== batch;
     return {
-      nodes: repoPrs.filter((pr) => !blacklistedPrIds.includes(pr.id)),
-      cursor: pageInfo.endCursor,
-      complete: !pageInfo.hasNextPage,
+      nodes: submissions.submissionsConnection.nodes,
+      cursor: submissions.submissionsConnection.cursor,
+      complete,
     };
   };
-
   const getItems = async (oldCursor, batch, ordering, filters = {}) => {
     return await getNonBlacklisted(appState, oldCursor, batch, ordering, filters);
   };
@@ -59,7 +69,7 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
 
   const githubPagination = {
     items: [],
-    ordering: { direction: 'DESC', field: 'CREATED_AT' },
+    ordering: { direction: 'desc', field: 'createdAt' },
     filters: { searchText: '' },
     fetchFilters: { name: githubRepository.name, org: githubRepository.owner.login },
     cursor: null,
@@ -80,6 +90,7 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
       filters: { ...githubPaginationObj.filters, searchText: val },
     });
   };
+  console.log(paginationObj, 'paginationObj');
 
   return (
     <div className='pt-4'>
@@ -90,6 +101,9 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
         </div>
       )}
       <PanelWithMetadata>
+        {internalMenu === 'Create Submission' && (
+          <CreateSubmission githubRepository={githubRepository} bounties={paginationObj.items} />
+        )}
         {internalMenu === 'View' && <ViewBody githubRepository={githubRepository} hackathon={hackathon} />}
         {internalMenu === 'Bounties' && (
           <ViewHackathonBounties

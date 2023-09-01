@@ -20,6 +20,7 @@ const HackathonMetadata = ({ hackathon }) => {
   });
   const endDateYear = new Date(parseInt(endDate)).getFullYear();
   const nowTillStartDateTimestamp = parseInt(startDate) - Date.now();
+
   const days = Math.floor(nowTillStartDateTimestamp / (1000 * 60 * 60 * 24));
   const hours = Math.floor((nowTillStartDateTimestamp % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((nowTillStartDateTimestamp % (1000 * 60 * 60)) / (1000 * 60));
@@ -68,12 +69,14 @@ const HackathonMetadata = ({ hackathon }) => {
           </NoSSR>
         </div>
       </li>
-      <li className='py-1.5 border-t border-web-gray'>
-        <div className='text-muted'>Hackathon Starts in</div>
-        <div className='pl-6 my-1.5 flex gap-2'>
-          <NoSSR>{formattedWaitTime}</NoSSR>
-        </div>
-      </li>
+      {nowTillStartDateTimestamp > 0 && (
+        <li className='py-1.5 border-t border-web-gray'>
+          <div className='text-muted'>Hackathon Starts in</div>
+          <div className='pl-6 my-1.5 flex gap-2'>
+            <NoSSR>{formattedWaitTime}</NoSSR>
+          </div>
+        </li>
+      )}
       <li className='py-1.5 border-t border-web-gray'>
         <div className='text-muted'>Topics</div>
         <div className='pl-6 my-1.5 flex gap-2'>{topic.map((topic) => topic)}</div>

@@ -39,6 +39,7 @@ import { checkClaimable, getBountyTypeName } from '../../../services/utils/lib';
 import { useRouter } from 'next/router';
 
 const Address = ({ address, mergedBounty, renderError }) => {
+  console.log(mergedBounty, 'my bopumnty');
   // Context
   const [appState, dispatch] = useContext(StoreContext);
 
@@ -322,6 +323,7 @@ export const getServerSideProps = async (context) => {
 
   try {
     bountyMetadata = await openQPrismaClient.instance.getBounty(ethers.utils.getAddress(address));
+    console.log(bountyMetadata, 'bountyMetadata');
   } catch (err) {
     logger.error(err, null, '[address.js]3');
   }

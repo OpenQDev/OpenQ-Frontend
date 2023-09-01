@@ -19,6 +19,16 @@ const useFundBounty = () => {
     };
     fundDispatch(transfferringDispatch);
     try {
+      console.log(
+        library,
+        bounty.bountyAddress,
+        token.address,
+        bigNumberVolumeInWei,
+        depositPeriodDays,
+        accountData.id,
+        'fundTxnReceipt'
+      );
+
       let fundTxnReceipt;
       fundTxnReceipt = await openQClient.fundBounty(
         library,
@@ -28,7 +38,6 @@ const useFundBounty = () => {
         depositPeriodDays,
         accountData.id
       );
-
       const transactionDispatch = {
         type: 'SET_TRANSACTION_HASH',
         payload: fundTxnReceipt.events[0].transactionHash,
