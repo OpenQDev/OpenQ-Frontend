@@ -96,7 +96,7 @@ const ClaimButton = ({
         if ((bounty.bountyType === '2') | (bounty.bountyType === '3')) {
           // TODO Re-add the actual code for PRs here IF we continue to use PRs for submissions
           // Unsure if an empty string will work here, using a placeholder for now
-          const prUrl = 'https://github.com/SporkDAOOfficial/ETHDenver-2023/pull/456';
+          const submissionId = 'asdfasdfs';
           const externalUserId = accountData.github;
           const closerAddress = account;
           const tier = targetTier;
@@ -105,7 +105,7 @@ const ClaimButton = ({
             bounty,
             externalUserId,
             closerAddress,
-            prUrl,
+            submissionId,
             tier
           );
           resolve(result.transactionHash);

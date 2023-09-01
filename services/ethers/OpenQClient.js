@@ -551,13 +551,13 @@ class OpenQClient {
     });
   };
 
-  claimTieredPermissioned = async (library, bounty, externalUserId, closerAddress, prUrl, tier) => {
+  claimTieredPermissioned = async (library, bounty, externalUserId, closerAddress, submissionId, tier) => {
     const { bountyAddress } = bounty;
     return new Promise(async (resolve, reject) => {
       const abiCoder = new ethers.utils.AbiCoder();
       const closerData = abiCoder.encode(
         ['address', 'string', 'address', 'string', 'uint256'],
-        [bountyAddress, externalUserId, closerAddress, prUrl, tier]
+        [bountyAddress, externalUserId, closerAddress, submissionId, tier]
       );
       const signer = library.getSigner();
       const contract = this.ClaimManager(signer);
