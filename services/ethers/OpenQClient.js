@@ -451,6 +451,8 @@ class OpenQClient {
         let txnReceipt;
 
         if (_tokenAddress == ethers.constants.AddressZero) {
+          console.log(' is executings');
+          console.log(contract.fundBountyToken);
           txnResponse = await contract.fundBountyToken(_bountyAddress, _tokenAddress, _value, expiration, uuid, {
             value: _value,
           });

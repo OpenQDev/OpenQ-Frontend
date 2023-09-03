@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -22,27 +22,23 @@ import ShowCaseCard from '../../../components/ShowCase/SubmissionCard';
 import ShowCasePage from '../../../components/ShowCase/SubmissionPage';
 import { ChevronLeftIcon } from '@primer/octicons-react';
 import CreateSubmission from '../../../components/Submissions/CreateSubmission';
+import { useRouter } from 'next/router';
 
 const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   const internalMenuState = useState('View');
-  const [internalMenu] = internalMenuState;
+  const [internalMenu, setInternalMenu] = internalMenuState;
 
   const [appState] = useContext(StoreContext);
   const [searchValue, setSearchValue] = useState('');
   const [singleSubmission, setSingleSubmission] = useState(null);
-
+  const router = useRouter();
+  const { tab } = router.query;
+  useEffect(() => {
+    if (tab === 'submissions') {
+      setInternalMenu('Submissions');
+    }
+  }, [tab]);
   const getNonBlacklisted = async (appState, oldCursor, batch, ordering) => {
-    console.log(
-      {
-        repositoryId: githubRepository.id,
-        limit: batch,
-        after: oldCursor,
-        blacklisted: false,
-        orderBy: ordering.field,
-        sortOrder: ordering.direction,
-      },
-      'vars'
-    );
     const submissions = await appState.openQPrismaClient.getSubmissions({
       repositoryId: githubRepository.id,
       limit: batch,
@@ -64,7 +60,7 @@ const Hackathon = ({ githubRepository, hackathon, paginationObj }) => {
   };
 
   const filterFunction = (item, filters) => {
-    return item.title.includes(filters.searchText) || item.body.includes(filters.searchText);
+    return item.title?.includes(filters.searchText) || item.body?.includes(filters.searchText);
   };
 
   const githubPagination = {

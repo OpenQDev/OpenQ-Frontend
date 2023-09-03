@@ -204,6 +204,7 @@ class OpenQPrismaClient {
             contractAddress: ethers.utils.getAddress(contractAddress),
           },
         });
+        console.log('submissions', result.data.bounty.submissions);
         resolve({
           ...result.data.bounty,
         });

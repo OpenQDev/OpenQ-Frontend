@@ -2,9 +2,10 @@ import React, { useContext, useState } from 'react';
 import StoreContext from '../../../store/Store/StoreContext';
 
 import { marked } from 'marked';
+import { useRouter } from 'next/router';
 
 const CreateSubmission = ({ bounties, githubRepository }) => {
-  console.log(bounties, 'my bounties');
+  const router = useRouter();
   const [writingState, setWritingState] = useState('Write');
   const [title, setTitle] = useState('');
   const [selectedBounties, setSelectedBounties] = useState([]);
@@ -75,6 +76,8 @@ const CreateSubmission = ({ bounties, githubRepository }) => {
       coverImage,
       teamName,
     });
+
+    router.push(`${router.asPath}?tab=submissions`);
   };
 
   const selectedClasses = ' border-web-gray rounded-t-sm ';

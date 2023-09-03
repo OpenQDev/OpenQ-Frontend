@@ -53,7 +53,7 @@ const CreateHackathonButton = ({ teamAccountId, isEditing, hackathonProductInsta
           {responseMap[createHackathonResponse].text}
           <Loader />
         </button>
-        <button className='btn-default'>Preview</button>
+        {/* <button className='btn-default'>Preview</button>*/}
       </div>
       {error && <div className='text-red-500'>{error}</div>}
     </div>

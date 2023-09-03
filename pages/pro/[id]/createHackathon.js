@@ -2,7 +2,7 @@ import React from 'react';
 import HackathonDefinition from '../../../components/Hackathon/HackathonDefinition';
 import HackathonLocation from '../../../components/Hackathon/HackathonLocation';
 import HackathonExtraInfo from '../../../components/Hackathon/HackathonExtraInfo';
-import HackathonTime from '../../../components/Hackathon/HackathonTime';
+// import HackathonTime from '../../../components/Hackathon/HackathonTime';
 import HackathonProvider from '../../../components/Hackathon/HackathonStore/HackathonProvider';
 import CreateHackathonButton from '../../../components/Hackathon/CreateHackathonButton';
 import CreateAsDraftButton from '../../../components/Hackathon/CreateAsDraftButton';
@@ -32,8 +32,8 @@ const CreateHackathon = ({ teamAccount }) => {
               <HackathonDefinition />
 
               <HackathonLocation />
-              <div className='border-t border-web-gray my-8'>
-                <HackathonTime />
+              <div className=' border-web-gray my-8'>
+                {/* <HackathonTime />*/}
                 <HackathonExtraInfo />
               </div>
               <div className='border-web-gray border-t'>

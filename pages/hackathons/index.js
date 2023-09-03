@@ -7,9 +7,8 @@ import Link from 'next/link';
 import Manager from '../../components/Manager';
 
 const Hackathons = ({ teamAccount, githubRepositoryIndex, repositories }) => {
-  const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
-    (node) => node.name === 'SuperchargingHackathonsProduct'
-  );
+  const hasSuperchargedHackathons =
+    teamAccount?.permissionedProducts?.nodes?.some((node) => node.name === 'SuperchargingHackathonsProduct') || true;
   const [searchText, setSearchText] = useState('');
   const HACKATHONS = 'Hackathons';
   const menuState = useState(HACKATHONS);
@@ -36,7 +35,7 @@ const Hackathons = ({ teamAccount, githubRepositoryIndex, repositories }) => {
       },
     },
   };
-  const hackathonMenuItem = hasSuperchargedHackathons ? [{ name: HACKATHONS }] : [{}];
+  const hackathonMenuItem = hasSuperchargedHackathons ? [{ name: HACKATHONS }] : [];
   const items = [...hackathonMenuItem];
   const handleSearchInput = (e) => {
     setSearchText(e.target.value);

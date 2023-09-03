@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import StoreContext from '../../../../store/Store/StoreContext';
 import FundContext from '../../FundStore/FundContext';
 import useWeb3 from '../../../../hooks/useWeb3';
+import { ethers } from 'ethers';
 import { getBigNumberVol } from '../../../../services/utils/lib';
 
 const useFundBounty = () => {
@@ -32,11 +33,10 @@ const useFundBounty = () => {
       let fundTxnReceipt;
       fundTxnReceipt = await openQClient.fundBounty(
         library,
-        bounty.bountyAddress,
+        ethers.utils.getAddress(bounty.bountyAddress),
         token.address,
         bigNumberVolumeInWei,
-        depositPeriodDays,
-        accountData.id
+        depositPeriodDays
       );
       const transactionDispatch = {
         type: 'SET_TRANSACTION_HASH',

@@ -30,7 +30,7 @@ const HackathonTime = () => {
   };
   return (
     <>
-      <div className='my-2'>
+      <div className='my-2 hidden'>
         <label className='font-semibold text-lg  block my-2 ' htmlFor={'teamAccount'}>
           Timezone
         </label>
@@ -77,7 +77,7 @@ const HackathonTime = () => {
           </div>
         </div>
       </div>
-      <div className='my-2'>
+      <div className='my-2 hidden'>
         <label className='font-semibold text-lg my-2 max-w-xs flex content-center gap-2 items-center'>
           Enable Registration Deadline
           <InfoInToolTip toolTipText={'Choose the start and end dates for your hackathon'} />

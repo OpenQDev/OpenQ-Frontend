@@ -33,7 +33,7 @@ const HackathonCard = ({ repository }) => {
               </h3>
             </div>
             <div>
-              {repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>}
+              {/*repository.isDraft && <button className='btn-default bg-input-bg mx-4'>Preview</button>*/}
               {teamAccountId && (
                 <Link href={`/hackathons/${repository.id}/edit`} className='btn-default bg-input-bg mx-4'>
                   Edit
@@ -47,10 +47,12 @@ const HackathonCard = ({ repository }) => {
               {monthsToStart ? `about ${monthsToStart} month${getPlural(monthsToStart)} left` : 'Happening this month.'}
             </div>
             <div className='flex justify-between'>
-              <div className=''>
-                <span className='font-bold'>$100,500</span> <span> in prizes</span>
-                <span></span>
-              </div>
+              {repository.prizePool && (
+                <div className=''>
+                  <span className='font-bold'>{repository.prizePool}</span> <span> in prizes</span>
+                  <span></span>
+                </div>
+              )}
               <div className='flex gap-2 items-center'>
                 <CalendarIcon />
                 <NoSSRWrapper>
@@ -64,7 +66,7 @@ const HackathonCard = ({ repository }) => {
           <div className='border-x border-y rounded-b border-web-gray flex items-center justify-between p-4'>
             <div className='flex gap-8'>
               <div className='flex gap-2 items-center'>
-                <LocationIcon className='' /> <span>{repository.city}</span>
+                <LocationIcon className='' /> <span>{repository.isIrl ? repository.city : 'Virtual'}</span>
               </div>
               <div className='flex gap-2'>
                 {repository?.topic?.map((topic, index) => {

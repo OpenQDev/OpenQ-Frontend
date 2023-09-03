@@ -32,7 +32,7 @@ const SubmissionCard = ({ submission, bounty, refreshBounty }) => {
 
   const linkedPrize = tierWon >= 0 && tierWon + 1;
 
-  const bodyTextString = submission.bodyHTML
+  const bodyTextString = submission.overviewHTML
     .replace(/<\/?[^>]+(>|$)/g, '')
     .replace(/<\/?[^>]+(>|$)/g, '')
     .replace(/\s+/g, ' ')
@@ -59,7 +59,7 @@ const SubmissionCard = ({ submission, bounty, refreshBounty }) => {
           <div className='w-16 h-16 relative'>
             <Image
               className='rounded-full'
-              src={submission?.thumbnail}
+              src={submission?.coverImage}
               placeholder={'blur'}
               blurDataURL={'/diverse/placeholder-px.png'}
               alt='n/a'

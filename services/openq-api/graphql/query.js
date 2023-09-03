@@ -29,9 +29,8 @@ export const GET_BOUNTY_BY_ADDRESS = gql`
             }
           }
           id
-          bodyHTML
+          overviewHTML
           title
-          thumbnail
         }
       }
     }
@@ -606,6 +605,7 @@ export const GET_REPOSITORY_BY_ID = gql`
       isContest
       isDraft
       startDate
+      prizePool
       registrationDeadline
       city
       timezone
@@ -850,6 +850,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
     $slack: String
     $description: String
     $hackathonProductInstanceId: String!
+    $prizePool: String
   ) {
     updateRepositoryAsContest(
       repositoryId: $repositoryId
@@ -874,6 +875,7 @@ export const UPDATE_REPOSITORY_AS_CONTEST = gql`
       discord: $discord
       telegram: $telegram
       slack: $slack
+      prizePool: $prizePool
     ) {
       isContest
       id
@@ -950,6 +952,7 @@ export const GET_PRO_ACCOUNT = gql`
               eventOrganizer
               repositoryUrl
               isIrl
+              prizePool
               endDate
               topic
               website

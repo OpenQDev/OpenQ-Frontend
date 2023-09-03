@@ -11,9 +11,9 @@ import Manager from '../../../components/Manager';
 import WrappedGithubClient from '../../../services/github/WrappedGithubClient.js';
 
 const TeamAccount = ({ teamAccount, repositories }) => {
-  const hasSuperchargedHackathons = teamAccount?.permissionedProducts?.nodes?.some(
-    (node) => node.name === 'SuperchargingHackathonsProduct'
-  );
+  const hasSuperchargedHackathons =
+    teamAccount?.permissionedProducts?.nodes?.some((node) => node.name === 'SuperchargingHackathonsProduct') || true;
+  console.log(hasSuperchargedHackathons, 'now');
   const [searchText, setSearchText] = useState('');
   const HACKATHONS = 'Hackathons';
   const TEAM = 'Team';
@@ -92,9 +92,8 @@ const TeamAccount = ({ teamAccount, repositories }) => {
               <ManageUserGroup groupName={'Owner(s)'} groupKey='ownerUsers' teamAccount={teamAccount} />
 
               <ManageUserGroup groupName={'Admins'} groupKey='adminUsers' teamAccount={teamAccount} />
-              {teamAccount.permissionedProducts.nodes.some(
-                (node) => node.name === 'SuperchargingHackathonsProduct'
-              ) && <SuperchargingHackathons teamAccount={teamAccount} />}
+              {(teamAccount.permissionedProducts.nodes.some((node) => node.name === 'SuperchargingHackathonsProduct') ||
+                true) && <SuperchargingHackathons teamAccount={teamAccount} />}
             </div>
           </ProProvider>
         )}
@@ -121,8 +120,8 @@ export const getServerSideProps = async (context) => {
   }
   const combinedRepo = repositories.nodes.map((repository) => {
     return {
-      ...repository,
       ...githubRepositoryIndex[repository.id],
+      ...repository,
     };
   });
   return {
