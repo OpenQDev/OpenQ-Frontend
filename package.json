@@ -50,7 +50,7 @@
 		"@vitejs/plugin-react": "^3.1.0",
 		"@walletconnect/modal": "2.6.0",
 		"@superfluid-finance/sdk-core": "0.6.1",
-		"@tailwindcss/container-queries": "0.1.0",
+		"@tailwindcss/container-queries": "0.1.1",
 		"@testing-library/user-event": "14.4.3",
 		"@types/uuid": "9.0.1",
 		"@walletconnect/ethereum-provider": "2.4.7",
