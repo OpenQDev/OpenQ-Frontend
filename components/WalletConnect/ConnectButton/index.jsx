@@ -13,8 +13,6 @@ import StoreContext from '../../../store/Store/StoreContext';
 import AuthContext from '../../../store/AuthStore/AuthContext';
 import ToolTipNew from '../../Utils/ToolTipNew';
 import Image from 'next/image';
-import Signup from '../../Authentication/Signup';
-import LogIn from '../../Authentication/LogIn';
 import ProfileModal from '../ProfileModal';
 // import axios from 'axios';
 
@@ -108,8 +106,7 @@ const ConnectButton = ({ needsGithub, nav, tooltipAction, centerStyles }) => {
     <>
       {needsGithub && !authState.isAuthenticated ? (
         <div className='flex gap-2'>
-          <Signup />
-          <LogIn />
+          <div></div>
         </div>
       ) : (
         <div className='flex items-center'>
