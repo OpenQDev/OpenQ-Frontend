@@ -37,7 +37,7 @@
 		"@faker-js/faker": "^8.0.2",
 		"@knocklabs/react-notification-feed": "^0.8.4",
 		"@kycdao/widget": "0.5.10",
-		"@magic-ext/oauth": "7.6.0",
+		"@magic-ext/oauth": "7.6.2",
 		"@metamask/jazzicon": "2.0.0",
 		"@next/eslint-plugin-next": "^13.4.12",
 		"@primer/octicons-react": "18.2.0",
