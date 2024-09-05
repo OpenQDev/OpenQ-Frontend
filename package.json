@@ -26,7 +26,7 @@
 		"slicemachine": "start-slicemachine"
 	},
 	"dependencies": {
-		"@apollo/client": "3.7.10",
+		"@apollo/client": "3.11.8",
 		"@coinbase/wallet-sdk": "^3.6.5",
 		"@ethersproject/abi": "5.7.0",
 		"@ethersproject/address": "5.7.0",
