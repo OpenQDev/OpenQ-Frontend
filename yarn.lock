@@ -2965,12 +2965,12 @@
   dependencies:
     "@lit-labs/ssr-dom-shim" "^1.0.0"
 
-"@magic-ext/oauth@7.6.0":
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-7.6.0.tgz#f3dd496305c6a6ff3e8a169190fd39edcb377745"
-  integrity sha512-rJqqolXBDirtFuwRq0FH9vDzPv+lq1tlr2w4gChmjhGi0ksT1y1BaxTdaVIan04Qv+9c6tYigF3ptCsMwciUSA==
+"@magic-ext/oauth@7.6.2":
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/@magic-ext/oauth/-/oauth-7.6.2.tgz#fb779d76e2cdf39f452d14bb0efe81c81e327479"
+  integrity sha512-yqQBdtkMouD+owAJkPlevLbal/iCREH/D3PmDW9a7Dsfjy2xs557oIpGkLSZexTIHd3Cxga9hWNpdqFukUfzYg==
   dependencies:
-    "@magic-sdk/types" "^11.6.0"
+    "@magic-sdk/types" "^11.6.2"
 
 "@magic-sdk/commons@^9.6.0":
   version "9.6.2"
