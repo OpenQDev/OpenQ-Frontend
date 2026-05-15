@@ -2,6 +2,8 @@ import { WalletConnect } from '@web3-react/walletconnect-v2';
 import { initializeConnector } from '@web3-react/core';
 import { MetaMask } from '@web3-react/metamask';
 import { CoinbaseWallet } from '@web3-react/coinbase-wallet';
+import UAuthWeb3Modal from '@uauth/web3modal';
+import UAuthSPA from '@uauth/js';
 
 export const [walletConnect, walletConnectHooks] = initializeConnector(
   (actions) =>
@@ -30,3 +32,13 @@ export const [coinbaseWallet, coinbaseHooks] = initializeConnector(
       },
     })
 );
+
+// Unstoppable Domains - Login with Unstoppable
+const uauthOptions = {
+  clientID: '68af7134-faf5-4dce-8535-563fe6c6741e',
+  redirectUri: 'http://localhost:3000',
+  scope: 'openid wallet',
+};
+
+export const uauth = new UAuthSPA(uauthOptions);
+export const uauthWeb3Modal = new UAuthWeb3Modal({ uauth });
