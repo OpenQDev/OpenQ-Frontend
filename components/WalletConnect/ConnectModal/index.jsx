@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { metaMask, walletConnect, coinbaseWallet } from '../connectors';
+import { metaMask, walletConnect, coinbaseWallet, uauth } from '../connectors';
 import useWeb3 from '../../../hooks/useWeb3';
 import Image from 'next/image';
 import ModalLarge from '../../Utils/ModalLarge';
@@ -36,6 +36,18 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
       closeModal();
     } catch (err) {
       appState.logger.info(err, accountData?.id, 'ConnectModal.js3');
+    }
+  };
+
+  const handleUAuth = async () => {
+    try {
+      if (!uauth) return;
+      const authorization = await uauth.loginWithPopup();
+      if (authorization) {
+        closeModal();
+      }
+    } catch (err) {
+      appState.logger.info(err, accountData?.id, 'ConnectModal.js4');
     }
   };
 
@@ -90,6 +102,16 @@ const ConnectModal = ({ closeModal, setShowModal }) => {
             alt={'wallet connect logo'}
           />
           <div className='leading-loose text-lg'>Coinbase</div>
+        </button>
+        <button onClick={handleUAuth} className='flex py-4 pl-4 mb-8 w-full gap-8 btn-default'>
+          <Image
+            src={'/wallet-logos/unstoppable.svg'}
+            className='rounded-full'
+            height={40}
+            width={40}
+            alt={'unstoppable domains logo'}
+          />
+          <div className='leading-loose text-lg'>Login with Unstoppable</div>
         </button>
       </div>
     </ModalLarge>
