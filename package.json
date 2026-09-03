@@ -34,7 +34,7 @@
 		"@ethersproject/experimental": "5.7.0",
 		"@ethersproject/providers": "5.1.2",
 		"@ethersproject/units": "5.7.0",
-		"@faker-js/faker": "^8.0.2",
+		"@faker-js/faker": "^10.0.0",
 		"@knocklabs/react-notification-feed": "^0.8.4",
 		"@kycdao/widget": "0.5.10",
 		"@magic-ext/oauth": "7.6.0",
