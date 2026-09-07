@@ -76,7 +76,7 @@
 		"js-md4": "0.3.2",
 		"jsdom": "^21.1.1",
 		"json-server": "0.17.2",
-		"jspdf": "2.5.1",
+		"jspdf": "4.2.1",
 		"jspdf-autotable": "3.5.28",
 		"magic-sdk": "13.6.0",
 		"marked": "^4.2.12",
